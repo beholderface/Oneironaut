@@ -1,12 +1,12 @@
 package net.oneironaut.registry;
 
 import at.petrak.hexcasting.api.PatternRegistry;
+import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.api.spell.Action;
 import at.petrak.hexcasting.api.spell.math.HexDir;
 import at.petrak.hexcasting.api.spell.math.HexPattern;
 import kotlin.Triple;
-import net.oneironaut.casting.patterns.OpGetDim1;
-import net.oneironaut.casting.patterns.OpGetDim2;
+import net.oneironaut.casting.patterns.OpGetDim;
 import net.minecraft.util.Identifier;
 import net.oneironaut.casting.patterns.spells.great.OpDimTeleport;
 
@@ -21,8 +21,8 @@ public class OneironautPatternRegistry {
     // IMPORTANT: be careful to keep the registration calls looking like this, or you'll have to edit the hexdoc pattern regex.
     //public static HexPattern CONGRATS = registerPerWorld(HexPattern.fromAngles("eed", HexDir.WEST), "congrats", new OpCongrats());
     //public static HexPattern SIGNUM = register(HexPattern.fromAngles("edd", HexDir.NORTH_WEST), "signum", new OpSignum());
-    public static HexPattern GETDIM_1 = register(HexPattern.fromAngles("wqwqwqwqwqwaeqqe", HexDir.WEST), "getdim1", new OpGetDim1());
-    public static HexPattern GETDIM_2 = register(HexPattern.fromAngles("wqwqwqwqwqwaqeeq", HexDir.WEST), "getdim2", new OpGetDim2());
+    public static HexPattern GETDIM_1 = register(HexPattern.fromAngles("wqwqwqwqwqwaeqqe", HexDir.WEST), "getdim1", new OpGetDim(false, MediaConstants.DUST_UNIT / 100));
+    public static HexPattern GETDIM_2 = register(HexPattern.fromAngles("wqwqwqwqwqwaqeeq", HexDir.WEST), "getdim2", new OpGetDim(true, MediaConstants.DUST_UNIT / 10));
     public static HexPattern DIM_TELEPORT = registerPerWorld(HexPattern.fromAngles("qeewwwweeqeqeewwwweeqdqqdwwwdqeqdwwwdqdadwwdqdwwddadaqadaawww", HexDir.NORTH_EAST), "dimteleport", new OpDimTeleport());
     //public static HexPattern DIM_TELEPORT = registerPerWorld(HexPattern.fromAngles("weed", HexDir.WEST), "dimteleport", new OpDimTeleport());
 
