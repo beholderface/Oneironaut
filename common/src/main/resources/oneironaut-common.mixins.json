@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.oneironaut.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "client": [
+    "OneironautMixin"
+  ],
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

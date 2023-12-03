@@ -1,0 +1,39 @@
+package net.oneironaut.registry;
+
+import at.petrak.hexcasting.api.spell.iota.Iota;
+import at.petrak.hexcasting.api.spell.iota.IotaType;
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import at.petrak.hexcasting.xplat.IXplatAbstractions;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.oneironaut.Oneironaut.id;
+
+public class OneironautIotaTypeRegistry {
+    public static final Registry<IotaType<?>> REGISTRY = IXplatAbstractions.INSTANCE.getIotaTypeRegistry();
+    /*public static void registerTypes() {
+        BiConsumer<IotaType<?>, Identifier> r = (type, id) -> Registry.register(REGISTRY, id, type);
+        for (var e : TYPES.entrySet()) {
+            r.accept(e.getValue(), e.getKey());
+        }
+    }*/
+    public static Map<Identifier, IotaType<?>> TYPES = new HashMap<>();
+    public static final IotaType<DimIota> DIM = type("dim", DimIota.TYPE);
+
+    public static void init() {
+        for (Map.Entry<Identifier, IotaType<?>> entry : TYPES.entrySet()) {
+            Registry.register(HexIotaTypes.REGISTRY, entry.getKey(), entry.getValue());
+        }
+    }
+
+    private static <U extends Iota, T extends IotaType<U>> T type(String name, T type) {
+        IotaType<?> old = TYPES.put(id(name), type);
+        if (old != null) {
+            throw new IllegalArgumentException("Typo? Duplicate id " + name);
+        }
+        return type;
+    }
+}
