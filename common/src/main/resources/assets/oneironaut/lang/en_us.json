@@ -6,6 +6,7 @@
   "hexcasting.spell.oneironaut:getdim2": "Spatial Reflection II",
   "hexcasting.spell.oneironaut:dimteleport": "Noetic Gateway",
   "hexcasting.spell.oneironaut:dimteleport.comingsoon": "This will do something interesting eventually.",
+  "hexcasting.spell.oneironaut:dimteleport.samedim": "The spell does not do anything, similar to if I told someone to go home, when they were already at home.",
   "hexcasting.spell.book.oneironaut:congrats": "Dum. Spell Actn.",
   "hexcasting.spell.book.oneironaut:signum": "Dum. Actn.",
   "oneironaut.entry.dummy_spells": "Dummy Spells",
