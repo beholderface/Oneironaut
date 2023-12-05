@@ -45,6 +45,11 @@ fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
         HexBlocks.AMETHYST_EDIFIED_LEAVES -> Pair(HexBlocks.CITRINE_EDIFIED_LEAVES.defaultState.with(Properties.PERSISTENT, true), 1)
         HexBlocks.CITRINE_EDIFIED_LEAVES -> Pair(HexBlocks.AVENTURINE_EDIFIED_LEAVES.defaultState.with(Properties.PERSISTENT, true), 1)
         Blocks.SOUL_CAMPFIRE -> Pair(Blocks.CAMPFIRE.defaultState, 5)
+        Blocks.SOUL_SAND -> Pair(Blocks.SAND.defaultState, 5)
+        Blocks.SOUL_TORCH -> Pair(Blocks.TORCH.defaultState, 5)
+        Blocks.SOUL_WALL_TORCH -> Pair(Blocks.WALL_TORCH.defaultState, 5)
+        Blocks.SOUL_SOIL -> Pair(Blocks.DIRT.defaultState, 5)
+        Blocks.SOUL_LANTERN -> Pair(Blocks.LANTERN.defaultState, 5)
         else -> Pair(Blocks.BARRIER.defaultState, -1)
     }
     return conversionResult
