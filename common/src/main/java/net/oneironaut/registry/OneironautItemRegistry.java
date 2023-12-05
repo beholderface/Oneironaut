@@ -21,6 +21,7 @@ import at.petrak.hexcasting.common.lib.HexItems;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.registry.Registry;
+import org.apache.commons.codec.binary.Hex;
 
 import java.util.function.Supplier;
 
@@ -37,14 +38,19 @@ public class OneironautItemRegistry {
         BLOCKS.register();
         ITEMS.register();
     }
+
     //why architectury documentation no worky
-    /*public static final ArchitecturyFluidAttributes THOUGHT_SLURRY_ATTRIBUTES = new SimpleArchitecturyFluidAttributes(OneironautItemRegistry.THOUGHT_SLURRY, OneironautItemRegistry.THOUGHT_SLURRY_FLOWING)
+
+    public static final RegistrySupplier<Fluid> THOUGHT_SLURRY = FLUIDS.register("thought_slurry", () -> new ArchitecturyFlowingFluid.Source(OneironautItemRegistry.THOUGHT_SLURRY_ATTRIBUTES));
+    public static final RegistrySupplier<Fluid> THOUGHT_SLURRY_FLOWING = FLUIDS.register("thought_slurry_flowing", () -> new ArchitecturyFlowingFluid.Flowing(OneironautItemRegistry.THOUGHT_SLURRY_ATTRIBUTES));
+    public static final RegistrySupplier<FluidBlock> THOUGHT_SLURRY_BLOCK = BLOCKS.register("thought_slurry", () -> new ArchitecturyLiquidBlock(THOUGHT_SLURRY, AbstractBlock.Settings.copy(Blocks.LAVA)));
+    public static final RegistrySupplier<Item> THOUGHT_SLURRY_BUCKET = ITEMS.register("thought_slurry_bucket", () -> new ArchitecturyBucketItem(THOUGHT_SLURRY, HexItems.unstackable()));
+    public static final ArchitecturyFluidAttributes THOUGHT_SLURRY_ATTRIBUTES =
+            new SimpleArchitecturyFluidAttributes(() -> OneironautItemRegistry.THOUGHT_SLURRY, () -> OneironautItemRegistry.THOUGHT_SLURRY_FLOWING)
             .blockSupplier(() -> OneironautItemRegistry.THOUGHT_SLURRY_BLOCK)
             .bucketItemSupplier(() -> OneironautItemRegistry.THOUGHT_SLURRY_BUCKET);
-    public static final RegistrySupplier<Fluid> THOUGHT_SLURRY = FLUIDS.register("thought_slurry", () -> new ArchitecturyFlowingFluid.Source(THOUGHT_SLURRY_ATTRIBUTES));
-    public static final RegistrySupplier<Fluid> THOUGHT_SLURRY_FLOWING = FLUIDS.register("thought_slurry_flowing", () -> new ArchitecturyFlowingFluid.Flowing(THOUGHT_SLURRY_ATTRIBUTES));
-    public static final RegistrySupplier<FluidBlock> THOUGHT_SLURRY_BLOCK = BLOCKS.register("thought_slurry", () -> new ArchitecturyLiquidBlock((Supplier<? extends FlowableFluid>) THOUGHT_SLURRY, AbstractBlock.Settings.copy(Blocks.LAVA)));
-    public static final RegistrySupplier<Item> THOUGHT_SLURRY_BUCKET = ITEMS.register("example_fluid_bucket", () -> new ArchitecturyBucketItem(THOUGHT_SLURRY, HexItems.unstackable()));*/
+
+
 
 
 
