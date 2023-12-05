@@ -21,7 +21,7 @@ class OpInfuseMedia : SpellAction {
         val target = args.getVec3(0, argc)
         ctx.assertVecInRange(target)
         val targetType = ctx.world.getBlockState(BlockPos(target)).block
-        val (result, cost) = getInfuseResult(targetType/*, ctx*/)
+        val (result, cost) = getInfuseResult(targetType)
         if (result == Blocks.BARRIER.defaultState){
             throw MishapUninfusable.of(BlockPos(target))
         }
@@ -41,6 +41,9 @@ class OpInfuseMedia : SpellAction {
             }
             if (ctx.world.getBlockState(target).properties.contains(Properties.HORIZONTAL_FACING)){
                 result = result.with(Properties.HORIZONTAL_FACING, ctx.world.getBlockState(target).get(Properties.HORIZONTAL_FACING))
+            }
+            if (ctx.world.getBlockState(target).properties.contains(Properties.HANGING)){
+                result = result.with(Properties.HANGING, ctx.world.getBlockState(target).get(Properties.HANGING))
             }
             //ctx.caster.sendMessage(Text.of("$result costs ${cost / 10} charged amethyst"))
             ctx.caster.world.setBlockState(target, result)
