@@ -12,6 +12,11 @@ architectury {
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
+    runs {
+        client {
+            programArgs(["--username", "beholderface", "--uuid", "21df30f7-6652-4f02-9b70-f95c1f051c9f"])
+        }
+    }
 }
 
 configurations {

@@ -1,7 +1,7 @@
 {
   "name": "oneironaut.entry.dim_iotas",
   "category": "hexcasting:patterns",
-  "icon": "minecraft:birch_sign",
+  "icon": "minecraft:end_portal_frame",
   "sortnum": 0,
   "advancement": "hexcasting:root",
   "read_by_default": false,
