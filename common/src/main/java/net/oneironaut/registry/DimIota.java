@@ -58,13 +58,14 @@ public class DimIota extends Iota{
             var ctag = HexUtils.downcast(tag, NbtCompound.TYPE);
             var id = ctag.getString("dim_key");
             //var id = world.getValue().toString();
-            String colorCode = switch (id) {
+            String formatCode = switch (id) {
                 case "minecraft:overworld" -> "§2";
                 case "minecraft:the_nether" -> "§4";
                 case "minecraft:the_end" -> "§e";
+                case "oneironaut:noosphere" -> "§5§l";
                 default -> "§9";
             };
-            return Text.of(colorCode+id);
+            return Text.of(formatCode+id);
             //return Text.of("bees");
             //return Text.of(ctag.get("dim_ID").toString());
         }

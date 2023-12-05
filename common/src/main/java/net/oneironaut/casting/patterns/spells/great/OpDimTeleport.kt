@@ -22,6 +22,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 import net.oneironaut.getDimIota
+import net.oneironaut.registry.DimIota
 
 
 class OpDimTeleport : SpellAction {
@@ -35,18 +36,19 @@ class OpDimTeleport : SpellAction {
         var world = ctx.world
         var worldKey = world.registryKey
         var noosphere = false
-        if (args[0] is NullIota){
-            //TODO: make this go to noosphere eventually
+        val destination : DimIota
+        if (args[1] is NullIota){
             noosphere = true;
+            destination = DimIota("oneironaut:noosphere")
         } else {
-            val destination = args.getDimIota(1, argc)
-            val dimKey = destination.serialize().downcast(NbtCompound.TYPE).getString("dim_key")
-            //iterate over all the worlds to find the desired one
-            target.server?.worlds?.forEach {
-                if (it.registryKey.value.toString() == dimKey){
-                    world = it;
-                    worldKey = it.registryKey
-                }
+            destination = args.getDimIota(1, argc)
+        }
+        val dimKey = destination.serialize().downcast(NbtCompound.TYPE).getString("dim_key")
+        //iterate over all the worlds to find the desired one
+        target.server?.worlds?.forEach {
+            if (it.registryKey.value.toString() == dimKey){
+                world = it;
+                worldKey = it.registryKey
             }
         }
         /*walksonator was wrong
@@ -102,14 +104,16 @@ class OpDimTeleport : SpellAction {
                 z = border.boundNorth + 2
             }
 
-            if (noosphere) {
-                ctx.caster.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.comingsoon"));
-            } else if (origin == destination){
+            if (origin == destination){
                 ctx.caster.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.samedim"));
             }else {
                 if (target.type.toString() == "entity.minecraft.player"){
                     (target as ServerPlayerEntity).teleport(destination, x, y, z, target.yaw, target.pitch)
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
+                    if (noosphere){
+                        target.addStatusEffect(StatusEffectInstance(StatusEffects.NAUSEA, 200))
+                        target.addStatusEffect(StatusEffectInstance(StatusEffects.BLINDNESS, 100))
+                    }
                 } else {
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                     //for some reason I couldn't get any other method of teleportation to work for non-players

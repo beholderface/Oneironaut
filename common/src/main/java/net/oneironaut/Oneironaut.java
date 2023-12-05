@@ -6,6 +6,8 @@ import net.oneironaut.registry.OneironautPatternRegistry;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 
 /**
  * This is effectively the loading entrypoint for most of your code, at least
@@ -22,6 +24,8 @@ public class Oneironaut {
         OneironautItemRegistry.init();
         OneironautIotaTypeRegistry.init();
         OneironautPatternRegistry.init();
+
+        //Registry.register(Registry.CHUNK_GENERATOR, new Identifier(MOD_ID, "noosphere"))
 
         LOGGER.info(OneironautAbstractions.getConfigDirectory().toAbsolutePath().normalize().toString());
     }
