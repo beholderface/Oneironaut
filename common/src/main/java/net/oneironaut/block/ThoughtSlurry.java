@@ -9,16 +9,19 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Properties;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.oneironaut.Oneironaut;
 import net.minecraft.util.registry.Registry;
 import net.oneironaut.registry.OneironautItemRegistry;
+import org.jetbrains.annotations.Nullable;
 
 public class ThoughtSlurry extends FlowableFluid {
     @Override
@@ -41,15 +44,20 @@ public class ThoughtSlurry extends FlowableFluid {
             TagKey.of(Registry.FLUID_KEY, ThoughtSlurry.ID);
 
     @Override
+    public Fluid getFlowing() {
+        return ThoughtSlurry.FLOWING_FLUID;
+    }
+
+    /*@Override
     public FluidState getFlowing(int level, boolean falling) {
         return (this.getFlowing().getDefaultState().with(LEVEL, level)).with(FALLING, falling);
         //return ThoughtSlurry.FLOWING_FLUID;
-    }
+    }*/
 
-    @Override
+    /*@Override
     public Fluid getFlowing() {
         return Flowing.FLOWING_FLUID;
-    }
+    }*/
 
     @Override
     public Fluid getStill() {
@@ -113,7 +121,21 @@ public class ThoughtSlurry extends FlowableFluid {
         return 8;
     }
 
+    @Override
+    public RegistryEntry<Fluid> arch$holder() {
+        return super.arch$holder();
+    }
+
+    @Override
+    public @Nullable Identifier arch$registryName() {
+        return super.arch$registryName();
+    }
+
     public final static class Still extends ThoughtSlurry {
+        protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {
+            super.appendProperties(builder);
+            //builder.add(Properties.LEVEL_15);
+        }
 
         @Override
         public boolean isStill(FluidState state) {

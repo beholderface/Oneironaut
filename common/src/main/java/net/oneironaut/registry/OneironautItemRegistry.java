@@ -52,10 +52,6 @@ public class OneironautItemRegistry {
             .bucketItemSupplier(() -> OneironautItemRegistry.THOUGHT_SLURRY_BUCKET);
 
 
-
-
-
-
     // A new creative tab. Notice how it is one of the few things that are not deferred
     //public static final ItemGroup DUMMY_GROUP = CreativeTabRegistry.create(id("dummy_group"), () -> new ItemStack(OneironautItemRegistry.DUMMY_ITEM.get()));
 
