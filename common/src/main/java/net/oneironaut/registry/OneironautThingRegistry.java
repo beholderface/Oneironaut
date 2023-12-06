@@ -33,6 +33,14 @@ public class OneironautThingRegistry {
             .resistance(5)
             .luminance(state -> 7)
             ));
+    public static final RegistrySupplier<Block> NOOSPHERE_GATE = BLOCKS.register("noosphere_gate", () -> new Block(AbstractBlock.Settings.of(Material.PORTAL)
+            .hardness(-1f)
+            .sounds(BlockSoundGroup.AMETHYST_BLOCK)
+            .resistance(5000)
+            .luminance(state -> 15)
+            .dropsNothing()
+            .noCollision()
+            ));
     public static final RegistrySupplier<Item> PSUEDOAMETHYST_BLOCK_ITEM = ITEMS.register("pseudoamethyst_block", () -> new BlockItem(PSUEDOAMETHYST_BLOCK.get(), HexItems.props()));
     public static final RegistrySupplier<Item> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new Item(HexItems.props()));
 

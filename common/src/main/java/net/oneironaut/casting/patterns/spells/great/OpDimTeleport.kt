@@ -17,14 +17,20 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 import net.oneironaut.getDimIota
 import net.oneironaut.registry.DimIota
-import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
+//import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
+import net.minecraft.block.Blocks
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.TeleportTarget
+import net.oneironaut.isSolid
+import net.oneironaut.isUnsafe
+import net.oneironaut.registry.OneironautThingRegistry
+import kotlin.math.floor
 
 
 class OpDimTeleport : SpellAction {
@@ -84,12 +90,14 @@ class OpDimTeleport : SpellAction {
     private data class Spell(var target: LivingEntity, val origin: ServerWorld, val destination: ServerWorld, val coords: Vec3d, val noosphere: Boolean) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
             var x = coords.x
-            var y = coords.y
+            var y = floor(coords.y)
             var z = coords.z
             val border = destination.worldBorder
             val compressionFactor = origin.dimension.coordinateScale / destination.dimension.coordinateScale
-            x *= compressionFactor
-            z *= compressionFactor
+            x = floor(x * compressionFactor) + 0.5
+            z = floor(z * compressionFactor) + 0.5
+            var floorSpot : BlockPos = BlockPos(Vec3d.ZERO)
+            var floorNeeded = false
             //make sure you don't end up under the nether or something
             if (destination.bottomY > coords.y - 5.0){
                 y = ((destination.bottomY + 5).toDouble())
@@ -105,26 +113,64 @@ class OpDimTeleport : SpellAction {
             } else if (z < border.boundNorth){
                 z = border.boundNorth + 2
             }
+            //actually put you on the floor if possible
+            var scanPoint = BlockPos(Vec3d(x, y+1, z))
+            while(!isSolid(destination, scanPoint)){
+                //ctx.caster.sendMessage(Text.of(destination.getBlockState(scanPoint).block.toString()))
+                scanPoint = BlockPos(Vec3d(x, scanPoint.y.toDouble() + -1, z))
+                //check for void
+                if (scanPoint.y < destination.bottomY || isUnsafe(destination, scanPoint)){
+                    scanPoint = BlockPos(Vec3d(x, y+1, z))
+                    break
+                }
+            }
+            //try to avoid putting your head in solid rock or something
+            while(isUnsafe(destination, scanPoint) || isSolid(destination, scanPoint)){
+                //ctx.caster.sendMessage(Text.of(destination.getBlockState(scanPoint).block.toString()))
+                scanPoint = BlockPos(Vec3d(x, scanPoint.y.toDouble() + 1, z))
+                //check for ceiling
+                if (destination.getBlockState(scanPoint).block.equals(Blocks.BEDROCK)){
+                    break
+                }
+            }
+            if (!(destination.getBlockState(scanPoint).block.equals(Blocks.BEDROCK))){
+                if (isUnsafe(destination, BlockPos(Vec3d(x, (scanPoint.y - 1).toDouble(), z))) || !isSolid(destination, BlockPos(Vec3d(x, (scanPoint.y - 1).toDouble(), z)))){
+                    y = (scanPoint.y + 1).toDouble()
+                    if (!isSolid(destination, BlockPos(Vec3d(x, (scanPoint.y - 1).toDouble(), z)))){
+                        floorNeeded = true
+                        floorSpot = BlockPos(Vec3d(x, (scanPoint.y - 1).toDouble(), z))
+                    }
+                }
+                y = (scanPoint.y).toDouble()
+            }
 
             if (origin == destination){
                 ctx.caster.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.samedim"));
             }else {
                 if (target.type.toString() == "entity.minecraft.player"){
-                    //(target as ServerPlayerEntity).teleport(destination, x, y, z, target.yaw, target.pitch)
-                    FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
+                    (target as ServerPlayerEntity).teleport(destination, x, y, z, target.yaw, target.pitch)
+                    //FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), Vec3d.ZERO, target.yaw, target.pitch))
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                     if (noosphere){
                         target.addStatusEffect(StatusEffectInstance(StatusEffects.NAUSEA, 200))
                         target.addStatusEffect(StatusEffectInstance(StatusEffects.BLINDNESS, 100))
                     }
+                    if (floorNeeded){
+                        destination.setBlockState((floorSpot), OneironautThingRegistry.PSUEDOAMETHYST_BLOCK.get().defaultState)
+                    }
                 } else {
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                     //for some reason I couldn't get any other method of teleportation to work for non-players
-                    /*val destString = destination.registryKey.value.toString()
+                    val destString = destination.registryKey.value.toString()
                     val command = "execute in $destString as ${target.uuid.toString()} run tp $x $y $z"
                     val executor = target.server?.commandManager
-                    executor?.executeWithPrefix(target.server?.commandSource?.withSilent(), command)*/
-                    FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
+                    executor?.executeWithPrefix(target.server?.commandSource?.withSilent(), command)
+                    if (floorNeeded){
+                        destination.setBlockState((floorSpot), OneironautThingRegistry.PSUEDOAMETHYST_BLOCK.get().defaultState)
+                    }
+                    //now I can :)
+                    //but should I? forge support and all
+                    //FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
                 }
             }
         }

@@ -23,5 +23,6 @@
   "oneironaut.advancements.noosphere.enter": "A Realm of Thought and Dream",
   "oneironaut.advancements.noosphere.enter.description": "What the...?",
   "block.oneironaut.pseudoamethyst_block": "Pseudoamethyst Block",
-  "item.oneironaut.pseudoamethyst_shard": "Pseudoamethyst Shard"
+  "item.oneironaut.pseudoamethyst_shard": "Pseudoamethyst Shard",
+  "hexcasting.mishap.mismatchcubes": "Supplied cuboids are dissimilar."
 }

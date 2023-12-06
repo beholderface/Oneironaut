@@ -6,13 +6,19 @@ import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
 import net.minecraft.block.Blocks
 import at.petrak.hexcasting.common.lib.HexBlocks
+import ram.talia.hexal.common.lib.HexalBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.entity.Entity
+import net.minecraft.server.world.ServerWorld
 import net.oneironaut.registry.DimIota
 import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Property
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.BlockView
+import net.oneironaut.registry.OneironautThingRegistry
 import java.lang.reflect.TypeVariable
+import kotlin.math.floor
 
 fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
@@ -28,6 +34,7 @@ fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
     //val targetType = ctx.world.getBlockState(block).block
     //BlockTags.SMALL_FLOWERS
     val conversionResult : Pair<BlockState, Int> = when(targetType){
+        HexalBlocks.SLIPWAY -> Pair(OneironautThingRegistry.NOOSPHERE_GATE.get().defaultState, 200)
         Blocks.SCULK_SHRIEKER -> Pair(Blocks.SCULK_SHRIEKER.defaultState.with(Properties.CAN_SUMMON, true), 100)
         Blocks.RESPAWN_ANCHOR -> Pair(Blocks.RESPAWN_ANCHOR.defaultState.with(Properties.CHARGES, 4), 100)
         //"fuck you" *uncries your obsidian*
@@ -53,6 +60,41 @@ fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
         else -> Pair(Blocks.BARRIER.defaultState, -1)
     }
     return conversionResult
+}
+
+fun isUnsafe(world: ServerWorld, pos: BlockPos) : Boolean{
+    val state = world.getBlockState(pos)
+    var output = when (state.block){
+        Blocks.LAVA -> true
+        Blocks.FIRE -> true
+        Blocks.SOUL_FIRE -> true
+        Blocks.CAMPFIRE -> true
+        Blocks.SOUL_CAMPFIRE -> true
+        Blocks.MAGMA_BLOCK -> true
+        Blocks.CACTUS -> true
+        Blocks.SCULK_SHRIEKER -> true
+        else -> false
+    }
+    if (state.isOpaque){
+        output = true
+    }
+    return output
+}
+fun isSolid(world: ServerWorld, pos: BlockPos) : Boolean{
+    var output = false
+    val state = world.getBlockState(pos)
+    if (state.fluidState.isEmpty && !state.isAir && !state.block.canMobSpawnInside()){
+        output = true
+    } else if (state.block.defaultState.properties.contains(Properties.WATERLOGGED) && !state.isAir){
+        if (state.block.defaultState.get(Properties.WATERLOGGED) == true){
+            output = true
+        }
+    }
+
+    /*if (state.isTranslucent(world.getChunkAsView(floor(pos.x / 16.0).toInt(), floor(pos.z / 16.0).toInt()), pos)){
+        output = true
+    }*/
+    return output
 }
 //tried to write a smoother way to keep important blockstate values, didn't work
 /*
