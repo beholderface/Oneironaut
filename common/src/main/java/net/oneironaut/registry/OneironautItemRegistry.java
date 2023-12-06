@@ -32,7 +32,7 @@ public class OneironautItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ITEM_KEY);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_KEY);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
-    //public static final DeferredRegister<FluidBlock> FLUID_BLOCKS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
+    //public static final DeferredRegister<ArchitecturyLiquidBlock> FLUID_BLOCKS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
     public static void init() {
         FLUIDS.register();
         BLOCKS.register();
