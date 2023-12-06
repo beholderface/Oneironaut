@@ -23,6 +23,8 @@ import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 import net.oneironaut.getDimIota
 import net.oneironaut.registry.DimIota
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
+import net.minecraft.world.TeleportTarget
 
 
 class OpDimTeleport : SpellAction {
@@ -108,7 +110,8 @@ class OpDimTeleport : SpellAction {
                 ctx.caster.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.samedim"));
             }else {
                 if (target.type.toString() == "entity.minecraft.player"){
-                    (target as ServerPlayerEntity).teleport(destination, x, y, z, target.yaw, target.pitch)
+                    //(target as ServerPlayerEntity).teleport(destination, x, y, z, target.yaw, target.pitch)
+                    FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                     if (noosphere){
                         target.addStatusEffect(StatusEffectInstance(StatusEffects.NAUSEA, 200))
@@ -117,10 +120,11 @@ class OpDimTeleport : SpellAction {
                 } else {
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                     //for some reason I couldn't get any other method of teleportation to work for non-players
-                    val destString = destination.registryKey.value.toString()
+                    /*val destString = destination.registryKey.value.toString()
                     val command = "execute in $destString as ${target.uuid.toString()} run tp $x $y $z"
                     val executor = target.server?.commandManager
-                    executor?.executeWithPrefix(target.server?.commandSource?.withSilent(), command)
+                    executor?.executeWithPrefix(target.server?.commandSource?.withSilent(), command)*/
+                    FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
                 }
             }
         }

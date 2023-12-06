@@ -14,7 +14,7 @@
       "translate": "oneironaut.advancements.noosphere.enter.description"
     },
     "frame": "goal",
-    "hidden": false,
+    "hidden": true,
     "icon": {
       "item": "hexcasting:akashic_record"
     },

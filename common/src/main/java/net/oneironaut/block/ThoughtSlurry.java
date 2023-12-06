@@ -8,8 +8,8 @@ import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +20,7 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.oneironaut.Oneironaut;
 import net.minecraft.util.registry.Registry;
-import net.oneironaut.registry.OneironautItemRegistry;
+import net.oneironaut.registry.OneironautThingRegistry;
 import org.jetbrains.annotations.Nullable;
 
 public class ThoughtSlurry extends FlowableFluid {
@@ -87,7 +87,8 @@ public class ThoughtSlurry extends FlowableFluid {
 
     @Override
     public Item getBucketItem() {
-        return OneironautItemRegistry.THOUGHT_SLURRY_BUCKET.get();
+        //return OneironautThingRegistry.THOUGHT_SLURRY_BUCKET.get();
+        return Items.LAVA_BUCKET;
     }
 
     @Override

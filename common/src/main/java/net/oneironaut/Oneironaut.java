@@ -1,13 +1,11 @@
 package net.oneironaut;
 
 import net.oneironaut.registry.OneironautIotaTypeRegistry;
-import net.oneironaut.registry.OneironautItemRegistry;
+import net.oneironaut.registry.OneironautThingRegistry;
 import net.oneironaut.registry.OneironautPatternRegistry;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 
 /**
  * This is effectively the loading entrypoint for most of your code, at least
@@ -21,7 +19,7 @@ public class Oneironaut {
     public static void init() {
         LOGGER.info("why do they call it oven when you of in the cold food of out hot eat the food");
 
-        OneironautItemRegistry.init();
+        OneironautThingRegistry.init();
         OneironautIotaTypeRegistry.init();
         OneironautPatternRegistry.init();
 
