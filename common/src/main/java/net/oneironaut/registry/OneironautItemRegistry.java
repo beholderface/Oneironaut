@@ -23,6 +23,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.registry.Registry;
 import org.apache.commons.codec.binary.Hex;
 
+
+import net.minecraft.state.property.Properties;
 import java.util.function.Supplier;
 
 import static net.oneironaut.Oneironaut.id;
@@ -32,7 +34,6 @@ public class OneironautItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ITEM_KEY);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_KEY);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
-    //public static final DeferredRegister<ArchitecturyLiquidBlock> FLUID_BLOCKS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
     public static void init() {
         FLUIDS.register();
         BLOCKS.register();
@@ -41,12 +42,12 @@ public class OneironautItemRegistry {
 
     //why architectury documentation no worky
 
-    public static final RegistrySupplier<Fluid> THOUGHT_SLURRY = FLUIDS.register("thought_slurry", () -> new ArchitecturyFlowingFluid.Source(OneironautItemRegistry.THOUGHT_SLURRY_ATTRIBUTES));
-    public static final RegistrySupplier<Fluid> THOUGHT_SLURRY_FLOWING = FLUIDS.register("thought_slurry_flowing", () -> new ArchitecturyFlowingFluid.Flowing(OneironautItemRegistry.THOUGHT_SLURRY_ATTRIBUTES));
+    public static final Supplier<? extends FlowableFluid> THOUGHT_SLURRY = FLUIDS.register("thought_slurry", () -> new ArchitecturyFlowingFluid.Source(OneironautItemRegistry.THOUGHT_SLURRY_ATTRIBUTES));
+    public static final RegistrySupplier<FlowableFluid> THOUGHT_SLURRY_FLOWING = FLUIDS.register("thought_slurry_flowing", () -> new ArchitecturyFlowingFluid.Flowing(OneironautItemRegistry.THOUGHT_SLURRY_ATTRIBUTES));
     public static final RegistrySupplier<FluidBlock> THOUGHT_SLURRY_BLOCK = BLOCKS.register("thought_slurry", () -> new ArchitecturyLiquidBlock(THOUGHT_SLURRY, AbstractBlock.Settings.copy(Blocks.LAVA)));
     public static final RegistrySupplier<Item> THOUGHT_SLURRY_BUCKET = ITEMS.register("thought_slurry_bucket", () -> new ArchitecturyBucketItem(THOUGHT_SLURRY, HexItems.unstackable()));
     public static final ArchitecturyFluidAttributes THOUGHT_SLURRY_ATTRIBUTES =
-            new SimpleArchitecturyFluidAttributes(() -> OneironautItemRegistry.THOUGHT_SLURRY, () -> OneironautItemRegistry.THOUGHT_SLURRY_FLOWING)
+            SimpleArchitecturyFluidAttributes.ofSupplier(() -> OneironautItemRegistry.THOUGHT_SLURRY, () -> OneironautItemRegistry.THOUGHT_SLURRY_FLOWING)
             .blockSupplier(() -> OneironautItemRegistry.THOUGHT_SLURRY_BLOCK)
             .bucketItemSupplier(() -> OneironautItemRegistry.THOUGHT_SLURRY_BUCKET);
 

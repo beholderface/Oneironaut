@@ -28,6 +28,9 @@ subprojects {
         mappings "net.fabricmc:yarn:1.19.2+build.28:v2"
         // Or feel free to use any other mappings you prefer
 
+        modImplementation "net.fabricmc:fabric-loader:${project.fabricLoaderVersion}"
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabricApiVersion}"
+        modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabricKotlinVersion}"
         annotationProcessor "org.ow2.asm:asm:${project.asmVersion}"
         annotationProcessor "org.ow2.asm:asm-analysis:${project.asmVersion}"
         annotationProcessor "org.ow2.asm:asm-commons:${project.asmVersion}"
