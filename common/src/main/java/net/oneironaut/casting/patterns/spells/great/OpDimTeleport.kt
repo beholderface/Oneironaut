@@ -13,6 +13,9 @@ import at.petrak.hexcasting.api.spell.iota.NullIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapImmuneEntity
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
 import at.petrak.hexcasting.api.utils.downcast
+import at.petrak.hexcasting.common.blocks.BlockConjured
+import at.petrak.hexcasting.common.lib.HexBlocks
+import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
@@ -144,7 +147,7 @@ class OpDimTeleport : SpellAction {
                 }
                 y = (scanPoint.y).toDouble()
             }
-
+            val colorizer = IXplatAbstractions.INSTANCE.getColorizer(ctx.caster)
             if (origin == destination){
                 ctx.caster.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.samedim"));
             }else {
@@ -157,7 +160,8 @@ class OpDimTeleport : SpellAction {
                         target.addStatusEffect(StatusEffectInstance(StatusEffects.BLINDNESS, 100))
                     }
                     if (floorNeeded){
-                        destination.setBlockState((floorSpot), OneironautThingRegistry.PSUEDOAMETHYST_BLOCK.get().defaultState)
+                        destination.setBlockState((floorSpot), HexBlocks.CONJURED_BLOCK.defaultState)
+                        BlockConjured.setColor(destination, floorSpot, colorizer)
                     }
                 } else {
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
@@ -167,7 +171,8 @@ class OpDimTeleport : SpellAction {
                     val executor = target.server?.commandManager
                     executor?.executeWithPrefix(target.server?.commandSource?.withSilent(), command)
                     if (floorNeeded){
-                        destination.setBlockState((floorSpot), OneironautThingRegistry.PSUEDOAMETHYST_BLOCK.get().defaultState)
+                        destination.setBlockState((floorSpot), HexBlocks.CONJURED_BLOCK.defaultState)
+                        BlockConjured.setColor(destination, floorSpot, colorizer)
                     }
                     //now I can :)
                     //but should I? forge support and all

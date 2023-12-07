@@ -1,9 +1,9 @@
 {
   "name": "oneironaut.entry.noosphere_main",
-  "category": "hexcasting:greatwork/noosphere",
+  "category": "hexcasting:greatwork",
   "icon": "minecraft:nether_star",
-  "priority": true,
-  "advancement": "hexcasting:root",
+  "sortnum": 0,
+  "advancement": "oneironaut:enter_noosphere",
   "entry_color": "54398a",
   "pages": [
     {
@@ -14,5 +14,6 @@
       "type": "patchouli:text",
       "text": "oneironaut.page.noosphere_main.2"
     }
-  ]
+  ],
+  "secret": true
 }

@@ -23,7 +23,7 @@ class OpInfuseMedia : SpellAction {
         val targetType = ctx.world.getBlockState(BlockPos(target)).block
         val (result, cost) = getInfuseResult(targetType)
         if (result == Blocks.BARRIER.defaultState){
-            throw MishapUninfusable.of(BlockPos(target))
+            throw MishapUninfusable.of(BlockPos(target)/*, "media"*/)
         }
         return Triple(
             Spell(BlockPos(target), result, cost),
