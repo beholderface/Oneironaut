@@ -56,8 +56,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-    modImplementation "maven.modrinth:hexal:${hexalVersion}"
-    modImplementation "maven.modrinth:geckolib:${geckolibVersion}"
+    /*modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
+    modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"*/
 }
 
 processResources {
@@ -71,6 +71,7 @@ processResources {
 shadowJar {
     exclude "fabric.mod.json"
     exclude "architectury.common.json"
+    //exclude "META-INF/versions/**"
 
     configurations = [project.configurations.shadowCommon]
     archiveClassifier.set "dev-shadow"

@@ -15,8 +15,10 @@
   "this.is.a.comment.4": "Book pages--------------------------------------------------------------------------------------------",
   "oneironaut.page.spaceswap.1": "Accepts two lists of two vectors, to define two cuboids, and a Spatial Imprint. These cuboids must have the exact same dimensions and rotation.",
   "oneironaut.page.spaceswap.2": "Exchanges the blocks within the first cuboid in your current dimension (which must be within ambit) for the blocks within the second cuboid in the dimension corresponding to the Spatial Imprint. Costs 10 Charged Amethyst, plus 1 Amethyst dust per cubic meter in the cuboid.",
-  "oneironaut.page.paintconjured.1": "Accepts a vector corresponding to a conjured block or light and sets its color to my pigment. Not guaranteed to work with unconventional forms of conjured matter. Costs 1 Amethyst Dust.",
-  "oneironaut.page.paintconjured.2": "Feels strangely celebratory, as if something similar was once used in grand festivals where teams would splatter their colors all over their opponents' territory in a bid for ideological dominance.",
+  "oneironaut.page.spaceswap.3": "Will not exchange any unbreakable blocks, or blocks with significant data.",
+  "oneironaut.page.paintconjured.1": "Accepts a vector and an itemtype representing a pigment. Costs 1 Amethyst Dust.",
+  "oneironaut.page.paintconjured.2": "Sets the colors of the conjured block corresponding to the vector to the colorset represented by the passed pigment, or mine if passed a NULL iota.$(br2)Not guaranteed to work with unconventional forms of conjured matter. ",
+  "oneironaut.page.paintconjured.3": "Feels strangely celebratory, as if something similar was once used in grand festivals where teams would splatter their colors all over their opponents' territory in a bid for ideological dominance.",
   "hexcasting.spell.oneironaut:dimteleport.comingsoon": "This will do something interesting eventually.",
   "hexcasting.spell.oneironaut:dimteleport.samedim": "The spell does not do anything, similar to if I told someone to go home, when they were already at home.",
   "oneironaut.page.dim_iotas.1": "I've descovered a kind of iota which seems to represent a layer of reality itself. In lieu of better understanding, I've decided to call these Spatial Imprints.",
@@ -35,9 +37,7 @@
   "this.is.a.comment.6": "Mishaps--------------------------------------------------------------------------------------------",
   "hexcasting.mishap.mismatchcubes": "Supplied cuboids are dissimilar.",
   "hexcasting.mishap.uninfusable": "Expected an infusable block at %s, but got %s.",
-  "hexcasting.mishap.uninfusable.media": "n infusable",
-  "hexcasting.mishap.uninfusable.color": " recolorable",
-  "hexcasting.mishap.bad_block.nonconjured": "a conjured block",
+  "hexcasting.mishap.nonconjured": "Expected a conjured block at %s, but got %s.",
   "this.is.a.comment.7": "Other?--------------------------------------------------------------------------------------------",
   "text.oneironaut.lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 }

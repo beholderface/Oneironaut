@@ -17,6 +17,10 @@
     {
       "type": "patchouli:text",
       "text": "oneironaut.page.spaceswap.2"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "oneironaut.page.spaceswap.3"
     }
   ]
 }

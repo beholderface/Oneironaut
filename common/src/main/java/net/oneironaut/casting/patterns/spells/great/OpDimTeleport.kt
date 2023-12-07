@@ -16,6 +16,8 @@ import at.petrak.hexcasting.api.utils.downcast
 import at.petrak.hexcasting.common.blocks.BlockConjured
 import at.petrak.hexcasting.common.lib.HexBlocks
 import at.petrak.hexcasting.xplat.IXplatAbstractions
+import dev.architectury.platform.Platform
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
@@ -25,14 +27,13 @@ import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 import net.oneironaut.getDimIota
 import net.oneironaut.registry.DimIota
-//import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.block.Blocks
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.TeleportTarget
 import net.oneironaut.isSolid
 import net.oneironaut.isUnsafe
-import net.oneironaut.registry.OneironautThingRegistry
+//import net.oneironaut.registry.OneironautThingRegistry
 import kotlin.math.floor
 
 
@@ -165,11 +166,16 @@ class OpDimTeleport : SpellAction {
                     }
                 } else {
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
-                    //for some reason I couldn't get any other method of teleportation to work for non-players
-                    val destString = destination.registryKey.value.toString()
-                    val command = "execute in $destString as ${target.uuid.toString()} run tp $x $y $z"
-                    val executor = target.server?.commandManager
-                    executor?.executeWithPrefix(target.server?.commandSource?.withSilent(), command)
+                    if (Platform.isForge()){
+                        //for some reason I couldn't get any other method of teleportation to work for non-players on forge
+                        val destString = destination.registryKey.value.toString()
+                        val command = "execute in $destString as ${target.uuid.toString()} run tp $x $y $z"
+                        val executor = target.server?.commandManager
+                        executor?.executeWithPrefix(target.server?.commandSource?.withSilent(), command)
+                    } else {
+                        FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
+                    }
+
                     if (floorNeeded){
                         destination.setBlockState((floorSpot), HexBlocks.CONJURED_BLOCK.defaultState)
                         BlockConjured.setColor(destination, floorSpot, colorizer)

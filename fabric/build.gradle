@@ -61,8 +61,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    modImplementation "maven.modrinth:hexal:${hexalVersion}"
-    modImplementation "maven.modrinth:geckolib:${geckolibVersion}"
+    /*modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
+    modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"*/
 }
 
 processResources {

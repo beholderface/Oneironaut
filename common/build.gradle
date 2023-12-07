@@ -24,6 +24,7 @@ dependencies {
     modCompileOnly "at.petra-k.hexcasting:hexcasting-fabric-$minecraftVersion:$hexcastingVersion"
     modCompileOnly "vazkii.patchouli:Patchouli-xplat:$minecraftVersion-$patchouliVersion"
     modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
+    modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"
 }
 
 publishing {

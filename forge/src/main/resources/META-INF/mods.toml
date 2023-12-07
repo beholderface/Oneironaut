@@ -40,19 +40,3 @@ mandatory = true
 versionRange = "[0.10.3,)"
 ordering = "NONE"
 side = "BOTH"
-
-[[mods]]
-modId ="hexal"
-version = "0.2.18"
-displayName = "Hexal"
-logoFile = "icon.png"
-authors = "talia-12"
-description = "uhh hexal I guess"
-
-[[mods]]
-modId ="geckolib"
-version = "3.1.40"
-displayName = "GeckoLib"
-logoFile = "icon.png"
-authors = "bernie-g"
-description = "uhh geckolib I guess"
