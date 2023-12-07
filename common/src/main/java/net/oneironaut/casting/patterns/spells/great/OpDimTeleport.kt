@@ -117,15 +117,16 @@ class OpDimTeleport : SpellAction {
             var scanPoint = BlockPos(Vec3d(x, y+1, z))
             while(!isSolid(destination, scanPoint)){
                 //ctx.caster.sendMessage(Text.of(destination.getBlockState(scanPoint).block.toString()))
-                scanPoint = BlockPos(Vec3d(x, scanPoint.y.toDouble() + -1, z))
+                scanPoint = BlockPos(Vec3d(x, scanPoint.y.toDouble() - 1, z))
                 //check for void
-                if (scanPoint.y < destination.bottomY || isUnsafe(destination, scanPoint)){
+                if (scanPoint.y < destination.bottomY || isUnsafe(destination, scanPoint, false)){
+                    //ctx.caster.sendMessage(Text.of("scanpoint: ${scanPoint.y}, bottomY: ${destination.bottomY}, safety: ${isUnsafe(destination, scanPoint)}"))
                     scanPoint = BlockPos(Vec3d(x, y+1, z))
                     break
                 }
             }
             //try to avoid putting your head in solid rock or something
-            while(isUnsafe(destination, scanPoint) || isSolid(destination, scanPoint)){
+            while(isUnsafe(destination, scanPoint, true) || isSolid(destination, scanPoint)){
                 //ctx.caster.sendMessage(Text.of(destination.getBlockState(scanPoint).block.toString()))
                 scanPoint = BlockPos(Vec3d(x, scanPoint.y.toDouble() + 1, z))
                 //check for ceiling
@@ -134,7 +135,7 @@ class OpDimTeleport : SpellAction {
                 }
             }
             if (!(destination.getBlockState(scanPoint).block.equals(Blocks.BEDROCK))){
-                if (isUnsafe(destination, BlockPos(Vec3d(x, (scanPoint.y - 1).toDouble(), z))) || !isSolid(destination, BlockPos(Vec3d(x, (scanPoint.y - 1).toDouble(), z)))){
+                if (isUnsafe(destination, BlockPos(Vec3d(x, (scanPoint.y - 1).toDouble(), z)), true) || !isSolid(destination, BlockPos(Vec3d(x, (scanPoint.y - 1).toDouble(), z)))){
                     y = (scanPoint.y + 1).toDouble()
                     if (!isSolid(destination, BlockPos(Vec3d(x, (scanPoint.y - 1).toDouble(), z)))){
                         floorNeeded = true

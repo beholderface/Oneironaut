@@ -22,7 +22,9 @@ import net.minecraft.util.math.Vec3i
 import net.oneironaut.casting.mishaps.MishapBadCuboid
 import net.oneironaut.getDimIota
 import kotlin.math.abs
+import kotlin.math.floor
 import kotlin.math.max
+import kotlin.math.pow
 
 class OpSwapSpace : SpellAction {
     override val argc = 3
@@ -51,6 +53,11 @@ class OpSwapSpace : SpellAction {
         val destCuboidCorner1 = BlockPos(vecFromNBT(destWorldCuboid.getAt(0).serialize().asLongArray))
         val destCuboidCorner2 = BlockPos(vecFromNBT(destWorldCuboid.getAt(1).serialize().asLongArray))
 
+        ctx.assertVecInRange(originCuboidCorner1)
+        ctx.assertVecInRange(originCuboidCorner2)
+        //ctx.assertVecInRange(destCuboidCorner1)
+        //ctx.assertVecInRange(destCuboidCorner2)
+
         ctx.caster.server?.worlds?.forEach {
             if (it.registryKey.value.toString() == dimKey){
                 destWorld = it;
@@ -58,13 +65,17 @@ class OpSwapSpace : SpellAction {
             }
         }
 
-        val originCuboidDimensions = Vec3i(abs(originCuboidCorner1.x - originCuboidCorner2.x),abs(originCuboidCorner1.y - originCuboidCorner2.y),abs(originCuboidCorner1.z - originCuboidCorner2.z))
-        val destCuboidDimensions = Vec3i(abs(destCuboidCorner1.x - destCuboidCorner2.x),abs(destCuboidCorner1.y - destCuboidCorner2.y),abs(destCuboidCorner1.y - destCuboidCorner2.y))
+        val originCuboidDimensions = Vec3i(abs(originCuboidCorner1.x - originCuboidCorner2.x) + 1,abs(originCuboidCorner1.y - originCuboidCorner2.y) + 1,abs(originCuboidCorner1.z - originCuboidCorner2.z) + 1)
+        val destCuboidDimensions = Vec3i(abs(destCuboidCorner1.x - destCuboidCorner2.x) + 1,abs(destCuboidCorner1.y - destCuboidCorner2.y) + 1,abs(destCuboidCorner1.z - destCuboidCorner2.z) + 1)
         if (originCuboidDimensions != destCuboidDimensions){
             throw MishapBadCuboid()
         }
+        val originBox = Box(BlockPos(originCuboidCorner1), BlockPos(originCuboidCorner2))
+        val destBox = Box(BlockPos(destCuboidCorner1), BlockPos(destCuboidCorner2))
         //cost is equal to the volume of the box in m^3 in dust, plus 10 charged
-        val cost = (max(originCuboidDimensions.x, 1) * max(originCuboidDimensions.y, 1) * max(originCuboidDimensions.z, 1)) + 100
+        val boxVolume = (originCuboidDimensions.x * originCuboidDimensions.y * originCuboidDimensions.z)
+        val cost = boxVolume + 100
+        //ctx.caster.sendMessage(Text.of(cost.toString()))
 
         if (!HexConfig.server().canTeleportInThisDimension(destWorldKey))
             throw MishapLocationTooFarAway(Vec3d.ZERO, "bad_dimension")
@@ -72,19 +83,46 @@ class OpSwapSpace : SpellAction {
             throw MishapLocationTooFarAway(Vec3d.ZERO, "bad_dimension")
 
         return Triple(
-            Spell(originWorld, originCuboidCorner1, originCuboidCorner2, destWorld, destCuboidCorner1, destCuboidCorner2),
+            Spell(originWorld, originBox, destWorld, destBox, originCuboidDimensions, boxVolume),
             cost * MediaConstants.DUST_UNIT,
             listOf(ParticleSpray.cloud(ctx.caster.pos, 2.0))
         )
     }
-    private data class Spell(val originDim : ServerWorld, val originCorner1 : BlockPos, val originCorner2 : BlockPos,
-                             val destDim : ServerWorld, val destCorner1 : BlockPos, val destCorner2 : BlockPos) : RenderedSpell {
+    private data class Spell(val originDim : ServerWorld, val originBox : Box,
+                             val destDim : ServerWorld, val destBox : Box,
+                             val dimensions : Vec3i, val volume : Int) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
-            //less useful than I first thought
-            //val originDimStateBox = originDim.getStatesInBox(Box(originCorner1, originCorner2)).toList()
-            //val destDimStateBox = destDim.getStatesInBox(Box(destCorner1, destCorner2)).toList()
-            ctx.caster.sendMessage(Text.of("Origin: ${originDim.registryKey.value.toString()}, ${originCorner1.toString()}, ${originCorner2.toString()}"))
-            ctx.caster.sendMessage(Text.of("Destination: ${destDim.registryKey.value.toString()}, ${destCorner1.toString()}, ${destCorner2.toString()}"))
+            val originLowerCorner = BlockPos(originBox.minX, originBox.minY, originBox.minZ)
+            val destLowerCorner = BlockPos(destBox.minX, destBox.minY, destBox.minZ)
+            var transferOffset = Vec3i.ZERO
+            var originPointState = originDim.getBlockState(originLowerCorner)
+            var destPointState = destDim.getBlockState(destLowerCorner)
+            /*for (i in 1 .. volume){
+                ctx.caster.sendMessage(Text.of("$i: " + originLowerCorner.add(transferOffset).toString()))
+                if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f) || (originPointState.hasBlockEntity() ||destPointState.hasBlockEntity()))){
+                    originDim.setBlockState(originLowerCorner.add(transferOffset), destPointState)
+                    destDim.setBlockState(destLowerCorner.add(transferOffset), originPointState)
+                }
+                transferOffset = Vec3i(i % dimensions.x, (i / (dimensions.x * dimensions.z)), (i / dimensions.x) % (dimensions.x))
+                originPointState = originDim.getBlockState(originLowerCorner.add(transferOffset))
+                destPointState = destDim.getBlockState(destLowerCorner.add(transferOffset))
+            }*/
+            for (i in 0 .. dimensions.x - 1){
+                for (j in 0 .. dimensions.y - 1){
+                    for (k in 0 .. dimensions.z - 1){
+                        transferOffset = Vec3i(i, j, k)
+                        originPointState = originDim.getBlockState(originLowerCorner.add(transferOffset))
+                        destPointState = destDim.getBlockState(destLowerCorner.add(transferOffset))
+                        if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f) || (originPointState.hasBlockEntity() ||destPointState.hasBlockEntity()))){
+                            originDim.setBlockState(originLowerCorner.add(transferOffset), destPointState)
+                            destDim.setBlockState(destLowerCorner.add(transferOffset), originPointState)
+                        }
+                    }
+                }
+            }
+            //ctx.caster.sendMessage(Text.of("Origin: ${originDim.registryKey.value.toString()}, ${originBox.toString()}"))
+            //ctx.caster.sendMessage(Text.of("Destination: ${destDim.registryKey.value.toString()}, ${destBox.toString()}"))
+            //ctx.caster.sendMessage((Text.of(Box(originCorner1, originCorner2).toString())))
         }
     }
 }

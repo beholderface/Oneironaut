@@ -62,7 +62,7 @@ fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
     return conversionResult
 }
 
-fun isUnsafe(world: ServerWorld, pos: BlockPos) : Boolean{
+fun isUnsafe(world: ServerWorld, pos: BlockPos, up: Boolean) : Boolean{
     val state = world.getBlockState(pos)
     var output = when (state.block){
         Blocks.LAVA -> true
@@ -75,7 +75,7 @@ fun isUnsafe(world: ServerWorld, pos: BlockPos) : Boolean{
         Blocks.SCULK_SHRIEKER -> true
         else -> false
     }
-    if (state.isOpaque){
+    if (state.isOpaque && up){
         output = true
     }
     return output
