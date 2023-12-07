@@ -52,11 +52,16 @@ class OpSwapSpace : SpellAction {
         val originCuboidCorner2 = BlockPos(vecFromNBT(originWorldCuboid.getAt(1).serialize().asLongArray))
         val destCuboidCorner1 = BlockPos(vecFromNBT(destWorldCuboid.getAt(0).serialize().asLongArray))
         val destCuboidCorner2 = BlockPos(vecFromNBT(destWorldCuboid.getAt(1).serialize().asLongArray))
-
-        ctx.assertVecInRange(originCuboidCorner1)
-        ctx.assertVecInRange(originCuboidCorner2)
-        //ctx.assertVecInRange(destCuboidCorner1)
-        //ctx.assertVecInRange(destCuboidCorner2)
+        val originBox = Box(BlockPos(originCuboidCorner1), BlockPos(originCuboidCorner2))
+        val destBox = Box(BlockPos(destCuboidCorner1), BlockPos(destCuboidCorner2))
+        val boxCorners = arrayOf(Vec3d(originBox.minX, originBox.minY, originBox.minZ), Vec3d(originBox.maxX, originBox.minY, originBox.minZ),
+            Vec3d(originBox.maxX, originBox.maxY, originBox.minZ), Vec3d(originBox.maxX, originBox.maxY, originBox.maxZ),
+            Vec3d(originBox.minX, originBox.maxY, originBox.maxZ), Vec3d(originBox.minX, originBox.minY, originBox.maxZ),
+            Vec3d(originBox.maxX, originBox.minY, originBox.maxZ), Vec3d(originBox.minX, originBox.maxY, originBox.minZ)
+            )
+        boxCorners.iterator().forEachRemaining(){
+            ctx.assertVecInRange(it)
+        }
 
         ctx.caster.server?.worlds?.forEach {
             if (it.registryKey.value.toString() == dimKey){
@@ -70,8 +75,6 @@ class OpSwapSpace : SpellAction {
         if (originCuboidDimensions != destCuboidDimensions){
             throw MishapBadCuboid()
         }
-        val originBox = Box(BlockPos(originCuboidCorner1), BlockPos(originCuboidCorner2))
-        val destBox = Box(BlockPos(destCuboidCorner1), BlockPos(destCuboidCorner2))
         //cost is equal to the volume of the box in m^3 in dust, plus 10 charged
         val boxVolume = (originCuboidDimensions.x * originCuboidDimensions.y * originCuboidDimensions.z)
         val cost = boxVolume + 100
