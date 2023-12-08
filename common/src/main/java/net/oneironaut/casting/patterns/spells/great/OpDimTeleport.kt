@@ -98,8 +98,8 @@ class OpDimTeleport : SpellAction {
             var z = coords.z
             val border = destination.worldBorder
             val compressionFactor = origin.dimension.coordinateScale / destination.dimension.coordinateScale
-            x = floor(x * compressionFactor) + 0.5
-            z = floor(z * compressionFactor) + 0.5
+            x = /*floor(*/x * compressionFactor//) + 0.5
+            z = /*floor(*/z * compressionFactor//) + 0.5
             var floorSpot : BlockPos = BlockPos(Vec3d.ZERO)
             var floorNeeded = false
             //make sure you don't end up under the nether or something
@@ -167,12 +167,13 @@ class OpDimTeleport : SpellAction {
                 } else {
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                     if (Platform.isForge()){
-                        //for some reason I couldn't get any other method of teleportation to work for non-players on forge
+                        //for some reason I couldn't get any other method of interdimensionalteleportation to work for non-players on forge
                         val destString = destination.registryKey.value.toString()
                         val command = "execute in $destString as ${target.uuid.toString()} run tp $x $y $z"
                         val executor = target.server?.commandManager
                         executor?.executeWithPrefix(target.server?.commandSource?.withSilent(), command)
                     } else {
+                        //I have absolutely no idea if this makes any difference whatsoever compared to the command method
                         FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
                     }
 
