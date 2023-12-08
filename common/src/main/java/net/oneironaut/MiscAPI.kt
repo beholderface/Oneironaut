@@ -10,6 +10,7 @@ import ram.talia.hexal.common.lib.HexalBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.oneironaut.registry.DimIota
 import net.minecraft.state.property.Properties
@@ -94,6 +95,16 @@ fun isSolid(world: ServerWorld, pos: BlockPos) : Boolean{
     /*if (state.isTranslucent(world.getChunkAsView(floor(pos.x / 16.0).toInt(), floor(pos.z / 16.0).toInt()), pos)){
         output = true
     }*/
+    return output
+}
+
+fun stringToWorld(key : String, player : ServerPlayerEntity) : ServerWorld{
+    var output = player.getWorld()
+    player.server?.worlds?.forEach {
+        if (it.registryKey.value.toString() == key){
+            output = it
+        }
+    }
     return output
 }
 //tried to write a smoother way to keep important blockstate values, didn't work

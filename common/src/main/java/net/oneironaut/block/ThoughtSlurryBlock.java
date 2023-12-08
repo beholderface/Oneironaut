@@ -7,16 +7,17 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.oneironaut.Oneironaut;
-import net.oneironaut.block.ThoughtSlurry;
+//import net.oneironaut.block.ThoughtSlurry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
+/*
 public class ThoughtSlurryBlock extends FluidBlock {
     public static final Identifier ID =
             Identifier.of(Oneironaut.MOD_ID, "thought_slurry");
     public static final AbstractBlock.Settings SETTINGS =
             FabricBlockSettings.copy(Blocks.LAVA);
     public static final Block INSTANCE =
-            new ThoughtSlurryBlock(ThoughtSlurry.STILL_FLUID, SETTINGS);
+            new ThoughtSlurryBlock(new ThoughtSlurry.Still(), SETTINGS);
 
     public ThoughtSlurryBlock(ThoughtSlurry thoughtSlurry, AbstractBlock.Settings settings) {
         super(thoughtSlurry, settings);
@@ -30,3 +31,4 @@ public class ThoughtSlurryBlock extends FluidBlock {
         return true;
     }
 }
+*/

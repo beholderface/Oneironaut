@@ -10,6 +10,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Properties;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -21,8 +22,12 @@ import net.minecraft.world.WorldView;
 import net.oneironaut.Oneironaut;
 import net.minecraft.util.registry.Registry;
 import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautThingRegistry.*;
 import org.jetbrains.annotations.Nullable;
 
+
+
+/*
 public class ThoughtSlurry extends FlowableFluid {
     @Override
     public boolean matchesType(Fluid fluid) {
@@ -31,38 +36,49 @@ public class ThoughtSlurry extends FlowableFluid {
     public static final Identifier ID =
             Identifier.of(Oneironaut.MOD_ID, "thought_slurry");
 
-    public static ThoughtSlurry.Still STILL_FLUID =
-            new ThoughtSlurry.Still();
+
 
     public static final Identifier FLOWING_ID =
             Identifier.of(Oneironaut.MOD_ID, "flowing_thought_slurry");
 
-    public static final ThoughtSlurry.Flowing FLOWING_FLUID =
+    */
+/*public static final ThoughtSlurry.Flowing FLOWING_FLUID =
             new ThoughtSlurry.Flowing();
+    public static ThoughtSlurry.Still STILL_FLUID =
+            new ThoughtSlurry.Still();*//*
+
+    //public static FlowableFluid THOUGHT_SLURRY;
+    //public static FlowableFluid THOUGHT_SLURRY_FLOWING;
 
     public static final TagKey<Fluid> TAG =
             TagKey.of(Registry.FLUID_KEY, ThoughtSlurry.ID);
 
     @Override
     public Fluid getFlowing() {
-        return ThoughtSlurry.FLOWING_FLUID;
+        return OneironautThingRegistry.THOUGHT_SLURRY_FLOWING.get();
     }
-
-    /*@Override
-    public FluidState getFlowing(int level, boolean falling) {
-        return (this.getFlowing().getDefaultState().with(LEVEL, level)).with(FALLING, falling);
-        //return ThoughtSlurry.FLOWING_FLUID;
-    }*/
-
-    /*@Override
-    public Fluid getFlowing() {
-        return Flowing.FLOWING_FLUID;
-    }*/
 
     @Override
     public Fluid getStill() {
-        return ThoughtSlurry.STILL_FLUID;
+        return OneironautThingRegistry.THOUGHT_SLURRY.get();
     }
+
+    */
+/*@Override
+    public FluidState getFlowing(int level, boolean falling) {
+        return (this.getFlowing().getDefaultState().with(LEVEL, level)).with(FALLING, falling);
+        //return ThoughtSlurry.FLOWING_FLUID;
+    }*//*
+
+
+    */
+/*@Override
+    public Fluid getFlowing() {
+        return Flowing.FLOWING_FLUID;
+    }*//*
+
+
+
 
     @Override
     protected boolean isInfinite() {
@@ -85,11 +101,13 @@ public class ThoughtSlurry extends FlowableFluid {
         return 1;
     }
 
-    @Override
+    */
+/*@Override
     public Item getBucketItem() {
-        //return OneironautThingRegistry.THOUGHT_SLURRY_BUCKET.get();
-        return Items.LAVA_BUCKET;
-    }
+        return OneironautThingRegistry.THOUGHT_SLURRY_BUCKET.get();
+       // return Items.LAVA_BUCKET;
+    }*//*
+
 
     @Override
     protected boolean canBeReplacedWith(FluidState state, BlockView world, BlockPos pos, Fluid fluid, Direction direction) {
@@ -113,7 +131,7 @@ public class ThoughtSlurry extends FlowableFluid {
 
     @Override
     public boolean isStill(FluidState state) {
-        return false;
+        return state.isStill();
     }
 
     @Override
@@ -132,25 +150,7 @@ public class ThoughtSlurry extends FlowableFluid {
         return super.arch$registryName();
     }
 
-    public final static class Still extends ThoughtSlurry {
-        protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {
-            super.appendProperties(builder);
-            //builder.add(Properties.LEVEL_15);
-        }
-
-        @Override
-        public boolean isStill(FluidState state) {
-            return true;
-        }
-
-        @Override
-        public int getLevel(FluidState state) {
-            return 8;
-        }
-
-    }
-
-    public final static class Flowing extends ThoughtSlurry {
+    public static class Flowing extends ThoughtSlurry {
         @Override
         protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {
             super.appendProperties(builder);
@@ -168,4 +168,27 @@ public class ThoughtSlurry extends FlowableFluid {
         }
 
     }
+
+    public static class Still extends ThoughtSlurry {
+        */
+/*protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {
+            super.appendProperties(builder);
+            builder.add(FlowableFluid.LEVEL);
+        }*//*
+
+
+        @Override
+        public boolean isStill(FluidState state) {
+            return true;
+        }
+
+        @Override
+        public int getLevel(FluidState state) {
+            return 8;
+        }
+
+    }
+
+
 }
+*/
