@@ -9,12 +9,14 @@ import at.petrak.hexcasting.common.lib.HexBlocks
 import ram.talia.hexal.common.lib.HexalBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.oneironaut.registry.DimIota
 import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Property
+import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockView
 import net.oneironaut.registry.OneironautThingRegistry
@@ -35,7 +37,7 @@ fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
     //val targetType = ctx.world.getBlockState(block).block
     //BlockTags.SMALL_FLOWERS
     val conversionResult : Pair<BlockState, Int> = when(targetType){
-        HexalBlocks.SLIPWAY -> Pair(OneironautThingRegistry.NOOSPHERE_GATE.get().defaultState, 200)
+        HexalBlocks.SLIPWAY -> Pair(OneironautThingRegistry.NOOSPHERE_GATE.defaultState, 200)
         Blocks.SCULK_SHRIEKER -> Pair(Blocks.SCULK_SHRIEKER.defaultState.with(Properties.CAN_SUMMON, true), 100)
         Blocks.RESPAWN_ANCHOR -> Pair(Blocks.RESPAWN_ANCHOR.defaultState.with(Properties.CHARGES, 4), 100)
         //"fuck you" *uncries your obsidian*
@@ -107,6 +109,22 @@ fun stringToWorld(key : String, player : ServerPlayerEntity) : ServerWorld{
     }
     return output
 }
+
+//DOESN'T WORK
+//WHYYYYYYYY
+/*fun clientPlayertoServerPlayer(player : Entity) : ServerPlayerEntity?{
+    val server = player.server
+    val serverPlayerEntity = server?.playerManager?.getPlayer(player.uuid)
+    player.sendMessage(Text.of("${server.toString()}, ${server?.playerManager.toString()}, ${serverPlayerEntity?.uuid}"))
+    *//*player.sendMessage(Text.of("You are one of ${players?.size} players. ${player.uuid}"))
+    players?.forEach {
+        player.sendMessage(Text.of("${it.uuid}"))
+        if (it.uuid == player.uuid){
+            return it
+        }
+    }*//*
+    return serverPlayerEntity
+}*/
 //tried to write a smoother way to keep important blockstate values, didn't work
 /*
 fun keepImportantStates(ctx: CastingContext, target: BlockPos, desired: BlockState) : BlockState{

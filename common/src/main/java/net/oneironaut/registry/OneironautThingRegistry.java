@@ -6,15 +6,21 @@ import dev.architectury.core.fluid.ArchitecturyFlowingFluid;
 import dev.architectury.core.fluid.ArchitecturyFluidAttributes;
 import dev.architectury.core.fluid.SimpleArchitecturyFluidAttributes;
 import dev.architectury.core.item.ArchitecturyBucketItem;
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.mixin.object.builder.AbstractBlockSettingsAccessor;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.Identifier;
 import net.oneironaut.Oneironaut;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
@@ -26,6 +32,7 @@ public class OneironautThingRegistry {
     // Register items through this
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ITEM_KEY);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_KEY);
+    //public static final DeferredRegister<BlockEntity> BLOCK_ENTITIES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_ENTITY_TYPE.getKey());
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
     public static void init() {
         FLUIDS.register();
@@ -42,14 +49,32 @@ public class OneironautThingRegistry {
             .resistance(5)
             .luminance(state -> 7)
             ));
-    public static final RegistrySupplier<Block> NOOSPHERE_GATE = BLOCKS.register("noosphere_gate", () -> new NoosphereGateway(AbstractBlock.Settings.of(Material.PORTAL)
+    /*public static final RegistrySupplier<Block> NOOSPHERE_GATE = BLOCKS.register("noosphere_gate", () -> new NoosphereGateway(AbstractBlock.Settings.of(Material.PORTAL)
             .hardness(-1f)
             .sounds(BlockSoundGroup.AMETHYST_BLOCK)
             .resistance(5000)
             .luminance(state -> 15)
             .dropsNothing()
-            //.noCollision()
-            ));
+            .noCollision()
+            ));*/
+    //public static final RegistrySupplier<BlockEntity> NOOSPHERE_GATE_ENTITY;
+    //if (true /*Platform.isForge()*/){
+
+
+    //public static final Block NOOSPHERE_GATE = new Block(AbstractBlock.Settings.copy(Blocks.END_GATEWAY).luminance(state -> 15).sounds(BlockSoundGroup.AMETHYST_BLOCK));
+    public static final Block NOOSPHERE_GATE = Registry.register(
+            Registry.BLOCK,
+            new Identifier(Oneironaut.MOD_ID, "noosphere_gate"),
+            new Block(AbstractBlock.Settings.copy(Blocks.END_GATEWAY).luminance(state -> 15).sounds(BlockSoundGroup.AMETHYST_BLOCK))
+    );
+    public static final BlockEntityType<NoosphereGateEntity> NOOSPHERE_GATE_ENTITY = Registry.register(
+            Registry.BLOCK_ENTITY_TYPE, new Identifier(Oneironaut.MOD_ID, "noosphere_gate_entity"),
+            BlockEntityType.Builder.create(NoosphereGateEntity::new, NOOSPHERE_GATE).build(null));
+    /*} else {
+        BlockEntityType<NoosphereGateEntity> NOOSPHERE_GATE_ENTITY = Registry.register(
+                Registry.BLOCK_ENTITY_TYPE, new Identifier(Oneironaut.MOD_ID, "noosphere_gate_entity"),
+                FabricBlockEntityTypeBuilder.create(NoosphereGateEntity::new, NOOSPHERE_GATE.get()).build());
+    }*/
     public static final RegistrySupplier<Item> PSUEDOAMETHYST_BLOCK_ITEM = ITEMS.register("pseudoamethyst_block", () -> new BlockItem(PSUEDOAMETHYST_BLOCK.get(), HexItems.props()));
     public static final RegistrySupplier<Item> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new Item(HexItems.props()));
 
