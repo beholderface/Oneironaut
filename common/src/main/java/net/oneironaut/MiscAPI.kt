@@ -11,6 +11,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.Entity
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.oneironaut.registry.DimIota
@@ -21,6 +22,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockView
 import net.oneironaut.registry.OneironautThingRegistry
 import java.lang.reflect.TypeVariable
+import java.util.UUID
 import kotlin.math.floor
 
 fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
@@ -112,19 +114,19 @@ fun stringToWorld(key : String, player : ServerPlayerEntity) : ServerWorld{
 
 //DOESN'T WORK
 //WHYYYYYYYY
-/*fun clientPlayertoServerPlayer(player : Entity) : ServerPlayerEntity?{
-    val server = player.server
-    val serverPlayerEntity = server?.playerManager?.getPlayer(player.uuid)
-    player.sendMessage(Text.of("${server.toString()}, ${server?.playerManager.toString()}, ${serverPlayerEntity?.uuid}"))
-    *//*player.sendMessage(Text.of("You are one of ${players?.size} players. ${player.uuid}"))
+fun playerUUIDtoServerPlayer(uuid : UUID, server : MinecraftServer) : ServerPlayerEntity?{
+    //val server = player.server
+    val serverPlayerEntity = server.playerManager?.getPlayer(uuid)
+    /*player.sendMessage(Text.of("${server.toString()}, ${server?.playerManager.toString()}, ${serverPlayerEntity?.uuid}"))
+    player.sendMessage(Text.of("You are one of ${players?.size} players. ${player.uuid}"))
     players?.forEach {
         player.sendMessage(Text.of("${it.uuid}"))
         if (it.uuid == player.uuid){
             return it
         }
-    }*//*
+    }*/
     return serverPlayerEntity
-}*/
+}
 //tried to write a smoother way to keep important blockstate values, didn't work
 /*
 fun keepImportantStates(ctx: CastingContext, target: BlockPos, desired: BlockState) : BlockState{

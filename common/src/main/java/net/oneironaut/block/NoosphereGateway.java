@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.oneironaut.Oneironaut;
 
 import javax.annotation.Nullable;
 
@@ -20,6 +21,7 @@ public class NoosphereGateway extends BlockWithEntity{
     @Override
     @Nullable
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state){
+        //Oneironaut.LOGGER.info("Creating blockentity.");
         return new NoosphereGateEntity(pos, state);
     }
     @Override

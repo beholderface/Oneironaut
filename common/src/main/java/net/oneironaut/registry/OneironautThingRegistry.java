@@ -65,10 +65,11 @@ public class OneironautThingRegistry {
     public static final Block NOOSPHERE_GATE = Registry.register(
             Registry.BLOCK,
             new Identifier(Oneironaut.MOD_ID, "noosphere_gate"),
-            new Block(AbstractBlock.Settings.copy(Blocks.END_GATEWAY).luminance(state -> 15).sounds(BlockSoundGroup.AMETHYST_BLOCK))
+            new NoosphereGateway(AbstractBlock.Settings.copy(Blocks.END_GATEWAY).luminance(state -> 15).sounds(BlockSoundGroup.AMETHYST_BLOCK))
     );
     public static final BlockEntityType<NoosphereGateEntity> NOOSPHERE_GATE_ENTITY = Registry.register(
-            Registry.BLOCK_ENTITY_TYPE, new Identifier(Oneironaut.MOD_ID, "noosphere_gate_entity"),
+            Registry.BLOCK_ENTITY_TYPE,
+            new Identifier(Oneironaut.MOD_ID, "noosphere_gate_entity"),
             BlockEntityType.Builder.create(NoosphereGateEntity::new, NOOSPHERE_GATE).build(null));
     /*} else {
         BlockEntityType<NoosphereGateEntity> NOOSPHERE_GATE_ENTITY = Registry.register(
