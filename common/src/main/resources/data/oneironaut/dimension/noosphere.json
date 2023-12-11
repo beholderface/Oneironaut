@@ -5,7 +5,7 @@
     "settings": {
       "biome": "oneironaut:noosphere_sea",
       "lakes": false,
-      "features": false,
+      "features": true,
       "layers": [
         {
           "block": "minecraft:bedrock",

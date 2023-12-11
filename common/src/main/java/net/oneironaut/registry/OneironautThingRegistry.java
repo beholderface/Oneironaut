@@ -5,6 +5,7 @@ import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.Registries;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModification;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -33,7 +34,7 @@ import ram.talia.hexal.common.lib.HexalEntities;
 
 import java.util.List;
 
-public class OneironautThingRegistry {
+public class OneironautThingRegistry /*implements ModInitializer */{
     // Register items through this
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ITEM_KEY);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_KEY);
@@ -41,6 +42,9 @@ public class OneironautThingRegistry {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
     //public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FEATURE_KEY);
     //public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIG_FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.CONFIGURED_FEATURE_KEY);
+
+
+
     public static void init() {
         FLUIDS.register();
         BLOCKS.register();
@@ -61,7 +65,15 @@ public class OneironautThingRegistry {
         //CONFIG_FEATURES.register();
     }
 
-
+    public static final Identifier NOOSPHERE_SEA_ISLAND_ID = new Identifier(Oneironaut.MOD_ID, "noosphere_sea_island");
+    public static Feature<NoosphereSeaIslandConfig> NOOSPHERE_SEA_ISLAND = new NoosphereSeaIsland(NoosphereSeaIslandConfig.CODEC);
+    public static ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland> NOOSPHERE_SEA_ISLAND_LARGE = new ConfiguredFeature<>(
+            (NoosphereSeaIsland) NOOSPHERE_SEA_ISLAND,
+            new NoosphereSeaIslandConfig(19, new Identifier(Oneironaut.MOD_ID, "noosphere_basalt"))
+    );
+    public static PlacedFeature NOOSPHERE_SEA_ISLAND_LARGE_PLACED = new PlacedFeature(
+            RegistryEntry.of(NOOSPHERE_SEA_ISLAND_LARGE), List.of()
+    );
     //public static final RegistrySupplier<Block> STUPID_BLOCK = BLOCKS.register("stupid_block", () -> new Block(AbstractBlock.Settings.of(Material.AMETHYST)));
     //public static final RegistrySupplier<Block> SMART_BLOCK = BLOCKS.register("smart_block", () -> new Block(AbstractBlock.Settings.of(Material.AMETHYST)));
     public static final RegistrySupplier<Block> PSUEDOAMETHYST_BLOCK = BLOCKS.register("pseudoamethyst_block", () -> new Block(AbstractBlock.Settings.of(Material.AMETHYST)
@@ -122,13 +134,8 @@ public class OneironautThingRegistry {
             NoosphereSeaIslandConfig.NOOSPHERE_SEA_ISLAND_LARGE
     );*/
 
-    public static final Identifier NOOSPHERE_SEA_ISLAND_ID = new Identifier(Oneironaut.MOD_ID, "noosphere_sea_island");
-    public static Feature<NoosphereSeaIslandConfig> NOOSPHERE_SEA_ISLAND = new NoosphereSeaIsland(NoosphereSeaIslandConfig.CODEC);
 
-    public static ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland> NOOSPHERE_SEA_ISLAND_SMALL = new ConfiguredFeature<>(
-            (NoosphereSeaIsland) NOOSPHERE_SEA_ISLAND,
-            new NoosphereSeaIslandConfig(7, new Identifier(Oneironaut.MOD_ID, "noosphere_basalt"))
-    );
+
     /*public static PlacedFeature NOOSPHERE_SEA_ISLAND_SMALL_PLACED = new PlacedFeature(
             RegistryEntry.of(NOOSPHERE_SEA_ISLAND_SMALL), List.of()
     );
@@ -141,13 +148,7 @@ public class OneironautThingRegistry {
             RegistryEntry.of(NOOSPHERE_SEA_ISLAND_MEDIUM), List.of()
     );*/
 
-    public static ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland> NOOSPHERE_SEA_ISLAND_LARGE = new ConfiguredFeature<>(
-            (NoosphereSeaIsland) NOOSPHERE_SEA_ISLAND,
-            new NoosphereSeaIslandConfig(19, new Identifier(Oneironaut.MOD_ID, "noosphere_basalt"))
-    );
-    public static PlacedFeature NOOSPHERE_SEA_ISLAND_LARGE_PLACED = new PlacedFeature(
-            RegistryEntry.of(NOOSPHERE_SEA_ISLAND_LARGE), List.of()
-    );
+
 
     //@Override
     public void onInitialize(){
