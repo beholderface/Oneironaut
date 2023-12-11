@@ -5,6 +5,9 @@ import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.Registries;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.fabricmc.fabric.api.biome.v1.BiomeModification;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.FlowableFluid;
@@ -14,6 +17,8 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
@@ -24,6 +29,7 @@ import net.minecraft.util.registry.Registry;
 import net.oneironaut.block.*;
 import net.oneironaut.feature.NoosphereSeaIsland;
 import net.oneironaut.feature.NoosphereSeaIslandConfig;
+import ram.talia.hexal.common.lib.HexalEntities;
 
 import java.util.List;
 
@@ -46,6 +52,11 @@ public class OneironautThingRegistry {
         Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_MEDIUM_PLACED);*/
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_LARGE);
         Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_LARGE_PLACED);
+        BiomeModifications.addFeature(
+                BiomeSelectors.all(),
+                GenerationStep.Feature.RAW_GENERATION,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY, NOOSPHERE_SEA_ISLAND_ID)
+        );
         //FEATURES.register();
         //CONFIG_FEATURES.register();
     }
