@@ -3,7 +3,7 @@
   "generator": {
     "type": "minecraft:flat",
     "settings": {
-      "biome": "minecraft:the_void",
+      "biome": "oneironaut:noosphere_sea",
       "lakes": false,
       "features": false,
       "layers": [
@@ -14,6 +14,10 @@
         {
           "block": "oneironaut:pseudoamethyst_block",
           "height": 1
+        },
+        {
+          "block": "oneironaut:thought_slurry",
+          "height": 63
         }
       ],
       "structure_overrides": []

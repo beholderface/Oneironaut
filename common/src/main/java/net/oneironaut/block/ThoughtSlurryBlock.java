@@ -2,22 +2,22 @@ package net.oneironaut.block;
 
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.fluid.Fluid;
+//import net.minecraft.fluid.Fluid;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.oneironaut.Oneironaut;
 //import net.oneironaut.block.ThoughtSlurry;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+//import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+//import software.bernie.shadowed.eliotlash.mclib.math.functions.classic.Abs;
 
-/*
 public class ThoughtSlurryBlock extends FluidBlock {
     public static final Identifier ID =
             Identifier.of(Oneironaut.MOD_ID, "thought_slurry");
     public static final AbstractBlock.Settings SETTINGS =
-            FabricBlockSettings.copy(Blocks.LAVA);
-    public static final Block INSTANCE =
-            new ThoughtSlurryBlock(new ThoughtSlurry.Still(), SETTINGS);
+            AbstractBlock.Settings.copy(Blocks.WATER).nonOpaque();
+    public static final FluidBlock INSTANCE =
+            new FluidBlock(ThoughtSlurry.STILL_FLUID, SETTINGS);
 
     public ThoughtSlurryBlock(ThoughtSlurry thoughtSlurry, AbstractBlock.Settings settings) {
         super(thoughtSlurry, settings);
@@ -31,4 +31,3 @@ public class ThoughtSlurryBlock extends FluidBlock {
         return true;
     }
 }
-*/

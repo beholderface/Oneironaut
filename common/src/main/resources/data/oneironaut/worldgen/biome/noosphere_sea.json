@@ -1,0 +1,36 @@
+{
+  "carvers": {},
+  "downfall" : 0.1,
+  "effects": {
+    "fog_color": 11433168,
+    "sky_color": 1376290,
+    "water_color": 4146916,
+    "water_fog_color": 8204458,
+    "particle": {
+      "probability": 0.0025,
+      "options": {
+        "type": "hexcasting:conjure_light_particle",
+        "color": 8204458,
+        "isLight": true
+      }
+    }
+  },
+  "features": [
+    [
+      "oneironaut:noosphere_sea_island"
+    ]
+  ],
+  "precipitation": "none",
+  "spawn_costs": {},
+  "spawners": {
+    "creature": [
+      {
+        "type": "hexal:wisp/wandering",
+        "maxCount": 8,
+        "minCount": 4,
+        "weight": 10
+      }
+    ]
+  },
+  "temperature": 0.2
+}

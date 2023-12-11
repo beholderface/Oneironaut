@@ -25,6 +25,9 @@ dependencies {
     modCompileOnly "vazkii.patchouli:Patchouli-xplat:$minecraftVersion-$patchouliVersion"
     modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
     modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"
+    //modCompileOnly "maven.modrinth:hexgloop:${gloopVersion}"
+    //modCompileOnly "maven.modrinth:wnboi:${wnboiVersion}"
+
 }
 
 publishing {

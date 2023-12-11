@@ -27,7 +27,6 @@ import org.jetbrains.annotations.Nullable;
 
 
 
-/*
 public class ThoughtSlurry extends FlowableFluid {
     @Override
     public boolean matchesType(Fluid fluid) {
@@ -41,11 +40,10 @@ public class ThoughtSlurry extends FlowableFluid {
     public static final Identifier FLOWING_ID =
             Identifier.of(Oneironaut.MOD_ID, "flowing_thought_slurry");
 
-    */
-/*public static final ThoughtSlurry.Flowing FLOWING_FLUID =
+    public static final ThoughtSlurry.Flowing FLOWING_FLUID =
             new ThoughtSlurry.Flowing();
-    public static ThoughtSlurry.Still STILL_FLUID =
-            new ThoughtSlurry.Still();*//*
+    public static final ThoughtSlurry.Still STILL_FLUID =
+            new ThoughtSlurry.Still();
 
     //public static FlowableFluid THOUGHT_SLURRY;
     //public static FlowableFluid THOUGHT_SLURRY_FLOWING;
@@ -63,19 +61,17 @@ public class ThoughtSlurry extends FlowableFluid {
         return OneironautThingRegistry.THOUGHT_SLURRY.get();
     }
 
-    */
-/*@Override
+@Override
     public FluidState getFlowing(int level, boolean falling) {
         return (this.getFlowing().getDefaultState().with(LEVEL, level)).with(FALLING, falling);
         //return ThoughtSlurry.FLOWING_FLUID;
-    }*//*
+    }
 
 
-    */
 /*@Override
     public Fluid getFlowing() {
         return Flowing.FLOWING_FLUID;
-    }*//*
+    }*/
 
 
 
@@ -101,12 +97,11 @@ public class ThoughtSlurry extends FlowableFluid {
         return 1;
     }
 
-    */
-/*@Override
+@Override
     public Item getBucketItem() {
         return OneironautThingRegistry.THOUGHT_SLURRY_BUCKET.get();
        // return Items.LAVA_BUCKET;
-    }*//*
+    }
 
 
     @Override
@@ -170,11 +165,10 @@ public class ThoughtSlurry extends FlowableFluid {
     }
 
     public static class Still extends ThoughtSlurry {
-        */
-/*protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {
+        protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {
             super.appendProperties(builder);
             builder.add(FlowableFluid.LEVEL);
-        }*//*
+        }
 
 
         @Override
@@ -191,4 +185,3 @@ public class ThoughtSlurry extends FlowableFluid {
 
 
 }
-*/

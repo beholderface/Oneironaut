@@ -1,6 +1,5 @@
 package net.oneironaut
 
-import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
@@ -9,21 +8,16 @@ import at.petrak.hexcasting.common.lib.HexBlocks
 import ram.talia.hexal.common.lib.HexalBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.client.network.ClientPlayerEntity
-import net.minecraft.entity.Entity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.oneironaut.registry.DimIota
 import net.minecraft.state.property.Properties
-import net.minecraft.state.property.Property
-import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.BlockView
+import net.minecraft.util.math.Vec3i
+import net.minecraft.world.StructureWorldAccess
 import net.oneironaut.registry.OneironautThingRegistry
-import java.lang.reflect.TypeVariable
 import java.util.UUID
-import kotlin.math.floor
 
 fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
@@ -112,21 +106,26 @@ fun stringToWorld(key : String, player : ServerPlayerEntity) : ServerWorld{
     return output
 }
 
-//DOESN'T WORK
-//WHYYYYYYYY
-fun playerUUIDtoServerPlayer(uuid : UUID, server : MinecraftServer) : ServerPlayerEntity?{
+fun playerUUIDtoServerPlayer(uuid: UUID, server: MinecraftServer): ServerPlayerEntity? {
     //val server = player.server
-    val serverPlayerEntity = server.playerManager?.getPlayer(uuid)
-    /*player.sendMessage(Text.of("${server.toString()}, ${server?.playerManager.toString()}, ${serverPlayerEntity?.uuid}"))
-    player.sendMessage(Text.of("You are one of ${players?.size} players. ${player.uuid}"))
-    players?.forEach {
-        player.sendMessage(Text.of("${it.uuid}"))
-        if (it.uuid == player.uuid){
-            return it
-        }
-    }*/
-    return serverPlayerEntity
+    return server.playerManager?.getPlayer(uuid)
 }
+
+fun genCircle(world : StructureWorldAccess, corner : BlockPos, diameter : Int, state : BlockState, replacable : Array<Block>){
+    val area = diameter * diameter
+    var current = corner
+    val radius = diameter.toDouble() / 2
+    var offset = Vec3i.ZERO
+    val center = corner.add(radius, 0.0, radius)
+    for (i in 0 .. (area - 1)){
+        offset = Vec3i(i % diameter, 0, i / diameter)
+        current = current.add(offset)
+        if (current.isWithinDistance(center, radius) && replacable.contains(world.getBlockState(current).block)){
+            world.setBlockState(current, state, 0x10)
+        }
+    }
+}
+
 //tried to write a smoother way to keep important blockstate values, didn't work
 /*
 fun keepImportantStates(ctx: CastingContext, target: BlockPos, desired: BlockState) : BlockState{
