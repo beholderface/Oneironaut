@@ -65,11 +65,11 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
                         world.setBlockState(currentPos, state, 0x10);
                     }
                 }*/
-                Oneironaut.LOGGER.info("Successfully placed an island at " + scanPos);
+                //Oneironaut.LOGGER.info("Successfully placed an island at " + scanPos);
                 return true;
             }
         }
-        Oneironaut.LOGGER.info("Unsuccessfully placed an island at " + scanPos);
+        //Oneironaut.LOGGER.info("Unsuccessfully placed an island at " + scanPos);
         return false;
     }
     //public static ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland> NOOSPHERE_SEA_ISLAND_SMALL = new ConfiguredFeature<>(

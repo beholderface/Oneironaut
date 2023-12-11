@@ -14,6 +14,7 @@ import net.minecraft.server.world.ServerWorld
 import net.oneironaut.registry.DimIota
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.StructureWorldAccess
 import net.oneironaut.registry.OneironautThingRegistry
@@ -112,16 +113,17 @@ fun playerUUIDtoServerPlayer(uuid: UUID, server: MinecraftServer): ServerPlayerE
 }
 
 fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, state : BlockState, replacable : Array<Block>){
+    val realCenter = Vec3d(center.x + 0.5, center.y + 0.5, center.z + 0.5)
     val area = diameter * diameter
     val radius = diameter.toDouble() / 2
-    var offset = Vec3i.ZERO
-    val corner = center.add(-radius, 0.0, -radius)
+    var offset = Vec3d.ZERO
+    val corner = realCenter.add(-radius, 0.0, -radius)
     var current = corner
     for (i in 0 .. (area * 2)){
-        offset = Vec3i(i % diameter, 0, i / diameter)
+        offset = Vec3d((i % diameter).toDouble(), 0.0, (i / diameter).toDouble())
         current = corner.add(offset)
-        if (current.add(0.5, 0.0, 0.5).isWithinDistance(center.add(0.5, 0.0, 0.5), radius)/* && replacable.contains(world.getBlockState(current).block)*/){
-            world.setBlockState(current, state, 0b10)
+        if (current.distanceTo(realCenter) <= radius/* && replacable.contains(world.getBlockState(current).block)*/){
+            world.setBlockState(BlockPos(current), state, 0b10)
         }
     }
 }
