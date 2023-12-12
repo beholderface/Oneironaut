@@ -8,6 +8,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModification;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
@@ -33,6 +34,7 @@ import net.oneironaut.feature.NoosphereSeaIslandConfig;
 import ram.talia.hexal.common.lib.HexalEntities;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class OneironautThingRegistry /*implements ModInitializer */{
     // Register items through this
@@ -49,31 +51,11 @@ public class OneironautThingRegistry /*implements ModInitializer */{
         FLUIDS.register();
         BLOCKS.register();
         ITEMS.register();
-        Registry.register(Registry.FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND);
-        /*Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_SMALL);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_SMALL_PLACED);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_MEDIUM);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_MEDIUM_PLACED);*/
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_LARGE);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_LARGE_PLACED);
-        BiomeModifications.addFeature(
-                BiomeSelectors.all(),
-                GenerationStep.Feature.RAW_GENERATION,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, NOOSPHERE_SEA_ISLAND_ID)
-        );
         //FEATURES.register();
         //CONFIG_FEATURES.register();
     }
 
-    public static final Identifier NOOSPHERE_SEA_ISLAND_ID = new Identifier(Oneironaut.MOD_ID, "noosphere_sea_island");
-    public static Feature<NoosphereSeaIslandConfig> NOOSPHERE_SEA_ISLAND = new NoosphereSeaIsland(NoosphereSeaIslandConfig.CODEC);
-    public static ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland> NOOSPHERE_SEA_ISLAND_LARGE = new ConfiguredFeature<>(
-            (NoosphereSeaIsland) NOOSPHERE_SEA_ISLAND,
-            new NoosphereSeaIslandConfig(19, new Identifier(Oneironaut.MOD_ID, "noosphere_basalt"))
-    );
-    public static PlacedFeature NOOSPHERE_SEA_ISLAND_LARGE_PLACED = new PlacedFeature(
-            RegistryEntry.of(NOOSPHERE_SEA_ISLAND_LARGE), List.of()
-    );
+
     //public static final RegistrySupplier<Block> STUPID_BLOCK = BLOCKS.register("stupid_block", () -> new Block(AbstractBlock.Settings.of(Material.AMETHYST)));
     //public static final RegistrySupplier<Block> SMART_BLOCK = BLOCKS.register("smart_block", () -> new Block(AbstractBlock.Settings.of(Material.AMETHYST)));
     public static final RegistrySupplier<Block> PSUEDOAMETHYST_BLOCK = BLOCKS.register("pseudoamethyst_block", () -> new Block(AbstractBlock.Settings.of(Material.AMETHYST)
@@ -111,52 +93,16 @@ public class OneironautThingRegistry /*implements ModInitializer */{
     public static final RegistrySupplier<FluidBlock> THOUGHT_SLURRY_BLOCK = BLOCKS.register("thought_slurry", () -> ThoughtSlurryBlock.INSTANCE /*new ThoughtSlurryBlock(ThoughtSlurry.STILL_FLUID, AbstractBlock.Settings.copy(Blocks.LAVA))*/);
     public static final RegistrySupplier<Item> THOUGHT_SLURRY_BUCKET = ITEMS.register("thought_slurry_bucket", () -> new ArchitecturyBucketItem(THOUGHT_SLURRY, HexItems.unstackable()));
 
-    //let's try not deferring these
-    //public static final RegistrySupplier<Feature<NoosphereSeaIslandConfig>> NOOSPHERE_SEA_ISLAND = FEATURES.register("noosphere_sea_island", () -> new NoosphereSeaIsland(NoosphereSeaIslandConfig.CODEC));
-    //public static final RegistrySupplier<ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland>> NOOSPHERE_SEA_ISLAND_SMALL = CONFIG_FEATURES.register("noosphere_sea_island_small", () -> NoosphereSeaIslandConfig.NOOSPHERE_SEA_ISLAND_SMALL);
-    //public static final RegistrySupplier<ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland>> NOOSPHERE_SEA_ISLAND_MEDIUM = CONFIG_FEATURES.register("noosphere_sea_island_medium", () -> NoosphereSeaIslandConfig.NOOSPHERE_SEA_ISLAND_MEDIUM);
-    //public static final RegistrySupplier<ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland>> NOOSPHERE_SEA_ISLAND_LARGE = CONFIG_FEATURES.register("noosphere_sea_island_large", () -> NoosphereSeaIslandConfig.NOOSPHERE_SEA_ISLAND_LARGE);
-
-    /*public static final NoosphereSeaIsland NOOSPHERE_SEA_ISLAND = Registry.register(
-            Registry.FEATURE, new Identifier(Oneironaut.MOD_ID, "noosphere_sea_island"),
-            new NoosphereSeaIsland(NoosphereSeaIslandConfig.CODEC)
-    );
-    public static final ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland> NOOSPHERE_SEA_ISLAND_SMALL = Registry.register(
-            BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(Oneironaut.MOD_ID, "noosphere_sea_island_small"),
-            NoosphereSeaIslandConfig.NOOSPHERE_SEA_ISLAND_SMALL
-    );
-    public static final ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland> NOOSPHERE_SEA_ISLAND_MEDIUM = Registry.register(
-            BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(Oneironaut.MOD_ID, "noosphere_sea_island_medium"),
-            NoosphereSeaIslandConfig.NOOSPHERE_SEA_ISLAND_MEDIUM
-    );
-    public static final ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland> NOOSPHERE_SEA_ISLAND_LARGE = Registry.register(
-            BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(Oneironaut.MOD_ID, "noosphere_sea_island_large"),
-            NoosphereSeaIslandConfig.NOOSPHERE_SEA_ISLAND_LARGE
-    );*/
-
-
-
-    /*public static PlacedFeature NOOSPHERE_SEA_ISLAND_SMALL_PLACED = new PlacedFeature(
-            RegistryEntry.of(NOOSPHERE_SEA_ISLAND_SMALL), List.of()
-    );
-
-    public static ConfiguredFeature<NoosphereSeaIslandConfig, NoosphereSeaIsland> NOOSPHERE_SEA_ISLAND_MEDIUM = new ConfiguredFeature<>(
-            (NoosphereSeaIsland) NOOSPHERE_SEA_ISLAND,
-            new NoosphereSeaIslandConfig(11, new Identifier(Oneironaut.MOD_ID, "noosphere_basalt"))
-    );
-    public static PlacedFeature NOOSPHERE_SEA_ISLAND_MEDIUM_PLACED = new PlacedFeature(
-            RegistryEntry.of(NOOSPHERE_SEA_ISLAND_MEDIUM), List.of()
-    );*/
 
 
 
     //@Override
-    public void onInitialize(){
+    //public void onInitialize(){
         /*Registry.register(Registry.FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND);
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_SMALL);
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_MEDIUM);
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND_LARGE);*/
-    }
+    //}
 
 
     // A new creative tab. Notice how it is one of the few things that are not deferred

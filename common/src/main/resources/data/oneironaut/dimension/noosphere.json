@@ -12,12 +12,12 @@
           "height": 1
         },
         {
-          "block": "oneironaut:pseudoamethyst_block",
-          "height": 1
+          "block": "oneironaut:noosphere_basalt",
+          "height": 16
         },
         {
           "block": "oneironaut:thought_slurry",
-          "height": 63
+          "height": 47
         }
       ],
       "structure_overrides": []

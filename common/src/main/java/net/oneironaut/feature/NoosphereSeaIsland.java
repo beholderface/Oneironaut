@@ -3,6 +3,8 @@ package net.oneironaut.feature;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -15,9 +17,9 @@ import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.oneironaut.Oneironaut;
 import net.oneironaut.block.ThoughtSlurry;
 import net.oneironaut.registry.OneironautThingRegistry;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import net.oneironaut.registry.OneironautFeatureRegistry;
+//import java.lang.reflect.Array;
+//import java.util.ArrayList;
 
 import static net.oneironaut.MiscAPIKt.genCircle;
 
@@ -29,8 +31,9 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
     @Override
     public boolean generate(FeatureContext<NoosphereSeaIslandConfig> context) {
         StructureWorldAccess world = context.getWorld();
+        //ServerWorld sworld = context.getWorld().toServerWorld();
         BlockPos origin = context.getOrigin();
-        //Random rand = context.getRandom();
+        Random rand = context.getRandom();
         NoosphereSeaIslandConfig config = context.getConfig();
 
         int num = config.number();
@@ -40,24 +43,29 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
         if (state == null){
             throw new IllegalStateException(blockID + " could not be parsed to a valid block identifier!");
         }
-        BlockPos scanPos = origin;
-        for (int y = -16; y < 16; y++){
-            scanPos = scanPos.up();
-            if ((world.getFluidState(scanPos).getFluid().equals(ThoughtSlurry.STILL_FLUID) && world.getBlockState(scanPos.up()).isAir())){
-                //make a small basalt island
-                //BlockPos currentPos = scanPos;
-                //Vec3i offset;
-                //int area = (int) Math.pow(num, 2);
-                Block[] replaceable = new Block[]{OneironautThingRegistry.THOUGHT_SLURRY_BLOCK.get()};
-                genCircle(world, scanPos, num, state, replaceable);
-                if (num >= 19){
-                    scanPos = scanPos.down();
-                    genCircle(world, scanPos, 11, state, replaceable);
-                }
-                if (num >= 11){
-                    scanPos = scanPos.down();
-                    genCircle(world, scanPos, 7, state, replaceable);
-                }
+        Vec3i randOffset = new Vec3i((rand.nextInt(10) - 5), 0, (rand.nextInt(10) - 5));
+        BlockPos scanPos = origin.add(randOffset);
+        if (rand.nextInt((int) Math.pow(num, 1.75)) == num){
+            for (int y = origin.getY(); y < 32; y++){
+                scanPos = scanPos.up();
+                if ((world.getFluidState(scanPos).getFluid().equals(ThoughtSlurry.STILL_FLUID) && world.getBlockState(scanPos.up()).isAir())){
+                    //make a small basalt island
+                    //BlockPos currentPos = scanPos;
+                    //Vec3i offset;
+                    //int area = (int) Math.pow(num, 2);
+                    Block[] replaceable = new Block[]{
+                            OneironautThingRegistry.THOUGHT_SLURRY_BLOCK.get(),
+                            Blocks.AIR
+                    };
+                    genCircle(world, scanPos, num, state, replaceable);
+                    if (num >= 19){
+                        scanPos = scanPos.down();
+                        genCircle(world, scanPos, 11, state, replaceable);
+                    }
+                    if (num >= 11){
+                        scanPos = scanPos.down();
+                        genCircle(world, scanPos, 7, state, replaceable);
+                    }
 /*for (int i = 0; i < area; i++){
                     offset = new Vec3i(i % num, 0, i / num );
                     currentPos = currentPos.add(offset);
@@ -65,8 +73,9 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
                         world.setBlockState(currentPos, state, 0x10);
                     }
                 }*/
-                //Oneironaut.LOGGER.info("Successfully placed an island at " + scanPos);
-                return true;
+                    //Oneironaut.LOGGER.info("Successfully placed an island at " + scanPos);
+                    return true;
+                }
             }
         }
         //Oneironaut.LOGGER.info("Unsuccessfully placed an island at " + scanPos);

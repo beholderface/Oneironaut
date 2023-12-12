@@ -16,9 +16,17 @@
     }
   },
   "features": [
-    [
-      "oneironaut:noosphere_sea_island"
-    ]
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
   ],
   "precipitation": "none",
   "spawn_costs": {},

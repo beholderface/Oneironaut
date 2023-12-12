@@ -117,15 +117,28 @@ fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, s
     val area = diameter * diameter
     val radius = diameter.toDouble() / 2
     var offset = Vec3d.ZERO
-    val corner = realCenter.add(-radius, 0.0, -radius)
+    val corner = realCenter.add(-(radius + 0.5), 0.0, -(radius + 0.5))
     var current = corner
-    for (i in 0 .. (area * 2)){
-        offset = Vec3d((i % diameter).toDouble(), 0.0, (i / diameter).toDouble())
-        current = corner.add(offset)
-        if (current.distanceTo(realCenter) <= radius/* && replacable.contains(world.getBlockState(current).block)*/){
-            world.setBlockState(BlockPos(current), state, 0b10)
+    for (x in 0 .. diameter){
+        for (y in 0 .. diameter){
+            offset = Vec3d(x.toDouble(), 0.0, y.toDouble())
+            current = corner.add(offset)
+            if (current.distanceTo(realCenter) <= radius && replacable.contains(world.getBlockState(BlockPos(current)).block)){
+                //super jank bypass thing go brr
+                if (world.isValidForSetBlock(BlockPos(current))){
+                    world.setBlockState(BlockPos(current), state, 0b10)
+                } else {
+                    val executor = world.server?.commandManager
+                    val source = world.server?.commandSource
+                    val command = "execute in oneironaut:noosphere run setblock ${current.x} ${current.y} ${current.z} ${state.block.toString()}"
+                    executor?.executeWithPrefix(source?.withSilent(), command)
+                }
+            }
         }
     }
+    /*for (i in 0 .. (area * 3)){
+
+    }*/
 }
 
 //tried to write a smoother way to keep important blockstate values, didn't work

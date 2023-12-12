@@ -1,5 +1,6 @@
 package net.oneironaut;
 
+import net.oneironaut.registry.OneironautFeatureRegistry;
 import net.oneironaut.registry.OneironautIotaTypeRegistry;
 import net.oneironaut.registry.OneironautThingRegistry;
 import net.oneironaut.registry.OneironautPatternRegistry;
@@ -22,6 +23,7 @@ public class Oneironaut {
         OneironautThingRegistry.init();
         OneironautIotaTypeRegistry.init();
         OneironautPatternRegistry.init();
+        OneironautFeatureRegistry.init();
 
         //Registry.register(Registry.CHUNK_GENERATOR, new Identifier(MOD_ID, "noosphere"))
 
