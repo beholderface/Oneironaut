@@ -9,6 +9,7 @@ import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
@@ -17,11 +18,18 @@ import net.oneironaut.Oneironaut;
 import net.oneironaut.feature.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class OneironautFeatureRegistry {
     public static void init(){
-        Predicate<BiomeSelectionContext> nonVanillaDimensions = BiomeSelectors.foundInOverworld().and(BiomeSelectors.foundInTheEnd().and(BiomeSelectors.foundInTheNether())).negate();
+        Predicate<BiomeSelectionContext> noosphereSeaHopefully = BiomeSelectors.vanilla().negate();
+        Optional<RegistryKey<Biome>> noosphere_sea_preliminary = BuiltinRegistries.BIOME.getKey(BuiltinRegistries.BIOME.get(new Identifier("oneironaut:noosphere_sea")));
+        RegistryKey<Biome> noosphere_sea;
+        if (noosphere_sea_preliminary.isPresent()){
+            noosphere_sea = noosphere_sea_preliminary.get();
+            noosphereSeaHopefully =  BiomeSelectors.includeByKey(noosphere_sea);
+        }
         //islands
         Registry.register(Registry.FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND);
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_SMALL_ID, NOOSPHERE_SEA_ISLAND_SMALL);
@@ -31,17 +39,17 @@ public class OneironautFeatureRegistry {
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_LARGE_ID, NOOSPHERE_SEA_ISLAND_LARGE);
         Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_ISLAND_LARGE_ID, NOOSPHERE_SEA_ISLAND_LARGE_PLACED);
         BiomeModifications.addFeature(
-                nonVanillaDimensions,
+                noosphereSeaHopefully,
                 GenerationStep.Feature.RAW_GENERATION,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, NOOSPHERE_SEA_ISLAND_SMALL_ID)
         );
         BiomeModifications.addFeature(
-                nonVanillaDimensions,
+                noosphereSeaHopefully,
                 GenerationStep.Feature.RAW_GENERATION,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, NOOSPHERE_SEA_ISLAND_MEDIUM_ID)
         );
         BiomeModifications.addFeature(
-                nonVanillaDimensions,
+                noosphereSeaHopefully,
                 GenerationStep.Feature.RAW_GENERATION,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, NOOSPHERE_SEA_ISLAND_LARGE_ID)
         );
@@ -50,7 +58,9 @@ public class OneironautFeatureRegistry {
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_VOLCANO_ID, NOOSPHERE_SEA_VOLCANO_CONFIGURED);
         Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_VOLCANO_ID, NOOSPHERE_SEA_VOLCANO_PLACED);
         BiomeModifications.addFeature(
-                nonVanillaDimensions,
+                //BiomeSelectors.builtIn().negate(),
+                //nonVanillaDimensions,
+                noosphereSeaHopefully,
                 GenerationStep.Feature.RAW_GENERATION,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, NOOSPHERE_SEA_VOLCANO_ID)
         );
@@ -59,7 +69,7 @@ public class OneironautFeatureRegistry {
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, PSEUDOAMETHYST_VEIN_ID, PSEUDOAMETHYST_VEIN);
         Registry.register(BuiltinRegistries.PLACED_FEATURE, PSEUDOAMETHYST_VEIN_ID, PSEUDOAMETHYST_VEIN_PLACED);
         BiomeModifications.addFeature(
-                nonVanillaDimensions,
+                noosphereSeaHopefully,
                 GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, PSEUDOAMETHYST_VEIN_ID)
         );
