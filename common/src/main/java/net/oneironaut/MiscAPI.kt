@@ -125,7 +125,7 @@ fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, s
             current = corner.add(offset)
             if (current.distanceTo(realCenter) <= radius && replacable.contains(world.getBlockState(BlockPos(current)).block)){
                 //super jank bypass thing go brr
-                if (world.isValidForSetBlock(BlockPos(current))){
+                if (/*world.isValidForSetBlock(BlockPos(current))*/true){
                     world.setBlockState(BlockPos(current), state, 0b10)
                 } else {
                     val executor = world.server?.commandManager

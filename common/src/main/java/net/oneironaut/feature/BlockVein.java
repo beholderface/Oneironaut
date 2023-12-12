@@ -6,6 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.StructureWorldAccess;
@@ -57,11 +58,13 @@ public class BlockVein extends Feature<BlockVeinConfig> {
             int columnHeight = highestY - lowestY;
             int height = (int)(rand.nextGaussian() * columnHeight) + (lowestY);
             int length = (int)(rand.nextGaussian() * 15);
-            Vec3d carvePoint = new Vec3d(origin.getX(), height, origin.getZ());
+            Vec3d carvePoint = new Vec3d((Math.floor(origin.getX() / 16.0) * 16) + 8, height, (Math.floor(origin.getZ() / 16.0) * 16) + 8);
+            BlockPos carveOrigin = new BlockPos(carvePoint);
             for (int i = 0; i < length; i++){
-                if (world.isValidForSetBlock(new BlockPos(carvePoint)) && world.getBlockState(new BlockPos(carvePoint)).getBlock() == carvedBlock && carvePoint.y > world.getBottomY()){
+                if ((world.getChunk(carveOrigin).getPos() == world.getChunk(new BlockPos(carvePoint)).getPos()) && world.getBlockState(new BlockPos(carvePoint)).getBlock() == carvedBlock && carvePoint.y > world.getBottomY()){
+                    //Oneironaut.LOGGER.info("Origin position: " + origin + ", Origin chunk: " + world.getChunk(origin).getPos());
+                    //Oneironaut.LOGGER.info("Target position: " + new BlockPos(carvePoint) + ", Target chunk: " + world.getChunk(new BlockPos(carvePoint)).getPos());
                     world.setBlockState(new BlockPos(carvePoint), veinState, 0b10);
-                    //Oneironaut.LOGGER.info("Allegedly placed a vein block at " + carvePoint + direction);
                 }
                 carvePoint = carvePoint.add(direction);
             }
