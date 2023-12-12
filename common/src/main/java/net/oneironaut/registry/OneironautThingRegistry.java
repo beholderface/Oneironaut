@@ -83,6 +83,18 @@ public class OneironautThingRegistry /*implements ModInitializer */{
             Registry.BLOCK_ENTITY_TYPE,
             new Identifier(Oneironaut.MOD_ID, "noosphere_gate_entity"),
             BlockEntityType.Builder.create(NoosphereGateEntity::new, NOOSPHERE_GATE).build(null));
+
+    public static final Block WISP_LANTERN = Registry.register(
+            Registry.BLOCK,
+            new Identifier(Oneironaut.MOD_ID, "wisp_lantern"),
+            new WispLantern(AbstractBlock.Settings.copy(Blocks.LANTERN).luminance(state -> 15).sounds(BlockSoundGroup.GLASS).nonOpaque())
+    );
+    public static final BlockEntityType<WispLanternEntity> WISP_LANTERN_ENTITY = Registry.register(
+            Registry.BLOCK_ENTITY_TYPE,
+            new Identifier(Oneironaut.MOD_ID, "wisp_lantern_entity"),
+            BlockEntityType.Builder.create(WispLanternEntity::new, WISP_LANTERN).build(null));
+    public static final RegistrySupplier<Item> WISP_LANTERN_ITEM = ITEMS.register("wisp_lantern", () -> new BlockItem(WISP_LANTERN, HexItems.props()));
+
     public static final RegistrySupplier<Item> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new Item(HexItems.props()));
 
     //why architectury documentation no worky

@@ -10,6 +10,7 @@ import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.oneironaut.block.ThoughtSlurry;
+import net.oneironaut.registry.OneironautThingRegistry;
 
 /**
  * Common client loading entrypoint.
@@ -29,5 +30,6 @@ public class OneironautClient {
         ));
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ThoughtSlurry.STILL_FLUID, ThoughtSlurry.FLOWING_FLUID);
+        BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.WISP_LANTERN, RenderLayer.getCutout());
     }
 }
