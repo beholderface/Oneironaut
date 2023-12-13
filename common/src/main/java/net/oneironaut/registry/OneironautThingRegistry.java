@@ -68,12 +68,12 @@ public class OneironautThingRegistry /*implements ModInitializer */{
     public static final Block WISP_LANTERN = Registry.register(
             Registry.BLOCK,
             new Identifier(Oneironaut.MOD_ID, "wisp_lantern"),
-            new WispLantern(AbstractBlock.Settings.copy(Blocks.LANTERN).luminance(state -> 15).sounds(BlockSoundGroup.GLASS).nonOpaque())
+            new WispLantern(AbstractBlock.Settings.copy(Blocks.GLASS).luminance(state -> 15))
     );
     public static final Block WISP_LANTERN_TINTED = Registry.register(
             Registry.BLOCK,
             new Identifier(Oneironaut.MOD_ID, "wisp_lantern_tinted"),
-            new WispLanternTinted(AbstractBlock.Settings.copy(Blocks.LANTERN).luminance(state -> 0).sounds(BlockSoundGroup.GLASS).nonOpaque())
+            new WispLanternTinted(AbstractBlock.Settings.copy(Blocks.GLASS).luminance(state -> 0))
     );
     public static final BlockEntityType<WispLanternEntity> WISP_LANTERN_ENTITY = Registry.register(
             Registry.BLOCK_ENTITY_TYPE,

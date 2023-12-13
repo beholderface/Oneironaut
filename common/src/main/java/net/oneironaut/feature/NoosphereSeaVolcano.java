@@ -49,7 +49,7 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
         //Vec3i randOffset = new Vec3i((rand.nextInt(10) - 5), 0, (rand.nextInt(10) - 5));
         BlockPos chunkCenter = new BlockPos((Math.floor(origin.getX() / 16) * 16) + 8, origin.getY(), (Math.floor(origin.getZ() / 16) * 16) + 8);
         BlockPos scanPos = chunkCenter;
-        int roll = rand.nextInt(500);
+        int roll = rand.nextInt(1000);
         if (roll == 250){
             for (int y = origin.getY(); y < 32; y++){
                 scanPos = scanPos.up();
@@ -66,11 +66,14 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
                     };
                     int y2 = -63;
                     double r = 23;
+                    int placedMainBlock = 0;
+                    int placedCoreBlock = 0;
                     for (; y2 < 14; y2++, r-=0.25){
                         if (r /*not diameter*/ > 3.75){
-                            genCircle(world, scanPos.add(new Vec3i(0, y2, 0)), ((int)r*2 + 1), mainstate, replaceable);
+                            placedMainBlock += genCircle(world, scanPos.add(new Vec3i(0, y2, 0)), ((int)r*2 + 1), mainstate, replaceable);
                             if (r >= 4.5){
-                                genCircle(world, scanPos.add(new Vec3i(0, y2, 0)), ((int)r*2 + 1) - 4, corestate, replaceable);
+                                //neat fact: with a fortune III pick, this whole structure is likely to yield almost 110,000 charged amethyst worth of pseudoamethyst shards
+                                placedCoreBlock += genCircle(world, scanPos.add(new Vec3i(0, y2, 0)), ((int)r*2 + 1) - 4, corestate, replaceable);
                             } else if (r == 4.25) {
                                 genCircle(world, scanPos.add(new Vec3i(0, y2, 0)), 5, Blocks.AIR.getDefaultState(), replaceable);
                             } else {
@@ -79,6 +82,7 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
                         }
                     }
                     world.setBlockState(new BlockPos(scanPos.getX(), 9, scanPos.getZ()), OneironautThingRegistry.NOOSPHERE_GATE.getDefaultState(), 0b10);
+                    placedCoreBlock--;
                     Iterator<Vec3i> jaggedOffsets = Arrays.stream(new Vec3i[]{
                             new Vec3i(-4, 0, 1), new Vec3i(-4, 0, -2), new Vec3i(-4, 1, -2),
                             new Vec3i(-4, 0, -2), new Vec3i(-3, 0, -3), new Vec3i(-2, 0, -3),
@@ -86,9 +90,11 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
                             new Vec3i(3.00, 0.00, -3.00), new Vec3i(4.00, 0.00, -1.00), new Vec3i(4.00, 0.00, 1.00),
                             new Vec3i(2.00, 0.00, 3.00), new Vec3i(0.00, 0.00, 4.00), new Vec3i(-2.00, 0.00, 4.00),
                     }).iterator();
+                    placedMainBlock += 15;
                     while (jaggedOffsets.hasNext()){
                         world.setBlockState(new BlockPos(scanPos.getX(), y2-1, scanPos.getZ()).add(jaggedOffsets.next()), mainstate, 0b10);
                     }
+                    //Oneironaut.LOGGER.info("Generated volcano with " + (placedMainBlock - placedCoreBlock) + " main blocks, " + placedCoreBlock + " core blocks.");
 
                     /*genCircle(world, scanPos, num, state, replaceable);
                     if (num >= 19){
