@@ -31,5 +31,6 @@ public class OneironautClient {
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ThoughtSlurry.STILL_FLUID, ThoughtSlurry.FLOWING_FLUID);
         BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.WISP_LANTERN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.WISP_LANTERN_TINTED, RenderLayer.getCutout());
     }
 }

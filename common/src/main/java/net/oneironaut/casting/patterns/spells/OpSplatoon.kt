@@ -18,7 +18,10 @@ import net.minecraft.item.Items
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import net.oneironaut.block.WispLantern
+import net.oneironaut.block.WispLanternEntity
 import net.oneironaut.casting.mishaps.MishapNonconjured
+import net.oneironaut.registry.OneironautThingRegistry
 import ram.talia.hexal.api.spell.iota.ItemTypeIota
 
 class OpSplatoon : SpellAction {
@@ -31,7 +34,9 @@ class OpSplatoon : SpellAction {
         var costMultiplier = 1.0f
 
         ctx.assertVecInRange(target)
-        if (ctx.world.getBlockState(BlockPos(target)).block !is BlockConjured){
+        if ((ctx.world.getBlockState(BlockPos(target)).block !is BlockConjured)/* &&
+            (ctx.world.getBlockState(BlockPos(target)).block != OneironautThingRegistry.WISP_LANTERN) &&
+            (ctx.world.getBlockState(BlockPos(target)).block != OneironautThingRegistry.WISP_LANTERN_TINTED)*/){
             throw MishapNonconjured.of(BlockPos(target))
         }
 
@@ -40,22 +45,23 @@ class OpSplatoon : SpellAction {
                 colorItemFinal = colorItem.item
             }
         }
-
+        //var lantern = true
         if (ctx.world.getBlockState(BlockPos(target)).block is BlockConjured){
+            //lantern = false
             if (ctx.world.getBlockEntity(BlockPos(target))?.createNbtWithIdentifyingData().getCompound("tag_colorizer").getUUID("owner") == ctx.caster.uuid){
                 costMultiplier = 0.1f
             }
         }
-        ctx.caster.sendMessage(Text.of("$costMultiplier"))
+        //ctx.caster.sendMessage(Text.of("$costMultiplier"))
 
         return Triple(
-            Spell(BlockPos(target), colorItemFinal),
+            Spell(BlockPos(target), colorItemFinal/*, lantern*/),
             (MediaConstants.DUST_UNIT * costMultiplier).toInt(),
             listOf(ParticleSpray.cloud(target, 2.0))
         )
     }
 
-    private data class Spell(val target: BlockPos, val colorizer : Item?) : RenderedSpell {
+    private data class Spell(val target: BlockPos, val colorizer : Item?/*, val lantern : Boolean*/) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
             if (ctx.world.getBlockState(target).block is BlockConjured) {
                 if (colorizer != Items.BARRIER){
@@ -64,7 +70,11 @@ class OpSplatoon : SpellAction {
                 } else {
                     BlockConjured.setColor(ctx.world, target, IXplatAbstractions.INSTANCE.getColorizer(ctx.caster))
                 }
-            }
+            }/* else {
+                val lantern : WispLanternEntity = ctx.world.getBlockEntity(target) as WispLanternEntity
+                lantern.setColor(colorizer?.defaultStack, ctx.caster)
+                lantern.markDirty()
+            }*/
         }
     }
 }

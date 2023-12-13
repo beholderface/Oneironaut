@@ -4,10 +4,8 @@ import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-//import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -18,17 +16,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-//import at.petrak.hexcasting.xplat.IXplatAbstractions;
-//import at.petrak.hexcasting.common.lib.HexItems;
 import net.oneironaut.registry.OneironautThingRegistry;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
+public class WispLanternEntityTinted extends BlockEntity {
 
-public class WispLanternEntity extends BlockEntity {
-
-    public WispLanternEntity(BlockPos pos, BlockState state){
-        super(OneironautThingRegistry.WISP_LANTERN_ENTITY, pos, state);
+    public WispLanternEntityTinted(BlockPos pos, BlockState state){
+        super(OneironautThingRegistry.WISP_LANTERN_ENTITY_TINTED, pos, state);
     }
 
     private FrozenColorizer color = FrozenColorizer.DEFAULT.get();
@@ -64,7 +58,7 @@ public class WispLanternEntity extends BlockEntity {
     }
 
     public void tick(World world, BlockPos pos, BlockState state){
-        Random rand = net.minecraft.util.math.random.Random.create();
+        Random rand = Random.create();
         if (world.isClient){
             Vec3d jarCenter = new Vec3d(pos.getX() + 0.5, pos.getY() + 0.2, pos.getZ() + 0.5);
             //render a wisp-like thing

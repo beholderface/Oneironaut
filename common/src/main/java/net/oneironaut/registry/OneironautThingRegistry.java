@@ -3,13 +3,7 @@ package net.oneironaut.registry;
 import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.Registries;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.biome.v1.BiomeModification;
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.FlowableFluid;
@@ -17,24 +11,11 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.PlacedFeature;
 import net.oneironaut.Oneironaut;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 import net.oneironaut.block.*;
-import net.oneironaut.feature.NoosphereSeaIsland;
-import net.oneironaut.feature.NoosphereSeaIslandConfig;
-import ram.talia.hexal.common.lib.HexalEntities;
-
-import java.util.List;
-import java.util.function.Predicate;
+import net.oneironaut.item.PseudoamethystShard;
 
 public class OneironautThingRegistry /*implements ModInitializer */{
     // Register items through this
@@ -89,13 +70,24 @@ public class OneironautThingRegistry /*implements ModInitializer */{
             new Identifier(Oneironaut.MOD_ID, "wisp_lantern"),
             new WispLantern(AbstractBlock.Settings.copy(Blocks.LANTERN).luminance(state -> 15).sounds(BlockSoundGroup.GLASS).nonOpaque())
     );
+    public static final Block WISP_LANTERN_TINTED = Registry.register(
+            Registry.BLOCK,
+            new Identifier(Oneironaut.MOD_ID, "wisp_lantern_tinted"),
+            new WispLanternTinted(AbstractBlock.Settings.copy(Blocks.LANTERN).luminance(state -> 0).sounds(BlockSoundGroup.GLASS).nonOpaque())
+    );
     public static final BlockEntityType<WispLanternEntity> WISP_LANTERN_ENTITY = Registry.register(
             Registry.BLOCK_ENTITY_TYPE,
             new Identifier(Oneironaut.MOD_ID, "wisp_lantern_entity"),
             BlockEntityType.Builder.create(WispLanternEntity::new, WISP_LANTERN).build(null));
-    public static final RegistrySupplier<Item> WISP_LANTERN_ITEM = ITEMS.register("wisp_lantern", () -> new BlockItem(WISP_LANTERN, HexItems.props()));
 
-    public static final RegistrySupplier<Item> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new Item(HexItems.props()));
+    public static final BlockEntityType<WispLanternEntityTinted> WISP_LANTERN_ENTITY_TINTED = Registry.register(
+            Registry.BLOCK_ENTITY_TYPE,
+            new Identifier(Oneironaut.MOD_ID, "wisp_lantern_entity_tinted"),
+            BlockEntityType.Builder.create(WispLanternEntityTinted::new, WISP_LANTERN_TINTED).build(null));
+    public static final RegistrySupplier<Item> WISP_LANTERN_ITEM = ITEMS.register("wisp_lantern", () -> new BlockItem(WISP_LANTERN, HexItems.props()));
+    public static final RegistrySupplier<Item> WISP_LANTERN_TINTED_ITEM = ITEMS.register("wisp_lantern_tinted", () -> new BlockItem(WISP_LANTERN_TINTED, HexItems.props()));
+
+    public static final RegistrySupplier<Item> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new PseudoamethystShard(HexItems.props()));
 
     //why architectury documentation no worky
 
