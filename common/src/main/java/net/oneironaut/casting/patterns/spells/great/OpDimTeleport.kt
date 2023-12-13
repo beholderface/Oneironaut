@@ -63,9 +63,6 @@ class OpDimTeleport : SpellAction {
                 worldKey = it.registryKey
             }
         }
-        /*walksonator was wrong
-        ctx.caster.sendMessage(Text.of(target.type.toString()))
-        ctx.caster.sendMessage(Text.of(ctx.caster.type.toString()))*/
         //do not do the bad thing
         if (!HexConfig.server().canTeleportInThisDimension(worldKey))
             throw MishapLocationTooFarAway(coords, "bad_dimension")
@@ -151,7 +148,7 @@ class OpDimTeleport : SpellAction {
             val colorizer = IXplatAbstractions.INSTANCE.getColorizer(ctx.caster)
             if (origin == destination){
                 ctx.caster.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.samedim"));
-            }else {
+            } else {
                 if (target.type.toString() == "entity.minecraft.player"){
                     (target as ServerPlayerEntity).teleport(destination, x, y, z, target.yaw, target.pitch)
                     //FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), Vec3d.ZERO, target.yaw, target.pitch))
@@ -167,7 +164,7 @@ class OpDimTeleport : SpellAction {
                 } else {
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                     if (Platform.isForge()){
-                        //for some reason I couldn't get any other method of interdimensionalteleportation to work for non-players on forge
+                        //for some reason I couldn't get any other method of interdimensional teleportation to work for non-players on forge
                         val destString = destination.registryKey.value.toString()
                         val command = "execute in $destString as ${target.uuid.toString()} run tp $x $y $z"
                         val executor = target.server?.commandManager

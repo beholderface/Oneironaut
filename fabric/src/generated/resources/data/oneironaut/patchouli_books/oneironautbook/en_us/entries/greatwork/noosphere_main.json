@@ -1,7 +1,7 @@
 {
   "name": "oneironaut.entry.noosphere_main",
   "category": "hexcasting:greatwork",
-  "icon": "minecraft:nether_star",
+  "icon": "oneironaut:noosphere_basalt",
   "sortnum": 0,
   "advancement": "oneironaut:enter_noosphere",
   "entry_color": "54398a",

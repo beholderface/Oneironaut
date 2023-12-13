@@ -1,0 +1,27 @@
+{
+  "name": "oneironaut.entry.noosphere_materials",
+  "category": "hexcasting:greatwork",
+  "icon": "oneironaut:pseudoamethyst_shard",
+  "sortnum": 4,
+  "advancement": "oneironaut:enter_noosphere",
+  "entry_color": "54398a",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "oneironaut:thought_slurry_bucket",
+      "title": "fluid.oneironaut.thought_slurry",
+      "text": "oneironaut.page.noosphere_materials.1"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "oneironaut:noosphere_basalt",
+      "text": "oneironaut.page.noosphere_materials.2"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "oneironaut:pseudoamethyst_block",
+      "title": "oneironaut.page.noosphere_materials.3.title",
+      "text": "oneironaut.page.noosphere_materials.3"
+    }
+  ]
+}

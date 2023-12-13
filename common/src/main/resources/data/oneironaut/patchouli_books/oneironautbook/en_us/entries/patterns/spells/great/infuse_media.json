@@ -13,6 +13,10 @@
       "input": "Vector",
       "output": "",
       "text": "oneironaut.page.infusemedia.1"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "oneironaut.page.infusemedia.2"
     }
   ]
 }
