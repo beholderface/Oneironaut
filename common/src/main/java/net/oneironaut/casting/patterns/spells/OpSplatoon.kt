@@ -27,6 +27,7 @@ import net.oneironaut.block.WispLanternEntity
 import net.oneironaut.casting.mishaps.MishapNonconjured
 import net.oneironaut.registry.OneironautThingRegistry
 import ram.talia.hexal.api.spell.iota.ItemTypeIota
+import net.oneironaut.block.ISplatoonableBlock;
 
 class OpSplatoon : SpellAction {
     override val argc = 2
@@ -73,16 +74,18 @@ class OpSplatoon : SpellAction {
 
     private data class Spell(val target: BlockPos, val colorizer : Item?, val lantern : Boolean) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
+            var appliedColor = IXplatAbstractions.INSTANCE.getColorizer(ctx.caster)
+            if (colorizer != Items.BARRIER){
+                appliedColor = FrozenColorizer(colorizer?.defaultStack, ctx.caster.uuid)
+            }
             if (ctx.world.getBlockState(target).block is BlockConjured) {
-                if (colorizer != Items.BARRIER){
-                    //val initialColorizer = IXplatAbstractions.INSTANCE.getColorizer(ctx.caster)
-                    BlockConjured.setColor(ctx.world, target, FrozenColorizer(colorizer?.defaultStack, ctx.caster.uuid))
-                } else {
-                    BlockConjured.setColor(ctx.world, target, IXplatAbstractions.INSTANCE.getColorizer(ctx.caster))
-                }
-            } else {
+                    BlockConjured.setColor(ctx.world, target, appliedColor)
+            } else if (ISplatoonableBlock.isSplatable(ctx.world.getBlockState(target).block)){
+                ISplatoonableBlock.splatBlock(ctx.world, target, appliedColor)
+                ctx.world.getBlockEntity(target)?.markDirty()
+                ctx.world.updateListeners(target, ctx.world.getBlockState(target), ctx.world.getBlockState(target), 0b10)
                 //hehe janky workaround go brr
-                val prevItemstack = ctx.caster.getStackInHand(Hand.MAIN_HAND)
+                /*val prevItemstack = ctx.caster.getStackInHand(Hand.MAIN_HAND)
                 val colorizerStack = colorizer?.defaultStack
                 ctx.caster.setStackInHand(Hand.MAIN_HAND, colorizerStack)
                 ctx.world.getBlockState(target).onUse(ctx.world, ctx.caster, Hand.MAIN_HAND,
@@ -90,7 +93,7 @@ class OpSplatoon : SpellAction {
                 ctx.caster.setStackInHand(Hand.MAIN_HAND, prevItemstack)
                 //ctx.world.sendPacket(ctx.world.getBlockEntity(target)?.toUpdatePacket())
                 //ctx.caster.sendChunkPacket(ChunkPos(target), ctx.world.getBlockEntity(target)?.toUpdatePacket())
-                ctx.world.updateListeners(target, ctx.world.getBlockState(target), ctx.world.getBlockState(target), 0b10)
+                ctx.world.updateListeners(target, ctx.world.getBlockState(target), ctx.world.getBlockState(target), 0b10)*/
                 /*val lantern : WispLanternEntity = ctx.world.getBlockEntity(target) as WispLanternEntity
                 lantern.setColor(colorizer?.defaultStack, ctx.caster)
                 lantern.markDirty()*/

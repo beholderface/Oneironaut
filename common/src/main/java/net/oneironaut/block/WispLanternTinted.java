@@ -1,5 +1,6 @@
 package net.oneironaut.block;
 
+import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -19,7 +20,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class WispLanternTinted extends BlockWithEntity {
+public class WispLanternTinted extends BlockWithEntity/* implements ISplatoonableBlock*/ {
 
     public WispLanternTinted(Settings settings){
         super(settings);
@@ -40,6 +41,13 @@ public class WispLanternTinted extends BlockWithEntity {
         VoxelShape glass = VoxelShapes.cuboid(4f / 16, 0f / 16, 4f / 16, 12f / 16, 9f / 16, 12f / 16);
         VoxelShape lid = VoxelShapes.cuboid(5f / 16, 8f / 16, 5f / 16, 11f / 16, 10f / 16, 11f / 16);
         return VoxelShapes.union(glass, lid);
+    }
+
+    public void splatPigmentOntoBlock(World world, BlockPos pos, FrozenColorizer pigment){
+        WispLanternEntityTinted be = (WispLanternEntityTinted) (world.getBlockEntity(pos));
+        assert be != null;
+        be.setColor(pigment.item(), world.getPlayerByUuid(pigment.owner()));
+        be.markDirty();
     }
 
     @Override
