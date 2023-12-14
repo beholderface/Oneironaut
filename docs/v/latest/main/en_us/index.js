@@ -131,7 +131,7 @@ function doCycleTexturesForever() {
   cycleTimeoutID = setTimeout(doCycleTexturesForever, 2000);
 }
 // these are filled by Jinja
-const BOOK_URL = "https://beholderface.github.io/oneironaut";
+const BOOK_URL = "https://oneironaut.hexxy.media";
 const VERSION = "latest/main";
 const LANG = "en_us";
 // Creates an element in the form `<li><a href=${href}>${text}</a></li>`
