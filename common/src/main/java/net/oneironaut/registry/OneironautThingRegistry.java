@@ -15,6 +15,7 @@ import net.oneironaut.Oneironaut;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 import net.oneironaut.block.*;
+import net.oneironaut.item.ReverberationRod;
 import net.oneironaut.item.PseudoamethystShard;
 
 public class OneironautThingRegistry /*implements ModInitializer */{
@@ -96,8 +97,7 @@ public class OneironautThingRegistry /*implements ModInitializer */{
     //why level no exist
     public static final RegistrySupplier<FluidBlock> THOUGHT_SLURRY_BLOCK = BLOCKS.register("thought_slurry", () -> ThoughtSlurryBlock.INSTANCE /*new ThoughtSlurryBlock(ThoughtSlurry.STILL_FLUID, AbstractBlock.Settings.copy(Blocks.LAVA))*/);
     public static final RegistrySupplier<Item> THOUGHT_SLURRY_BUCKET = ITEMS.register("thought_slurry_bucket", () -> new ArchitecturyBucketItem(THOUGHT_SLURRY, HexItems.unstackable()));
-
-
+    public static final RegistrySupplier<ReverberationRod> REVERBERATION_ROD = ITEMS.register("reverberation_rod", () -> new ReverberationRod(HexItems.unstackable()));
 
 
     //@Override

@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/handheld",
+  "overrides": [
+    {
+      "model": "oneironaut:item/reverberation_rod",
+      "predicate": {
+        "hexcasting:has_patterns": -0.01
+      }
+    },
+    {
+      "model": "oneironaut:item/reverberation_rod_filled",
+      "predicate": {
+        "hexcasting:has_patterns": 0.99
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "oneironaut:item/reverberation_rod"
+  }
+}

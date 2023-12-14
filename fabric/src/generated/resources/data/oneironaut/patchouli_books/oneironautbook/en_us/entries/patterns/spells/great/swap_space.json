@@ -22,11 +22,6 @@
       "type": "patchouli:text",
       "advancement": "oneironaut:enter_noosphere",
       "text": "oneironaut.page.spaceswap.3"
-    },
-    {
-      "type": "patchouli:text",
-      "advancement": "oneironaut:enter_noosphere",
-      "text": "oneironaut.page.spaceswap.4"
     }
   ]
 }
