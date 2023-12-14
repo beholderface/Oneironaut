@@ -20,6 +20,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 import net.oneironaut.casting.mishaps.MishapBadCuboid
+import net.oneironaut.casting.mishaps.MishapNoNoosphere
 import net.oneironaut.getDimIota
 import kotlin.math.abs
 import kotlin.math.floor
@@ -75,9 +76,9 @@ class OpSwapSpace : SpellAction {
         if (originCuboidDimensions != destCuboidDimensions){
             throw MishapBadCuboid()
         }
-        //cost is equal to the volume of the box in m^3 in dust, plus 10 charged
+        //cost is equal to the volume of the box in (m^3 / 2) in dust, plus 5 charged
         val boxVolume = (originCuboidDimensions.x * originCuboidDimensions.y * originCuboidDimensions.z)
-        val cost = boxVolume + 100
+        val cost = (boxVolume / 2.0) + 50
         //ctx.caster.sendMessage(Text.of(cost.toString()))
 
         if (!HexConfig.server().canTeleportInThisDimension(destWorldKey))
@@ -85,9 +86,14 @@ class OpSwapSpace : SpellAction {
         if (!HexConfig.server().canTeleportInThisDimension(originWorldKey))
             throw MishapLocationTooFarAway(Vec3d.ZERO, "bad_dimension")
 
+        //require that one end of the transfer be the noosphere
+        if (!(destWorldKey.value.toString() == "oneironaut:noosphere" || originWorldKey.value.toString() == "oneironaut:noosphere")){
+            throw MishapNoNoosphere()
+        }
+
         return Triple(
             Spell(originWorld, originBox, destWorld, destBox, originCuboidDimensions, boxVolume),
-            cost * MediaConstants.DUST_UNIT,
+            (cost.toInt()) * MediaConstants.DUST_UNIT,
             listOf(ParticleSpray.cloud(ctx.caster.pos, 2.0))
         )
     }

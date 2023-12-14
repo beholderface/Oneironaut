@@ -3,7 +3,7 @@
   "category": "hexcasting:patterns/great_spells",
   "icon": "minecraft:ender_chest",
   "sortnum": 0,
-  "advancement": "oneironaut:enter_noosphere",
+  "advancement": "hexcasting:root",
   "read_by_default": false,
   "pages": [
     {
@@ -17,6 +17,16 @@
     {
       "type": "patchouli:text",
       "text": "oneironaut.page.spaceswap.2"
+    },
+    {
+      "type": "patchouli:text",
+      "advancement": "oneironaut:enter_noosphere",
+      "text": "oneironaut.page.spaceswap.3"
+    },
+    {
+      "type": "patchouli:text",
+      "advancement": "oneironaut:enter_noosphere",
+      "text": "oneironaut.page.spaceswap.4"
     }
   ]
 }
