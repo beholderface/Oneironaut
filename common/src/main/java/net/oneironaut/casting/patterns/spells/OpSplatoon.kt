@@ -50,13 +50,19 @@ class OpSplatoon : SpellAction {
             }
         }
         var lantern = true
-        if (ctx.world.getBlockState(BlockPos(target)).block is BlockConjured){
+        val targetBEData = ctx.world.getBlockEntity(BlockPos(target))?.createNbtWithIdentifyingData()
+        val targetBlock = ctx.world.getBlockState(BlockPos(target)).block
+        if (targetBlock is BlockConjured){
             lantern = false
-            if (ctx.world.getBlockEntity(BlockPos(target))?.createNbtWithIdentifyingData().getCompound("tag_colorizer").getUUID("owner") == ctx.caster.uuid){
+            if (targetBEData.getCompound("tag_colorizer").getUUID("owner") == ctx.caster.uuid){
+                costMultiplier = 0.1f
+            }
+        } else if (targetBlock.equals(OneironautThingRegistry.WISP_LANTERN) || targetBlock.equals(OneironautThingRegistry.WISP_LANTERN_TINTED)){
+            if (targetBEData.getCompound("color").getUUID("owner") == ctx.caster.uuid){
                 costMultiplier = 0.1f
             }
         }
-        //ctx.caster.sendMessage(Text.of("$costMultiplier"))
+        //ctx.caster.sendMessage(Text.of(costMultiplier.toString()))
 
         return Triple(
             Spell(BlockPos(target), colorItemFinal, lantern),
@@ -83,7 +89,8 @@ class OpSplatoon : SpellAction {
                     BlockHitResult(Vec3d(target.x.toDouble() + 0.5, target.y.toDouble() + 0.3, target.z.toDouble() + 0.5), Direction.DOWN, target, true))
                 ctx.caster.setStackInHand(Hand.MAIN_HAND, prevItemstack)
                 //ctx.world.sendPacket(ctx.world.getBlockEntity(target)?.toUpdatePacket())
-                ctx.caster.sendChunkPacket(ChunkPos(target), ctx.world.getBlockEntity(target)?.toUpdatePacket())
+                //ctx.caster.sendChunkPacket(ChunkPos(target), ctx.world.getBlockEntity(target)?.toUpdatePacket())
+                ctx.world.updateListeners(target, ctx.world.getBlockState(target), ctx.world.getBlockState(target), 0b10)
                 /*val lantern : WispLanternEntity = ctx.world.getBlockEntity(target) as WispLanternEntity
                 lantern.setColor(colorizer?.defaultStack, ctx.caster)
                 lantern.markDirty()*/
