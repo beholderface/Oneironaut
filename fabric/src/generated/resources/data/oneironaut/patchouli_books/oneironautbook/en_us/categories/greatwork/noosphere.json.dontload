@@ -1,7 +1,0 @@
-{
-    "name": "oneironaut.category.noosphere",
-    "description": "oneironaut.category.noosphere.desc",
-    "icon": "minecraft:textures/item/enchanted_book.png",
-    "parent": "hexcasting:greatwork",
-    "sortnum": 2
-}

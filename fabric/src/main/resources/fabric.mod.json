@@ -3,7 +3,7 @@
   "id": "oneironaut",
   "version": "${version}",
   "name": "Oneironaut",
-  "description": "Oneironaut addon for Hex Casting",
+  "description": "An addon for Hex Casting centered around exploration and use of the noosphere.",
   "authors": [
     "beholderface"
   ],
@@ -32,6 +32,7 @@
     "fabric-api": "*",
     "fabric-language-kotlin": ">=1.9.0+kotlin.1.8.0",
     "architectury": ">=6.5.85",
-    "hexcasting": ">=0.10.3"
+    "hexcasting": ">=0.10.3",
+    "hexal": ">=0.2.18"
   }
 }
