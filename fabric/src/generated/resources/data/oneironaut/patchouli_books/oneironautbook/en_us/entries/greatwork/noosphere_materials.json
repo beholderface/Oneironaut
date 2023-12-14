@@ -20,8 +20,12 @@
     {
       "type": "patchouli:spotlight",
       "item": "oneironaut:pseudoamethyst_block",
-      "title": "oneironaut.page.noosphere_materials.3.title",
       "text": "oneironaut.page.noosphere_materials.3"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "oneironaut:pseudoamethyst_shard",
+      "text": "oneironaut.page.noosphere_materials.4"
     }
   ]
 }
