@@ -46,6 +46,7 @@
   "oneironaut.page.noosphere_materials.4": "The shards can be used to fuel spells, and yield slightly more energy than a normal amethyst shard. However, they seem to reject all attempts to use them as an item's initial media reservoir. I do not know why this is, but normal Charged Amethyst is better for that purpose anyway.",
   "oneironaut.page.slipway_hint.1": "The slipways, they must lead $(o)somewhere$(). Wisps do not simply manifest from nothing. No matter what I try, I cannot insert so much as a finger through that chaotic rift.$(br2)I'm going about this wrong. Perhaps rather than attempting to force my way through, I should be attempting to calm the storm.",
   "oneironaut.page.slipway_hint.2": "A large amount of harmonious media may just do it...",
+  "oneironaut.page.slipway_hint.2.title": "Hmm...",
   "oneironaut.category.noosphere": "The Noosphere",
   "oneironaut.category.noosphere.desc": "What?",
   "oneironaut.page.noosphere_main.1": "I've made it.$(br)The realm beyond the slipways. The ambient media is overwhelming. My mind is screaming at me, telling me I shouldn't be here. But I must press on. This is the next step in the journey.",
