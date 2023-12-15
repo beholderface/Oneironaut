@@ -131,7 +131,8 @@ public class NoosphereGateEntity extends BlockEntity {
                 }
             }
             //maintain wisps
-            int radius = 8;
+            //temporarily don't do that, until the hexxycraft dev crash loop is figured out
+            /*int radius = 8;
             List<Entity> nearby = world.getOtherEntities(null, new Box(pos.add(new Vec3i(-radius, -radius, -radius)), pos.add(new Vec3i(radius, radius, radius))));
             Iterator<Entity> iterNearby = nearby.iterator();
             Entity currentEntity = null;
@@ -147,7 +148,7 @@ public class NoosphereGateEntity extends BlockEntity {
                         wisp.addMedia(upkeep);
                     }
                 }
-            }
+            }*/
         } else {
             //purple slipway thing
             Random rand = Random.create();
