@@ -65,6 +65,7 @@ public class ReverberationRod extends ItemPackagedHex  {
             stack.getNbt().putLongArray("initialLook", HexUtils.serializeToNBT(sPlayer.getRotationVector()).getLongArray());
             stack.getNbt().putDouble("initialTime", world.getTime());
             stack.getNbt().putInt("delay", 0);
+            stack.getNbt().putInt("resetDelay", 20);
             /*initialPos = new Vec3Iota(sPlayer.getEyePos());
             initialLook = new Vec3Iota(sPlayer.getRotationVector());
             initialTimestamp = new DoubleIota(world.getTime());
@@ -96,6 +97,7 @@ public class ReverberationRod extends ItemPackagedHex  {
                 var info = harness.executeIotas(instrs, sPlayer.getWorld());
                 if (info.getResolutionType().equals(ResolvedPatternType.ERRORED)){
                     sPlayer.stopUsingItem();
+                    sPlayer.getItemCooldownManager().set(this, 20);
                 }
             } else {
                 stack.getNbt().putInt("delay", delay - 1);
@@ -108,7 +110,8 @@ public class ReverberationRod extends ItemPackagedHex  {
         if (user.isPlayer() && !world.isClient){
             ServerPlayerEntity sPlayer = world.getPlayerByUuid(user.getUuid()).getServer().getPlayerManager().getPlayer(user.getUuid());
             assert sPlayer != null;
-            sPlayer.getItemCooldownManager().set(this, 20);
+            assert stack.getNbt() != null;
+            sPlayer.getItemCooldownManager().set(this, stack.getNbt().getInt("resetDelay"));
             //Oneironaut.LOGGER.info("Stopped casting from rod.");
         }
     }
