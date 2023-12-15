@@ -3,15 +3,12 @@ package net.oneironaut.item;
 import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.casting.CastingHarness;
 import at.petrak.hexcasting.api.spell.casting.ResolvedPatternType;
-import at.petrak.hexcasting.api.spell.iota.DoubleIota;
 import at.petrak.hexcasting.api.spell.iota.Iota;
-import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stat;
@@ -19,9 +16,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.oneironaut.Oneironaut;
 
 import java.util.List;
 
@@ -69,7 +64,7 @@ public class ReverberationRod extends ItemPackagedHex  {
             stack.getNbt().putLongArray("initialPos", HexUtils.serializeToNBT(sPlayer.getEyePos()).getLongArray());
             stack.getNbt().putLongArray("initialLook", HexUtils.serializeToNBT(sPlayer.getRotationVector()).getLongArray());
             stack.getNbt().putDouble("initialTime", world.getTime());
-            stack.getNbt().putDouble("delay", 0.0);
+            stack.getNbt().putInt("delay", 0);
             /*initialPos = new Vec3Iota(sPlayer.getEyePos());
             initialLook = new Vec3Iota(sPlayer.getRotationVector());
             initialTimestamp = new DoubleIota(world.getTime());
@@ -91,10 +86,10 @@ public class ReverberationRod extends ItemPackagedHex  {
             }
             List<Iota> instrs = getHex(stack, (ServerWorld) world);
             assert stack.getNbt() != null;
-            double delay = stack.getNbt().getDouble("delay");
-            if (delay <= 0.0){
-                if (delay < 0.0){
-                    delay = 0.0;
+            int delay = stack.getNbt().getInt("delay");
+            if (delay <= 0){
+                if (delay < 0){
+                    stack.getNbt().putInt("delay", 0);
                 }
                 var ctx = new CastingContext(sPlayer, usedHand, CastingContext.CastSource.PACKAGED_HEX);
                 var harness = new CastingHarness(ctx);
@@ -103,9 +98,8 @@ public class ReverberationRod extends ItemPackagedHex  {
                     sPlayer.stopUsingItem();
                 }
             } else {
-                delay--;
+                stack.getNbt().putInt("delay", delay - 1);
             }
-            stack.getNbt().putDouble("delay", delay);
             //Oneironaut.LOGGER.info(info.getResolutionType());
         }
     }
