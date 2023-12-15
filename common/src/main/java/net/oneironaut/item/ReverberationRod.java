@@ -89,15 +89,7 @@ public class ReverberationRod extends ItemPackagedHex  {
                 var harness = new CastingHarness(ctx);
                 var info = harness.executeIotas(instrs, sPlayer.getWorld());
                 var castStack = info.getStack();
-                boolean wasCastCancelled = false;
-                //check if cast ended with charon on the stack
-                if (!castStack.isEmpty()){
-                    String iotaString = castStack.get(0).get("hexcasting:data").toString();
-                    if (iotaString.startsWith("{angles:[B;4B,5B,2B,1B,1B]")){
-                        wasCastCancelled = true;
-                    }
-                }
-                if (info.getResolutionType().equals(ResolvedPatternType.ERRORED) || wasCastCancelled){
+                if (info.getResolutionType().equals(ResolvedPatternType.ERRORED)){
                     sPlayer.stopUsingItem();
                 }
             } else {

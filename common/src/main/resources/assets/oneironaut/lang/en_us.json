@@ -65,7 +65,7 @@
   "oneironaut.page.rod.4": "When cast with a Reverberation Rod, returns my look vector from when I started the current cast loop.",
   "oneironaut.page.rod.5": "When cast with a Reverberation Rod, returns my eye position from when I started the current cast loop.",
   "oneironaut.page.rod.6": "When cast with a Reverberation Rod, returns the timestamp from when I started the current cast loop.",
-  "oneironaut.page.rod.7": "Accpets a positive integer. When cast with a Reverberation Rod, delays the current cast loop's next cast until that many twentieths of a second have passed.",
+  "oneironaut.page.rod.7": "Accepts a positive integer. When cast with a Reverberation Rod, delays the current cast loop's next cast until that many twentieths of a second have passed.",
   "oneironaut.page.rod.8": "When cast with a Reverberation Rod, forcibly halts the current cast loop.",
   "this.is.a.comment.5": "Advancements--------------------------------------------------------------------------------------------",
   "oneironaut.advancements.noosphere.enter": "A Realm of Thought and Dream",
