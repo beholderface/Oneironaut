@@ -88,7 +88,6 @@ public class ReverberationRod extends ItemPackagedHex  {
                 var ctx = new CastingContext(sPlayer, usedHand, CastingContext.CastSource.PACKAGED_HEX);
                 var harness = new CastingHarness(ctx);
                 var info = harness.executeIotas(instrs, sPlayer.getWorld());
-                var castStack = info.getStack();
                 if (info.getResolutionType().equals(ResolvedPatternType.ERRORED)){
                     sPlayer.stopUsingItem();
                 }
@@ -107,24 +106,10 @@ public class ReverberationRod extends ItemPackagedHex  {
             //Oneironaut.LOGGER.info("Stopped casting from rod.");
         }
     }
-    /*@Override
-    public boolean isUsedOnRelease(ItemStack stack){
-        return true;
-    }*/
 
     @Override
     public int getMaxUseTime(ItemStack stack) {
         return 20 * 60 * 60;
     }
-
-
-
-    /*@Override
-    public int getUseDuration(ItemStack pStack) {
-        return 15;
-    }*/
-
-
-
 
 }
