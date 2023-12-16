@@ -1,18 +1,12 @@
 package net.oneironaut.casting.patterns
 
-import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.spell.ConstMediaAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.getEntity
-import at.petrak.hexcasting.api.spell.getPositiveInt
-import at.petrak.hexcasting.api.spell.iota.DoubleIota
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapBadEntity
-import at.petrak.hexcasting.api.utils.putInt
 import net.minecraft.entity.decoration.ItemFrameEntity
 import net.minecraft.text.Text
-import net.oneironaut.casting.mishaps.MishapNoRod
-import net.oneironaut.registry.OneironautThingRegistry
 import ram.talia.hexal.api.spell.iota.ItemTypeIota
 
 class OpFrameItem() : ConstMediaAction {
