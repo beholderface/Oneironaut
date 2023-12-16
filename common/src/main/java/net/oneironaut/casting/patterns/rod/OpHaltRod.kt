@@ -13,9 +13,11 @@ class OpHaltRod(val reset : Int) : ConstMediaAction {
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         val rod = OneironautThingRegistry.REVERBERATION_ROD.get()
         if (ctx.caster.activeItem.item == rod.asItem() && ctx.source == CastingContext.CastSource.PACKAGED_HEX){
-            val delay = args.getPositiveInt(0, argc)
-            if(reset == 1 && delay <= 19){
-                ctx.caster.activeItem.nbt.putInt("resetDelay", delay)
+            if(reset == 1){
+                val delay = args.getPositiveInt(0, argc)
+                if (delay <= 19){
+                    ctx.caster.activeItem.nbt.putInt("resetDelay", delay)
+                }
             }
             ctx.caster.stopUsingItem()
         } else {
