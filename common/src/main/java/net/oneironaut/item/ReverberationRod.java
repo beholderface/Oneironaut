@@ -37,7 +37,7 @@ public class ReverberationRod extends ItemPackagedHex  {
 
     @Override
     public UseAction getUseAction(ItemStack stack) {
-        return UseAction.BOW;
+        return UseAction.BLOCK;
     }
 
     /*public Vec3Iota initialPos = new Vec3Iota(Vec3d.ZERO);

@@ -15,7 +15,7 @@ class OpGetInitialRodState(val mode: Int) : ConstMediaAction {
 
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         val rod = OneironautThingRegistry.REVERBERATION_ROD.get()
-        if (ctx.caster.activeItem.item == rod.asItem()){
+        if (ctx.caster.activeItem.item == rod.asItem() && ctx.source == CastingContext.CastSource.PACKAGED_HEX){
             val rodStack  = ctx.caster.activeItem
             val rodNbt = rodStack.nbt
             if (rodNbt != null){

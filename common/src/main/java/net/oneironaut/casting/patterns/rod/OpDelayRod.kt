@@ -13,7 +13,7 @@ class OpDelayRod : ConstMediaAction {
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         val delay = args.getPositiveInt(0, argc)
         val rod = OneironautThingRegistry.REVERBERATION_ROD.get()
-        if (ctx.caster.activeItem.item == rod.asItem()){
+        if (ctx.caster.activeItem.item == rod.asItem() && ctx.source == CastingContext.CastSource.PACKAGED_HEX){
             ctx.caster.activeItem.nbt.putInt("delay", delay)
         } else {
             throw MishapNoRod()
