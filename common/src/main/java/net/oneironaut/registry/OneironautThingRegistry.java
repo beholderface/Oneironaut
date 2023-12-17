@@ -15,6 +15,7 @@ import net.oneironaut.Oneironaut;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 import net.oneironaut.block.*;
+import net.oneironaut.item.BottomlessMediaItem;
 import net.oneironaut.item.ReverberationRod;
 import net.oneironaut.item.PseudoamethystShard;
 
@@ -98,7 +99,11 @@ public class OneironautThingRegistry /*implements ModInitializer */{
     public static final RegistrySupplier<FluidBlock> THOUGHT_SLURRY_BLOCK = BLOCKS.register("thought_slurry", () -> ThoughtSlurryBlock.INSTANCE /*new ThoughtSlurryBlock(ThoughtSlurry.STILL_FLUID, AbstractBlock.Settings.copy(Blocks.LAVA))*/);
     public static final RegistrySupplier<Item> THOUGHT_SLURRY_BUCKET = ITEMS.register("thought_slurry_bucket", () -> new ArchitecturyBucketItem(THOUGHT_SLURRY, HexItems.unstackable()));
     public static final RegistrySupplier<ReverberationRod> REVERBERATION_ROD = ITEMS.register("reverberation_rod", () -> new ReverberationRod(HexItems.unstackable()));
+    public static final RegistrySupplier<BottomlessMediaItem> BOTTOMLESS_MEDIA_ITEM = ITEMS.register("endless_phial", () -> new BottomlessMediaItem(HexItems.unstackable()));
 
+    public static final RegistrySupplier<SuperBuddingBlock> SUPER_BUDDING = BLOCKS.register("super_budding", () -> new SuperBuddingBlock(AbstractBlock.Settings.of(Material.AMETHYST)
+    ));
+    public static final RegistrySupplier<Item> SUPER_BUDDING_ITEM = ITEMS.register("super_budding", () -> new BlockItem(SUPER_BUDDING.get(), HexItems.props()));
 
     //@Override
     //public void onInitialize(){
