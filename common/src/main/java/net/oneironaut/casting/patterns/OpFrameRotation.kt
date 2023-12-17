@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.spell.ConstMediaAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.getEntity
 import at.petrak.hexcasting.api.spell.getPositiveInt
+import at.petrak.hexcasting.api.spell.getPositiveIntUnder
 import at.petrak.hexcasting.api.spell.iota.DoubleIota
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapBadEntity
@@ -20,7 +21,7 @@ class OpFrameRotation(val adjust : Int) : ConstMediaAction {
         if (initialEntity is ItemFrameEntity){
             val frame = initialEntity as ItemFrameEntity
             if (adjust == 1){
-                frame.rotation = (args.getPositiveInt(1, argc)) % 8
+                frame.rotation = (args.getPositiveIntUnder(1, 8, argc))/* % 8*/
                 return listOf()
             } else {
                 return listOf(DoubleIota(frame.rotation.toDouble()))
