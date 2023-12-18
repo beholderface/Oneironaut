@@ -14,7 +14,6 @@ resource_dirs = [  # top takes priority
     { modid="hexcasting" },
     { modid="minecraft" },
     { modid="hexdoc" },
-    { modid="hexal" },
 ]
 export_dir = "src/hexdoc_oneironaut/_export/generated"
 
@@ -24,7 +23,6 @@ include = [
     "oneironaut",
     "hexcasting",
     "hexdoc",
-    "hexal",
 ]
 
 [template.args]

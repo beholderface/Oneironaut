@@ -33,7 +33,6 @@ key = "modVersion"
 [tool.hatch.metadata.hooks.gradle-properties]
 dependencies = [
     { package="hexdoc-hexcasting", op="~=", py-version="1.0.dev20", key="hexcastingVersion" },
-    "hexdoc-hexal @ https://github.com/object-Object/Hexal/raw/79035025405ec43cb24a25f09d5bf4736ef1b4b2/hexdoc_hexal-0.2.18.1.0.dev0-py3-none-any.whl"
 ]
 
 [tool.hatch.metadata.hooks.gradle-properties.optional-dependencies]
