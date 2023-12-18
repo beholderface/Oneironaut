@@ -10,6 +10,7 @@ import at.petrak.hexcasting.api.spell.iota.EntityIota
 import at.petrak.hexcasting.api.spell.iota.GarbageIota
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota
+import at.petrak.hexcasting.api.spell.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
 import at.petrak.hexcasting.api.spell.mishaps.MishapOthersName
@@ -44,6 +45,8 @@ class OpWriteIdea : ConstMediaAction {
                 } else {
                     IdeaInscriptionManager.writeIota(keyEntity.uuid, iotaToWrite, ctx.caster, ctx.world)
                 }
+            } else {
+                throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.unenlightenedtarget"))
             }
         } else if (rawKeyIota.type.equals(Vec3Iota.TYPE)){
             keyPos = BlockPos(args.getVec3(0, argc))

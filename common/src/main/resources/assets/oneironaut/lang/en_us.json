@@ -101,6 +101,7 @@
   "hexcasting.mishap.norod": "Expected a Reverberation Rod in hand.",
   "oneironaut.mishap.noitemframe": "an item frame",
   "oneironaut.mishap.novecorentity": "a vector or player",
+  "oneironaut.mishap.unenlightenedtarget": "an enlightened player",
   "this.is.a.comment.7": "Other?--------------------------------------------------------------------------------------------",
   "biome.oneironaut.noosphere_sea": "Noosphere Sea",
   "text.oneironaut.clearIdeasResponse": "Cleared iota storage map.",
