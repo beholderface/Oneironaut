@@ -32,12 +32,12 @@ public class BottomlessMediaItem extends ItemMediaHolder {
         //do nothing
     }
 
-    private double arbitraryLog(double base, double num){
+    private static double arbitraryLog(double base, double num){
         return Math.log(num) / Math.log(base);
     }
 
-    private Map<PlayerEntity, NbtCompound> playerPhialCounts = new HashMap<>();
-    private long time;
+    private static Map<PlayerEntity, NbtCompound> playerPhialCounts = new HashMap<>();
+    private static long time;
 
     private int logMedia(ItemStack stack){
         NbtCompound nbt = stack.getOrCreateNbt();

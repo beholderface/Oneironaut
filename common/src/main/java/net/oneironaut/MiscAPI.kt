@@ -1,5 +1,6 @@
 package net.oneironaut
 
+import at.petrak.hexcasting.api.HexAPI
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
@@ -15,7 +16,6 @@ import net.oneironaut.registry.DimIota
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vec3i
 import net.minecraft.world.StructureWorldAccess
 import net.oneironaut.registry.OneironautThingRegistry
 import java.util.UUID
@@ -134,6 +134,18 @@ fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, s
     /*for (i in 0 .. (area * 3)){
 
     }*/
+}
+
+fun isPlayerEnlightened(player : ServerPlayerEntity) : Boolean {
+    val adv = player.server?.advancementLoader?.get(HexAPI.modLoc("enlightenment"))
+    val advs = player.advancementTracker
+    val enlightened : Boolean
+    if (advs.getProgress(adv) != null){
+        enlightened = advs.getProgress(adv).isDone
+    } else {
+        enlightened = false
+    }
+    return enlightened;
 }
 
 //tried to write a smoother way to keep important blockstate values, didn't work

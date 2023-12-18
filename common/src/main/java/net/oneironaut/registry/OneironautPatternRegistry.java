@@ -15,7 +15,9 @@ import net.minecraft.util.Identifier;
 import net.oneironaut.casting.patterns.rod.OpDelayRod;
 import net.oneironaut.casting.patterns.rod.OpGetInitialRodState;
 import net.oneironaut.casting.patterns.rod.OpHaltRod;
+import net.oneironaut.casting.patterns.spells.OpReadIdea;
 import net.oneironaut.casting.patterns.spells.OpSplatoon;
+import net.oneironaut.casting.patterns.spells.OpWriteIdea;
 import net.oneironaut.casting.patterns.spells.great.OpDimTeleport;
 import net.oneironaut.casting.patterns.spells.great.OpInfuseMedia;
 import net.oneironaut.casting.patterns.spells.great.OpSwapSpace;
@@ -42,6 +44,8 @@ public class OneironautPatternRegistry {
     public static HexPattern SET_FRAME_ROTATION = register(HexPattern.fromAngles("wwawwqwwawwaqdq", HexDir.SOUTH_WEST), "setframerotation", new OpFrameRotation(1));
     //turns out normal Sorter's Purification works on item frames
     //public static HexPattern READ_FRAME_ITEMTYPE = register(HexPattern.fromAngles("wqwqwqwqwqwawedeedqdq", HexDir.WEST), "readframeitem", new OpFrameItem());
+    public static HexPattern WRITE_IDEA = register(HexPattern.fromAngles("eweweweweweeewqaqwe", HexDir.EAST), "writeidea", new OpWriteIdea());
+    public static HexPattern READ_IDEA = register(HexPattern.fromAngles("qwqwqwqwqwqqqwedewq", HexDir.WEST), "readidea", new OpReadIdea());
     public static HexPattern DIM_TELEPORT = registerPerWorld(HexPattern.fromAngles("qeewwwweeqeqeewwwweeqdqqdwwwdqeqdwwwdqdadwwdqdwwddadaqadaawww", HexDir.NORTH_EAST), "dimteleport", new OpDimTeleport());
     public static HexPattern INFUSE_MEDIA = registerPerWorld(HexPattern.fromAngles("wwaqqqqqeqqqwwwqqeqqwwwqqweqadadadaqeqeqadadadaqe", HexDir.EAST), "infusemedia", new OpInfuseMedia());
     public static HexPattern SWAP_SPACE = registerPerWorld(HexPattern.fromAngles("wqqqwwwwwqqqwwwqdaqadwqqwdaqadweqeqqqqeqeqaqeqedeqeqa", HexDir.EAST), "swapspace", new OpSwapSpace());
