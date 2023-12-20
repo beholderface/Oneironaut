@@ -34,9 +34,11 @@ public class DimIota extends Iota{
     }
 
     protected boolean toleratesOther(Iota that) {
-        return typesMatch(this, that) &&
-                that instanceof DimIota dent &&
-                this.equals(dent);
+        if (that.getType().equals(this.type)){
+            DimIota other = (DimIota) that;
+            return this.payload.equals(other.payload);
+        }
+        return false;
     }
 
     public @NotNull NbtElement serialize() {
