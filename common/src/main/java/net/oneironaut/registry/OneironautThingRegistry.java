@@ -2,6 +2,7 @@ package net.oneironaut.registry;
 
 import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.core.item.ArchitecturyBucketItem;
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.*;
@@ -25,15 +26,24 @@ public class OneironautThingRegistry /*implements ModInitializer */{
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_KEY);
     //public static final DeferredRegister<BlockEntity> BLOCK_ENTITIES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_ENTITY_TYPE.getKey());
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_ENTITY_TYPE_KEY);
     //public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FEATURE_KEY);
     //public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIG_FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.CONFIGURED_FEATURE_KEY);
 
 
 
     public static void init() {
-        FLUIDS.register();
-        BLOCKS.register();
-        ITEMS.register();
+        if (Platform.isFabric()){
+            FLUIDS.register();
+            BLOCKS.register();
+            BLOCK_ENTITIES.register();
+            ITEMS.register();
+        } else {
+            BLOCKS.register();
+            BLOCK_ENTITIES.register();
+            FLUIDS.register();
+            ITEMS.register();
+        }
         //FEATURES.register();
         //CONFIG_FEATURES.register();
     }
@@ -57,27 +67,37 @@ public class OneironautThingRegistry /*implements ModInitializer */{
     public static final RegistrySupplier<Item> NOOSPHERE_BASALT_ITEM = ITEMS.register("noosphere_basalt", () -> new BlockItem(NOOSPHERE_BASALT.get(), HexItems.props()));
 
     //public static final Block NOOSPHERE_GATE = new Block(AbstractBlock.Settings.copy(Blocks.END_GATEWAY).luminance(state -> 15).sounds(BlockSoundGroup.AMETHYST_BLOCK));
-    public static final Block NOOSPHERE_GATE = Registry.register(
+    /*public static final Block NOOSPHERE_GATE = Registry.register(
             Registry.BLOCK,
             new Identifier(Oneironaut.MOD_ID, "noosphere_gate"),
             new NoosphereGateway(AbstractBlock.Settings.copy(Blocks.END_GATEWAY).luminance(state -> 15).sounds(BlockSoundGroup.AMETHYST_BLOCK))
-    );
-    public static final BlockEntityType<NoosphereGateEntity> NOOSPHERE_GATE_ENTITY = Registry.register(
+    );*/
+    public static final RegistrySupplier<NoosphereGateway> NOOSPHERE_GATE = BLOCKS.register("noosphere_gate", () -> new NoosphereGateway(AbstractBlock.Settings.of(Material.PORTAL).luminance(state -> 15).noCollision()));
+
+    /*public static final BlockEntityType<NoosphereGateEntity> NOOSPHERE_GATE_ENTITY = Registry.register(
             Registry.BLOCK_ENTITY_TYPE,
             new Identifier(Oneironaut.MOD_ID, "noosphere_gate_entity"),
-            BlockEntityType.Builder.create(NoosphereGateEntity::new, NOOSPHERE_GATE).build(null));
+            BlockEntityType.Builder.create(NoosphereGateEntity::new, NOOSPHERE_GATE).build(null));*/
 
-    public static final Block WISP_LANTERN = Registry.register(
+    public static final RegistrySupplier<BlockEntityType<NoosphereGateEntity>> NOOSPHERE_GATE_ENTITY = BLOCK_ENTITIES.register("noosphere_gate_entity", () -> BlockEntityType.Builder.create(NoosphereGateEntity::new, OneironautThingRegistry.NOOSPHERE_GATE.get()).build(null));
+    public static final RegistrySupplier<BlockEntityType<WispLanternEntity>> WISP_LANTERN_ENTITY = BLOCK_ENTITIES.register("wisp_lantern_entity", () -> BlockEntityType.Builder.create(WispLanternEntity::new, OneironautThingRegistry.WISP_LANTERN.get()).build(null));
+    public static final RegistrySupplier<BlockEntityType<WispLanternEntityTinted>> WISP_LANTERN_ENTITY_TINTED = BLOCK_ENTITIES.register("wisp_lantern_entity_tinted", () -> BlockEntityType.Builder.create(WispLanternEntityTinted::new, OneironautThingRegistry.WISP_LANTERN_TINTED.get()).build(null));
+
+    /*public static final Block WISP_LANTERN = Registry.register(
             Registry.BLOCK,
             new Identifier(Oneironaut.MOD_ID, "wisp_lantern"),
             new WispLantern(AbstractBlock.Settings.copy(Blocks.GLASS).luminance(state -> 15))
-    );
-    public static final Block WISP_LANTERN_TINTED = Registry.register(
+    );*/
+    public static final RegistrySupplier<WispLantern> WISP_LANTERN = BLOCKS.register("wisp_lantern", () -> new WispLantern(AbstractBlock.Settings.of(Material.GLASS).luminance(state -> 15)));
+    public static final RegistrySupplier<WispLanternTinted> WISP_LANTERN_TINTED = BLOCKS.register("wisp_lantern_tinted", () -> new WispLanternTinted(AbstractBlock.Settings.of(Material.GLASS)));
+
+
+    /*public static final Block WISP_LANTERN_TINTED = Registry.register(
             Registry.BLOCK,
             new Identifier(Oneironaut.MOD_ID, "wisp_lantern_tinted"),
             new WispLanternTinted(AbstractBlock.Settings.copy(Blocks.GLASS).luminance(state -> 0))
-    );
-    public static final BlockEntityType<WispLanternEntity> WISP_LANTERN_ENTITY = Registry.register(
+    );*/
+    /*public static final BlockEntityType<WispLanternEntity> WISP_LANTERN_ENTITY = Registry.register(
             Registry.BLOCK_ENTITY_TYPE,
             new Identifier(Oneironaut.MOD_ID, "wisp_lantern_entity"),
             BlockEntityType.Builder.create(WispLanternEntity::new, WISP_LANTERN).build(null));
@@ -85,9 +105,9 @@ public class OneironautThingRegistry /*implements ModInitializer */{
     public static final BlockEntityType<WispLanternEntityTinted> WISP_LANTERN_ENTITY_TINTED = Registry.register(
             Registry.BLOCK_ENTITY_TYPE,
             new Identifier(Oneironaut.MOD_ID, "wisp_lantern_entity_tinted"),
-            BlockEntityType.Builder.create(WispLanternEntityTinted::new, WISP_LANTERN_TINTED).build(null));
-    public static final RegistrySupplier<Item> WISP_LANTERN_ITEM = ITEMS.register("wisp_lantern", () -> new BlockItem(WISP_LANTERN, HexItems.props()));
-    public static final RegistrySupplier<Item> WISP_LANTERN_TINTED_ITEM = ITEMS.register("wisp_lantern_tinted", () -> new BlockItem(WISP_LANTERN_TINTED, HexItems.props()));
+            BlockEntityType.Builder.create(WispLanternEntityTinted::new, WISP_LANTERN_TINTED).build(null));*/
+    public static final RegistrySupplier<Item> WISP_LANTERN_ITEM = ITEMS.register("wisp_lantern", () -> new BlockItem(WISP_LANTERN.get(), HexItems.props()));
+    public static final RegistrySupplier<Item> WISP_LANTERN_TINTED_ITEM = ITEMS.register("wisp_lantern_tinted", () -> new BlockItem(WISP_LANTERN_TINTED.get(), HexItems.props()));
 
     public static final RegistrySupplier<Item> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new PseudoamethystShard(HexItems.props()));
 

@@ -28,7 +28,7 @@ import java.util.UUID;
 public class WispLanternEntity extends BlockEntity {
 
     public WispLanternEntity(BlockPos pos, BlockState state){
-        super(OneironautThingRegistry.WISP_LANTERN_ENTITY, pos, state);
+        super(OneironautThingRegistry.WISP_LANTERN_ENTITY.get(), pos, state);
     }
 
     private FrozenColorizer color = FrozenColorizer.DEFAULT.get();

@@ -1,5 +1,7 @@
 package net.oneironaut;
 
+import dev.architectury.event.events.common.CommandRegistrationEvent;
+import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.TickEvent;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -45,12 +47,12 @@ public class Oneironaut {
         //Registry.register(Registry.CHUNK_GENERATOR, new Identifier(MOD_ID, "noosphere"))
 
         LOGGER.info(OneironautAbstractions.getConfigDirectory().toAbsolutePath().normalize().toString());
-        ServerLifecycleEvents.SERVER_STARTED.register((startedserver) ->{
+        LifecycleEvent.SERVER_STARTED.register((startedserver) ->{
             IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState(startedserver);
             IdeaInscriptionManager.cleanMap(startedserver, ideaState);
             ideaState.markDirty();
         });
-        CommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("clearinscribedideas")
+        CommandRegistrationEvent.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("clearinscribedideas")
                 .requires(source -> source.hasPermissionLevel(3))
                 .executes(context -> {
                     IdeaInscriptionManager.eraseIota("everything");

@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 public class WispLanternEntityTinted extends BlockEntity {
 
     public WispLanternEntityTinted(BlockPos pos, BlockState state){
-        super(OneironautThingRegistry.WISP_LANTERN_ENTITY_TINTED, pos, state);
+        super(OneironautThingRegistry.WISP_LANTERN_ENTITY_TINTED.get(), pos, state);
     }
 
     private FrozenColorizer color = FrozenColorizer.DEFAULT.get();

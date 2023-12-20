@@ -29,7 +29,7 @@ import java.util.List;
 
 public class NoosphereGateEntity extends BlockEntity {
     public NoosphereGateEntity(BlockPos pos, BlockState state) {
-        super(OneironautThingRegistry.NOOSPHERE_GATE_ENTITY, pos, state);
+        super(OneironautThingRegistry.NOOSPHERE_GATE_ENTITY.get(), pos, state);
         //Oneironaut.LOGGER.info("super Creating blockentity.");
     }
     public void tick(World world, BlockPos pos, BlockState state){

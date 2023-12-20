@@ -81,7 +81,7 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
                             }
                         }
                     }
-                    world.setBlockState(new BlockPos(scanPos.getX(), 9, scanPos.getZ()), OneironautThingRegistry.NOOSPHERE_GATE.getDefaultState(), 0b10);
+                    world.setBlockState(new BlockPos(scanPos.getX(), 9, scanPos.getZ()), OneironautThingRegistry.NOOSPHERE_GATE.get().getDefaultState(), 0b10);
                     placedCoreBlock--;
                     Iterator<Vec3i> jaggedOffsets = Arrays.stream(new Vec3i[]{
                             new Vec3i(-4, 0, 1), new Vec3i(-4, 0, -2), new Vec3i(-4, 1, -2),

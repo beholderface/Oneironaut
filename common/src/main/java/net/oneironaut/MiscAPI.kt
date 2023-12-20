@@ -34,7 +34,7 @@ fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
     //val targetType = ctx.world.getBlockState(block).block
     //BlockTags.SMALL_FLOWERS
     val conversionResult : Pair<BlockState, Int> = when(targetType){
-        HexalBlocks.SLIPWAY -> Pair(OneironautThingRegistry.NOOSPHERE_GATE.defaultState, 200)
+        HexalBlocks.SLIPWAY -> Pair(OneironautThingRegistry.NOOSPHERE_GATE.get().defaultState, 200)
         Blocks.SCULK_SHRIEKER -> Pair(Blocks.SCULK_SHRIEKER.defaultState.with(Properties.CAN_SUMMON, true), 100)
         Blocks.RESPAWN_ANCHOR -> Pair(Blocks.RESPAWN_ANCHOR.defaultState.with(Properties.CHARGES, 4), 100)
         //"fuck you" *uncries your obsidian*
