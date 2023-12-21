@@ -40,3 +40,10 @@ mandatory = true
 versionRange = "[0.10.3,)"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.oneironaut]]
+modId = "hexal"
+mandatory = true
+versionRange = "[0.2.18,)"
+ordering = "NONE"
+side = "BOTH"

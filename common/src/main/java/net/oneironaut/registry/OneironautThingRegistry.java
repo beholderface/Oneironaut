@@ -33,17 +33,17 @@ public class OneironautThingRegistry /*implements ModInitializer */{
 
 
     public static void init() {
-        if (Platform.isFabric()){
+        //if (Platform.isFabric()){
             FLUIDS.register();
             BLOCKS.register();
             BLOCK_ENTITIES.register();
             ITEMS.register();
-        } else {
+        /*} else {
             BLOCKS.register();
             BLOCK_ENTITIES.register();
             FLUIDS.register();
             ITEMS.register();
-        }
+        }*/
         //FEATURES.register();
         //CONFIG_FEATURES.register();
     }
