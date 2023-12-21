@@ -29,7 +29,7 @@ public class OneironautThingRegistry /*implements ModInitializer */{
     //public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FEATURE_KEY);
     //public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIG_FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.CONFIGURED_FEATURE_KEY);
 
-
+    //I will not scream at my computer over this
 
     public static void init() {
         //if (Platform.isFabric()){
