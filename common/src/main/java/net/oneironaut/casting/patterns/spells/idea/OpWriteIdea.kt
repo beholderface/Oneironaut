@@ -1,9 +1,10 @@
-package net.oneironaut.casting.patterns.spells
+package net.oneironaut.casting.patterns.spells.idea
 
 import at.petrak.hexcasting.api.HexAPI
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.spell.ConstMediaAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.getEntity
 import at.petrak.hexcasting.api.spell.getPlayer
 import at.petrak.hexcasting.api.spell.getVec3
 import at.petrak.hexcasting.api.spell.iota.EntityIota
@@ -14,7 +15,11 @@ import at.petrak.hexcasting.api.spell.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
 import at.petrak.hexcasting.api.spell.mishaps.MishapOthersName
+import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.passive.VillagerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.oneironaut.casting.IdeaInscriptionManager
@@ -37,16 +42,22 @@ class OpWriteIdea : ConstMediaAction {
         val keyPos : BlockPos
         val ideaState = IdeaInscriptionManager.getServerState(ctx.world.server)
         if (rawKeyIota.type.equals(EntityIota.TYPE)){
-            keyEntity = args.getPlayer(0, argc)
+            keyEntity = args.getEntity(0, argc)
             ctx.assertEntityInRange(keyEntity)
-            if (isPlayerEnlightened(keyEntity)){
-                if (iotaToWrite.type.equals(GarbageIota.TYPE)){
-                    IdeaInscriptionManager.eraseIota(keyEntity.uuid)
-                } else {
+            if (keyEntity.type.equals(EntityType.VILLAGER)){
+                if (IXplatAbstractions.INSTANCE.isBrainswept(keyEntity as VillagerEntity)){
                     IdeaInscriptionManager.writeIota(keyEntity.uuid, iotaToWrite, ctx.caster, ctx.world)
+                } else {
+                    throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.notbrainswept"))
+                }
+            } else if (keyEntity.isPlayer){
+                if (isPlayerEnlightened(keyEntity as ServerPlayerEntity)){
+                    IdeaInscriptionManager.writeIota(keyEntity.uuid, iotaToWrite, ctx.caster, ctx.world)
+                } else {
+                    throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.unenlightenedtarget"))
                 }
             } else {
-                throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.unenlightenedtarget"))
+                throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.badentitykey"))
             }
         } else if (rawKeyIota.type.equals(Vec3Iota.TYPE)){
             keyPos = BlockPos(args.getVec3(0, argc))
@@ -54,11 +65,7 @@ class OpWriteIdea : ConstMediaAction {
             if (keyPos.y < -64 || keyPos.y > 320 || !(worldborder.contains(keyPos))){
                 throw MishapLocationTooFarAway(args.getVec3(0, argc), "out_of_world")
             }
-            if (iotaToWrite.type.equals(GarbageIota.TYPE)){
-                IdeaInscriptionManager.eraseIota(keyPos)
-            } else {
-                IdeaInscriptionManager.writeIota(keyPos, iotaToWrite, ctx.caster, ctx.world)
-            }
+            IdeaInscriptionManager.writeIota(keyPos, iotaToWrite, ctx.caster, ctx.world)
         }/* else if (rawKeyIota.type.equals(NullIota.TYPE) && ctx.caster.hasPermissionLevel(3)) {
             //
         } */else {

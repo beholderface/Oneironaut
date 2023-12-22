@@ -30,6 +30,22 @@
       "input": "vector | player",
       "output": "any",
       "text": "oneironaut.page.idea_inscription.4"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "oneironaut:readideatime",
+      "anchor": "oneironaut:readideatime",
+      "input": "vector | player",
+      "output": "number | NULL",
+      "text": "oneironaut.page.idea_inscription.5"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "oneironaut:readideawriter",
+      "anchor": "oneironaut:readideawriter",
+      "input": "vector | player, player",
+      "output": "bool",
+      "text": "oneironaut.page.idea_inscription.6"
     }
   ]
 }

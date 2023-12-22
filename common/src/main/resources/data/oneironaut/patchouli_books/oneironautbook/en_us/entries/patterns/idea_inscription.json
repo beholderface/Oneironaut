@@ -19,7 +19,7 @@
       "type": "hexcasting:pattern",
       "op_id": "oneironaut:writeidea",
       "anchor": "oneironaut:writeidea",
-      "input": "vector | player, any",
+      "input": "key, any",
       "output": "",
       "text": "oneironaut.page.idea_inscription.3"
     },
@@ -27,9 +27,25 @@
       "type": "hexcasting:pattern",
       "op_id": "oneironaut:readidea",
       "anchor": "oneironaut:readidea",
-      "input": "vector | player",
+      "input": "key",
       "output": "any",
       "text": "oneironaut.page.idea_inscription.4"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "oneironaut:readideatime",
+      "anchor": "oneironaut:readideatime",
+      "input": "key",
+      "output": "number | NULL",
+      "text": "oneironaut.page.idea_inscription.5"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "oneironaut:readideawriter",
+      "anchor": "oneironaut:readideawriter",
+      "input": "key, player",
+      "output": "bool",
+      "text": "oneironaut.page.idea_inscription.6"
     }
   ]
 }

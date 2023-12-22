@@ -1,20 +1,13 @@
 package net.oneironaut.casting;
 
 import at.petrak.hexcasting.api.spell.iota.*;
-import at.petrak.hexcasting.api.spell.mishaps.MishapOthersName;
-import at.petrak.hexcasting.api.utils.HexUtils;
-import at.petrak.hexcasting.xplat.IXplatAbstractions;
-import com.mojang.datafixers.TypeRewriteRule;
-import com.mojang.datafixers.types.Type;
-import dev.architectury.registry.registries.Registries;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import at.petrak.hexcasting.common.items.ItemFocus;
+import at.petrak.hexcasting.common.lib.HexItems;
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateManager;
 import net.minecraft.world.World;
@@ -24,12 +17,12 @@ import java.util.*;
 
 public class IdeaInscriptionManager extends PersistentState {
 
-
     //setup for Idea Inscription
     private static Map<String, NbtCompound> iotaMap = new HashMap<>();
     private static final int minuteInTicks = 20 * 60;
     private static final int hourInTicks = minuteInTicks * 60;
 
+    private static final ItemFocus testFocus = HexItems.FOCUS;
 
     //save NBT of the map
     @Override
@@ -66,7 +59,7 @@ public class IdeaInscriptionManager extends PersistentState {
 
     public static void cleanMap(MinecraftServer server, IdeaInscriptionManager ideaState){
         ArrayList<String> KeysToRemove= new ArrayList<String>();
-        //remove map entries that correspond to nonexistent entities
+        //remove map entries that correspond to old entities
         Iterator<String> keys = iotaMap.keySet().iterator();
         long overworldTime = server.getOverworld().getTime();
         Oneironaut.LOGGER.info("Cleaning expired idea entries, current time is "+overworldTime);
@@ -98,12 +91,15 @@ public class IdeaInscriptionManager extends PersistentState {
     }
 
     public static void writeIota(Object key, Iota iota, ServerPlayerEntity player, ServerWorld world){
-        IotaType<?> type = iota.getType();
-        NbtCompound iotaNbt = new NbtCompound();
-        iotaNbt.putLong("timestamp", world.getTime());
-        iotaNbt.put("iota", iota.serialize());
-        iotaNbt.putString("type", type.typeName().getString());
-        iotaMap.put(key.toString(), iotaNbt);
+        if (!(iota.getType().equals(GarbageIota.TYPE))){
+            NbtCompound iotaNbt = new NbtCompound();
+            iotaNbt.putLong("timestamp", world.getTime());
+            iotaNbt.put("iota", HexIotaTypes.serialize(iota));
+            iotaNbt.putUuid("writer", player.getUuid());
+            iotaMap.put(key.toString(), iotaNbt);
+        } else {
+            eraseIota(key);
+        }
     }
 
     public static void eraseIota(Object key){
@@ -121,16 +117,7 @@ public class IdeaInscriptionManager extends PersistentState {
 
         if (iotaNbt != null){
             if ((iotaNbt.getLong("timestamp") + hourInTicks) >= world.getTime()){
-                String typeString = iotaNbt.getString("type");
-                Iterator<IotaType<?>> types = IXplatAbstractions.INSTANCE.getIotaTypeRegistry().iterator();
-                IotaType<?> currentType;
-                while (types.hasNext()){
-                    currentType = types.next();
-                    if (currentType.typeName().getString().equals(typeString)){
-                        iota = currentType.deserialize(iotaNbt.get("iota"), world);
-                        break;
-                    }
-                }
+                iota = HexIotaTypes.deserialize(iotaNbt.getCompound("iota"), world);
             } else {
                 IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState(world.getServer());
                 iotaMap.remove(key.toString());
@@ -138,5 +125,24 @@ public class IdeaInscriptionManager extends PersistentState {
             }
         }
         return iota;
+    }
+
+    public static Iota getIotaTimestamp(Object key){
+        String keyString = key.toString();
+        NbtCompound iotaNbt = iotaMap.getOrDefault(keyString, null);
+        if (iotaNbt != null){
+            return new DoubleIota(iotaNbt.getLong("timestamp"));
+        } else {
+            return new NullIota();
+        }
+    }
+    public static Iota getIotaWriter(Object key, ServerPlayerEntity suspect){
+        String keyString = key.toString();
+        NbtCompound iotaNbt = iotaMap.getOrDefault(keyString, null);
+        boolean foundSuspect = false;
+        if (iotaNbt != null){
+            foundSuspect = suspect.getUuid().equals(iotaNbt.getUuid("writer"));
+        }
+        return new BooleanIota(foundSuspect);
     }
 }
