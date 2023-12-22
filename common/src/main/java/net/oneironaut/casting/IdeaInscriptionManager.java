@@ -112,37 +112,47 @@ public class IdeaInscriptionManager extends PersistentState {
 
     public static Iota readIota(Object key, ServerWorld world){
         String keyString = key.toString();
-        NbtCompound iotaNbt = iotaMap.getOrDefault(keyString, null);
         Iota iota = new GarbageIota();
-
+        NbtCompound iotaNbt = getValidEntry(keyString, world);
         if (iotaNbt != null){
             if ((iotaNbt.getLong("timestamp") + hourInTicks) >= world.getTime()){
                 iota = HexIotaTypes.deserialize(iotaNbt.getCompound("iota"), world);
-            } else {
-                IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState(world.getServer());
-                iotaMap.remove(key.toString());
-                ideaState.markDirty();
             }
         }
         return iota;
     }
 
-    public static Iota getIotaTimestamp(Object key){
+    public static Iota getIotaTimestamp(Object key, ServerWorld world){
         String keyString = key.toString();
-        NbtCompound iotaNbt = iotaMap.getOrDefault(keyString, null);
+        NbtCompound iotaNbt = getValidEntry(keyString, world);
         if (iotaNbt != null){
             return new DoubleIota(iotaNbt.getLong("timestamp"));
         } else {
             return new NullIota();
         }
     }
-    public static Iota getIotaWriter(Object key, ServerPlayerEntity suspect){
+    public static Iota getIotaWriter(Object key, ServerPlayerEntity suspect, ServerWorld world){
         String keyString = key.toString();
-        NbtCompound iotaNbt = iotaMap.getOrDefault(keyString, null);
         boolean foundSuspect = false;
+        NbtCompound iotaNbt = getValidEntry(keyString, world);
         if (iotaNbt != null){
             foundSuspect = suspect.getUuid().equals(iotaNbt.getUuid("writer"));
         }
         return new BooleanIota(foundSuspect);
+    }
+
+    private static NbtCompound getValidEntry(String key, ServerWorld world){
+        NbtCompound iotaNbt = iotaMap.getOrDefault(key, null);
+        if (iotaNbt != null){
+            if ((iotaNbt.getLong("timestamp") + hourInTicks) < world.getTime()){
+                iotaMap.remove(key);
+                //return false if it has been erased
+                return null;
+            } else {
+                return iotaNbt;
+            }
+        }
+        //also return false if it wasn't there in the first place
+        return null;
     }
 }

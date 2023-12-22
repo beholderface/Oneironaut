@@ -19,6 +19,7 @@ import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.passive.VillagerEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
@@ -28,13 +29,11 @@ import net.oneironaut.isPlayerEnlightened
 class OpWriteIdea : ConstMediaAction {
     override val argc = 2
     override val mediaCost = MediaConstants.DUST_UNIT
-    /*override val isGreat = true
-    override val alwaysProcessGreatSpell = false
-    override val causesBlindDiversion = false*/
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         val iotaToWrite = args[1]
         val truename = MishapOthersName.getTrueNameFromDatum(iotaToWrite, ctx.caster)
         if (truename != null){
+            //if (!(truename.equals(ctx.caster)) || (truename.equals(ctx.caster) && !(ctx.source.equals(CastingContext.CastSource.STAFF))))
             throw MishapOthersName(truename)
         }
         val rawKeyIota = args[0]
@@ -66,9 +65,7 @@ class OpWriteIdea : ConstMediaAction {
                 throw MishapLocationTooFarAway(args.getVec3(0, argc), "out_of_world")
             }
             IdeaInscriptionManager.writeIota(keyPos, iotaToWrite, ctx.caster, ctx.world)
-        }/* else if (rawKeyIota.type.equals(NullIota.TYPE) && ctx.caster.hasPermissionLevel(3)) {
-            //
-        } */else {
+        }else {
             throw MishapInvalidIota(rawKeyIota, 1, Text.translatable("oneironaut.mishap.novecorentity"));
         }
         ideaState.markDirty()

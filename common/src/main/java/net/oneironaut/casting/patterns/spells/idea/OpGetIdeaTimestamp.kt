@@ -30,13 +30,13 @@ class OpGetIdeaTimestamp : ConstMediaAction {
             keyEntity = args.getEntity(0, argc)
             ctx.assertEntityInRange(keyEntity)
             if (keyEntity.isPlayer || keyEntity.type.equals(EntityType.VILLAGER)){
-                output = IdeaInscriptionManager.getIotaTimestamp(keyEntity.uuid)
+                output = IdeaInscriptionManager.getIotaTimestamp(keyEntity.uuid, ctx.world)
             } else {
                 throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.badentitykey"))
             }
         } else if (rawKeyIota.type.equals(Vec3Iota.TYPE)){
             keyPos = BlockPos(args.getVec3(0, argc))
-            output = IdeaInscriptionManager.getIotaTimestamp(keyPos)
+            output = IdeaInscriptionManager.getIotaTimestamp(keyPos, ctx.world)
         } else {
             throw MishapInvalidIota(rawKeyIota, 0, Text.translatable("oneironaut.mishap.novecorentity"));
         }

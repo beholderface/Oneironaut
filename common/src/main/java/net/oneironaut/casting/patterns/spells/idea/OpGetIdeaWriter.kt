@@ -31,13 +31,13 @@ class OpGetIdeaWriter : ConstMediaAction {
             keyEntity = args.getEntity(0, argc)
             ctx.assertEntityInRange(keyEntity)
             if (keyEntity.isPlayer || keyEntity.type.equals(EntityType.VILLAGER)){
-                output = IdeaInscriptionManager.getIotaWriter(keyEntity.uuid, suspect)
+                output = IdeaInscriptionManager.getIotaWriter(keyEntity.uuid, suspect, ctx.world)
             } else {
                 throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.badentitykey"))
             }
         } else if (rawKeyIota.type.equals(Vec3Iota.TYPE)){
             keyPos = BlockPos(args.getVec3(0, argc))
-            output = IdeaInscriptionManager.getIotaWriter(keyPos, suspect)
+            output = IdeaInscriptionManager.getIotaWriter(keyPos, suspect, ctx.world)
         } else {
             throw MishapInvalidIota(rawKeyIota, 0, Text.translatable("oneironaut.mishap.novecorentity"));
         }
