@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 import net.oneironaut.casting.patterns.rod.OpDelayRod;
 import net.oneironaut.casting.patterns.rod.OpGetInitialRodState;
 import net.oneironaut.casting.patterns.rod.OpHaltRod;
+import net.oneironaut.casting.patterns.spells.OpParticleBurst;
 import net.oneironaut.casting.patterns.spells.idea.OpGetIdeaTimestamp;
 import net.oneironaut.casting.patterns.spells.idea.OpGetIdeaWriter;
 import net.oneironaut.casting.patterns.spells.idea.OpReadIdea;
@@ -56,6 +57,7 @@ public class OneironautPatternRegistry {
     public static HexPattern READ_IDEA = register(HexPattern.fromAngles("qwqwqwqwqwqqqwedewq", HexDir.WEST), "readidea", new OpReadIdea());
     public static HexPattern READ_IDEA_TIME = register(HexPattern.fromAngles("qwqwqwqwqwqqqeqaqeq", HexDir.WEST), "readideatime", new OpGetIdeaTimestamp());
     public static HexPattern COMPARE_IDEA_WRITER = register(HexPattern.fromAngles("qwqwqwqwqwqaeqedeqe", HexDir.WEST), "readideawriter", new OpGetIdeaWriter());
+    public static HexPattern PARTICLE_BURST = register(HexPattern.fromAngles("deeeewaaddwqqqqa", HexDir.EAST), "particleburst", new OpParticleBurst());
     public static HexPattern DIM_TELEPORT = registerPerWorld(HexPattern.fromAngles("qeewwwweeqeqeewwwweeqdqqdwwwdqeqdwwwdqdadwwdqdwwddadaqadaawww", HexDir.NORTH_EAST), "dimteleport", new OpDimTeleport());
     public static HexPattern INFUSE_MEDIA = registerPerWorld(HexPattern.fromAngles("wwaqqqqqeqqqwwwqqeqqwwwqqweqadadadaqeqeqadadadaqe", HexDir.EAST), "infusemedia", new OpInfuseMedia());
     public static HexPattern SWAP_SPACE = registerPerWorld(HexPattern.fromAngles("wqqqwwwwwqqqwwwqdaqadwqqwdaqadweqeqqqqeqeqaqeqedeqeqa", HexDir.EAST), "swapspace", new OpSwapSpace());

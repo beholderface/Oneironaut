@@ -20,6 +20,7 @@
   "hexcasting.spell.oneironaut:readidea": "Retrieve Idea",
   "hexcasting.spell.oneironaut:readideatime": "Metadata Purification",
   "hexcasting.spell.oneironaut:readideawriter": "Metadata Distillation",
+  "hexcasting.spell.oneironaut:particleburst": "Particle Burst",
   "this.is.a.comment.2": "Block/Item names--------------------------------------------------------------------------------------------",
   "block.oneironaut.pseudoamethyst_block": "Pseudoamethyst Block",
   "item.oneironaut.pseudoamethyst_shard": "Pseudoamethyst Shard",
@@ -94,6 +95,8 @@
   "oneironaut.page.idea_inscription.4": "Accepts a valid key, and returns the corresponding iota. Costs about 1 amethyst dust.",
   "oneironaut.page.idea_inscription.5": "Accepts a valid key, and returns when the corresponding iota was inscribed, or NULL. Costs a negligible amount of media.",
   "oneironaut.page.idea_inscription.6": "Accepts a valid key and a player, and returns whether the corresponding iota was inscribed by that player. Costs a negligible amount of media.",
+  "oneironaut.page.particleburst.1": "Accepts two vectors and two numbers, and uses them to define a burst of particles. Costs a negligible amount of media.",
+  "oneironaut.page.particleburst.2": "The first vector determines the burst's origin position, and the second vector determines its direction and speed. The first number determines the scale of random numbers added to each position component, and the second does the same for the direction vector.",
   "this.is.a.comment.5": "Advancements--------------------------------------------------------------------------------------------",
   "oneironaut.advancements.noosphere.enter": "A Realm of Thought and Dream",
   "oneironaut.advancements.noosphere.enter.description": "Enter the Noosphere",
@@ -111,5 +114,6 @@
   "this.is.a.comment.7": "Other?--------------------------------------------------------------------------------------------",
   "biome.oneironaut.noosphere_sea": "Noosphere Sea",
   "text.oneironaut.clearIdeasResponse": "Cleared iota storage map.",
+  "text.oneironaut.noforgeyet": "This has not yet been implemented on Forge. Sorry!",
   "text.oneironaut.lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 }

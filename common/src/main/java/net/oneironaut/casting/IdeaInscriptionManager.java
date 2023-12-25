@@ -146,13 +146,13 @@ public class IdeaInscriptionManager extends PersistentState {
         if (iotaNbt != null){
             if ((iotaNbt.getLong("timestamp") + hourInTicks) < world.getTime()){
                 iotaMap.remove(key);
-                //return false if it has been erased
+                //return null if it has been erased
                 return null;
             } else {
                 return iotaNbt;
             }
         }
-        //also return false if it wasn't there in the first place
+        //also return null if it wasn't there in the first place
         return null;
     }
 }
