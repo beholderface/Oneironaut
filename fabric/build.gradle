@@ -11,6 +11,7 @@ architectury {
 }
 
 loom {
+    mixin.defaultRefmapName = "oneironaut.mixins.refmap.json"
     accessWidenerPath = project(":common").loom.accessWidenerPath
     runs {
         client {

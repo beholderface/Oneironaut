@@ -22,7 +22,7 @@ class OpGetInitialRodState(val mode: Int) : ConstMediaAction {
                 when(mode){
                     1 -> return listOf(Vec3Iota(vecFromNBT(rodNbt.getLongArray("initialLook"))))
                     2 -> return listOf(Vec3Iota(vecFromNBT(rodNbt.getLongArray("initialPos"))))
-                    3 -> return listOf(DoubleIota(rodNbt.getDouble("initialTime")))
+                    3 -> return listOf(DoubleIota(rodNbt.getLong("initialTime").toDouble()))
                 }
             } else {
                 return listOf(NullIota())

@@ -18,6 +18,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReverberationRod extends ItemPackagedHex  {
@@ -63,13 +64,13 @@ public class ReverberationRod extends ItemPackagedHex  {
             //sPlayer.getItemCooldownManager().set(this, 1);
             stack.getNbt().putLongArray("initialPos", HexUtils.serializeToNBT(sPlayer.getEyePos()).getLongArray());
             stack.getNbt().putLongArray("initialLook", HexUtils.serializeToNBT(sPlayer.getRotationVector()).getLongArray());
-            stack.getNbt().putDouble("initialTime", world.getTime());
+            stack.getNbt().putLong("initialTime", world.getTime());
             stack.getNbt().putInt("delay", 0);
             stack.getNbt().putInt("resetDelay", 20);
-            /*initialPos = new Vec3Iota(sPlayer.getEyePos());
-            initialLook = new Vec3Iota(sPlayer.getRotationVector());
-            initialTimestamp = new DoubleIota(world.getTime());
-            delay = 0;*/
+            //I did a lazy and bundled the sound packet with the particle packet
+            /*IXplatAbstractions.INSTANCE.sendPacketNear(sPlayer.getPos(), 32.0, sPlayer.getWorld(),
+                    new ParticleBurstPacket(sPlayer.getPos(), new Vec3d(0, 0.25, 0), 0.1, 0.5,
+                            IXplatAbstractions.INSTANCE.getColorizer(sPlayer), false));*/
         }
         player.setCurrentHand(usedHand);
         return TypedActionResult.consume(stack);
@@ -92,6 +93,10 @@ public class ReverberationRod extends ItemPackagedHex  {
                 if (delay < 0){
                     stack.getNbt().putInt("delay", 0);
                 }
+/*
+                IXplatAbstractions.INSTANCE.sendPacketNear(sPlayer.getPos(), 128.0, sPlayer.getWorld(),
+                        new ParticleBurstPacket(sPlayer.getPos(), new Vec3d(0, 0.01, 0), 0.1, 0.0025, IXplatAbstractions.INSTANCE.getColorizer(sPlayer), false));
+*/
                 var ctx = new CastingContext(sPlayer, usedHand, CastingContext.CastSource.PACKAGED_HEX);
                 var harness = new CastingHarness(ctx);
                 var info = harness.executeIotas(instrs, sPlayer.getWorld());

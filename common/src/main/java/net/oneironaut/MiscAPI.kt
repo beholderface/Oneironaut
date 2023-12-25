@@ -1,6 +1,7 @@
 package net.oneironaut
 
 import at.petrak.hexcasting.api.HexAPI
+import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
@@ -146,6 +147,17 @@ fun isPlayerEnlightened(player : ServerPlayerEntity) : Boolean {
         enlightened = false
     }
     return enlightened;
+}
+
+fun isUsingRod(ctx : CastingContext) : Boolean {
+    if (ctx.source.equals(CastingContext.CastSource.PACKAGED_HEX)
+        && ctx.caster.activeItem.item.equals(OneironautThingRegistry.REVERBERATION_ROD.get().asItem())
+        //&& ctx.caster.getStackInHand(ctx.castingHand).equals(OneironautThingRegistry.REVERBERATION_ROD.get().asItem())
+        ){
+        return true
+    } else {
+        return false
+    }
 }
 
 //tried to write a smoother way to keep important blockstate values, didn't work
