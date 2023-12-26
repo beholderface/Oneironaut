@@ -1,5 +1,6 @@
 package net.oneironaut;
 
+import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
@@ -15,6 +16,8 @@ import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.oneironaut.block.ThoughtSlurry;
 import net.oneironaut.registry.OneironautThingRegistry;
+
+import java.util.Locale;
 
 /**
  * Common client loading entrypoint.
@@ -43,6 +46,20 @@ public class OneironautClient {
 
         ItemPropertiesRegistry.register(OneironautThingRegistry.REVERBERATION_ROD.get(), ItemPackagedHex.HAS_PATTERNS_PRED, (stack, level, holder, holderID) -> {
             return OneironautThingRegistry.REVERBERATION_ROD.get().hasHex(stack) ? 0.99f : -0.01f;
+        });
+        //ah yes, because I definitely want to turn my expensive staff into a much less expensive variant
+        ItemPropertiesRegistry.register(OneironautThingRegistry.ECHO_STAFF.get(), ItemStaff.FUNNY_LEVEL_PREDICATE, (stack, level, holder, holderID) -> {
+            if (!stack.hasCustomName()) {
+                return 0;
+            }
+            var name = stack.getName().getString().toLowerCase(Locale.ROOT);
+            if (name.contains("old")) {
+                return 1f;
+            } else if (name.contains("wand of the forest")) {
+                return 2f;
+            } else {
+                return 0f;
+            }
         });
     }
 }
