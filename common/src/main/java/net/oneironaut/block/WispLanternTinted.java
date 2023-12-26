@@ -67,6 +67,6 @@ public class WispLanternTinted extends BlockWithEntity/* implements ISplatoonabl
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (_world, _pos, _state, _be) -> ((WispLanternEntityTinted)_be).tick(_world, _pos, _state);
+        return world.isClient ? (_world, _pos, _state, _be) -> ((WispLanternEntityTinted)_be).tick(_world, _pos, _state) : null;
     }
 }

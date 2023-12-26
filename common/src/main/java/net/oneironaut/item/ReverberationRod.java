@@ -18,7 +18,6 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReverberationRod extends ItemPackagedHex  {
@@ -41,13 +40,6 @@ public class ReverberationRod extends ItemPackagedHex  {
         return UseAction.BLOCK;
     }
 
-    /*public Vec3Iota initialPos = new Vec3Iota(Vec3d.ZERO);
-    public Vec3Iota initialLook = new Vec3Iota(Vec3d.ZERO);
-    public DoubleIota initialTimestamp = new DoubleIota(0.0);
-    public int delay = 0;*/
-
-
-
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand usedHand) {
@@ -61,21 +53,15 @@ public class ReverberationRod extends ItemPackagedHex  {
             var sPlayer = world.getPlayerByUuid(player.getUuid()).getServer().getPlayerManager().getPlayer(player.getUuid());
             assert sPlayer != null;
             assert stack.getNbt() != null;
-            //sPlayer.getItemCooldownManager().set(this, 1);
             stack.getNbt().putLongArray("initialPos", HexUtils.serializeToNBT(sPlayer.getEyePos()).getLongArray());
             stack.getNbt().putLongArray("initialLook", HexUtils.serializeToNBT(sPlayer.getRotationVector()).getLongArray());
             stack.getNbt().putLong("initialTime", world.getTime());
             stack.getNbt().putInt("delay", 0);
             stack.getNbt().putInt("resetDelay", 20);
-            //I did a lazy and bundled the sound packet with the particle packet
-            /*IXplatAbstractions.INSTANCE.sendPacketNear(sPlayer.getPos(), 32.0, sPlayer.getWorld(),
-                    new ParticleBurstPacket(sPlayer.getPos(), new Vec3d(0, 0.25, 0), 0.1, 0.5,
-                            IXplatAbstractions.INSTANCE.getColorizer(sPlayer), false));*/
-            castHex(stack, (ServerWorld) world, sPlayer, usedHand);
         }
         player.setCurrentHand(usedHand);
         //cast immediately on use rather than waiting for the next tick
-        //stack.usageTick(world, player, stack.getMaxUseTime());
+        stack.usageTick(world, player, stack.getMaxUseTime());
         return TypedActionResult.consume(stack);
     }
     @Override
@@ -111,7 +97,7 @@ public class ReverberationRod extends ItemPackagedHex  {
         }
     }
 
-    private void castHex(ItemStack stack, ServerWorld world, ServerPlayerEntity sPlayer, Hand usedHand){
+    private boolean castHex(ItemStack stack, ServerWorld world, ServerPlayerEntity sPlayer, Hand usedHand){
         List<Iota> instrs = getHex(stack, world);
         assert stack.getNbt() != null;
         int delay = stack.getNbt().getInt("delay");
@@ -125,10 +111,13 @@ public class ReverberationRod extends ItemPackagedHex  {
             if (info.getResolutionType().equals(ResolvedPatternType.ERRORED)){
                 sPlayer.stopUsingItem();
                 sPlayer.getItemCooldownManager().set(this, 20);
+                return false;
             }
+            return true;
         } else {
             stack.getNbt().putInt("delay", delay - 1);
         }
+        return true;
     }
 
     @Override
@@ -146,5 +135,4 @@ public class ReverberationRod extends ItemPackagedHex  {
     public int getMaxUseTime(ItemStack stack) {
         return 20 * 60 * 60;
     }
-
 }

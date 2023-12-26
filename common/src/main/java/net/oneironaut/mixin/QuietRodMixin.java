@@ -21,6 +21,7 @@ import java.util.List;
 
 import static net.oneironaut.MiscAPIKt.isUsingRod;
 
+
 @SuppressWarnings("ConstantConditions")
 @Mixin(value = CastingHarness.class, priority = 1001/*gotta make sure to overwrite the hexal mixin here*/)
 public abstract class QuietRodMixin {
