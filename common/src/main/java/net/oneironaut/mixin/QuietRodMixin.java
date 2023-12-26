@@ -44,7 +44,7 @@ public abstract class QuietRodMixin {
                 return sideEffects.add(particles);
             else if (isUsingRod(ctx)){
                 //do particles every 30 ticks
-                if (((((ctx.getCaster().getWorld().getTime() - 1) - ctx.getCaster().getActiveItem().getNbt().getDouble("initialTime")) % 30.0) == 0)){
+                if ((((ctx.getCaster().getWorld().getTime() - ctx.getCaster().getActiveItem().getNbt().getDouble("initialTime")) % 30.0) == 0)){
                     return sideEffects.add(new OperatorSideEffect.Particles(new ParticleSpray(ctx.getCaster().getPos(), new Vec3d(0, 1, 0), 0.5, 1.0, 1)));
                 } else {
                     return false;
@@ -79,10 +79,8 @@ public abstract class QuietRodMixin {
             if (caster != null){
                 ItemStack activeStack = caster.getActiveItem();
                 //play cast sound every 1.5 seconds
-                if (((((caster.getWorld().getTime() - 1) - activeStack.getNbt().getDouble("initialTime")) % 30.0) == 0)){
+                if ((((caster.getWorld().getTime() - activeStack.getNbt().getDouble("initialTime")) % 30.0) == 0)){
                     world.playSound(player, x, y, z, soundEvent, soundSource, v, p);
-                } else {
-                    Oneironaut.LOGGER.info("Suppressing cast sound.");
                 }
             }
         } else {

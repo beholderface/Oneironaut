@@ -71,8 +71,11 @@ public class ReverberationRod extends ItemPackagedHex  {
             /*IXplatAbstractions.INSTANCE.sendPacketNear(sPlayer.getPos(), 32.0, sPlayer.getWorld(),
                     new ParticleBurstPacket(sPlayer.getPos(), new Vec3d(0, 0.25, 0), 0.1, 0.5,
                             IXplatAbstractions.INSTANCE.getColorizer(sPlayer), false));*/
+            castHex(stack, (ServerWorld) world, sPlayer, usedHand);
         }
         player.setCurrentHand(usedHand);
+        //cast immediately on use rather than waiting for the next tick
+        //stack.usageTick(world, player, stack.getMaxUseTime());
         return TypedActionResult.consume(stack);
     }
     @Override
@@ -86,17 +89,14 @@ public class ReverberationRod extends ItemPackagedHex  {
             } else {
                 usedHand = Hand.OFF_HAND;
             }
-            List<Iota> instrs = getHex(stack, (ServerWorld) world);
+            castHex(stack, (ServerWorld) world, sPlayer, usedHand);
+            /*List<Iota> instrs = getHex(stack, (ServerWorld) world);
             assert stack.getNbt() != null;
             int delay = stack.getNbt().getInt("delay");
             if (delay <= 0){
                 if (delay < 0){
                     stack.getNbt().putInt("delay", 0);
                 }
-/*
-                IXplatAbstractions.INSTANCE.sendPacketNear(sPlayer.getPos(), 128.0, sPlayer.getWorld(),
-                        new ParticleBurstPacket(sPlayer.getPos(), new Vec3d(0, 0.01, 0), 0.1, 0.0025, IXplatAbstractions.INSTANCE.getColorizer(sPlayer), false));
-*/
                 var ctx = new CastingContext(sPlayer, usedHand, CastingContext.CastSource.PACKAGED_HEX);
                 var harness = new CastingHarness(ctx);
                 var info = harness.executeIotas(instrs, sPlayer.getWorld());
@@ -106,10 +106,31 @@ public class ReverberationRod extends ItemPackagedHex  {
                 }
             } else {
                 stack.getNbt().putInt("delay", delay - 1);
-            }
+            }*/
             //Oneironaut.LOGGER.info(info.getResolutionType());
         }
     }
+
+    private void castHex(ItemStack stack, ServerWorld world, ServerPlayerEntity sPlayer, Hand usedHand){
+        List<Iota> instrs = getHex(stack, world);
+        assert stack.getNbt() != null;
+        int delay = stack.getNbt().getInt("delay");
+        if (delay <= 0){
+            if (delay < 0){
+                stack.getNbt().putInt("delay", 0);
+            }
+            var ctx = new CastingContext(sPlayer, usedHand, CastingContext.CastSource.PACKAGED_HEX);
+            var harness = new CastingHarness(ctx);
+            var info = harness.executeIotas(instrs, sPlayer.getWorld());
+            if (info.getResolutionType().equals(ResolvedPatternType.ERRORED)){
+                sPlayer.stopUsingItem();
+                sPlayer.getItemCooldownManager().set(this, 20);
+            }
+        } else {
+            stack.getNbt().putInt("delay", delay - 1);
+        }
+    }
+
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user.isPlayer() && !world.isClient){
