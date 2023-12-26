@@ -1,5 +1,6 @@
 package net.oneironaut.registry;
 
+import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.platform.Platform;
@@ -76,6 +77,7 @@ public class OneironautThingRegistry{
     public static final RegistrySupplier<BottomlessMediaItem> BOTTOMLESS_MEDIA_ITEM = ITEMS.register("endless_phial", () -> new BottomlessMediaItem(HexItems.unstackable()));
     public static final RegistrySupplier<SuperBuddingBlock> SUPER_BUDDING = BLOCKS.register("super_budding", () -> new SuperBuddingBlock(AbstractBlock.Settings.of(Material.AMETHYST)));
     public static final RegistrySupplier<BlockItem> SUPER_BUDDING_ITEM = ITEMS.register("super_budding", () -> new BlockItem(SUPER_BUDDING.get(), HexItems.props()));
+    public static final RegistrySupplier<ItemStaff> ECHO_STAFF = ITEMS.register("echo_staff", () -> new ItemStaff(HexItems.unstackable()));
 
 
     // A new creative tab. Notice how it is one of the few things that are not deferred

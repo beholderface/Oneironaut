@@ -66,6 +66,11 @@
       "input": "number",
       "output": "",
       "text": "oneironaut.page.rod.9"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "oneironaut:echo_staff",
+      "text": "oneironaut.page.rod.10"
     }
   ]
 }
