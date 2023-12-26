@@ -10,9 +10,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
-import net.oneironaut.Oneironaut;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -39,7 +37,6 @@ public abstract class QuietRodMixin {
             CastingContext ctx = harness.getCtx();
             IMixinCastingContext ctxi = (IMixinCastingContext)(Object) ctx;
             //ctx.getCaster().sendMessage(Text.of("mixin is doing a thing"));
-            //IMixinCastingContext ctxi = (IMixinCastingContext)(Object) ctx;
             if (!(isUsingRod(ctx) || ctxi.hasWisp()))
                 return sideEffects.add(particles);
             else if (isUsingRod(ctx)){
@@ -53,7 +50,6 @@ public abstract class QuietRodMixin {
                 return false;
             }
         }
-
         return sideEffects.add((OperatorSideEffect) o);
     }
 
@@ -64,7 +60,7 @@ public abstract class QuietRodMixin {
                     target = "Lnet/minecraft/server/world/ServerWorld;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
                     , remap = true
             ),
-            remap = false)
+            remap = true)
     private void playSoundRodOrWisp (ServerWorld world, PlayerEntity player, double x, double y, double z, SoundEvent soundEvent, SoundCategory soundSource, float v, float p) {
         CastingContext ctx = harness.getCtx();
         IMixinCastingContext wispContext = (IMixinCastingContext) (Object) ctx;
@@ -75,7 +71,6 @@ public abstract class QuietRodMixin {
             wisp.scheduleCastSound();
         } else if (isUsingRod(ctx)) {
             ServerPlayerEntity caster = ctx.getCaster();
-            //PlayerEntity caster = world.getClosestPlayer(x, y, z, 64, false);
             if (caster != null){
                 ItemStack activeStack = caster.getActiveItem();
                 //play cast sound every 1.5 seconds
