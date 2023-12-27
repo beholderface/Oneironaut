@@ -12,7 +12,7 @@ architectury {
 
 loom {
     mixin.defaultRefmapName = "oneironaut.mixins.refmap.json"
-    accessWidenerPath = project(":common").loom.accessWidenerPath
+    accessWidenerPath = file("src/main/resources/oneironaut.accesswidener")
     runs {
         client {
             programArgs(["--username", "beholderface", "--uuid", "21df30f7-6652-4f02-9b70-f95c1f051c9f"])

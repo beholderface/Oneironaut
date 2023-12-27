@@ -51,6 +51,8 @@ public class Oneironaut {
             IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState(startedserver);
             IdeaInscriptionManager.cleanMap(startedserver, ideaState);
             ideaState.markDirty();
+
+            //SentinelTracker sentinelState = SentinelTracker.getServerState(startedserver);
         });
         CommandRegistrationEvent.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("clearinscribedideas")
                 .requires(source -> source.hasPermissionLevel(3))
