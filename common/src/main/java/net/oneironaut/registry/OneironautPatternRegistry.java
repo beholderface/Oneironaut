@@ -48,8 +48,6 @@ public class OneironautPatternRegistry {
     public static HexPattern RESET_ROD = register(HexPattern.fromAngles("deaqqwqqqw", HexDir.SOUTH_EAST), "resetrod", new OpHaltRod(1));
     public static HexPattern READ_FRAME_ROTATION = register(HexPattern.fromAngles("wwawwqwwawwaeae", HexDir.SOUTH_WEST), "readframerotation", new OpFrameRotation(0));
     public static HexPattern SET_FRAME_ROTATION = register(HexPattern.fromAngles("wwawwqwwawwaqdq", HexDir.SOUTH_WEST), "setframerotation", new OpFrameRotation(1));
-    //turns out normal Sorter's Purification works on item frames
-    //public static HexPattern READ_FRAME_ITEMTYPE = regi(silly hexdoc, comments are for humans)ster(HexPattern.from(no)Angles("wqwqwqwqwqwawedeedqdq", HexDir.WEST), "readframeitem", new OpFrameItem());
     public static HexPattern WRITE_IDEA = register(HexPattern.fromAngles("eweweweweweeewqaqwe", HexDir.EAST), "writeidea", new OpWriteIdea());
     public static HexPattern READ_IDEA = register(HexPattern.fromAngles("qwqwqwqwqwqqqwedewq", HexDir.WEST), "readidea", new OpReadIdea());
     public static HexPattern READ_IDEA_TIME = register(HexPattern.fromAngles("qwqwqwqwqwqqqeqaqeq", HexDir.WEST), "readideatime", new OpGetIdeaTimestamp());
