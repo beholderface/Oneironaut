@@ -1,20 +1,8 @@
 package net.oneironaut.block;
 
 import at.petrak.hexcasting.api.HexAPI;
-import at.petrak.hexcasting.api.block.circle.BlockAbstractImpetus;
-import at.petrak.hexcasting.api.block.circle.BlockCircleComponent;
 import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus;
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
-import at.petrak.hexcasting.api.spell.ParticleSpray;
-import at.petrak.hexcasting.api.spell.casting.CastingContext;
-import at.petrak.hexcasting.api.spell.casting.CastingHarness;
-import at.petrak.hexcasting.api.spell.casting.SpellCircleContext;
-import at.petrak.hexcasting.api.spell.iota.EntityIota;
-import at.petrak.hexcasting.api.spell.iota.Iota;
-import at.petrak.hexcasting.api.spell.iota.PatternIota;
 import at.petrak.hexcasting.api.utils.NBTHelper;
-import at.petrak.hexcasting.common.lib.HexItems;
-import at.petrak.hexcasting.common.lib.HexSounds;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.BlockState;
@@ -25,19 +13,15 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
+import net.oneironaut.Oneironaut;
 import net.oneironaut.registry.OneironautThingRegistry;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
     public static final String TAG_STORED_PLAYER = "stored_player";
@@ -45,6 +29,8 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
 
     private GameProfile storedPlayerProfile = null;
     private UUID storedPlayer = null;
+    public static final String TAG_TARGET_PLAYER = "target_player";
+    private UUID targetPlayer = null;
 
     private GameProfile cachedDisplayProfile = null;
     private ItemStack cachedDisplayStack = null;
@@ -81,7 +67,7 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
     }
 
     public void updatePlayerProfile() {
-        ServerPlayerEntity player = getStoredPlayer();
+        PlayerEntity player = getStoredPlayer();
         if (player != null) {
             GameProfile newProfile = player.getGameProfile();
             if (!newProfile.equals(this.storedPlayerProfile)) {
@@ -92,22 +78,29 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
             this.storedPlayerProfile = null;
         }
     }
-    @Nullable
-    public ServerPlayerEntity getStoredPlayer() {
-        if (this.storedPlayer == null) {
-            return null;
-        }
-        if (!(this.world instanceof ServerWorld slevel)) {
-            HexAPI.LOGGER.error("Called getStoredPlayer on the client");
-            return null;
-        }
-        var e = slevel.getEntity(this.storedPlayer);
-        if (e instanceof ServerPlayerEntity player) {
-            return player;
+    public @Nullable
+    PlayerEntity getStoredPlayer() {
+        assert this.world != null;
+        if (this.storedPlayer != null){
+            return this.world.getPlayerByUuid(this.storedPlayer);
         } else {
-            HexAPI.LOGGER.error("Entity {} stored in a trap impetus wasn't a player somehow", e);
             return null;
         }
+        //return this.storedPlayer;
+    }
+
+    public @Nullable PlayerEntity getTargetPlayer(){
+        assert this.world != null;
+        if (this.storedPlayer != null){
+            return this.world.getPlayerByUuid(this.targetPlayer);
+        } else {
+            return null;
+        }
+    }
+
+    public void setTargetPlayer(UUID player) {
+        this.targetPlayer = player;
+        this.markDirty();
     }
 
     public void applyScryingLensOverlay(List<Pair<ItemStack, Text>> lines,
@@ -126,10 +119,10 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
                 cachedDisplayStack = head;
             }
             lines.add(new Pair<>(cachedDisplayStack,
-                    Text.translatable("hexcasting.tooltip.lens.impetus.redstone.bound", name.getName())));
+                    Text.translatable("hexcasting.tooltip.lens.impetus.storedplayer", name.getName())));
         } else {
             lines.add(new Pair<>(new ItemStack(Items.BARRIER),
-                    Text.translatable("hexcasting.tooltip.lens.impetus.redstone.bound.none")));
+                    Text.translatable("hexcasting.tooltip.lens.impetus.storedplayer.none")));
         }
     }
     @Override
@@ -137,6 +130,9 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
         super.saveModData(tag);
         if (this.storedPlayer != null) {
             tag.putUuid(TAG_STORED_PLAYER, this.storedPlayer);
+        }
+        if (this.targetPlayer != null){
+            tag.putUuid(TAG_TARGET_PLAYER, this.targetPlayer);
         }
         if (this.storedPlayerProfile != null) {
             tag.put(TAG_STORED_PLAYER_PROFILE, net.minecraft.nbt.NbtHelper.writeGameProfile(new NbtCompound(), storedPlayerProfile));
@@ -151,6 +147,11 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
         } else {
             this.storedPlayer = null;
         }
+        if (tag.contains(TAG_TARGET_PLAYER, NbtElement.INT_ARRAY_TYPE)){
+            this.targetPlayer = tag.getUuid(TAG_TARGET_PLAYER);
+        } else {
+            this.targetPlayer = null;
+        }
         if (tag.contains(TAG_STORED_PLAYER_PROFILE, NbtElement.COMPOUND_TYPE)) {
             this.storedPlayerProfile = net.minecraft.nbt.NbtHelper.toGameProfile(tag.getCompound(TAG_STORED_PLAYER_PROFILE));
         } else {
@@ -158,39 +159,21 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
         }
     }
 
-    @Override
-    private void castSpell(ServerPlayerEntity triggeringPlayer) {
-        var player = this.getPlayer();
-
-        if (player instanceof ServerPlayerEntity splayer) {
-            var bounds = getBounds(this.trackedBlocks);
-
-            var ctx = new CastingContext(splayer, Hand.MAIN_HAND,
-                    new SpellCircleContext(this.getPos(), bounds, this.activatorAlwaysInRange()));
-            var harness = new CastingHarness(ctx);
-            harness.getStack().add(new EntityIota(triggeringPlayer));
-            BlockPos erroredPos = null;
-            for (var tracked : this.trackedBlocks) {
-                var bs = this.world.getBlockState(tracked);
-                if (bs.getBlock() instanceof BlockCircleComponent cc) {
-                    var newPattern = cc.getPattern(tracked, bs, this.world);
-                    if (newPattern != null) {
-                        var info = harness.executeIota(new PatternIota(newPattern), splayer.getWorld());
-                        if (!info.getResolutionType().getSuccess()) {
-                            erroredPos = tracked;
-                            break;
-                        }
-                    }
-                }
+    public static Map<RegistryKey<World>, Map<BlockPos, Vec3d>> trapLocationMap = new HashMap<>();
+    //@Override
+    public void tick(World world, BlockPos pos, BlockState state) {
+        RegistryKey<World> worldKey = world.getRegistryKey();
+        if (!(trapLocationMap.containsKey(worldKey))){
+            Map<BlockPos, Vec3d> newMap = new HashMap<BlockPos, Vec3d>();
+            newMap.put(pos, new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+            trapLocationMap.put(worldKey, newMap);
+            //Oneironaut.LOGGER.info("Created map and did a thing");
+        } else {
+            Map<BlockPos, Vec3d> existingMap = trapLocationMap.get(worldKey);
+            if (!(existingMap.containsKey(pos))){
+                existingMap.put(pos, new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+                //Oneironaut.LOGGER.info("did a thing with existing map");
             }
-
-            if (erroredPos != null) {
-                this.sfx(erroredPos, false);
-            } else {
-                this.setLastMishap(null);
-            }
-
-            this.markDirty();
         }
     }
 

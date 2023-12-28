@@ -9,7 +9,10 @@
   "server": [
   ],
   "mixins": [
-    "QuietRodMixin"
+    "NoosphereWispMixin",
+    "QuietRodMixin",
+    "SentinelTrapMixinCast",
+    "SentinelTrapMixinSummon"
   ],
   "injectors": {
     "defaultRequire": 1

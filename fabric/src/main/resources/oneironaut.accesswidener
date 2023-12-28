@@ -1,3 +1,4 @@
 accessWidener   v2  named
 
+#accessible method at/petrak/hexcasting/api/block/circle/BlockEntityAbstractImpetus stepCircle ()V
 #accessible method at/petrak/hexcasting/api/block/circle/BlockEntityAbstractImpetus getBounds (Ljava/util/List<Lnet/minecraft/util/math/BlockPos>;)Lnet/minecraft/util/math/Box

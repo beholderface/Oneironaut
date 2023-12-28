@@ -2,11 +2,14 @@ package net.oneironaut.block;
 
 import at.petrak.hexcasting.api.block.circle.BlockAbstractImpetus;
 import at.petrak.hexcasting.api.block.circle.BlockCircleComponent;
+import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus;
 import at.petrak.hexcasting.api.player.Sentinel;
 import at.petrak.hexcasting.api.spell.iota.EntityIota;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -29,8 +32,6 @@ import java.util.UUID;
 
 public class SentinelTrapImpetus extends BlockAbstractImpetus {
 
-    private static Map<ServerPlayerEntity, Sentinel> sentinelMap = new HashMap<>();
-
     public SentinelTrapImpetus(Settings settings){
         super(settings);
     }
@@ -40,36 +41,13 @@ public class SentinelTrapImpetus extends BlockAbstractImpetus {
         return new SentinelTrapImpetusEntity(pos,state);
     }
 
-    //@Override
-    public void tick(BlockState pState, ServerWorld world, BlockPos pPos, Random pRandom) {
-        Iterator<ServerPlayerEntity> playerIterator = world.getServer().getPlayerManager().getPlayerList().iterator();
-        ServerPlayerEntity currentPlayer = null;
-        Sentinel currentSentinel = null;
-        while (playerIterator.hasNext()){
-            currentPlayer = playerIterator.next();
-            currentSentinel = IXplatAbstractions.INSTANCE.getSentinel(currentPlayer);
-            if(currentSentinel.dimension().equals(world.getRegistryKey())
-                    && currentSentinel.position().isInRange(new Vec3d(pPos.getX(), pPos.getY(), pPos.getZ()), 16)){
-                if (!(sentinelMap.containsKey(currentPlayer))){
-                    if (world.getBlockEntity(pPos) instanceof SentinelTrapImpetusEntity tile && !(world.getBlockState(pPos).get(BlockCircleComponent.ENERGIZED))) {
-                        tile.activateSpellCircle(tile.getStoredPlayer());
-                    }
-                    sentinelMap.put(currentPlayer, currentSentinel);
-                }
-            } else {
-                if (sentinelMap.containsKey(currentPlayer)){
-                    sentinelMap.remove(currentPlayer);
-                }
-            }
-        }
-        super.scheduledTick(pState, world, pPos, pRandom);
-        if (world.getBlockEntity(pPos) instanceof SentinelTrapImpetusEntity tile) {
-            tile.updatePlayerProfile();
-        }
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return world.isClient ? (_world, _pos, _state, _be) -> ((SentinelTrapImpetusEntity)_be).tick(_world, _pos, _state) : null;
     }
 
-    //@Override
-    public ActionResult use(BlockState pState, World world, BlockPos pPos, PlayerEntity pPlayer, Hand pHand,
+    @Override
+    public ActionResult onUse(BlockState pState, World world, BlockPos pPos, PlayerEntity pPlayer, Hand pHand,
                             BlockHitResult pHit) {
         if (world instanceof ServerWorld level
                 && level.getBlockEntity(pPos) instanceof SentinelTrapImpetusEntity tile) {
@@ -86,7 +64,6 @@ public class SentinelTrapImpetus extends BlockAbstractImpetus {
                         if (entity instanceof PlayerEntity player) {
                             tile.setPlayer(player.getGameProfile(), entity.getUuid());
                             tile.sync();
-
                             world.playSound(pPlayer, pPos, HexSounds.SPELL_CIRCLE_CAST,
                                     SoundCategory.BLOCKS, 1f, 1f);
                         }

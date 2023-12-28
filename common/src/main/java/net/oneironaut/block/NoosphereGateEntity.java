@@ -12,6 +12,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.oneironaut.Oneironaut;
@@ -24,10 +25,13 @@ import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 import ram.talia.hexal.common.entities.TickingWisp;
 import ram.talia.hexal.common.lib.HexalEntities;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class NoosphereGateEntity extends BlockEntity {
+    public static Map<RegistryKey<World>, Map<BlockPos, Vec3d>> gateLocationMap = new HashMap<>();
     public NoosphereGateEntity(BlockPos pos, BlockState state) {
         super(OneironautThingRegistry.NOOSPHERE_GATE_ENTITY.get(), pos, state);
         //Oneironaut.LOGGER.info("super Creating blockentity.");
@@ -131,24 +135,17 @@ public class NoosphereGateEntity extends BlockEntity {
                 }
             }
             //maintain wisps
-            //temporarily don't do that, until the hexxycraft dev crash loop is figured out
-            /*int radius = 8;
-            List<Entity> nearby = world.getOtherEntities(null, new Box(pos.add(new Vec3i(-radius, -radius, -radius)), pos.add(new Vec3i(radius, radius, radius))));
-            Iterator<Entity> iterNearby = nearby.iterator();
-            Entity currentEntity = null;
-            while (iterNearby.hasNext()){
-                currentEntity = iterNearby.next();
-                if (currentEntity.getType().equals(HexalEntities.TICKING_WISP)){
-                    TickingWisp wisp = (TickingWisp) currentEntity;
-                    if (wisp.getPos().isInRange(doublePos, radius) && (wisp.getCaster() != null) && (wisp.getMedia() < 1000 * MediaConstants.DUST_UNIT)){
-                        int upkeep = wisp.getNormalCostPerTick();
-                        if (!wisp.canScheduleCast()){
-                            upkeep = wisp.getUntriggeredCostPerTick();
-                        }
-                        wisp.addMedia(upkeep);
-                    }
+            RegistryKey<World> worldKey = world.getRegistryKey();
+            if (!(gateLocationMap.containsKey(worldKey))){
+                Map<BlockPos, Vec3d> newMap = new HashMap<BlockPos, Vec3d>();
+                newMap.put(pos, new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+                gateLocationMap.put(worldKey, newMap);
+            } else {
+                Map<BlockPos, Vec3d> existingMap = gateLocationMap.get(worldKey);
+                if (!(existingMap.containsKey(pos))){
+                    existingMap.put(pos, new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
                 }
-            }*/
+            }
         } else {
             //purple slipway thing
             Random rand = Random.create();
