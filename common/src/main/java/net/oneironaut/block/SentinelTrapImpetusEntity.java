@@ -168,9 +168,7 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
             var ctx = new CastingContext(splayer, Hand.MAIN_HAND,
                     new SpellCircleContext(this.getPos(), bounds, this.activatorAlwaysInRange()));
             var harness = new CastingHarness(ctx);
-            List<Iota> initialStack = new ArrayList<>();
-            initialStack.add(new EntityIota(triggeringPlayer));
-            harness.setStack(initialStack);
+            harness.getStack().add(new EntityIota(triggeringPlayer));
             BlockPos erroredPos = null;
             for (var tracked : this.trackedBlocks) {
                 var bs = this.world.getBlockState(tracked);
@@ -194,128 +192,6 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
 
             this.markDirty();
         }
-    }
-
-    //start of me just stealing shit from the hex code to avoid needing to use an accesswidener
-    @Contract(pure = true)
-    private static Box getBounds(List<BlockPos> poses) {
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
-        int minZ = Integer.MAX_VALUE;
-        int maxX = Integer.MIN_VALUE;
-        int maxY = Integer.MIN_VALUE;
-        int maxZ = Integer.MIN_VALUE;
-
-        for (var pos : poses) {
-            if (pos.getX() < minX) {
-                minX = pos.getX();
-            }
-            if (pos.getY() < minY) {
-                minY = pos.getY();
-            }
-            if (pos.getZ() < minZ) {
-                minZ = pos.getZ();
-            }
-            if (pos.getX() > maxX) {
-                maxX = pos.getX();
-            }
-            if (pos.getY() > maxY) {
-                maxY = pos.getY();
-            }
-            if (pos.getZ() > maxZ) {
-                maxZ = pos.getZ();
-            }
-        }
-
-        return new Box(minX, minY, minZ, maxX + 1, maxY + 1, maxZ + 1);
-    }
-
-
-    private List<BlockPos> trackedBlocks = null;
-
-    void stepCircle() {
-        this.markDirty();
-
-        // haha which silly idiot would have done something like this
-        if (this.activator == null || this.colorizer == null || this.nextBlock == null || this.trackedBlocks == null) {
-            return;
-        }
-
-        var possibleErrorPos = this.checkEverythingOk();
-        if (possibleErrorPos != null) {
-            this.sfx(possibleErrorPos, false);
-            this.stopCasting();
-            return;
-        }
-
-        if (this.foundAll) {
-            this.clearEnergized();
-            this.castSpell();
-            this.stopCasting();
-            return;
-        }
-
-        // This should only fail if we remove blocks halfway through casting
-        var bsHere = this.world.getBlockState(this.nextBlock);
-        if (!this.trackedBlocks.isEmpty() && bsHere.getBlock() instanceof BlockAbstractImpetus) {
-            // no two impetuses!
-            this.sfx(this.nextBlock, false);
-            this.stopCasting();
-            return;
-        }
-        var blockHere = bsHere.getBlock();
-        if (!(blockHere instanceof BlockCircleComponent cc)) {
-            this.sfx(this.nextBlock, false);
-            this.stopCasting();
-            return;
-        }
-        // Awesome we know this block is OK
-        var thisNormal = cc.normalDir(this.nextBlock, bsHere, this.world);
-        var possibleExits = cc.exitDirections(this.nextBlock, bsHere, this.world);
-        BlockPos foundPos = null;
-        for (var exit : possibleExits) {
-            var neighborPos = this.nextBlock.offset(exit);
-            var blockThere = this.world.getBlockState(neighborPos);
-            // at this point, we haven't actually added nextBlock to trackedBlocks
-            // so, in the smallest circle case (a 2x2), this will have a size of 3 (with this block being the 4th).
-            var closedLoop = (this.trackedBlocks.size() >= 3 && this.trackedBlocks.get(0).equals(neighborPos));
-            var mightBeOkThere = closedLoop
-                    || this.trackedBlocks.isEmpty()
-                    || !this.trackedBlocks.get(this.trackedBlocks.size() - 1).equals(neighborPos);
-            if (mightBeOkThere
-                    && blockThere.getBlock() instanceof BlockCircleComponent cc2
-                    && cc2.canEnterFromDirection(exit.getOpposite(), thisNormal, neighborPos, blockThere, this.world)
-                    // another good use for the implies operator 😩
-                    && (!blockThere.get(BlockCircleComponent.ENERGIZED) || this.knownBlocks.contains(neighborPos))) {
-                if (foundPos == null) {
-                    foundPos = neighborPos;
-                    this.foundAll |= closedLoop;
-                } else {
-                    // uh oh, fork in the road
-                    this.sfx(this.nextBlock, false);
-                    this.stopCasting();
-                    return;
-                }
-            }
-        }
-        if (foundPos != null) {
-            // pog
-            this.trackedBlocks.add(this.nextBlock);
-            this.knownBlocks.add(this.nextBlock);
-            this.nextBlock = foundPos;
-        } else {
-            // end of the line
-            this.sfx(this.nextBlock, false);
-            this.stopCasting();
-            return;
-        }
-
-        var lastPos = this.trackedBlocks.get(this.trackedBlocks.size() - 1);
-        var justTrackedBlock = this.world.getBlockState(lastPos);
-        this.world.setBlockState(lastPos, justTrackedBlock.with(BlockCircleComponent.ENERGIZED, true));
-        this.sfx(lastPos, true);
-
-        this.world.createAndScheduleBlockTick(this.getPos(), this.getCachedState().getBlock(), this.getTickSpeed());
     }
 
 }

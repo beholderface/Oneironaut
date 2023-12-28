@@ -23,5 +23,5 @@ package_src: doc/src/hexdoc_oneironaut
 pages_url: https://beholderface.github.io/oneironaut
 pattern_regex:
     per_world_value: registerPerWorld
-    regex: (?P<is_per_world>register|registerPerWorld)\(HexPattern\.fromAngles\("(?P<signature>[qweasd]+)",\s*HexDir\.(?P<startdir>\w+)\),\s*"(?P<name>[^"]+)"?
+    regex: (^(?:(?!//).)+?P<is_per_world>register|registerPerWorld)\(HexPattern\.fromAngles\("(?P<signature>[qweasd]+)",\s*HexDir\.(?P<startdir>\w+)\),\s*"(?P<name>[^"]+)"?
 pattern_registry: registry/OneironautPatternRegistry.java
