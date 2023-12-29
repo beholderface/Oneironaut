@@ -4,15 +4,18 @@ import at.petrak.hexcasting.api.spell.ParticleSpray;
 import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.casting.CastingHarness;
 import at.petrak.hexcasting.api.spell.casting.sideeffects.OperatorSideEffect;
+import at.petrak.hexcasting.common.lib.hex.HexEvalSounds;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import ram.talia.hexal.api.spell.casting.IMixinCastingContext;
 import ram.talia.hexal.common.entities.BaseCastingWisp;
@@ -23,7 +26,7 @@ import static net.oneironaut.MiscAPIKt.isUsingRod;
 
 
 @SuppressWarnings("ConstantConditions")
-@Mixin(value = CastingHarness.class, priority = 1001/*gotta make sure to overwrite the hexal mixin here*/)
+@Mixin(value = CastingHarness.class, priority = 1002/*gotta make sure to overwrite the hexal mixin here*/)
 public abstract class QuietRodMixin {
     private final CastingHarness harness = (CastingHarness) (Object) this;
     @Redirect(method = "updateWithPattern",
@@ -54,12 +57,35 @@ public abstract class QuietRodMixin {
         return sideEffects.add((OperatorSideEffect) o);
     }
 
-    @SuppressWarnings("DefaultAnnotationParam")
+    @ModifyVariable(method = "executeIotas",
+    at = @At(value = "STORE"))
+    private SoundEvent thing(SoundEvent event){
+        CastingContext ctx = harness.getCtx();
+        if (isUsingRod(ctx)){
+            ServerPlayerEntity caster = ctx.getCaster();
+            ServerWorld world = ctx.getWorld();
+            if (caster != null){
+                ItemStack activeStack = caster.getActiveItem();
+                //play cast sound every 1.5 seconds
+                if ((((caster.getWorld().getTime() - activeStack.getNbt().getDouble("initialTime")) % 30.0) == 0)){
+                    return event;
+                } else {
+                    return SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME;
+                }
+            } else {
+                return SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME;
+            }
+        } else {
+            return event;
+        }
+    }
+
+    /*@SuppressWarnings("DefaultAnnotationParam")
     @Redirect(method = "executeIotas",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/server/world/ServerWorld;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
-                    , remap = true
+                    , remap = false
             ),
             remap = true)
     private void playSoundRodOrWisp (ServerWorld world, PlayerEntity player, double x, double y, double z, SoundEvent soundEvent, SoundCategory soundSource, float v, float p) {
@@ -82,5 +108,5 @@ public abstract class QuietRodMixin {
         } else {
             world.playSound(player, x, y, z, soundEvent, soundSource, v, p);
         }
-    }
+    }*/
 }

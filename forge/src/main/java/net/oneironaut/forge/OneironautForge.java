@@ -5,6 +5,7 @@ import net.oneironaut.Oneironaut;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.oneironaut.block.ThoughtSlurry;
 
 /**
  * This is your loading entrypoint on forge, in case you need to initialize
@@ -15,8 +16,12 @@ public class OneironautForge {
     public OneironautForge() {
         // Submit our event bus to let architectury register our content on the right time
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        EventBuses.registerModEventBus(Oneironaut.MOD_ID, bus);
         bus.addListener(OneironautClientForge::init);
+        ForgeBlockInit.BLOCKS.register(bus);
+        ForgeItemInit.ITEMS.register(bus);
+        ForgeFluidInit.FLUID_TYPES.register(bus);
+        ForgeFluidInit.FLUIDS.register(bus);
+        EventBuses.registerModEventBus(Oneironaut.MOD_ID, bus);
         Oneironaut.init();
     }
 }

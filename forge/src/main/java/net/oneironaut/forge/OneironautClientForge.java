@@ -16,7 +16,7 @@ public class OneironautClientForge {
         OneironautClient.init();
     }
     public OneironautClientForge(){
-        Oneironaut.LOGGER.info("rarg blarg jarg");
+        //Oneironaut.LOGGER.info("rarg blarg jarg");
         OneironautClient.init();
     }
 }
