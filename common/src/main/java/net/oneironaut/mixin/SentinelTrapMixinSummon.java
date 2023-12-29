@@ -17,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("ConstantConditions")
@@ -38,6 +40,7 @@ public abstract class SentinelTrapMixinSummon {
             Map<BlockPos, Vec3d> trapPosMap = trapMap.get(worldKey);
             Iterator<Map.Entry<BlockPos, Vec3d>> entryIterator = trapPosMap.entrySet().iterator();
             Map.Entry<BlockPos, Vec3d> currentEntry;
+            List<BlockPos> expiredKeys = new ArrayList<>();
             while(entryIterator.hasNext()){
                 currentEntry = entryIterator.next();
                 if (target.isInRange(currentEntry.getValue(), 8.0)){
@@ -57,12 +60,15 @@ public abstract class SentinelTrapMixinSummon {
                         if (foundPlayer != null ){
                             be.setTargetPlayer(ctx.getCaster().getUuid());
                             be.activateSpellCircle(foundPlayer);
-                            Oneironaut.LOGGER.info( "has activated my trap card!");
+                            Oneironaut.LOGGER.info(ctx.getCaster().getName().getString()+" has activated "+foundPlayer.getName().getString()+"'s trap card!");
                         }
                     } else {
-                        trapPosMap.remove(currentEntry.getKey());
+                        expiredKeys.add(currentEntry.getKey());
                     }
                 }
+            }
+            for (BlockPos key : expiredKeys){
+                trapPosMap.remove(key);
             }
         }
     }

@@ -7,6 +7,7 @@ import at.petrak.hexcasting.api.player.Sentinel;
 import at.petrak.hexcasting.api.spell.iota.EntityIota;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -66,6 +67,7 @@ public class SentinelTrapImpetus extends BlockAbstractImpetus {
                             tile.sync();
                             world.playSound(pPlayer, pPos, HexSounds.SPELL_CIRCLE_CAST,
                                     SoundCategory.BLOCKS, 1f, 1f);
+                            return ActionResult.SUCCESS;
                         }
                     }
                 }

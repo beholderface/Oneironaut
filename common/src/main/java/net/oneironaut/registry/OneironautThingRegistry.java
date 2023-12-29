@@ -83,6 +83,9 @@ public class OneironautThingRegistry{
     public static final RegistrySupplier<BlockItem> SENTINEL_TRAP_ITEM = ITEMS.register("sentinel_trap", () -> new BlockItem(SENTINEL_TRAP.get(), HexItems.props()));
 
     public static final RegistrySupplier<BlockEntityType<SentinelTrapImpetusEntity>> SENTINEL_TRAP_ENTITY = BLOCK_ENTITIES.register("sentinel_trap_entity", () -> BlockEntityType.Builder.create(SentinelTrapImpetusEntity::new, OneironautThingRegistry.SENTINEL_TRAP.get()).build(null));
+    public static final RegistrySupplier<SentinelSensor> SENTINEL_SENSOR = BLOCKS.register("sentinel_sensor", () -> new SentinelSensor(AbstractBlock.Settings.of(HexBlocks.SLATE_BLOCK.getDefaultState().getMaterial())));
+    public static final RegistrySupplier<BlockEntityType<SentinelSensorEntity>> SENTINEL_SENSOR_ENTITY = BLOCK_ENTITIES.register("sentinel_sensor_entity", () -> BlockEntityType.Builder.create(SentinelSensorEntity::new, OneironautThingRegistry.SENTINEL_SENSOR.get()).build(null));
+    public static final RegistrySupplier<BlockItem> SENTINEL_SENSOR_ITEM = ITEMS.register("sentinel_sensor", () -> new BlockItem(SENTINEL_SENSOR.get(), HexItems.props()));
 
 
     // A new creative tab. Notice how it is one of the few things that are not deferred
