@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "oneironaut:echo_staff"
+    "oneironaut:echo_staff",
+    "oneironaut:spoon_staff"
   ]
 }

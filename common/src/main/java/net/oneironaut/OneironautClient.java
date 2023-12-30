@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.FluidRenderer;
@@ -40,6 +41,7 @@ public class OneironautClient {
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ThoughtSlurry.STILL_FLUID, ThoughtSlurry.FLOWING_FLUID);
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.WISP_LANTERN.get(), RenderLayer.getCutout());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.WISP_LANTERN_TINTED.get(), RenderLayer.getCutout());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.RAYCAST_BLOCKER_GLASS.get(), RenderLayer.getTranslucent());
         } else {
             Oneironaut.LOGGER.info("oh no, forge, aaaaaaaaaaaa");
         }

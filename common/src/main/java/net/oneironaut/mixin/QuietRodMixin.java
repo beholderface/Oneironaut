@@ -14,6 +14,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -28,6 +29,7 @@ import static net.oneironaut.MiscAPIKt.isUsingRod;
 @SuppressWarnings("ConstantConditions")
 @Mixin(value = CastingHarness.class, priority = 1002/*gotta make sure to overwrite the hexal mixin here*/)
 public abstract class QuietRodMixin {
+    @Unique
     private final CastingHarness harness = (CastingHarness) (Object) this;
     @Redirect(method = "updateWithPattern",
             at = @At(

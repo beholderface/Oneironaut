@@ -5,21 +5,24 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
-import net.minecraft.block.Blocks
 import at.petrak.hexcasting.common.lib.HexBlocks
-import ram.talia.hexal.common.lib.HexalBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.oneironaut.registry.DimIota
 import net.minecraft.state.property.Properties
+import net.minecraft.tag.TagKey
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
+import net.oneironaut.registry.DimIota
 import net.oneironaut.registry.OneironautThingRegistry
-import java.util.UUID
+import ram.talia.hexal.common.lib.HexalBlocks
+import java.util.*
 
 fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
@@ -28,6 +31,10 @@ fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
     }
 
     throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "imprint")
+}
+
+fun getBlockTagKey(id : Identifier) : TagKey<Block>{
+    return TagKey.of(Registry.BLOCK_KEY, id)
 }
 
 fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {

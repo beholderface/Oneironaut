@@ -5,6 +5,7 @@
     "oneironaut:noosphere_basalt",
     "oneironaut:super_budding",
     "oneironaut:sentinel_sensor",
-    "oneironaut:sentinel_trap"
+    "oneironaut:sentinel_trap",
+    "oneironaut:raycast_blocker"
   ]
 }
