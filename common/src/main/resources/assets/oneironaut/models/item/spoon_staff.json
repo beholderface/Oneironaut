@@ -16,7 +16,7 @@
 			"scale": [2, 2, 1]
 		},
 		"thirdperson_lefthand": {
-			"rotation": [-40, 90, 0],
+			"rotation": [50, -90, 0],
 			"translation": [0, 8, 2],
 			"scale": [2, 2, 1]
 		},
