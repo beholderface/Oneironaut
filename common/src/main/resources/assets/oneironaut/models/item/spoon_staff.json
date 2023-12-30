@@ -1,5 +1,5 @@
 {
-	"credit": "Refined with Blockbench",
+	"credit": "Made with Blockbench",
 	"parent": "minecraft:item/handheld_rod",
 	"textures": {
 		"layer0": "oneironaut:item/spoon_staff"
@@ -36,8 +36,8 @@
 		},
 		"fixed": {
 			"rotation": [0, -180, 0],
-			"translation": [0, 0, -3],
-			"scale": [2.1, 2.1, 2.1]
+			"translation": [0, 0, -0.5],
+			"scale": [1.75, 1.75, 1.75]
 		}
 	}
 }
