@@ -8,7 +8,7 @@
   "pages": [
     "oneironaut.page.raycast_assailant.1",
     {
-      "type": "crafting",
+      "type": "patchouli:crafting",
       "recipe": "oneironaut:raycast_blocker",
       "recipe2": "oneironaut:raycast_blocker_glass"
     }
