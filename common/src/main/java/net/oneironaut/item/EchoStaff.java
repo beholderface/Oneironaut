@@ -20,12 +20,12 @@ public class EchoStaff extends ItemStaff {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (player.isSneaking()) {
-            player.playSound(SoundEvents.BLOCK_SCULK_SHRIEKER_SHRIEK, 1f, 1f);
+            player.playSound(SoundEvents.BLOCK_SCULK_SHRIEKER_SHRIEK, 0.5f, 1f);
             if (!world.isClient && player instanceof ServerPlayerEntity serverPlayer) {
                 IXplatAbstractions.INSTANCE.clearCastingData(serverPlayer);
             }
         } else {
-            player.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 1f, 1f);
+            player.playSound(SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, 0.5f, 1f);
         }
 
         if (!world.isClient() && player instanceof ServerPlayerEntity serverPlayer) {

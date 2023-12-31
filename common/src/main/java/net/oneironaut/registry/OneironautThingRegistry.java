@@ -11,12 +11,15 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.Rarity;
 import net.oneironaut.Oneironaut;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 import net.oneironaut.block.*;
 import net.oneironaut.casting.DetectionResistEffect;
+import net.oneironaut.casting.MissingEffect;
 import net.oneironaut.item.BottomlessMediaItem;
 import net.oneironaut.item.EchoStaff;
 import net.oneironaut.item.ReverberationRod;
@@ -51,6 +54,8 @@ public class OneironautThingRegistry{
     }
 
     public static final RegistrySupplier<DetectionResistEffect> DETECTION_RESISTANCE = EFFECTS.register("detection_resistance", DetectionResistEffect::new);
+    //this effect should only be used to denote an invalid status effect iota, as it does absolutely nothing but remove itself
+    public static final RegistrySupplier<MissingEffect> MISSING = EFFECTS.register("missing", MissingEffect::new);
 
     public static final RegistrySupplier<Block> PSUEDOAMETHYST_BLOCK = BLOCKS.register("pseudoamethyst_block", () -> new Block(AbstractBlock.Settings.of(Material.AMETHYST)
             .hardness(1.5f)
@@ -95,6 +100,9 @@ public class OneironautThingRegistry{
     public static final RegistrySupplier<BlockItem> RAYCAST_BLOCKER_ITEM = ITEMS.register("raycast_blocker", () -> new BlockItem(RAYCAST_BLOCKER.get(), HexItems.props()));
     public static final RegistrySupplier<Block> RAYCAST_BLOCKER_GLASS = BLOCKS.register("raycast_blocker_glass", () -> new Block(AbstractBlock.Settings.copy(Blocks.TINTED_GLASS)));
     public static final RegistrySupplier<BlockItem> RAYCAST_BLOCKER_GLASS_ITEM = ITEMS.register("raycast_blocker_glass", () -> new BlockItem(RAYCAST_BLOCKER_GLASS.get(), HexItems.props()));
+    public static final RegistrySupplier<Block> CIRCLE = BLOCKS.register("circle", () -> new CircleBlock(AbstractBlock.Settings.copy(Blocks.BLACK_CONCRETE)
+            .nonOpaque().breakInstantly()));
+    public static final RegistrySupplier<BlockItem> CIRCLE_ITEM = ITEMS.register("circle", () -> new BlockItem(CIRCLE.get(), new Item.Settings().fireproof().rarity(Rarity.EPIC)));
 
     // A new creative tab. Notice how it is one of the few things that are not deferred
     //public static final ItemGroup DUMMY_GROUP = CreativeTabRegistry.create(id("dummy_group"), () -> new ItemStack(OneironautItemRegistry.DUMMY_ITEM.get()));

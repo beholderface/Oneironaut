@@ -21,7 +21,7 @@ import java.sql.Array;
 
 public class DetectionResistEffect extends StatusEffect {
     public DetectionResistEffect() {
-        super(StatusEffectCategory.NEUTRAL, 0xcfa0f3);
+        super(StatusEffectCategory.BENEFICIAL, 0xcfa0f3);
     }
     @Override
     public boolean canApplyUpdateEffect(int duration, int amplifier){

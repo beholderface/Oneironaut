@@ -19,7 +19,7 @@ class MishapNoRod() : Mishap() {
         ParticleSpray.burst(ctx.caster.pos, 1.0)
 
     override fun errorMessage(ctx: CastingContext, errorCtx: Context): Text =
-        error("norod")
+        error("oneironaut:norod")
 
     override fun execute(ctx: CastingContext, errorCtx: Context, stack: MutableList<Iota>) {
         yeetHeldItem(ctx, Hand.MAIN_HAND)

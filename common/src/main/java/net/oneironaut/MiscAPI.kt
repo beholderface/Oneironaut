@@ -9,6 +9,7 @@ import at.petrak.hexcasting.common.lib.HexBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -21,6 +22,7 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
 import net.oneironaut.registry.DimIota
 import net.oneironaut.registry.OneironautThingRegistry
+import net.oneironaut.registry.PotionIota
 import ram.talia.hexal.common.lib.HexalBlocks
 import java.util.*
 
@@ -33,9 +35,22 @@ fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
     throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "imprint")
 }
 
+fun List<Iota>.getStatusEffect(idx: Int, argc: Int = 0, allowShroud : Boolean) : StatusEffect{
+    val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
+    if (x is PotionIota) {
+        if (!allowShroud && (x as PotionIota).getEffect().equals(OneironautThingRegistry.DETECTION_RESISTANCE.get())){
+            throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "detectable status effect")
+        }
+        return (x as PotionIota).effect
+    }
+
+    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "status effect")
+}
+
 fun getBlockTagKey(id : Identifier) : TagKey<Block>{
     return TagKey.of(Registry.BLOCK_KEY, id)
 }
+
 
 fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
     //val block = BlockPos(target)

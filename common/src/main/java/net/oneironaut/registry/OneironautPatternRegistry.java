@@ -9,18 +9,15 @@ import at.petrak.hexcasting.common.casting.operators.spells.OpMakePackagedSpell;
 import at.petrak.hexcasting.common.casting.operators.spells.OpPotionEffect;
 import dev.architectury.registry.registries.RegistrySupplier;
 import kotlin.Triple;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.oneironaut.Oneironaut;
-import net.oneironaut.casting.patterns.OpDetectShrouded;
-import net.oneironaut.casting.patterns.OpFrameRotation;
-import net.oneironaut.casting.patterns.OpGetDim;
+import net.oneironaut.casting.patterns.*;
 import net.minecraft.util.Identifier;
-import net.oneironaut.casting.patterns.OpReadSentinel;
 import net.oneironaut.casting.patterns.rod.OpDelayRod;
 import net.oneironaut.casting.patterns.rod.OpGetInitialRodState;
 import net.oneironaut.casting.patterns.rod.OpHaltRod;
+import net.oneironaut.casting.patterns.spells.OpCircle;
 import net.oneironaut.casting.patterns.spells.OpParticleBurst;
 import net.oneironaut.casting.patterns.spells.great.OpResistDetection;
 import net.oneironaut.casting.patterns.spells.idea.OpGetIdeaTimestamp;
@@ -31,6 +28,7 @@ import net.oneironaut.casting.patterns.spells.idea.OpWriteIdea;
 import net.oneironaut.casting.patterns.spells.great.OpDimTeleport;
 import net.oneironaut.casting.patterns.spells.great.OpInfuseMedia;
 import net.oneironaut.casting.patterns.spells.great.OpSwapSpace;
+import net.oneironaut.casting.patterns.status.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +52,13 @@ public class OneironautPatternRegistry {
     public static HexPattern COMPARE_IDEA_WRITER = register(HexPattern.fromAngles("qwqwqwqwqwqaeqedeqe", HexDir.WEST), "readideawriter", new OpGetIdeaWriter());
     public static HexPattern READ_SENTINEL = register(HexPattern.fromAngles("waeawaeddwwd", HexDir.EAST), "readsentinel", new OpReadSentinel());
     public static HexPattern DETECT_SHROUDED = register(HexPattern.fromAngles("qqqqqwwaawewaawdww", HexDir.SOUTH_EAST), "detectshroud", new OpDetectShrouded());
+    public static HexPattern GET_STATUS = register(HexPattern.fromAngles("qqqqqedwd", HexDir.SOUTH_WEST), "getstatus", new OpGetEffects());
+    public static HexPattern GET_STATUS_CATEGORY = register(HexPattern.fromAngles("eeeeeqawa", HexDir.SOUTH_EAST), "getstatuscategory", new OpGetEffectCategory());
+    public static HexPattern GET_STATUS_DURATION = register(HexPattern.fromAngles("qqqqqedwdwd", HexDir.SOUTH_WEST), "getstatusduration", new OpGetStatusDetail(false));
+    public static HexPattern GET_STATUS_LEVEL = register(HexPattern.fromAngles("eeeeeqawawa", HexDir.SOUTH_EAST), "getstatuslevel", new OpGetStatusDetail(true));
+    public static HexPattern GET_BY_STATUS = register(HexPattern.fromAngles("ewqqqqqwe", HexDir.EAST), "getbystatus", new OpGetEntitiesByStatus(false));
+    public static HexPattern GET_BY_STATUS_INVERSE = register(HexPattern.fromAngles("qweeeeewq", HexDir.EAST), "getbystatusinverse", new OpGetEntitiesByStatus(true));
+    public static HexPattern GET_BY_STATUS_SINGLE = register(HexPattern.fromAngles("eaeeeeeae", HexDir.EAST), "getbystatussingle", new OpGetEntityByStatus());
     //normal spells
     public static HexPattern PAINT_CONJURED = register(HexPattern.fromAngles("eqdweeqdwweeqddqdwwwdeww", HexDir.WEST), "paintconjured", new OpSplatoon());
     public static HexPattern PARTICLE_BURST = register(HexPattern.fromAngles("deeeewaaddwqqqqa", HexDir.EAST), "particleburst", new OpParticleBurst());
@@ -62,6 +67,8 @@ public class OneironautPatternRegistry {
     public static HexPattern HALT_ROD = register(HexPattern.fromAngles("aqdeeweeew", HexDir.SOUTH_WEST), "haltrod", new OpHaltRod(0));
     public static HexPattern RESET_ROD = register(HexPattern.fromAngles("deaqqwqqqw", HexDir.SOUTH_EAST), "resetrod", new OpHaltRod(1));
     public static HexPattern WRITE_IDEA = register(HexPattern.fromAngles("eweweweweweeewqaqwe", HexDir.EAST), "writeidea", new OpWriteIdea());
+    public static HexPattern CIRCLE = register(HexPattern.fromAngles("wwwwwwqwwwwwwqwwwwwwqwwwwwwqwwwwwwqwwwwww", HexDir.SOUTH_EAST), "circle", new OpCircle());
+    public static HexPattern REMOVE_STATUS = register(HexPattern.fromAngles("eeeeedaqdewed", HexDir.SOUTH_WEST), "removestatus", new OpRemoveStatus());
     /*dang you hexdoc
     public static HexPattern CRAFT_ROD = register(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST), "craftrod", new OpMakePackagedSpell<>((ItemPackagedHex) OneironautThingRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT*/
     //great spells

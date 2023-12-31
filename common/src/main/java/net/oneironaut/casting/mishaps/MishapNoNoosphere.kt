@@ -18,7 +18,7 @@ class MishapNoNoosphere() : Mishap() {
         ParticleSpray.burst(ctx.caster.pos, 1.0)
 
     override fun errorMessage(ctx: CastingContext, errorCtx: Context): Text {
-        return error("nonoosphere")
+        return error("oneironaut:nonoosphere")
     }
 
     override fun execute(ctx: CastingContext, errorCtx: Context, stack: MutableList<Iota>) {

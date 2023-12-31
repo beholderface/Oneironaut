@@ -18,7 +18,7 @@ class MishapUninfusable(val pos: BlockPos/*, val expected: Text*/) : Mishap() {
         ParticleSpray.burst(Vec3d.ofCenter(pos), 1.0)
 
     override fun errorMessage(ctx: CastingContext, errorCtx: Context): Text =
-        error("uninfusable", this.pos.toShortString(), blockAtPos(ctx, this.pos))
+        error("oneironaut:uninfusable", this.pos.toShortString(), blockAtPos(ctx, this.pos))
 
     override fun execute(ctx: CastingContext, errorCtx: Context, stack: MutableList<Iota>) {
         ctx.world.createExplosion(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, 0.25f, Explosion.DestructionType.NONE)
