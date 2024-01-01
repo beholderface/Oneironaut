@@ -64,6 +64,7 @@ dependencies {
 
     /*modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
     modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"*/
+    runtimeOnly(include("com.github.llamalad7.mixinextras:mixinextras-fabric:${mixinExtrasVersion}"))
 }
 
 processResources {

@@ -10,14 +10,19 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import net.oneironaut.MiscAPIKt;
+import net.oneironaut.Oneironaut;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,8 +64,15 @@ public class OvercastDamageEnchant extends Enchantment {
                 livingTarget.setHealth(livingTarget.getHealth() - level);
                 AccessorWrappers.markHurt(livingTarget);
                 if (livingTarget.isAlive() && livingTarget.getHealth() <= 1f && target instanceof MobEntity mob){
+                    boolean whitelisted = mob.getType().isIn(MiscAPIKt.getEntityTagKey(new Identifier(Oneironaut.MOD_ID, "render_flay_whitelist")));
+                    boolean blacklisted = mob.getType().isIn(MiscAPIKt.getEntityTagKey(new Identifier(Oneironaut.MOD_ID, "render_flay_blacklist")));
                     //if it has more than 100 max health, it's probably a boss, and I'm not letting people get flayed dragons
-                    if (!(mob.getMaxHealth() > 100.0f)){
+                    if ((mob.getMaxHealth() <= 100.0f || whitelisted) /* but I am letting people get flayed wardens :) */ && !blacklisted){
+                        if (mob.getMaxHealth() <= 100.0f){
+                            Oneironaut.LOGGER.info(user.getDisplayName().getString() + " rent " + mob.getDisplayName().getString() + ", under health threshold.");
+                        } else {
+                            Oneironaut.LOGGER.info(user.getDisplayName().getString() + " rent " + mob.getDisplayName().getString() + ", whitelisted.");
+                        }
                         IXplatAbstractions.INSTANCE.brainsweep(mob);
                         if (user instanceof ServerPlayerEntity player){
                             IXplatAbstractions.INSTANCE.sendPacketNear(target.getPos(), 128.0, (ServerWorld) mob.world, new ParticleBurstPacket(
@@ -68,6 +80,12 @@ public class OvercastDamageEnchant extends Enchantment {
                                     IXplatAbstractions.INSTANCE.getColorizer(player), 64, false));
                             //Vec3d soundPos = mob.getPos();
                             world.playSoundFromEntity(null, mob, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                        }
+                    } else {
+                        if (blacklisted){
+                            Oneironaut.LOGGER.info(user.getDisplayName().getString() + " failed to rend " + mob.getDisplayName().getString() +", blacklisted.");
+                        } else {
+                            Oneironaut.LOGGER.info(user.getDisplayName().getString() + " failed to rend " + mob.getDisplayName().getString() +", over health threshold.");
                         }
                     }
                 }

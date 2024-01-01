@@ -27,6 +27,7 @@ dependencies {
     modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"
     //modCompileOnly "maven.modrinth:hexgloop:${gloopVersion}"
     //modCompileOnly "maven.modrinth:wnboi:${wnboiVersion}"
+    compileOnly(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixinExtrasVersion}"))
 
 }
 
