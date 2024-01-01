@@ -1,8 +1,6 @@
 package net.oneironaut.casting;
 
 import at.petrak.hexcasting.api.spell.iota.*;
-import at.petrak.hexcasting.common.items.ItemFocus;
-import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
@@ -12,6 +10,7 @@ import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateManager;
 import net.minecraft.world.World;
 import net.oneironaut.Oneironaut;
+import net.oneironaut.OneironautConfig;
 
 import java.util.*;
 
@@ -21,9 +20,7 @@ public class IdeaInscriptionManager extends PersistentState {
     private static Map<String, NbtCompound> iotaMap = new HashMap<>();
     private static final int minuteInTicks = 20 * 60;
     private static final int hourInTicks = minuteInTicks * 60;
-
-    private static final ItemFocus testFocus = HexItems.FOCUS;
-
+    private static final int lifetime = OneironautConfig.getServer().getIdeaLifetime();
     //save NBT of the map
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
@@ -72,7 +69,7 @@ public class IdeaInscriptionManager extends PersistentState {
             currentData = iotaMap.get(currentKey);
             timestamp = currentData.getLong("timestamp");
             //Oneironaut.LOGGER.info("Key " + currentKey + " iterated");
-            if ((timestamp + hourInTicks) < overworldTime){
+            if ((timestamp + lifetime) < overworldTime){
                 Oneironaut.LOGGER.info("Found expired key " + currentKey + ", expired by " + (overworldTime - timestamp) + " ticks.");
                 KeysToRemove.add(currentKey);
             }
@@ -115,7 +112,7 @@ public class IdeaInscriptionManager extends PersistentState {
         Iota iota = new GarbageIota();
         NbtCompound iotaNbt = getValidEntry(keyString, world);
         if (iotaNbt != null){
-            if ((iotaNbt.getLong("timestamp") + hourInTicks) >= world.getTime()){
+            if ((iotaNbt.getLong("timestamp") + lifetime) >= world.getTime()){
                 iota = HexIotaTypes.deserialize(iotaNbt.getCompound("iota"), world);
             }
         }
@@ -144,7 +141,7 @@ public class IdeaInscriptionManager extends PersistentState {
     private static NbtCompound getValidEntry(String key, ServerWorld world){
         NbtCompound iotaNbt = iotaMap.getOrDefault(key, null);
         if (iotaNbt != null){
-            if ((iotaNbt.getLong("timestamp") + hourInTicks) < world.getTime()){
+            if ((iotaNbt.getLong("timestamp") + lifetime) < world.getTime()){
                 iotaMap.remove(key);
                 //return null if it has been erased
                 return null;

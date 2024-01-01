@@ -27,6 +27,7 @@ class OpApplyOvercastDamage : SpellAction {
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
         val holder = args.getEntity(0, argc)
         val target = args.getItemEntityOrItemFrame(0, argc)
+        ctx.assertEntityInRange(holder)
         val stack : ItemStack = if (!(target.left().isEmpty)){
             target.left().get().stack
         } else {

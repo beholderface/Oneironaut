@@ -3,6 +3,7 @@ package net.oneironaut.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.NbtCompound;
 import net.oneironaut.Oneironaut;
+import net.oneironaut.OneironautConfig;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,8 +24,14 @@ public abstract class ShutUpEverbookSaveMixin {
         NbtCompound tag = oneironaut$everbook.serialiseToNBT();
         final Path MINECRAFT_PATH = MinecraftClient.getInstance().runDirectory.toPath();
         Path everbookPath = MINECRAFT_PATH.resolve("everbook/everbook-" + oneironaut$everbook.getUuid() + ".dat");
-        HexalAPI.LOGGER.info("saving everbook of length " + tag.toString().length() + " at " + everbookPath);
-        Oneironaut.LOGGER.info("I reduced the mostly-useless data spam");
+        if (OneironautConfig.getServer().getReduceEverbookLogSpam()){
+            HexalAPI.LOGGER.info("saving everbook of length " + tag.toString().length() + " at " + everbookPath);
+            HexalAPI.LOGGER.debug("saving everbook " + tag + " at " + everbookPath);
+            Oneironaut.LOGGER.info("I reduced the mostly-useless data spam, check debug log for full everbook data");
+        } else {
+            HexalAPI.LOGGER.info("saving everbook " + tag + " at " + everbookPath);
+        }
+
         //sadly I couldn't figure out how to make it stop doing it for loading
     }
 }

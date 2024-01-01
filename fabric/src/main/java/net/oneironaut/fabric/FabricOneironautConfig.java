@@ -1,0 +1,95 @@
+package net.oneironaut.fabric;
+
+import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
+import net.minecraft.util.Identifier;
+import net.oneironaut.Oneironaut;
+import net.oneironaut.OneironautConfig;
+
+@SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
+@Config(name = Oneironaut.MOD_ID)
+@Config.Gui.Background("oneironaut:textures/block/noosphere_basalt.png")
+public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
+
+    @ConfigEntry.Category("common")
+    @ConfigEntry.Gui.TransitiveObject
+    public final Common common = new Common();
+    @ConfigEntry.Category("client")
+    @ConfigEntry.Gui.TransitiveObject
+    public final Client client = new Client();
+    @ConfigEntry.Category("server")
+    @ConfigEntry.Gui.TransitiveObject
+    public final Server server = new Server();
+
+    public static FabricOneironautConfig setup() {
+        AutoConfig.register(FabricOneironautConfig.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
+        var instance = AutoConfig.getConfigHolder(FabricOneironautConfig.class).getConfig();
+
+        OneironautConfig.setCommon(instance.common);
+        // We care about the client only on the *physical* client ...
+        if (IXplatAbstractions.INSTANCE.isPhysicalClient()) {
+            OneironautConfig.setClient(instance.client);
+        }
+        // but we care about the server on the *logical* server
+        // i believe this should Just Work without a guard? assuming we don't access it from the client ever
+        OneironautConfig.setServer(instance.server);
+
+        return instance;
+    }
+
+    @Config(name = "common")
+    private static class Common implements ConfigData, OneironautConfig.CommonConfigAccess { }
+
+    @Config(name = "client")
+    private static class Client implements ConfigData, OneironautConfig.ClientConfigAccess { }
+
+    @Config(name = "server")
+    private static class Server implements ConfigData, OneironautConfig.ServerConfigAccess {
+
+
+        @ConfigEntry.Gui.CollapsibleObject
+        private MiscConfig miscConfig = new MiscConfig();
+
+        static class MiscConfig {
+            int ideaLifetime = DEFAULT_IDEA_LIFETIME;
+            boolean planeShiftOtherPlayers = DEFAULT_ALLOW_PLANESHIFT_OTHERS;
+            boolean reduceEverbookLogSpam = DEFAULT_REDUCE_EVERBOOK_SPAM;
+        }
+        @Override
+        public boolean getPlaneShiftOtherPlayers() {
+            return miscConfig.planeShiftOtherPlayers;
+        }
+
+        @Override
+        public void validatePostLoad() throws ValidationException {
+            this.miscConfig.ideaLifetime = bound(this.miscConfig.ideaLifetime, 1, 20 * 60 * 60 * 24 * 7); //one IRL week
+
+        }
+
+        private int bound(int toBind, int lower, int upper) {
+            return Math.min(Math.max(toBind, lower), upper);
+        }
+        private double bound(double toBind, double lower, double upper) {
+            return Math.min(Math.max(toBind, lower), upper);
+        }
+
+        @Override
+        public int getIdeaLifetime() {
+            return miscConfig.ideaLifetime;
+        }
+
+        @Override
+        public boolean getReduceEverbookLogSpam() {
+            return miscConfig.reduceEverbookLogSpam;
+        }
+
+        private static boolean isValidID(Object o) {
+            return o instanceof String s && Identifier.isValid(s);
+        }
+    }
+}

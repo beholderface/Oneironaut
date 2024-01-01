@@ -31,6 +31,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.TeleportTarget
+import net.oneironaut.OneironautConfig
 import net.oneironaut.isSolid
 import net.oneironaut.isUnsafe
 //import net.oneironaut.registry.OneironautThingRegistry
@@ -68,7 +69,7 @@ class OpDimTeleport : SpellAction {
             throw MishapLocationTooFarAway(coords, "bad_dimension")
         if (!target.canUsePortals() || target.type.isIn(HexTags.Entities.CANNOT_TELEPORT))
             throw MishapImmuneEntity(target)
-        if (target.type.toString() == "entity.minecraft.player" && target != ctx.caster as LivingEntity){
+        if (target.type.toString() == "entity.minecraft.player" && target != ctx.caster as LivingEntity && !OneironautConfig.server.planeShiftOtherPlayers){
             throw MishapImmuneEntity(target)
         }
 

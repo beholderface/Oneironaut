@@ -1,7 +1,10 @@
 package net.oneironaut.fabric;
 
+import at.petrak.hexcasting.fabric.FabricHexInitializer;
+import dev.architectury.event.events.common.LifecycleEvent;
 import net.fabricmc.api.ModInitializer;
 import net.oneironaut.Oneironaut;
+import net.oneironaut.casting.IdeaInscriptionManager;
 
 /**
  * This is your loading entrypoint on fabric(-likes), in case you need to initialize
@@ -12,6 +15,7 @@ import net.oneironaut.Oneironaut;
  * if you want to see how to add quilt-specific code.
  */
 public class OneironautFabric implements ModInitializer {
+    FabricOneironautConfig config = FabricOneironautConfig.setup();
     @Override
     public void onInitialize() {
         Oneironaut.init();
