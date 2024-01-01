@@ -1,24 +1,21 @@
 package net.oneironaut.casting;
 
 import at.petrak.hexcasting.api.misc.HexDamageSources;
-import at.petrak.hexcasting.api.spell.mishaps.Mishap;
 import at.petrak.hexcasting.ktxt.AccessorWrappers;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
-import net.minecraft.enchantment.*;
+import net.minecraft.enchantment.DamageEnchantment;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.boss.WitherEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -55,13 +52,13 @@ public class OvercastDamageEnchant extends Enchantment {
             //user.sendMessage(Text.of(String.valueOf(lastTime)));
             //ripped from the trulyHurt method to see if I could get more consistent results
             boolean brainswept = false;
-            if (livingTarget instanceof MobEntity mob){
+            if (target instanceof MobEntity mob){
                 brainswept = IXplatAbstractions.INSTANCE.isBrainswept(mob);
             }
             if (!livingTarget.isInvulnerableTo(HexDamageSources.OVERCAST) && !livingTarget.isDead() && !brainswept){
                 livingTarget.setHealth(livingTarget.getHealth() - level);
                 AccessorWrappers.markHurt(livingTarget);
-                if (livingTarget.isAlive() && livingTarget.getHealth() <= 1f && livingTarget instanceof MobEntity mob){
+                if (livingTarget.isAlive() && livingTarget.getHealth() <= 1f && target instanceof MobEntity mob){
                     //if it has more than 100 max health, it's probably a boss, and I'm not letting people get flayed dragons
                     if (!(mob.getMaxHealth() > 100.0f)){
                         IXplatAbstractions.INSTANCE.brainsweep(mob);
