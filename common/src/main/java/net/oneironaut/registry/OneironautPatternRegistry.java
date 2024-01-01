@@ -19,15 +19,12 @@ import net.oneironaut.casting.patterns.rod.OpGetInitialRodState;
 import net.oneironaut.casting.patterns.rod.OpHaltRod;
 import net.oneironaut.casting.patterns.spells.OpCircle;
 import net.oneironaut.casting.patterns.spells.OpParticleBurst;
-import net.oneironaut.casting.patterns.spells.great.OpResistDetection;
+import net.oneironaut.casting.patterns.spells.great.*;
 import net.oneironaut.casting.patterns.spells.idea.OpGetIdeaTimestamp;
 import net.oneironaut.casting.patterns.spells.idea.OpGetIdeaWriter;
 import net.oneironaut.casting.patterns.spells.idea.OpReadIdea;
 import net.oneironaut.casting.patterns.spells.OpSplatoon;
 import net.oneironaut.casting.patterns.spells.idea.OpWriteIdea;
-import net.oneironaut.casting.patterns.spells.great.OpDimTeleport;
-import net.oneironaut.casting.patterns.spells.great.OpInfuseMedia;
-import net.oneironaut.casting.patterns.spells.great.OpSwapSpace;
 import net.oneironaut.casting.patterns.status.*;
 
 import java.util.ArrayList;
@@ -78,6 +75,8 @@ public class OneironautPatternRegistry {
     public static HexPattern RESIST_DETECTION = registerPerWorld(HexPattern.fromAngles("wawwwdwdwwaqqqqqe", HexDir.EAST), "resistdetection", new OpResistDetection());
     public static HexPattern INVISIBILITY = registerPerWorld(HexPattern.fromAngles("qqqqqaewawaweqa", HexDir.SOUTH_WEST), "invisibility", new OpPotionEffect(
             StatusEffects.INVISIBILITY, (int)(MediaConstants.DUST_UNIT / 3), false, false, true));
+    public static HexPattern APPLY_MIND_RENDER = registerPerWorld(HexPattern.fromAngles("qweqadeqadeqadqqqwdaqedaqedaqeqaqdwawdwawdwaqawdwawdwawddwwwwwqdeddw", HexDir.EAST), "applymindrender", new OpApplyOvercastDamage());
+
 
     public static void init() {
         try {

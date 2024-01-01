@@ -24,7 +24,7 @@ class OpParticleBurst : ConstMediaAction {
             val posRandom = args.getPositiveDoubleUnderInclusive(2, 4.0, argc)  /*args.getDoubleBetween(2, 0.0, 4.0, argc)*/
             val speedRandom = args.getPositiveDoubleUnderInclusive(3, 4.0, argc)
             val color = IXplatAbstractions.INSTANCE.getColorizer(ctx.caster)
-            IXplatAbstractions.INSTANCE.sendPacketNear(target, 128.0, ctx.world, ParticleBurstPacket(target, direction, posRandom, speedRandom, color, false))
+            IXplatAbstractions.INSTANCE.sendPacketNear(target, 128.0, ctx.world, ParticleBurstPacket(target, direction, posRandom, speedRandom, color, 16, false))
             return listOf()
         } else {
             //probably never actually going to be encountered, but still
