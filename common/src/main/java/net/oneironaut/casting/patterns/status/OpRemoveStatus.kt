@@ -38,7 +38,7 @@ class OpRemoveStatus : SpellAction {
         if (costExponent == 1.1){
             cost /= 10
         }
-        ctx.caster.sendMessage(Text.of((cost.toDouble() / MediaConstants.DUST_UNIT).toString() + " dust"))
+        //ctx.caster.sendMessage(Text.of((cost.toDouble() / MediaConstants.DUST_UNIT).toString() + " dust"))
         return Triple(
             Spell(target, effect),
             cost,

@@ -1,9 +1,7 @@
 package net.oneironaut.block;
 
-import at.petrak.hexcasting.api.misc.MediaConstants;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,25 +13,21 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
-import net.oneironaut.Oneironaut;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 
 import static java.lang.Math.*;
 import static net.oneironaut.MiscAPIKt.stringToWorld;
 import static net.oneironaut.MiscAPIKt.playerUUIDtoServerPlayer;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
-import ram.talia.hexal.common.entities.TickingWisp;
-import ram.talia.hexal.common.lib.HexalEntities;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class NoosphereGateEntity extends BlockEntity {
     public static Map<RegistryKey<World>, Map<BlockPos, Vec3d>> gateLocationMap = new HashMap<>();
     public NoosphereGateEntity(BlockPos pos, BlockState state) {
-        super(OneironautThingRegistry.NOOSPHERE_GATE_ENTITY.get(), pos, state);
+        super(OneironautBlockRegistry.NOOSPHERE_GATE_ENTITY.get(), pos, state);
         //Oneironaut.LOGGER.info("super Creating blockentity.");
     }
     public void tick(World world, BlockPos pos, BlockState state){
@@ -107,18 +101,18 @@ public class NoosphereGateEntity extends BlockEntity {
                             } else if (destPos.z < border.getBoundNorth()){
                                 destPos = new Vec3d(destPos.x, destPos.y, (border.getBoundNorth() + 2));
                             }
-                            if (noosphere.getBlockState(new BlockPos(destPos).down()).getBlock().equals(OneironautThingRegistry.NOOSPHERE_GATE)){
+                            if (noosphere.getBlockState(new BlockPos(destPos).down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get())){
                                 //Oneironaut.LOGGER.info("found a portal at the destination OwO " + new BlockPos(destPos).down().toString());
-                                if (!(noosphere.getBlockState(new BlockPos(destPos).east().down()).getBlock().equals(OneironautThingRegistry.NOOSPHERE_GATE))){
+                                if (!(noosphere.getBlockState(new BlockPos(destPos).east().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
                                     //Oneironaut.LOGGER.info("found a portal at the east OwO " + new BlockPos(destPos).down().east().toString());
                                     destPos = destPos.add(1, 0, 0);
-                                } else if (!(noosphere.getBlockState(new BlockPos(destPos).west().down()).getBlock().equals(OneironautThingRegistry.NOOSPHERE_GATE))){
+                                } else if (!(noosphere.getBlockState(new BlockPos(destPos).west().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
                                     //Oneironaut.LOGGER.info("found a portal at the west OwO " + new BlockPos(destPos).down().west().toString());
                                     destPos = destPos.add(-1, 0, 0);
-                                } else if (!(noosphere.getBlockState(new BlockPos(destPos).south().down()).getBlock().equals(OneironautThingRegistry.NOOSPHERE_GATE))){
+                                } else if (!(noosphere.getBlockState(new BlockPos(destPos).south().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
                                     //Oneironaut.LOGGER.info("found a portal at the south OwO " + new BlockPos(destPos).down().south().toString());
                                     destPos = destPos.add(0, 0, 1);
-                                } else if (!(noosphere.getBlockState(new BlockPos(destPos).north().down()).getBlock().equals(OneironautThingRegistry.NOOSPHERE_GATE))){
+                                } else if (!(noosphere.getBlockState(new BlockPos(destPos).north().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
                                     //Oneironaut.LOGGER.info("found a portal at the north OwO " + new BlockPos(destPos).down().north().toString());
                                     destPos = destPos.add(0, 0, -1);
                                 }

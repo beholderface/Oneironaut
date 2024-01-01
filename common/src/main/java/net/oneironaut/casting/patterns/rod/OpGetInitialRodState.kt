@@ -8,13 +8,13 @@ import at.petrak.hexcasting.api.spell.iota.NullIota
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota
 import at.petrak.hexcasting.api.utils.*
 import net.oneironaut.casting.mishaps.MishapNoRod
-import net.oneironaut.registry.OneironautThingRegistry
+import net.oneironaut.registry.OneironautItemRegistry
 
 class OpGetInitialRodState(val mode: Int) : ConstMediaAction {
     override val argc = 0
 
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
-        val rod = OneironautThingRegistry.REVERBERATION_ROD.get()
+        val rod = OneironautItemRegistry.REVERBERATION_ROD.get()
         if (ctx.caster.activeItem.item == rod.asItem() && ctx.source == CastingContext.CastSource.PACKAGED_HEX){
             val rodStack  = ctx.caster.activeItem
             val rodNbt = rodStack.nbt

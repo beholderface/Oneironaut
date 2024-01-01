@@ -1,24 +1,18 @@
 package net.oneironaut.mixin;
 
-import at.petrak.hexcasting.api.spell.casting.CastingHarness;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
-import net.minecraft.world.tick.Tick;
 import net.oneironaut.block.NoosphereGateEntity;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ram.talia.hexal.api.HexalAPI;
 import ram.talia.hexal.api.config.HexalConfig;
 import ram.talia.hexal.common.entities.BaseCastingWisp;
-import ram.talia.hexal.common.entities.BaseWisp;
-import ram.talia.hexal.common.entities.TickingWisp;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -51,7 +45,7 @@ public abstract class NoosphereWispMixin
             while(entryIterator.hasNext()){
                 currentEntry = entryIterator.next();
                 if (wisp.getPos().isInRange(currentEntry.getValue(), 8.0)){
-                    if(world.getBlockState(currentEntry.getKey()).getBlock().getDefaultState().equals(OneironautThingRegistry.NOOSPHERE_GATE.get().getDefaultState())){
+                    if(world.getBlockState(currentEntry.getKey()).getBlock().getDefaultState().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get().getDefaultState())){
                         foundGate = true;
                         break;
                     } else {
@@ -85,7 +79,7 @@ public abstract class NoosphereWispMixin
             while(entryIterator.hasNext()){
                 currentEntry = entryIterator.next();
                 if (wisp.getPos().isInRange(currentEntry.getValue(), 8.0)){
-                    if(world.getBlockState(currentEntry.getKey()).getBlock().getDefaultState().equals(OneironautThingRegistry.NOOSPHERE_GATE.get().getDefaultState())){
+                    if(world.getBlockState(currentEntry.getKey()).getBlock().getDefaultState().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get().getDefaultState())){
                         foundGate = true;
                         break;
                     } else {

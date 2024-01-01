@@ -12,7 +12,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
-import net.oneironaut.registry.OneironautThingRegistry
+import net.oneironaut.registry.OneironautItemRegistry
+import net.oneironaut.registry.OneironautMiscRegistry
 
 class OpDetectShrouded : ConstMediaAction {
     override val argc = 2
@@ -34,7 +35,7 @@ class OpDetectShrouded : ConstMediaAction {
         fun isShroudedAndReachable(e: Entity, ctx : CastingContext) : Boolean{
             if (e.isLiving && ctx.isEntityInRange(e)){
                 val le = e as LivingEntity
-                return le.hasStatusEffect(OneironautThingRegistry.DETECTION_RESISTANCE.get())
+                return le.hasStatusEffect(OneironautMiscRegistry.DETECTION_RESISTANCE.get())
             } else {
                 return false
             }

@@ -4,7 +4,6 @@ import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 //import net.minecraft.item.ItemConvertible;
@@ -20,15 +19,14 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 //import at.petrak.hexcasting.xplat.IXplatAbstractions;
 //import at.petrak.hexcasting.common.lib.HexItems;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.UUID;
 
 public class WispLanternEntity extends BlockEntity {
 
     public WispLanternEntity(BlockPos pos, BlockState state){
-        super(OneironautThingRegistry.WISP_LANTERN_ENTITY.get(), pos, state);
+        super(OneironautBlockRegistry.WISP_LANTERN_ENTITY.get(), pos, state);
     }
 
     private FrozenColorizer color = FrozenColorizer.DEFAULT.get();

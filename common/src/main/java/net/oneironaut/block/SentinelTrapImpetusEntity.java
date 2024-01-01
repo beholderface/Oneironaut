@@ -1,6 +1,5 @@
 package net.oneironaut.block;
 
-import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import com.mojang.authlib.GameProfile;
@@ -11,14 +10,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.*;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
-import net.oneironaut.Oneironaut;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -37,7 +34,7 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
 
 
     public SentinelTrapImpetusEntity(BlockPos pos, BlockState state){
-        super(OneironautThingRegistry.SENTINEL_TRAP_ENTITY.get(), pos, state);
+        super(OneironautBlockRegistry.SENTINEL_TRAP_ENTITY.get(), pos, state);
     }
 
     @Override

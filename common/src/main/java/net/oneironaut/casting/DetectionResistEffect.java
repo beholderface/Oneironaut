@@ -5,10 +5,13 @@ import at.petrak.hexcasting.api.misc.HexDamageSources;
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.casting.CastingHarness;
+import at.petrak.hexcasting.api.spell.mishaps.Mishap;
 import at.petrak.hexcasting.common.items.magic.ItemMediaHolder;
+import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -48,10 +51,14 @@ public class DetectionResistEffect extends StatusEffect {
                         entity.damage(HexDamageSources.OVERCAST, 1f);
                     }
                 }
-            } else if (mainStack.getItem() instanceof BottomlessMediaItem || offStack.getItem() instanceof BottomlessMediaItem){
-                //do nothing, they are immune
+            } else if (entity instanceof MobEntity){
+                if (mainStack.getItem() instanceof BottomlessMediaItem || offStack.getItem() instanceof BottomlessMediaItem || IXplatAbstractions.INSTANCE.isBrainswept((MobEntity) entity)){
+                    //do nothing, they are immune
+                } else if ((time % 40) == 0) {
+                    Mishap.Companion.trulyHurt(entity, HexDamageSources.OVERCAST, 1f);
+                }
             } else if ((time % 40) == 0){
-                entity.damage(HexDamageSources.OVERCAST, 1f);
+                Mishap.Companion.trulyHurt(entity, HexDamageSources.OVERCAST, 1f);
             }
         }
     }

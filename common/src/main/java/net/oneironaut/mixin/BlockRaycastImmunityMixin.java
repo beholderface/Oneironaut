@@ -2,21 +2,16 @@ package net.oneironaut.mixin;
 
 import at.petrak.hexcasting.common.casting.operators.OpBlockAxisRaycast;
 import at.petrak.hexcasting.common.casting.operators.OpBlockRaycast;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.RaycastContext;
 import net.oneironaut.MiscAPIKt;
 import net.oneironaut.Oneironaut;
-import net.oneironaut.registry.OneironautThingRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(value = {OpBlockRaycast.class, OpBlockAxisRaycast.class})

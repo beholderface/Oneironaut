@@ -20,9 +20,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
-import net.oneironaut.registry.DimIota
-import net.oneironaut.registry.OneironautThingRegistry
-import net.oneironaut.registry.PotionIota
+import net.oneironaut.registry.*
 import ram.talia.hexal.common.lib.HexalBlocks
 import java.util.*
 
@@ -38,7 +36,7 @@ fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
 fun List<Iota>.getStatusEffect(idx: Int, argc: Int = 0, allowShroud : Boolean) : StatusEffect{
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is PotionIota) {
-        if (!allowShroud && (x as PotionIota).getEffect().equals(OneironautThingRegistry.DETECTION_RESISTANCE.get())){
+        if (!allowShroud && (x as PotionIota).getEffect().equals(OneironautMiscRegistry.DETECTION_RESISTANCE.get())){
             throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "detectable status effect")
         }
         return (x as PotionIota).effect
@@ -57,7 +55,7 @@ fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
     //val targetType = ctx.world.getBlockState(block).block
     //BlockTags.SMALL_FLOWERS
     val conversionResult : Pair<BlockState, Int> = when(targetType){
-        HexalBlocks.SLIPWAY -> Pair(OneironautThingRegistry.NOOSPHERE_GATE.get().defaultState, 200)
+        HexalBlocks.SLIPWAY -> Pair(OneironautBlockRegistry.NOOSPHERE_GATE.get().defaultState, 200)
         Blocks.SCULK_SHRIEKER -> Pair(Blocks.SCULK_SHRIEKER.defaultState.with(Properties.CAN_SUMMON, true), 100)
         Blocks.RESPAWN_ANCHOR -> Pair(Blocks.RESPAWN_ANCHOR.defaultState.with(Properties.CHARGES, 4), 100)
         //"fuck you" *uncries your obsidian*
@@ -173,7 +171,7 @@ fun isPlayerEnlightened(player : ServerPlayerEntity) : Boolean {
 
 fun isUsingRod(ctx : CastingContext) : Boolean {
     if (ctx.source.equals(CastingContext.CastSource.PACKAGED_HEX)
-        && ctx.caster.activeItem.item.equals(OneironautThingRegistry.REVERBERATION_ROD.get().asItem())
+        && ctx.caster.activeItem.item.equals(OneironautItemRegistry.REVERBERATION_ROD.get().asItem())
         //&& ctx.caster.getStackInHand(ctx.castingHand).equals(OneironautThingRegistry.REVERBERATION_ROD.get().asItem())
         ){
         return true

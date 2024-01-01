@@ -97,10 +97,10 @@ public class OneironautPatternRegistry {
     private static Map<RegistrySupplier<? extends Item>, UncheckedPatternRegister> itemDependentPatternRegisterers = new HashMap<>();
 
     static {
-        itemDependentPatternRegisterers.put(OneironautThingRegistry.REVERBERATION_ROD, () -> {
+        itemDependentPatternRegisterers.put(OneironautItemRegistry.REVERBERATION_ROD, () -> {
             PatternRegistry.mapPattern(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST),
                     new Identifier(Oneironaut.MOD_ID, "craftrod"),
-                    new OpMakePackagedSpell<>(OneironautThingRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT * 10));
+                    new OpMakePackagedSpell<>(OneironautItemRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT * 10));
         });
     }
 

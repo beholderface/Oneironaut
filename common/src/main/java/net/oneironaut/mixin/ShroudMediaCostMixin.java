@@ -5,7 +5,8 @@ import at.petrak.hexcasting.api.spell.casting.CastingHarness;
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.lib.HexItems;
 import net.minecraft.item.ItemStack;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
+import net.oneironaut.registry.OneironautMiscRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -19,7 +20,7 @@ public abstract class ShroudMediaCostMixin {
         CastingContext ctx = harness.getCtx();
         if (ctx.getSource().equals(CastingContext.CastSource.STAFF) &&
                 !(stack.getItem() instanceof ItemStaff) &&
-                ctx.getCaster().hasStatusEffect(OneironautThingRegistry.DETECTION_RESISTANCE.get())
+                ctx.getCaster().hasStatusEffect(OneironautMiscRegistry.DETECTION_RESISTANCE.get())
         ){
             return HexItems.STAFF_EDIFIED.getDefaultStack();
         } else {
