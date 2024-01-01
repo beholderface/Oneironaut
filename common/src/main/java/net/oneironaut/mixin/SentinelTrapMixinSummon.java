@@ -8,7 +8,8 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.oneironaut.Oneironaut;
 import net.oneironaut.block.SentinelTrapImpetusEntity;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -45,7 +46,7 @@ public abstract class SentinelTrapMixinSummon {
                 currentEntry = entryIterator.next();
                 if (target.isInRange(currentEntry.getValue(), 8.0)){
                     BlockPos pos = currentEntry.getKey();
-                    if (world.getBlockState(pos).getBlock().getDefaultState().equals(OneironautThingRegistry.SENTINEL_TRAP.get().getDefaultState())){
+                    if (world.getBlockState(pos).getBlock().getDefaultState().equals(OneironautBlockRegistry.SENTINEL_TRAP.get().getDefaultState())){
                         SentinelTrapImpetusEntity be = (SentinelTrapImpetusEntity) world.getBlockEntity(pos);
                         Iterator<ServerPlayerEntity> playerEntityIterator = world.getServer().getPlayerManager().getPlayerList().iterator();
                         ServerPlayerEntity currentPlayer = null;

@@ -4,20 +4,17 @@ import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.oneironaut.Oneironaut;
 import net.oneironaut.block.ThoughtSlurry;
-import net.oneironaut.registry.OneironautThingRegistry;
-import net.oneironaut.registry.OneironautFeatureRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 //import java.lang.reflect.Array;
 //import java.util.ArrayList;
 
@@ -54,7 +51,7 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
                     //Vec3i offset;
                     //int area = (int) Math.pow(num, 2);
                     Block[] replaceable = new Block[]{
-                            OneironautThingRegistry.THOUGHT_SLURRY_BLOCK.get(),
+                            OneironautBlockRegistry.THOUGHT_SLURRY_BLOCK.get(),
                             Blocks.AIR
                     };
                     genCircle(world, scanPos, num, state, replaceable);

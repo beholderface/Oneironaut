@@ -16,13 +16,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 import org.jetbrains.annotations.Nullable;
 
 public class WispLanternEntityTinted extends BlockEntity {
 
     public WispLanternEntityTinted(BlockPos pos, BlockState state){
-        super(OneironautThingRegistry.WISP_LANTERN_ENTITY_TINTED.get(), pos, state);
+        super(OneironautBlockRegistry.WISP_LANTERN_ENTITY_TINTED.get(), pos, state);
     }
 
     private FrozenColorizer color = FrozenColorizer.DEFAULT.get();

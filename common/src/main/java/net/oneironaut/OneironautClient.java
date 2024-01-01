@@ -8,15 +8,12 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.block.FluidRenderer;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.oneironaut.block.ThoughtSlurry;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 
 import java.util.Locale;
 
@@ -39,19 +36,19 @@ public class OneironautClient {
             ));
 
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ThoughtSlurry.STILL_FLUID, ThoughtSlurry.FLOWING_FLUID);
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.WISP_LANTERN.get(), RenderLayer.getCutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.WISP_LANTERN_TINTED.get(), RenderLayer.getCutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.CIRCLE.get(), RenderLayer.getCutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautThingRegistry.RAYCAST_BLOCKER_GLASS.get(), RenderLayer.getTranslucent());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_LANTERN.get(), RenderLayer.getCutout());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_LANTERN_TINTED.get(), RenderLayer.getCutout());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CIRCLE.get(), RenderLayer.getCutout());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.RAYCAST_BLOCKER_GLASS.get(), RenderLayer.getTranslucent());
         } else {
             Oneironaut.LOGGER.info("oh no, forge, aaaaaaaaaaaa");
         }
 
-        ItemPropertiesRegistry.register(OneironautThingRegistry.REVERBERATION_ROD.get(), ItemPackagedHex.HAS_PATTERNS_PRED, (stack, level, holder, holderID) -> {
-            return OneironautThingRegistry.REVERBERATION_ROD.get().hasHex(stack) ? 0.99f : -0.01f;
+        ItemPropertiesRegistry.register(OneironautItemRegistry.REVERBERATION_ROD.get(), ItemPackagedHex.HAS_PATTERNS_PRED, (stack, level, holder, holderID) -> {
+            return OneironautItemRegistry.REVERBERATION_ROD.get().hasHex(stack) ? 0.99f : -0.01f;
         });
         //ah yes, because I definitely want to turn my expensive staff into a much less expensive variant
-        ItemPropertiesRegistry.register(OneironautThingRegistry.ECHO_STAFF.get(), ItemStaff.FUNNY_LEVEL_PREDICATE, (stack, level, holder, holderID) -> {
+        ItemPropertiesRegistry.register(OneironautItemRegistry.ECHO_STAFF.get(), ItemStaff.FUNNY_LEVEL_PREDICATE, (stack, level, holder, holderID) -> {
             if (!stack.hasCustomName()) {
                 return 0;
             }

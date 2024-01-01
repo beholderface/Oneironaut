@@ -12,9 +12,9 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.oneironaut.Oneironaut;
 import net.oneironaut.block.ThoughtSlurry;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -59,9 +59,9 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
                     //Vec3i offset;
                     //int area = (int) Math.pow(num, 2);
                     Block[] replaceable = new Block[]{
-                            OneironautThingRegistry.THOUGHT_SLURRY_BLOCK.get(),
-                            OneironautThingRegistry.PSUEDOAMETHYST_BLOCK.get(),
-                            OneironautThingRegistry.NOOSPHERE_BASALT.get(),
+                            OneironautBlockRegistry.THOUGHT_SLURRY_BLOCK.get(),
+                            OneironautBlockRegistry.PSUEDOAMETHYST_BLOCK.get(),
+                            OneironautBlockRegistry.NOOSPHERE_BASALT.get(),
                             Blocks.AIR
                     };
                     int y2 = -63;
@@ -81,7 +81,7 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
                             }
                         }
                     }
-                    world.setBlockState(new BlockPos(scanPos.getX(), 9, scanPos.getZ()), OneironautThingRegistry.NOOSPHERE_GATE.get().getDefaultState(), 0b10);
+                    world.setBlockState(new BlockPos(scanPos.getX(), 9, scanPos.getZ()), OneironautBlockRegistry.NOOSPHERE_GATE.get().getDefaultState(), 0b10);
                     placedCoreBlock--;
                     Iterator<Vec3i> jaggedOffsets = Arrays.stream(new Vec3i[]{
                             new Vec3i(-4, 0, 1), new Vec3i(-4, 0, -2), new Vec3i(-4, 1, -2),

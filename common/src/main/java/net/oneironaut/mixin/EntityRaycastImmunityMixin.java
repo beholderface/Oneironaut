@@ -5,13 +5,11 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.casting.CastingHarness;
 import at.petrak.hexcasting.common.casting.operators.OpEntityRaycast;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
@@ -20,11 +18,11 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.RaycastContext;
 import net.oneironaut.Oneironaut;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 import net.oneironaut.MiscAPIKt;
+import net.oneironaut.registry.OneironautMiscRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -39,7 +37,7 @@ public abstract class EntityRaycastImmunityMixin {
         if (value != null){
             Entity entity = value.getEntity();
             if (entity instanceof LivingEntity livingEntity){
-                if (livingEntity.hasStatusEffect(OneironautThingRegistry.DETECTION_RESISTANCE.get())){
+                if (livingEntity.hasStatusEffect(OneironautMiscRegistry.DETECTION_RESISTANCE.get())){
                     return null;
                 } else {
                     return value;

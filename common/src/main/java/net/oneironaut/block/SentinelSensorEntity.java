@@ -12,16 +12,16 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
-import net.oneironaut.registry.OneironautThingRegistry;
+import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.OneironautItemRegistry;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SentinelSensorEntity extends BlockEntity {
     //private static List<Direction> directions = new ArrayList<>();
     private static final Direction[] directions = {Direction.UP, Direction.DOWN, Direction.EAST, Direction.WEST, Direction.NORTH, Direction.SOUTH};
     public SentinelSensorEntity(BlockPos pos, BlockState state){
-        super(OneironautThingRegistry.SENTINEL_SENSOR_ENTITY.get(), pos, state);
+        super(OneironautBlockRegistry.SENTINEL_SENSOR_ENTITY.get(), pos, state);
     }
 
     public void tick(World world, BlockPos pos, BlockState state){
@@ -55,9 +55,9 @@ public class SentinelSensorEntity extends BlockEntity {
             }
             if (!(state.equals(newState))){
                 world.setBlockState(pos, newState);
-                world.updateNeighborsAlways(pos, OneironautThingRegistry.SENTINEL_SENSOR.get());
+                world.updateNeighborsAlways(pos, OneironautBlockRegistry.SENTINEL_SENSOR.get());
                 for (Direction dir : directions){
-                    world.updateNeighborsAlways(pos.offset(dir), OneironautThingRegistry.SENTINEL_SENSOR.get());
+                    world.updateNeighborsAlways(pos.offset(dir), OneironautBlockRegistry.SENTINEL_SENSOR.get());
                 }
                 world.updateComparators(pos, newState.getBlock());
             }

@@ -6,13 +6,13 @@ import at.petrak.hexcasting.api.spell.getPositiveInt
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.utils.putInt
 import net.oneironaut.casting.mishaps.MishapNoRod
-import net.oneironaut.registry.OneironautThingRegistry
+import net.oneironaut.registry.OneironautItemRegistry
 
 class OpDelayRod : ConstMediaAction {
     override val argc = 1
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         val delay = args.getPositiveInt(0, argc)
-        val rod = OneironautThingRegistry.REVERBERATION_ROD.get()
+        val rod = OneironautItemRegistry.REVERBERATION_ROD.get()
         if (ctx.caster.activeItem.item == rod.asItem() && ctx.source == CastingContext.CastSource.PACKAGED_HEX){
             ctx.caster.activeItem.nbt.putInt("delay", delay)
         } else {

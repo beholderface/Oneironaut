@@ -8,26 +8,18 @@ import at.petrak.hexcasting.api.spell.SpellAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.getVec3
 import at.petrak.hexcasting.api.spell.iota.Iota
-import at.petrak.hexcasting.api.utils.get
 import at.petrak.hexcasting.api.utils.getCompound
 import at.petrak.hexcasting.api.utils.getUUID
 import at.petrak.hexcasting.common.blocks.BlockConjured
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.minecraft.item.Item
 import net.minecraft.item.Items
-import net.minecraft.text.Text
-import net.minecraft.util.Hand
-import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3d
-import net.oneironaut.block.WispLantern
-import net.oneironaut.block.WispLanternEntity
 import net.oneironaut.casting.mishaps.MishapNonconjured
-import net.oneironaut.registry.OneironautThingRegistry
+import net.oneironaut.registry.OneironautItemRegistry
 import ram.talia.hexal.api.spell.iota.ItemTypeIota
 import net.oneironaut.block.ISplatoonableBlock;
+import net.oneironaut.registry.OneironautBlockRegistry
 
 class OpSplatoon : SpellAction {
     override val argc = 2
@@ -40,8 +32,8 @@ class OpSplatoon : SpellAction {
 
         ctx.assertVecInRange(target)
         if ((ctx.world.getBlockState(BlockPos(target)).block !is BlockConjured) &&
-            (ctx.world.getBlockState(BlockPos(target)).block != OneironautThingRegistry.WISP_LANTERN) &&
-            (ctx.world.getBlockState(BlockPos(target)).block != OneironautThingRegistry.WISP_LANTERN_TINTED)){
+            (ctx.world.getBlockState(BlockPos(target)).block != OneironautBlockRegistry.WISP_LANTERN) &&
+            (ctx.world.getBlockState(BlockPos(target)).block != OneironautBlockRegistry.WISP_LANTERN_TINTED)){
             throw MishapNonconjured.of(BlockPos(target))
         }
 
@@ -58,7 +50,8 @@ class OpSplatoon : SpellAction {
             if (targetBEData.getCompound("tag_colorizer").getUUID("owner") == ctx.caster.uuid){
                 costMultiplier = 0.1f
             }
-        } else if (targetBlock.equals(OneironautThingRegistry.WISP_LANTERN) || targetBlock.equals(OneironautThingRegistry.WISP_LANTERN_TINTED)){
+        } else if (targetBlock.equals(OneironautBlockRegistry.WISP_LANTERN) || targetBlock.equals(
+                OneironautBlockRegistry.WISP_LANTERN_TINTED)){
             if (targetBEData.getCompound("color").getUUID("owner") == ctx.caster.uuid){
                 costMultiplier = 0.1f
             }

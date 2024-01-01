@@ -13,7 +13,8 @@ import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.oneironaut.getStatusEffect
-import net.oneironaut.registry.OneironautThingRegistry
+import net.oneironaut.registry.OneironautItemRegistry
+import net.oneironaut.registry.OneironautMiscRegistry
 
 class OpGetEntitiesByStatus(val invert : Boolean) : ConstMediaAction {
     override val argc = 3
@@ -33,7 +34,7 @@ class OpGetEntitiesByStatus(val invert : Boolean) : ConstMediaAction {
             if (e.isLiving && ctx.isEntityInRange(e)){
                 val le = e as LivingEntity
                 //I would not be so foolish :)
-                if (le.hasStatusEffect(OneironautThingRegistry.DETECTION_RESISTANCE.get())){
+                if (le.hasStatusEffect(OneironautMiscRegistry.DETECTION_RESISTANCE.get())){
                     return false
                 }
                 var result = le.hasStatusEffect(s)

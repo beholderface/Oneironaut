@@ -2,18 +2,14 @@ package net.oneironaut.registry;
 
 import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.iota.IotaType;
-import at.petrak.hexcasting.api.spell.iota.NullIota;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 
@@ -56,7 +52,7 @@ public class PotionIota extends Iota{
             var ctag = HexUtils.downcast(tag, NbtCompound.TYPE);
             Iterator<StatusEffect> statusEffectIterator = Registry.STATUS_EFFECT.iterator();
             String potionKey = ctag.getString("potion_key");
-            StatusEffect currentEffect = OneironautThingRegistry.MISSING.get();
+            StatusEffect currentEffect = OneironautMiscRegistry.MISSING.get();
             while (statusEffectIterator.hasNext()){
                 currentEffect = statusEffectIterator.next();
                 if (currentEffect.getTranslationKey().equals(potionKey)){

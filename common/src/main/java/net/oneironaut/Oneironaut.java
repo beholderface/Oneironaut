@@ -2,28 +2,12 @@ package net.oneironaut;
 
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
-import dev.architectury.event.events.common.TickEvent;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
 import net.oneironaut.casting.IdeaInscriptionManager;
-import net.oneironaut.registry.OneironautFeatureRegistry;
-import net.oneironaut.registry.OneironautIotaTypeRegistry;
-import net.oneironaut.registry.OneironautThingRegistry;
-import net.oneironaut.registry.OneironautPatternRegistry;
+import net.oneironaut.registry.*;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static net.minecraft.server.command.CommandManager.literal;
 
@@ -38,11 +22,12 @@ public class Oneironaut {
 
     public static void init() {
         LOGGER.info("why do they call it oven when you of in the cold food of out hot eat the food");
-
-        OneironautThingRegistry.init();
+        OneironautMiscRegistry.init();
+        OneironautBlockRegistry.init();
+        OneironautItemRegistry.init();
+        OneironautFeatureRegistry.init();
         OneironautIotaTypeRegistry.init();
         OneironautPatternRegistry.init();
-        OneironautFeatureRegistry.init();
 
         //Registry.register(Registry.CHUNK_GENERATOR, new Identifier(MOD_ID, "noosphere"))
 

@@ -6,7 +6,8 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
-import net.oneironaut.registry.OneironautThingRegistry
+import net.oneironaut.registry.OneironautItemRegistry
+import net.oneironaut.registry.OneironautMiscRegistry
 import kotlin.math.floor
 
 class OpResistDetection : SpellAction {
@@ -28,7 +29,7 @@ class OpResistDetection : SpellAction {
     private data class Spell(val target: LivingEntity, val duration : Int) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
             if (duration > 0){
-                target.addStatusEffect(StatusEffectInstance(OneironautThingRegistry.DETECTION_RESISTANCE.get(), duration), ctx.caster)
+                target.addStatusEffect(StatusEffectInstance(OneironautMiscRegistry.DETECTION_RESISTANCE.get(), duration), ctx.caster)
             }
         }
     }

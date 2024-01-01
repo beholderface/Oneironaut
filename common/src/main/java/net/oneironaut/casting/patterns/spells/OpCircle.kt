@@ -8,9 +8,7 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.getInt
 import at.petrak.hexcasting.api.spell.iota.Iota
 import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.oneironaut.registry.OneironautThingRegistry
-import kotlin.math.max
+import net.oneironaut.registry.OneironautItemRegistry
 import kotlin.math.min
 
 class OpCircle : SpellAction {
@@ -26,7 +24,7 @@ class OpCircle : SpellAction {
     }
     private data class Spell(val quantity : Int) : RenderedSpell{
         override fun cast(ctx: CastingContext){
-            ctx.caster.giveItemStack(ItemStack(OneironautThingRegistry.CIRCLE_ITEM.get(), quantity))
+            ctx.caster.giveItemStack(ItemStack(OneironautItemRegistry.CIRCLE_ITEM.get(), quantity))
         }
     }
 }
