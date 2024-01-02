@@ -43,6 +43,9 @@
   "item.oneironaut.endless_phial": "Inexhaustible Phial",
   "item.oneironaut.echo_staff": "Echo Staff",
   "item.oneironaut.spoon_staff": "Spoon",
+  "item.oneironaut.pigment_flame": "Flame Pigment",
+  "item.oneironaut.pigment_echo": "Echo Pigment",
+  "item.oneironaut.pigment_noosphere": "Noetic Pigment",
   "block.oneironaut.thought_slurry": "Thought Slurry",
   "block.oneironaut.thought_slurry_flowing": "Flowing Thought Slurry",
   "block.oneironaut.noosphere_basalt": "Noosphere Basalt",
@@ -165,7 +168,7 @@
   "oneironaut.mishap.unenlightenedtarget": "an enlightened player",
   "oneironaut.mishap.notbrainswept": "a flayed villager",
   "oneironaut.mishap.badentitykey": "an enlightened player or a flayed villager",
-  "this.is.a.comment.7": "Other?--------------------------------------------------------------------------------------------",
+  "this.is.a.comment.7": "Other---------------------------------------------------------------------------------------------",
   "hexcasting.iota.oneironaut:dim": "Dimension",
   "hexcasting.iota.oneironaut:potion": "Status Effect",
   "biome.oneironaut.noosphere_sea": "Noosphere Sea",
@@ -173,6 +176,7 @@
   "effect.oneironaut.detection_resistance": "Media Shroud",
   "effect.oneironaut.missing": "Broken Potion Iota",
   "enchantment.oneironaut.overcast_damage": "Mind Render",
+  "itemGroup.oneironaut.oneironaut": "Oneironaut",
   "text.oneironaut.noforgeyet": "This has not yet been implemented on Forge. Sorry!",
   "text.oneironaut.lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 }

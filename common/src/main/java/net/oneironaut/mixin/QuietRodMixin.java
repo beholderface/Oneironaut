@@ -69,7 +69,7 @@ public abstract class QuietRodMixin {
             if (caster != null){
                 ItemStack activeStack = caster.getActiveItem();
                 //play cast sound every 1.5 seconds
-                if ((((caster.getWorld().getTime() - activeStack.getNbt().getDouble("initialTime")) % 30.0) == 0)){
+                if ((((caster.getWorld().getTime() - activeStack.getNbt().getDouble("initialTime")) % 30.0) == 0) || event.equals(HexEvalSounds.MISHAP.sound())){
                     return event;
                 } else {
                     return SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME;
