@@ -15,10 +15,11 @@ class OpGetEffects : ConstMediaAction {
         val target = args.getLivingEntityButNotArmorStand(0, argc)
         val effects = target.statusEffects
         //val effectIotas : MutableList<PotionIota> = mutableListOf()
-        var currentList : ListIota
-        val effectDetails : MutableList<ListIota> = mutableListOf()
+        var currentList : PotionIota
+        val effectDetails : MutableList<PotionIota> = mutableListOf()
         for (effect in effects){
-            currentList = ListIota(listOf(PotionIota(effect.effectType), DoubleIota(effect.duration.toDouble() / 20), DoubleIota((effect.amplifier + 1).toDouble())))
+
+            currentList = PotionIota(effect.effectType)
             effectDetails.add(currentList)
             //effectIotas.add(PotionIota(effect.effectType))
         }

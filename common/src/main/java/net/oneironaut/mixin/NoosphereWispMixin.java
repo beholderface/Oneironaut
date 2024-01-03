@@ -1,5 +1,6 @@
 package net.oneironaut.mixin;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryKey;
@@ -35,7 +36,7 @@ public abstract class NoosphereWispMixin
             remap = false)
     public int freeIfNoosphere1(BaseCastingWisp wisp){
         boolean foundGate = false;
-        World world = wisp.getEntityWorld();
+        World world = ((Entity)wisp).getEntityWorld();
         RegistryKey<World> worldKey = world.getRegistryKey();
         String worldName = worldKey.getValue().toString();
         if(gateMap.containsKey(worldKey) && !(worldName.equals("oneironaut:noosphere"))){
@@ -44,7 +45,7 @@ public abstract class NoosphereWispMixin
             Map.Entry<BlockPos, Vec3d> currentEntry;
             while(entryIterator.hasNext()){
                 currentEntry = entryIterator.next();
-                if (wisp.getPos().isInRange(currentEntry.getValue(), 8.0)){
+                if (((Entity)wisp).getPos().isInRange(currentEntry.getValue(), 8.0)){
                     if(world.getBlockState(currentEntry.getKey()).getBlock().getDefaultState().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get().getDefaultState())){
                         foundGate = true;
                         break;
@@ -69,7 +70,7 @@ public abstract class NoosphereWispMixin
         boolean foundGate = false;
         double discount = HexalConfig.getServer().getUntriggeredWispUpkeepDiscount();
         int discountedUpkeep = (int) (baseUpkeep * discount);
-        World world = wisp.getEntityWorld();
+        World world = ((Entity)wisp).getEntityWorld();
         RegistryKey<World> worldKey = world.getRegistryKey();
         String worldName = worldKey.getValue().toString();
         if(gateMap.containsKey(worldKey) && !(worldName.equals("oneironaut:noosphere"))){
@@ -78,7 +79,7 @@ public abstract class NoosphereWispMixin
             Map.Entry<BlockPos, Vec3d> currentEntry;
             while(entryIterator.hasNext()){
                 currentEntry = entryIterator.next();
-                if (wisp.getPos().isInRange(currentEntry.getValue(), 8.0)){
+                if (((Entity)wisp).getPos().isInRange(currentEntry.getValue(), 8.0)){
                     if(world.getBlockState(currentEntry.getKey()).getBlock().getDefaultState().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get().getDefaultState())){
                         foundGate = true;
                         break;

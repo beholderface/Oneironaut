@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.casting.CastingHarness;
 import at.petrak.hexcasting.common.casting.operators.OpEntityRaycast;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -33,8 +34,22 @@ import java.util.function.Predicate;
 @Mixin(value = OpEntityRaycast.class)
 public abstract class EntityRaycastImmunityMixin {
     @ModifyVariable(method = "execute", at = @At(value = "STORE"), remap = false)
-    private EntityHitResult skipImmune(EntityHitResult value){
+    private EntityHitResult skipImmune(
+            EntityHitResult value,
+            @Local CastingContext ctx,
+            @Local(ordinal = 0) Vec3d origin,
+            @Local(ordinal = 1) Vec3d look,
+            @Local(ordinal = 2) Vec3d end
+    ){
         if (value != null){
+            int stepResolution = 64;
+            Vec3d step = look.multiply(1.0 / stepResolution);
+            Identifier blockerTag = new Identifier(Oneironaut.MOD_ID, "blocksraycast");
+            for(int i = 0; i < origin.distanceTo(end) * stepResolution; i++){
+                if (ctx.getWorld().getBlockState(new BlockPos(origin.add(step.multiply(i)))).isIn(MiscAPIKt.getBlockTagKey(blockerTag))){
+                    return null;
+                }
+            }
             Entity entity = value.getEntity();
             if (entity instanceof LivingEntity livingEntity){
                 if (livingEntity.hasStatusEffect(OneironautMiscRegistry.DETECTION_RESISTANCE.get())){
@@ -49,9 +64,10 @@ public abstract class EntityRaycastImmunityMixin {
             return value;
         }
     }
-    @Redirect(method = "execute", at = @At(value = "INVOKE",
+    /*@Redirect(method = "execute", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/projectile/ProjectileUtil;raycast(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/EntityHitResult;"
-    ))
+    ,remap = true
+    ),remap = false)
     private EntityHitResult blockableRaycast(Entity entity, Vec3d origin, Vec3d max, Box box, Predicate<Entity> predicate, double d){
         EntityHitResult unmodifiedResult = ProjectileUtil.raycast(entity, origin, max, box, predicate, d);
         if (unmodifiedResult != null){
@@ -74,12 +90,8 @@ public abstract class EntityRaycastImmunityMixin {
                     return null;
                 }
             }
-            /*for (int i = 0; i < (Math.floor(origin.distanceTo(entityHitPos))) * stepResolution; i++){
-                if (world.getBlockState(new BlockPos(origin.add(stepDirection.multiply(i)))).isIn(MiscAPIKt.getBlockTagKey(new Identifier(Oneironaut.MOD_ID, "blocksraycast")))){
-                    return null;
-                }
-            }*/
         }
         return unmodifiedResult;
-    }
+    }*/
+
 }
