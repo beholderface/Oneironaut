@@ -12,6 +12,12 @@
       "predicate": {
         "hexcasting:has_patterns": 0.99
       }
+    },
+    {
+      "model": "oneironaut:item/reverberation_rod_casting",
+      "predicate": {
+        "oneironaut:is_casting": 0.99
+      }
     }
   ],
   "textures": {

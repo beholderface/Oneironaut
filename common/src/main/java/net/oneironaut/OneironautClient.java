@@ -12,6 +12,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.oneironaut.block.ThoughtSlurry;
+import net.oneironaut.item.ReverberationRod;
 import net.oneironaut.registry.OneironautBlockRegistry;
 import net.oneironaut.registry.OneironautItemRegistry;
 
@@ -44,8 +45,18 @@ public class OneironautClient {
             Oneironaut.LOGGER.info("oh no, forge, aaaaaaaaaaaa");
         }
 
-        ItemPropertiesRegistry.register(OneironautItemRegistry.REVERBERATION_ROD.get(), ItemPackagedHex.HAS_PATTERNS_PRED, (stack, level, holder, holderID) -> {
+        ItemPropertiesRegistry.register(OneironautItemRegistry.REVERBERATION_ROD.get(), ItemPackagedHex.HAS_PATTERNS_PRED, (stack, world, holder, holderID) -> {
             return OneironautItemRegistry.REVERBERATION_ROD.get().hasHex(stack) ? 0.99f : -0.01f;
+        });
+        ItemPropertiesRegistry.register(OneironautItemRegistry.REVERBERATION_ROD.get(), ReverberationRod.CASTING_PREDICATE, (stack, world, holder, holderID) -> {
+            //return 0.99f;
+            if (holder != null){
+                //return 0.99f;
+                return holder.getActiveItem().getItem().equals(OneironautItemRegistry.REVERBERATION_ROD.get().asItem()) ? 0.99f : -0.01f;
+            } else {
+                return -0.01f;
+            }
+            //return OneironautItemRegistry.REVERBERATION_ROD.get().hasHex(stack) ? 0.99f : -0.01f;
         });
         //ah yes, because I definitely want to turn my expensive staff into a much less expensive variant
         ItemPropertiesRegistry.register(OneironautItemRegistry.ECHO_STAFF.get(), ItemStaff.FUNNY_LEVEL_PREDICATE, (stack, level, holder, holderID) -> {

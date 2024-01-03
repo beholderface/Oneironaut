@@ -14,13 +14,17 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stat;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
+import net.oneironaut.Oneironaut;
 
 import java.util.List;
 
 public class ReverberationRod extends ItemPackagedHex  {
+
+    public static final Identifier CASTING_PREDICATE = new Identifier(Oneironaut.MOD_ID, "is_casting");
     public ReverberationRod(Settings settings){
         super(settings);
     }
