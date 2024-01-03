@@ -5,7 +5,10 @@ import at.petrak.hexcasting.api.block.circle.BlockCircleComponent;
 import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus;
 import at.petrak.hexcasting.api.player.Sentinel;
 import at.petrak.hexcasting.api.spell.iota.EntityIota;
+import at.petrak.hexcasting.common.blocks.circles.impetuses.BlockStoredPlayerImpetus;
+import at.petrak.hexcasting.common.blocks.entity.BlockEntityStoredPlayerImpetus;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -50,27 +53,25 @@ public class SentinelTrapImpetus extends BlockAbstractImpetus {
     @Override
     public ActionResult onUse(BlockState pState, World world, BlockPos pPos, PlayerEntity pPlayer, Hand pHand,
                             BlockHitResult pHit) {
-        if (world instanceof ServerWorld level
-                && level.getBlockEntity(pPos) instanceof SentinelTrapImpetusEntity tile) {
+        if (world.getBlockEntity(pPos) instanceof SentinelTrapImpetusEntity tile) {
             var usedStack = pPlayer.getStackInHand(pHand);
-            if (usedStack.isEmpty() && pPlayer.isSneaky()) {
-                tile.clearPlayer();
-                tile.sync();
-            } else {
-                var datumContainer = IXplatAbstractions.INSTANCE.findDataHolder(usedStack);
-                if (datumContainer != null) {
+            var datumContainer = IXplatAbstractions.INSTANCE.findDataHolder(usedStack);
+            if (datumContainer != null) {
+                if (world instanceof ServerWorld level) {
                     var stored = datumContainer.readIota(level);
                     if (stored instanceof EntityIota eieio) {
                         var entity = eieio.getEntity();
                         if (entity instanceof PlayerEntity player) {
+                            // phew, we got something
                             tile.setPlayer(player.getGameProfile(), entity.getUuid());
-                            tile.sync();
-                            world.playSound(pPlayer, pPos, HexSounds.SPELL_CIRCLE_CAST,
+                            level.updateListeners(pPos, pState, pState, Block.NOTIFY_LISTENERS);
+
+                            world.playSound(pPlayer, pPos, HexSounds.IMPETUS_STOREDPLAYER_DING,
                                     SoundCategory.BLOCKS, 1f, 1f);
-                            return ActionResult.SUCCESS;
                         }
                     }
                 }
+                return ActionResult.SUCCESS;
             }
         }
 
