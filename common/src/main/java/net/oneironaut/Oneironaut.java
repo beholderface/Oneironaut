@@ -1,10 +1,13 @@
 package net.oneironaut;
 
+import dev.architectury.event.Event;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.platform.Platform;
 import net.minecraft.text.Text;
 import net.oneironaut.casting.IdeaInscriptionManager;
+import net.oneironaut.item.BottomlessMediaItem;
 import net.oneironaut.registry.*;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
@@ -39,6 +42,7 @@ public class Oneironaut {
             ideaState.markDirty();
             //SentinelTracker sentinelState = SentinelTracker.getServerState(startedserver);
         });
+        TickEvent.SERVER_PRE.register((server) -> BottomlessMediaItem.time = server.getOverworld().getTime());
         CommandRegistrationEvent.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("clearinscribedideas")
                 .requires(source -> source.hasPermissionLevel(3))
                 .executes(context -> {

@@ -1,18 +1,54 @@
 package net.oneironaut.item;
 
+import at.petrak.hexcasting.api.addldata.ADMediaHolder;
 import at.petrak.hexcasting.api.item.MediaHolderItem;
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class PseudoamethystShard extends Item implements MediaHolderItem {
+public class PseudoamethystShard extends Item /*implements ADMediaHolder*/ {
 
     public PseudoamethystShard(Settings settings){
         super(settings);
     }
-    private final int PSEUDOSHARD_UNIT = (int) (MediaConstants.SHARD_UNIT * 1.5);
+    private static final int PSEUDOSHARD_UNIT = (int) (MediaConstants.SHARD_UNIT * 1.5);
+
+    /*@Override
+    public static int getMedia() {
+        return PSEUDOSHARD_UNIT;
+    }
 
     @Override
+    public int getMaxMedia() {
+        return PSEUDOSHARD_UNIT;
+    }
+
+    @Override
+    public void setMedia(int media) {
+
+    }
+
+    @Override
+    public boolean canRecharge() {
+        return false;
+    }
+
+    @Override
+    public boolean canProvide() {
+        return true;
+    }
+
+    @Override
+    public int getConsumptionPriority() {
+        return 1500;
+    }
+
+    @Override
+    public boolean canConstructBattery() {
+        return true;
+    }*/
+
+    /*@Override
     public int getMedia(ItemStack stack) {
         return PSEUDOSHARD_UNIT * stack.getCount();
     }
@@ -35,7 +71,7 @@ public class PseudoamethystShard extends Item implements MediaHolderItem {
     @Override
     public boolean canRecharge(ItemStack stack) {
         return false;
-    }
+    }*/
 
 
 

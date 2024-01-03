@@ -20,6 +20,9 @@
     ],
     "client": [
       "net.oneironaut.fabric.OneironautClientFabric"
+    ],
+    "cardinal-components": [
+      "net.oneironaut.fabric.OneironautCC"
     ]
   },
   "mixins": [

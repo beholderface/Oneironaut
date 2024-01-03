@@ -48,7 +48,8 @@ public class DetectionResistEffect extends StatusEffect {
                     CastingHarness harness = new CastingHarness(ctx);
                     int deficit = harness.withdrawMedia(MediaConstants.DUST_UNIT / 10, false);
                     if (deficit > 0 && (time % 40) == 0){
-                        entity.damage(HexDamageSources.OVERCAST, 1f);
+                        //entity.damage(HexDamageSources.OVERCAST, 1f);
+                        Mishap.Companion.trulyHurt(entity, HexDamageSources.OVERCAST, 1f);
                     }
                 }
             } else if (entity instanceof MobEntity){

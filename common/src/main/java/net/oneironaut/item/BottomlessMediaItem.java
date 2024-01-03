@@ -2,22 +2,23 @@ package net.oneironaut.item;
 
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.common.items.magic.ItemMediaHolder;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.oneironaut.Oneironaut;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BottomlessMediaItem extends ItemMediaHolder {
+
+    public static final int priority = 10000;
 
     public BottomlessMediaItem(Settings settings){
         super(settings);
@@ -36,85 +37,73 @@ public class BottomlessMediaItem extends ItemMediaHolder {
         return Math.log(num) / Math.log(base);
     }
 
-    private static Map<PlayerEntity, NbtCompound> playerPhialCounts = new HashMap<>();
-    private static long time;
+    private static final Map<Entity, Pair<List<UUID>, Long>> playerPhialList = new HashMap<>();
+    private static final Map<UUID, Pair<Entity, Long>> phialOwners = new HashMap<>();
+    public static long time;
 
     private int logMedia(ItemStack stack){
         NbtCompound nbt = stack.getOrCreateNbt();
-        int media = 0;
-        if (time != nbt.getLong("latestTime")){
+        UUID uuid = nbt.getUuid("uuid");
+        long lastCheckIn = phialOwners.get(uuid).getSecond();
+        int lastPhialCount = playerPhialList.get(phialOwners.get(uuid).getFirst()).getFirst().size();
+        //NbtCompound currentData = playerPhialCounts.get(phialOwners.get(uuid).getFirst());
+        int media = 1;
+        if (time != lastCheckIn){
+            //Oneironaut.LOGGER.info("Stale phial use detected");
             return media;
         } else {
-            int foundItems = nbt.getInt("foundPhials");
-            if (foundItems == 1){
+            if (lastPhialCount == 1){
                 media = MediaConstants.DUST_UNIT / 10;
             } else {
-                media = (int) (((arbitraryLog(6.0, foundItems) + 0.75) / foundItems) * (MediaConstants.DUST_UNIT / 10));
+                media = (int) (((arbitraryLog(6.0, lastPhialCount) + 0.75) / lastPhialCount) * (MediaConstants.DUST_UNIT / 10));
             }
         }
         //int media = foundItems > 0 ? (int) (((arbitraryLog(6.0, foundItems) + 0.75) / foundItems) * (MediaConstants.DUST_UNIT / 10)) : 0;
-        //Oneironaut.LOGGER.info("Media in each of the "+ foundItems + " endless phials in inventory: "+media);
+        //Oneironaut.LOGGER.info("Media in each of the "+ lastPhialCount + " endless phials in inventory: "+media);
+        //Oneironaut.LOGGER.info(media);
         return media;
     }
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        if (!world.isClient){
-            time = world.getTime();
-            if (entity.isPlayer()){
-                PlayerEntity player = (PlayerEntity) entity;
-                NbtCompound nbt = new NbtCompound();
-                if (playerPhialCounts.containsKey(player)){
-                    NbtCompound mapNBT = playerPhialCounts.get(player);
-                    if (mapNBT.getLong("latestTime") == time){
-                        int phials = mapNBT.getInt("foundPhials") + 1;
-                        mapNBT.putInt("foundPhials", phials);
-                        stack.getOrCreateNbt().putInt("foundPhials", phials);
-                        playerPhialCounts.put(player, nbt);
-                    } else {
-                        nbt.putLong("latestTime", time);
-                        nbt.putInt("foundPhials", 1);
-                        stack.getOrCreateNbt().putInt("foundPhials", 1);
-                        stack.getOrCreateNbt().putLong("latestTime", time);
-                        playerPhialCounts.put(player, nbt);
-                    }
-                } else {
-                    nbt.putLong("latestTime", time);
-                    nbt.putInt("foundPhials", 1);
-                    stack.getOrCreateNbt().putInt("foundPhials", 1);
-                    stack.getOrCreateNbt().putLong("latestTime", time);
-                    playerPhialCounts.put(player, nbt);
+        if (!world.isClient && entity instanceof PlayerEntity){
+            //time = world.getTime();
+            NbtCompound stackNbt = stack.getOrCreateNbt();
+            UUID uuid;
+            if (!stackNbt.contains("uuid")){
+                uuid = UUID.randomUUID();
+                stackNbt.putUuid("uuid", uuid);
+            } else {
+                uuid = stackNbt.getUuid("uuid");
+            }
+            if (!phialOwners.containsKey(uuid)){
+                phialOwners.put(uuid, new Pair<>(entity, time));
+            }
+            phialOwners.put(uuid, new Pair<>(entity, time));
+            if (!playerPhialList.containsKey(entity)){
+                playerPhialList.put(entity, new Pair<>(new ArrayList<>(), time));
+            }
+            Pair<List<UUID>, Long> currentData = playerPhialList.get(entity);
+            List<UUID> list = currentData.getFirst();
+            if (currentData.getSecond() != time){
+                list.clear();
+                list.add(uuid);
+                playerPhialList.put(entity, new Pair<>(list, time));
+            } else {
+                if (list.contains(uuid)){
+                    uuid = UUID.randomUUID();
+                    stackNbt.putUuid("uuid", uuid);
                 }
-                /*Iterator<ItemStack> invIterator = player.getInventory().main.iterator();
-                int count = 0;
-                boolean foundSelf = false;
-                ItemStack current;
-                while(invIterator.hasNext()){
-                    current = invIterator.next();
-                    if (current == stack){
-                        foundSelf = true;
-                    }
-                    if (current.getItem().equals(stack.getItem())){
-                        count++;
-                    }
-                }
-                current = player.getStackInHand(Hand.OFF_HAND);
-                if (current == stack){
-                    foundSelf = true;
-                }
-                if (current.getItem().equals(stack.getItem())){
-                    count++;
-                }
-                if (!foundSelf){
-                    count = 0;
-                }
-                stack.getOrCreateNbt().putInt("countInInventory", count);*/
+                list.add(uuid);
             }
         }
     }
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-        stack.getOrCreateNbt().putInt("foundPhials", 1);
-        stack.getOrCreateNbt().putLong("latestTime", world.getTime());
+        //stack.getOrCreateNbt().putInt("foundPhials", 1);
+        UUID uuid = UUID.randomUUID();
+        stack.getOrCreateNbt().putUuid("uuid", uuid);
+        phialOwners.put(uuid, new Pair<>((Entity) player, time));
+        //stack.getOrCreateNbt().putLong("latestTime", world.getTime());
     }
 
     @Override
