@@ -52,7 +52,7 @@ public class OneironautClient {
             //return 0.99f;
             if (holder != null){
                 //return 0.99f;
-                return holder.getActiveItem().getItem().equals(OneironautItemRegistry.REVERBERATION_ROD.get().asItem()) ? 0.99f : -0.01f;
+                return holder.getActiveItem().equals(stack) ? 0.99f : -0.01f;
             } else {
                 return -0.01f;
             }
