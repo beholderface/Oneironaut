@@ -62,7 +62,7 @@ public class WispLanternEntity extends BlockEntity {
     }
 
     public void tick(World world, BlockPos pos, BlockState state){
-        Random rand = net.minecraft.util.math.random.Random.create();
+        Random rand = world.random;
         if (world.isClient){
             Vec3d jarCenter = new Vec3d(pos.getX() + 0.5, pos.getY() + 0.2, pos.getZ() + 0.5);
             //render a wisp-like thing

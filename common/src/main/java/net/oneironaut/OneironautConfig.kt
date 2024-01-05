@@ -14,11 +14,15 @@ object OneironautConfig {
             //Idea Inscription expiration time, in ticks
             val ideaLifetime : Int
             val reduceEverbookLogSpam : Boolean
+            val swapRequiresNoosphere : Boolean
+            val swapSwapsBEs : Boolean
 
             companion object {
                 const val DEFAULT_ALLOW_PLANESHIFT_OTHERS = false
                 const val DEFAULT_REDUCE_EVERBOOK_SPAM = true
                 const val DEFAULT_IDEA_LIFETIME = 20 * 60 * 60 //one hour
+                const val DEFAULT_SWAP_NOOSPHERE = true
+                const val DEFAULT_SWAP_BES = false
             }
         }
 
@@ -49,6 +53,10 @@ object OneironautConfig {
             override val reduceEverbookLogSpam: Boolean
                 get() = throw IllegalStateException("Attempted to access property of Dummy Config Object")
             override val ideaLifetime: Int
+                get() = throw IllegalStateException("Attempted to access property of Dummy Config Object")
+            override val swapRequiresNoosphere: Boolean
+                get() = throw IllegalStateException("Attempted to access property of Dummy Config Object")
+            override val swapSwapsBEs: Boolean
                 get() = throw IllegalStateException("Attempted to access property of Dummy Config Object")
         }
 

@@ -11,6 +11,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.StatusEffect
+import net.minecraft.item.Item
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -51,6 +52,9 @@ fun getBlockTagKey(id : Identifier) : TagKey<Block>{
 }
 fun getEntityTagKey(id : Identifier) : TagKey<EntityType<*>>{
     return TagKey.of(Registry.ENTITY_TYPE_KEY, id)
+}
+fun getItemTagKey(id : Identifier) : TagKey<Item>{
+    return TagKey.of(Registry.ITEM_KEY, id)
 }
 
 

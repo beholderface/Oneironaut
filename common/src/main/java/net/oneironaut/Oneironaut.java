@@ -1,10 +1,16 @@
 package net.oneironaut;
 
+import at.petrak.hexcasting.common.items.ItemStaff;
+import at.petrak.hexcasting.common.lib.HexItems;
+import dev.architectury.event.CompoundEventResult;
 import dev.architectury.event.Event;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
+import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.platform.Platform;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.oneironaut.casting.IdeaInscriptionManager;
 import net.oneironaut.item.BottomlessMediaItem;
@@ -42,7 +48,19 @@ public class Oneironaut {
             ideaState.markDirty();
             //SentinelTracker sentinelState = SentinelTracker.getServerState(startedserver);
         });
+
         TickEvent.SERVER_PRE.register((server) -> BottomlessMediaItem.time = server.getOverworld().getTime());
+
+        InteractionEvent.RIGHT_CLICK_ITEM.register((player, hand) -> {
+            ItemStack heldStack = player.getStackInHand(hand);
+            if (heldStack.isIn(MiscAPIKt.getItemTagKey(new Identifier("hexcasting:staves"))) && !(heldStack.getItem() instanceof ItemStaff)){
+                ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
+                fakeStaffStack.use(player.world, player, hand);
+                player.swingHand(hand);
+            }
+            return CompoundEventResult.pass();
+        });
+
         CommandRegistrationEvent.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("clearinscribedideas")
                 .requires(source -> source.hasPermissionLevel(3))
                 .executes(context -> {
@@ -51,6 +69,7 @@ public class Oneironaut {
                     return 1;
                 })
         )));
+
         CommandRegistrationEvent.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("queryoneironautconfig")
                 .requires(source -> source.hasPermissionLevel(2))
                 .executes(context -> {

@@ -8,29 +8,27 @@ import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
-import at.petrak.hexcasting.api.utils.asLongArray
 import at.petrak.hexcasting.api.utils.downcast
-import at.petrak.hexcasting.api.utils.vecFromNBT
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.entity.BlockEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
+import net.oneironaut.OneironautConfig
 import net.oneironaut.casting.mishaps.MishapBadCuboid
 import net.oneironaut.casting.mishaps.MishapNoNoosphere
 import net.oneironaut.getDimIota
 import kotlin.math.abs
-import kotlin.math.floor
-import kotlin.math.max
-import kotlin.math.pow
 
 class OpSwapSpace : SpellAction {
     override val argc = 3
     override val isGreat = true
-    override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>>? {
+    override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
         val destination = args.getDimIota(2, argc)
         val dimKey = destination.serialize().downcast(NbtCompound.TYPE).getString("dim_key")
         var destWorld = ctx.world
@@ -49,10 +47,11 @@ class OpSwapSpace : SpellAction {
         } else if ((destWorldCuboid.getAt(0).type != Vec3Iota.TYPE) || destWorldCuboid.getAt(1).type != Vec3Iota.TYPE){
             throw MishapInvalidIota(args[1], 1, Text.literal("List does not contain two vectors."))
         }
-        val originCuboidCorner1 = BlockPos(vecFromNBT(originWorldCuboid.getAt(0).serialize().asLongArray))
-        val originCuboidCorner2 = BlockPos(vecFromNBT(originWorldCuboid.getAt(1).serialize().asLongArray))
-        val destCuboidCorner1 = BlockPos(vecFromNBT(destWorldCuboid.getAt(0).serialize().asLongArray))
-        val destCuboidCorner2 = BlockPos(vecFromNBT(destWorldCuboid.getAt(1).serialize().asLongArray))
+
+        val originCuboidCorner1 = BlockPos((originWorldCuboid.getAt(0) as Vec3Iota).vec3)
+        val originCuboidCorner2 = BlockPos((originWorldCuboid.getAt(1) as Vec3Iota).vec3)
+        val destCuboidCorner1 = BlockPos((destWorldCuboid.getAt(0) as Vec3Iota).vec3)
+        val destCuboidCorner2 = BlockPos((destWorldCuboid.getAt(1) as Vec3Iota).vec3)
         val originBox = Box(BlockPos(originCuboidCorner1), BlockPos(originCuboidCorner2))
         val destBox = Box(BlockPos(destCuboidCorner1), BlockPos(destCuboidCorner2))
         val boxCorners = arrayOf(Vec3d(originBox.minX, originBox.minY, originBox.minZ), Vec3d(originBox.maxX, originBox.minY, originBox.minZ),
@@ -60,13 +59,13 @@ class OpSwapSpace : SpellAction {
             Vec3d(originBox.minX, originBox.maxY, originBox.maxZ), Vec3d(originBox.minX, originBox.minY, originBox.maxZ),
             Vec3d(originBox.maxX, originBox.minY, originBox.maxZ), Vec3d(originBox.minX, originBox.maxY, originBox.minZ)
             )
-        boxCorners.iterator().forEachRemaining(){
+        boxCorners.iterator().forEachRemaining {
             ctx.assertVecInRange(it)
         }
 
         ctx.caster.server?.worlds?.forEach {
             if (it.registryKey.value.toString() == dimKey){
-                destWorld = it;
+                destWorld = it
                 destWorldKey = it.registryKey
             }
         }
@@ -86,8 +85,9 @@ class OpSwapSpace : SpellAction {
         if (!HexConfig.server().canTeleportInThisDimension(originWorldKey))
             throw MishapLocationTooFarAway(Vec3d.ZERO, "bad_dimension")
 
-        //require that one end of the transfer be the noosphere
-        if (!(destWorldKey.value.toString() == "oneironaut:noosphere" || originWorldKey.value.toString() == "oneironaut:noosphere")){
+        //require that one end of the transfer be the noosphere if config is set to require that
+        if (!(destWorldKey.value.toString() == "oneironaut:noosphere" || originWorldKey.value.toString() == "oneironaut:noosphere")
+            && OneironautConfig.server.swapRequiresNoosphere){
             throw MishapNoNoosphere()
         }
 
@@ -103,28 +103,67 @@ class OpSwapSpace : SpellAction {
         override fun cast(ctx: CastingContext) {
             val originLowerCorner = BlockPos(originBox.minX, originBox.minY, originBox.minZ)
             val destLowerCorner = BlockPos(destBox.minX, destBox.minY, destBox.minZ)
-            var transferOffset = Vec3i.ZERO
-            var originPointState = originDim.getBlockState(originLowerCorner)
-            var destPointState = destDim.getBlockState(destLowerCorner)
-            /*for (i in 1 .. volume){
-                ctx.caster.sendMessage(Text.of("$i: " + originLowerCorner.add(transferOffset).toString()))
-                if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f) || (originPointState.hasBlockEntity() ||destPointState.hasBlockEntity()))){
-                    originDim.setBlockState(originLowerCorner.add(transferOffset), destPointState)
-                    destDim.setBlockState(destLowerCorner.add(transferOffset), originPointState)
-                }
-                transferOffset = Vec3i(i % dimensions.x, (i / (dimensions.x * dimensions.z)), (i / dimensions.x) % (dimensions.x))
-                originPointState = originDim.getBlockState(originLowerCorner.add(transferOffset))
-                destPointState = destDim.getBlockState(destLowerCorner.add(transferOffset))
-            }*/
+            var transferOffset: Vec3i?
+            var originDimPos: BlockPos?
+            var destDimPos: BlockPos?
+            var originPointState: BlockState?
+            var destPointState: BlockState?
+            var originBE: BlockEntity?
+            var originBEData : NbtCompound?
+            var destBE: BlockEntity?
+            var destBEData : NbtCompound?
+            val flags = Block.SKIP_DROPS.and(Block.MOVED).and(Block.NOTIFY_ALL)
+                .and(Block.REDRAW_ON_MAIN_THREAD)
             for (i in 0 .. dimensions.x - 1){
                 for (j in 0 .. dimensions.y - 1){
                     for (k in 0 .. dimensions.z - 1){
                         transferOffset = Vec3i(i, j, k)
-                        originPointState = originDim.getBlockState(originLowerCorner.add(transferOffset))
-                        destPointState = destDim.getBlockState(destLowerCorner.add(transferOffset))
-                        if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f) || (originPointState.hasBlockEntity() ||destPointState.hasBlockEntity()))){
-                            originDim.setBlockState(originLowerCorner.add(transferOffset), destPointState)
-                            destDim.setBlockState(destLowerCorner.add(transferOffset), originPointState)
+                        originDimPos = originLowerCorner.add(transferOffset)
+                        destDimPos = destLowerCorner.add(transferOffset)
+                        originPointState = originDim.getBlockState(originDimPos)
+                        destPointState = destDim.getBlockState(destDimPos)
+                        originBE = originDim.getBlockEntity(originDimPos)
+                        originBEData = originBE?.createNbt()
+                        destBE = destDim.getBlockEntity(destDimPos)
+                        destBEData = destBE?.createNbt()
+                        var newBE : BlockEntity?
+                        if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f) || ((originPointState.hasBlockEntity() || destPointState.hasBlockEntity()) && !OneironautConfig.server.swapSwapsBEs))){
+                            if (destBE != null){
+                                //destBE.world = originDim
+                                originDim.removeBlockEntity(originDimPos)
+                                originDim.setBlockState(originDimPos, destBE.cachedState/*, flags*/)
+                                //originDim.addBlockEntity(destBE)
+                                newBE = originDim.getBlockEntity(originDimPos)
+                                newBE?.readNbt(destBEData)
+                                newBE?.markDirty()
+                                /*destDim.removeBlockEntity(destDimPos)
+                                destBE.markRemoved()
+                                destBE.markDirty()*/
+                                /*destBE.readNbt(NbtCompound())
+                                destBE.markDirty()*/
+                                //originDim.sendPacket(destBE.toUpdatePacket())
+                            } else {
+                                originDim.removeBlockEntity(originDimPos)
+                                originDim.setBlockState(originDimPos, destPointState/*, flags*/)
+                            }
+                            if (originBE != null){
+                                //originBE.world = destDim
+                                destDim.removeBlockEntity(destDimPos)
+                                destDim.setBlockState(destDimPos, originBE.cachedState/*, flags*/)
+                                //destDim.addBlockEntity(originBE)
+                                newBE = destDim.getBlockEntity(destDimPos)
+                                newBE?.readNbt(originBEData)
+                                newBE?.markDirty()
+                                /*originDim.removeBlockEntity(originDimPos)
+                                originBE.markRemoved()
+                                originBE.markDirty()*/
+                                /*originBE.readNbt(NbtCompound())
+                                originBE.markDirty()*/
+                                //destDim.sendPacket(originBE.toUpdatePacket())
+                            } else {
+                                destDim.removeBlockEntity(destDimPos)
+                                destDim.setBlockState(destDimPos, originPointState/*, flags*/)
+                            }
                         }
                     }
                 }

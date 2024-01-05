@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "oneironaut:echo_staff",
-    "oneironaut:spoon_staff"
+    "oneironaut:spoon_staff",
+    "oneironaut:circle",
+    "minecraft:debug_stick"
   ]
 }
