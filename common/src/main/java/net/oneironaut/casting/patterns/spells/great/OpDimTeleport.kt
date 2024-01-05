@@ -56,7 +56,8 @@ class OpDimTeleport : SpellAction {
         } else {
             destination = args.getDimIota(1, argc)
         }
-        val dimKey = destination.serialize().downcast(NbtCompound.TYPE).getString("dim_key")
+        val dimKey = destination.dimString
+        //val dimKey = destination.serialize().downcast(NbtCompound.TYPE).getString("dim_key")
         //iterate over all the worlds to find the desired one
         target.server?.worlds?.forEach {
             if (it.registryKey.value.toString() == dimKey){

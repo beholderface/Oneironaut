@@ -2,6 +2,7 @@ package net.oneironaut.registry;
 
 import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.iota.IotaType;
+import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -17,10 +18,6 @@ import net.minecraft.text.*;
 public class DimIota extends Iota{
     public DimIota(@NotNull String dim){
         super(OneironautIotaTypeRegistry.DIM, dim);
-    }
-
-    public String getIotaType(){
-        return (String) this.payload;
     }
 
     /*public NbtElement getKey(){
@@ -39,6 +36,10 @@ public class DimIota extends Iota{
             return this.payload.equals(other.payload);
         }
         return false;
+    }
+
+    public String getDimString(){
+        return this.payload.toString();
     }
 
     public @NotNull NbtElement serialize() {

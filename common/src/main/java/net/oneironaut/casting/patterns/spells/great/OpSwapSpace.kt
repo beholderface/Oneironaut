@@ -30,7 +30,7 @@ class OpSwapSpace : SpellAction {
     override val isGreat = true
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
         val destination = args.getDimIota(2, argc)
-        val dimKey = destination.serialize().downcast(NbtCompound.TYPE).getString("dim_key")
+        val dimKey = destination.dimString
         var destWorld = ctx.world
         var destWorldKey = destWorld.registryKey
         val originWorld = ctx.world

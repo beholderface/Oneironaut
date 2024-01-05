@@ -20,10 +20,6 @@ public class PotionIota extends Iota{
         super(OneironautIotaTypeRegistry.POTION, effect);
     }
 
-    public String getIotaType(){
-        return (String) this.payload;
-    }
-
     @Override
     public boolean isTruthy() {
         return true;
