@@ -112,8 +112,7 @@ class OpSwapSpace : SpellAction {
             var originBEData : NbtCompound?
             var destBE: BlockEntity?
             var destBEData : NbtCompound?
-            val flags = Block.SKIP_DROPS.and(Block.MOVED).and(Block.NOTIFY_ALL)
-                .and(Block.REDRAW_ON_MAIN_THREAD)
+            //val flags = Block.SKIP_DROPS.and(Block.MOVED).and(Block.NOTIFY_ALL).and(Block.REDRAW_ON_MAIN_THREAD)
             for (i in 0 .. dimensions.x - 1){
                 for (j in 0 .. dimensions.y - 1){
                     for (k in 0 .. dimensions.z - 1){
@@ -129,37 +128,21 @@ class OpSwapSpace : SpellAction {
                         var newBE : BlockEntity?
                         if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f) || ((originPointState.hasBlockEntity() || destPointState.hasBlockEntity()) && !OneironautConfig.server.swapSwapsBEs))){
                             if (destBE != null){
-                                //destBE.world = originDim
                                 originDim.removeBlockEntity(originDimPos)
                                 originDim.setBlockState(originDimPos, destBE.cachedState/*, flags*/)
-                                //originDim.addBlockEntity(destBE)
                                 newBE = originDim.getBlockEntity(originDimPos)
                                 newBE?.readNbt(destBEData)
                                 newBE?.markDirty()
-                                /*destDim.removeBlockEntity(destDimPos)
-                                destBE.markRemoved()
-                                destBE.markDirty()*/
-                                /*destBE.readNbt(NbtCompound())
-                                destBE.markDirty()*/
-                                //originDim.sendPacket(destBE.toUpdatePacket())
                             } else {
                                 originDim.removeBlockEntity(originDimPos)
                                 originDim.setBlockState(originDimPos, destPointState/*, flags*/)
                             }
                             if (originBE != null){
-                                //originBE.world = destDim
                                 destDim.removeBlockEntity(destDimPos)
                                 destDim.setBlockState(destDimPos, originBE.cachedState/*, flags*/)
-                                //destDim.addBlockEntity(originBE)
                                 newBE = destDim.getBlockEntity(destDimPos)
                                 newBE?.readNbt(originBEData)
                                 newBE?.markDirty()
-                                /*originDim.removeBlockEntity(originDimPos)
-                                originBE.markRemoved()
-                                originBE.markDirty()*/
-                                /*originBE.readNbt(NbtCompound())
-                                originBE.markDirty()*/
-                                //destDim.sendPacket(originBE.toUpdatePacket())
                             } else {
                                 destDim.removeBlockEntity(destDimPos)
                                 destDim.setBlockState(destDimPos, originPointState/*, flags*/)

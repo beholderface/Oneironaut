@@ -51,7 +51,7 @@ public abstract class QuietRodMixin {
             else if (isUsingRod(ctx)){
                 //do particles every 30 ticks
                 if ((((ctx.getCaster().getWorld().getTime() - ctx.getCaster().getActiveItem().getNbt().getDouble("initialTime")) % 30.0) == 0)){
-                    return sideEffects.add(new OperatorSideEffect.Particles(new ParticleSpray(ctx.getCaster().getPos(), new Vec3d(0, 1, 0), 0.5, 1.0, 1)));
+                    return sideEffects.add(particles);
                 } else {
                     return false;
                 }
