@@ -73,12 +73,11 @@ public class Oneironaut {
         CommandRegistrationEvent.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("queryoneironautconfig")
                 .requires(source -> source.hasPermissionLevel(2))
                 .executes(context -> {
-                    boolean spam = OneironautConfig.getServer().getReduceEverbookLogSpam();
+                    //boolean spam = OneironautConfig.getServer().getReduceEverbookLogSpam();
                     boolean planeshift = OneironautConfig.getServer().getPlaneShiftOtherPlayers();
                     int lifetime = OneironautConfig.getServer().getIdeaLifetime();
                     context.getSource().sendFeedback(Text.of("Idea Inscription lifetime: " + (double)lifetime / 20.0 + " seconds\n" +
-                            "Permission to use Noetic Gateway on other players: " + planeshift +
-                            "\nReduced everbook log spam: " + spam), false);
+                            "Permission to use Noetic Gateway on other players: " + planeshift), false);
                     return 1;
                 })
         )));
