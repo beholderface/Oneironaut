@@ -31,9 +31,8 @@ class OpSplatoon : SpellAction {
         var costMultiplier = 1.0f
 
         ctx.assertVecInRange(target)
-        if ((ctx.world.getBlockState(BlockPos(target)).block !is BlockConjured) &&
-            (ctx.world.getBlockState(BlockPos(target)).block != OneironautBlockRegistry.WISP_LANTERN) &&
-            (ctx.world.getBlockState(BlockPos(target)).block != OneironautBlockRegistry.WISP_LANTERN_TINTED)){
+        if (ctx.world.getBlockState(BlockPos(target)).block !is BlockConjured
+            && !ISplatoonableBlock.isSplatable(ctx.world.getBlockState(BlockPos(target)).block)){
             throw MishapNonconjured.of(BlockPos(target))
         }
 
