@@ -58,7 +58,7 @@ public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
         static class MiscConfig {
             int ideaLifetime = DEFAULT_IDEA_LIFETIME;
             boolean planeShiftOtherPlayers = DEFAULT_ALLOW_PLANESHIFT_OTHERS;
-            boolean reduceEverbookLogSpam = DEFAULT_REDUCE_EVERBOOK_SPAM;
+            //boolean reduceEverbookLogSpam = DEFAULT_REDUCE_EVERBOOK_SPAM;
             boolean swapRequiresNoosphere = DEFAULT_SWAP_NOOSPHERE;
             boolean swapSwapsBEs = DEFAULT_SWAP_BES;
         }
@@ -85,10 +85,10 @@ public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
             return miscConfig.ideaLifetime;
         }
 
-        @Override
+        /*@Override
         public boolean getReduceEverbookLogSpam() {
             return miscConfig.reduceEverbookLogSpam;
-        }
+        }*/
 
         public boolean getSwapRequiresNoosphere(){
             return miscConfig.swapRequiresNoosphere;

@@ -16,7 +16,6 @@
     "SentinelTrapMixinCast",
     "SentinelTrapMixinSummon",
     "ShroudMediaCostMixin",
-    "ShutUpEverbookSaveMixin",
     "ZoneDistImmunityMixin"
   ],
   "injectors": {

@@ -14,6 +14,9 @@ import ram.talia.hexal.api.everbook.Everbook;
 
 import java.nio.file.Path;
 
+
+//I've removed this from the mixin json due to being buggy and half-baked
+/*
 @Mixin(Everbook.class)
 public abstract class ShutUpEverbookSaveMixin {
     @Unique
@@ -35,3 +38,4 @@ public abstract class ShutUpEverbookSaveMixin {
         //sadly I couldn't figure out how to make it stop doing it for loading
     }
 }
+*/
