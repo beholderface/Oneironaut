@@ -1,0 +1,2467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>Oneironaut Book</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="description" content="The Oneironaut Book, all in one place." />
+      <meta name="author" content="beholderface" />
+        <link rel="None" type="image/ico" href="favicon.ico" />
+        <link rel="icon" type="image/png" href="favicon-16x16.png" />
+        <link rel="icon" type="image/png" href="favicon-32x32.png" />
+        <link rel="icon" type="image/png" href="favicon-64x64.png" />
+        <link rel="icon" type="image/png" href="favicon-96x96.png" />
+        <link rel="icon" type="image/png" href="favicon-180x180.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-152x152.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-167x167.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-180x180.png" />
+        <link rel="None" type="image/png" href="mstile-70x70.png" />
+        <link rel="None" type="image/png" href="mstile-270x270.png" />
+        <link rel="None" type="image/png" href="mstile-310x310.png" />
+        <link rel="None" type="image/png" href="mstile-310x150.png" />
+        <link rel="shortcut icon" type="image/png" href="favicon-196x196.png" />
+      <link rel="mask-icon" href="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/main/media/safari-pinned-tab.svg" color="#332233">
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Oneironaut Book" />
+<meta property="og:image" content="https://oneironaut.hexxy.media/v/0.2.2/1.0/zh_cn/icon.png" />
+<meta property="og:url" content="https://oneironaut.hexxy.media/v/0.2.2/1.0/zh_cn" />
+<meta property="og:description" content="The Oneironaut Book, all in one place." />
+<meta property="og:site_name" content="Oneironaut (0.2.2)" />
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+      integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="index.css">
+      <link rel="stylesheet" href="textures.css">
+      <noscript>
+        <style>
+          /* for accessibility */
+          .spoilered {
+            filter: none !important;
+          }
+        </style>
+      </noscript>
+        <script type="module" src="index.js"></script>
+  <script type="module" src="hexcasting.js"></script>
+  </head>
+  <body>
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <!-- toggle and name -->
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle collapsed"
+        data-toggle="collapse"
+        data-target="#navbar-collapse"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://oneironaut.hexxy.media">Oneironaut Book</a>
+    </div>
+    <!-- content -->
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >0.2.2 <span class="caret"></span></a>
+          <ul class="dropdown-menu" id="version-dropdown"></ul>
+        </li>
+        <li class="dropdown">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >简体中文 (中国大陆) <span class="caret"></span></a>
+          <ul class="dropdown-menu dropdown-menu-left" id="lang-dropdown"></ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container" style="margin-top: 3em;">
+  <blockquote>
+      <h1><p>This is the online version of the Oneironaut documentation.</p></h1>
+      <p><strong>Entries which are blurred are spoilers</strong>. Click to reveal them, but be aware that they may spoil endgame progression. Alternatively, click <a href="?nospoiler">here</a> to get a version with all spoilers showing.</p>
+      <span id="old-version-notice" class="hidden">
+        <br />
+        <p><i>往事犹若异乡；他们在那里做的事情都不一样。</i></p>
+      </span>
+  </blockquote>
+</div>
+<div class="container">
+<div id="table-of-contents"></div>
+<nav class="toc-container">
+  <h2 class="page-header">
+    <span class="nobr">目录<a
+      href="javascript:void(0)"
+      class="permalink toggle-link small"
+      data-target="toc-category"
+      title="显示或收起全部"
+    ><i class="bi bi-list-nested"></i></a><a
+    href="#table-of-contents"
+    class="permalink small toc-permalink"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></span>
+  </h2>
+    <details class="toc-category">
+      <summary><a href="#basics" class="toc-elem "><img
+      title="紫水晶碎片"
+      alt="紫水晶碎片"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/amethyst_shard.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 初入咒法</a></summary>
+      <ul>
+          <li><a href="#basics/slipway_hint" class="toc-elem spoilered"><img
+      title="铁门"
+      alt="铁门"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/iron_door.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 有关质道的精思</a></li>
+      </ul>
+    </details>
+    <details class="toc-category">
+      <summary><a href="#items" class="toc-elem "><img
+      title="核心"
+      alt="核心"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/Common/src/main/resources/assets/hexcasting/textures/item/focus_empty.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 物品</a></summary>
+      <ul>
+          <li><a href="#items/wisp_lantern" class="toc-elem "><img
+      title="咒灵灯笼"
+      alt="咒灵灯笼"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/wisp_lantern.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 咒灵灯笼</a></li>
+          <li><a href="#items/reverberation_rod" class="toc-elem "><img
+      title="回响之杖"
+      alt="回响之杖"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/reverberation_rod.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 回响之杖</a></li>
+          <li><a href="#items/raycast_assailant" class="toc-elem "><img
+      title="反射线追踪板岩"
+      alt="反射线追踪板岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/raycast_blocker.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > 射线追踪阻塞</a></li>
+          <li><a href="#items/mindrender" class="toc-elem "><img
+      title="下界合金剑"
+      alt="下界合金剑"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/netherite_sword.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 意识撕裂者</a></li>
+      </ul>
+    </details>
+    <details class="toc-category">
+      <summary><a href="#greatwork" class="toc-elem "><img
+      title="音乐唱片"
+      alt="音乐唱片"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/music_disc_11.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 卓伟之作</a></summary>
+      <ul>
+          <li><a href="#greatwork/noosphere_main" class="toc-elem "><img
+      title="智识界玄武岩"
+      alt="智识界玄武岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/noosphere_basalt.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > 奇怪领域</a></li>
+          <li><a href="#greatwork/noosphere_materials" class="toc-elem "><img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 富思维材料</a></li>
+          <li><a href="#greatwork/sentinel_detection" class="toc-elem "><img
+      title="品红色蜡烛"
+      alt="品红色蜡烛"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/magenta_candle.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 哨卫侦测</a></li>
+          <li><a href="#greatwork/super_budding" class="toc-elem "><img
+      title="伪紫水晶母岩"
+      alt="伪紫水晶母岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/super_budding.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > 更好的媒质量产</a></li>
+      </ul>
+    </details>
+    <details class="toc-category">
+      <summary><a href="#patterns" class="toc-elem "><img
+      title="书架"
+      alt="书架"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/bookshelf.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > 图案</a></summary>
+      <ul>
+          <li><a href="#patterns/frame_patterns" class="toc-elem "><img
+      title="物品展示框"
+      alt="物品展示框"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/item_frame.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 物品展示框图案</a></li>
+          <li><a href="#patterns/status_iotas" class="toc-elem "><img
+      title="药水"
+      alt="药水"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/potion_overlay.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 状态 Iota</a></li>
+          <li><a href="#patterns/dim_iotas" class="toc-elem "><img
+      title="末地传送门框架"
+      alt="末地传送门框架"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/end_portal_frame.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > 维度 Iota</a></li>
+          <li><a href="#patterns/idea_inscription" class="toc-elem "><img
+      title="中型卷轴"
+      alt="中型卷轴"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/Common/src/main/resources/assets/hexcasting/textures/item/scroll_pristine_medium.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 思绪刻印</a></li>
+      </ul>
+    </details>
+    <details class="toc-category">
+      <summary><a href="#patterns/spells" class="toc-elem "><img
+      title="附魔书"
+      alt="附魔书"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/enchanted_book.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 法术</a></summary>
+      <ul>
+          <li><a href="#patterns/spells/paint_conjured" class="toc-elem "><div
+      role="img"
+      title="灵魂闪光染色剂"
+      aria-label="灵魂闪光染色剂 (animated)"
+      class="item-texture  texture animated-sync texture-hexcasting-textures-item-colorizer-uuid-png pixelated"
+    ></div> 外化染色剂</a></li>
+          <li><a href="#patterns/spells/particle_burst" class="toc-elem "><img
+      title="烈焰粉"
+      alt="烈焰粉"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/blaze_powder.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 粒子迸发</a></li>
+      </ul>
+    </details>
+    <details class="toc-category">
+      <summary><a href="#patterns/great_spells" class="toc-elem "><img
+      title="潮涌能量"
+      alt="潮涌能量"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/mob_effect/conduit_power.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 卓越法术</a></summary>
+      <ul>
+          <li><a href="#patterns/spells/great/infuse_media" class="toc-elem "><img
+      title="充能紫水晶"
+      alt="充能紫水晶"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/Common/src/main/resources/assets/hexcasting/textures/item/charged_amethyst.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 媒质灌注</a></li>
+          <li><a href="#patterns/spells/great/dim_teleport" class="toc-elem "><img
+      title="末影之眼"
+      alt="末影之眼"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/ender_eye.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 智识门径</a></li>
+          <li><a href="#patterns/spells/great/swap_space" class="toc-elem "><img
+      title="末影箱"
+      alt="末影箱"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAzklEQVQ4T22SQQ4CMQwDg5C4wIEHrLjuIxC/4P9fKUq1TmZND5HaNE5sp3G73kfE5RSZez62obf3/h376zPvGXlWLlQkUJ4drDvBXXNMzWR1PRrmOSOL2Zw1QYoqFF1NEXglbzYgmMUrbxTFYAWkZoUbWY0FFjWZRIBYtu5mVFtIsNylYSspNDs8SUnaAqf++aWE6+cKyZJbKBPdWYW/sUn7Yq6LDRvQVNKftSygefSBX5dmTyaulZTZyN/aXFxI23OUdvoH7jL1c0NkwPgBAzkxXiBf0HkAAAAASUVORK5CYII="
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    > 空间互换</a></li>
+          <li><a href="#patterns/spells/great/detection_shielding" class="toc-elem "><img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > 侦测回避</a></li>
+      </ul>
+    </details>
+</nav>
+  <main class="book-body">
+<section id="basics">
+    <h2 class="category-title page-header">
+    <img
+      title="紫水晶碎片"
+      alt="紫水晶碎片"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/amethyst_shard.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >初入咒法<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#basics"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>研究这种魔法的人士会用<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#items/staff"><span style="color: #b0b">法杖</span></a>在空中绘制奇异的图案来施放他们口中的“<span style="color: #b38ef3">咒术</span>”，他们也会让<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#items/hexcasting"><span style="color: #b0b">强大的魔法物品</span></a>替他们施法。我应该也可以这样做？</p>
+<div id="basics/slipway_hint" class="entry">
+    <div class="spoilered">
+      <h3 class="entry-title page-header">
+    <img
+      title="铁门"
+      alt="铁门"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/iron_door.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >有关质道的精思<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#basics/slipway_hint"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>那些质道，它们一定能联通到<i>某些地方</i>。咒灵不会凭空出现。不管我怎么尝试，我最多只能让一根手指穿过那道混沌的裂口。</p><p>我大概是想错了。与其凭蛮力穿过裂口，也许还是尝试平息风暴更为有效。</p>
+<br />
+  <h4>嗯……</h4>
+  <p class="img-wrapper">
+      <img
+      title="嗯……"
+      alt="嗯……"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/book/slipway_hint_image.png"
+      class="texture pixelated"
+    >
+  </p>
+      <p>大量的调谐媒质应该就能做到……</p>
+<br />
+    </div>
+</div>
+</section>
+<section id="items">
+    <h2 class="category-title page-header">
+    <img
+      title="核心"
+      alt="核心"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/Common/src/main/resources/assets/hexcasting/textures/item/focus_empty.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >物品<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#items"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>这部分主要介绍我在研究过程中可能要用到的魔法物品和各类神秘物品。</p><p>这里面的许多物品似乎在和<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#items/staff"><span style="color: #b0b">法杖</span></a>一起持有的时候就会起效。要谨慎考虑另一只手里要拿什么物品。</p>
+<div id="items/wisp_lantern" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="咒灵灯笼"
+      alt="咒灵灯笼"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/wisp_lantern.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >咒灵灯笼<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#items/wisp_lantern"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>我发现，若是使用了独属于智识界的材料，便能制造出一种特殊的罐子，它能产生并容纳一只微型咒灵。这种咒灵尽管无法施法，但能发出相当的光，还会模拟它看见的染色剂。<br />我还能用遮光玻璃制造同类物品，避免咒灵的光亮影响到我书房的美学设计。</p>
+<br />
+  <details class="details-collapsible recipe-details">
+      <summary class="collapse-details">
+    <span class="collapse-recipe-show">Click to show recipes</span>
+    <span class="collapse-recipe-hide">Click to hide recipes</span>
+  </summary>
+    <div class="crafting-tables">
+<div>
+    <h5>咒灵灯笼</h5>
+    <div class="crafting-table">
+        <img
+      title="工作台"
+      alt="工作台"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/minecraft/textures/gui/hexdoc/crafting_table.png"
+      class="texture pixelated"
+    >
+  <div class="crafting-table-grid">
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="启迪木板"
+      alt="启迪木板"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/edified_planks.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶块"
+      alt="伪紫水晶块"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/pseudoamethyst_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="智识界玄武岩"
+      alt="智识界玄武岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/noosphere_basalt.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+  </div>
+  <div class="crafting-table-result recipe-item-slot">
+    <img
+      title="咒灵灯笼"
+      alt="咒灵灯笼"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/wisp_lantern.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >
+  </div>
+    </div>
+</div><div>
+    <h5>遮光咒灵灯笼</h5>
+    <div class="crafting-table">
+        <img
+      title="工作台"
+      alt="工作台"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/minecraft/textures/gui/hexdoc/crafting_table.png"
+      class="texture pixelated"
+    >
+  <div class="crafting-table-grid">
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="遮光玻璃"
+      alt="遮光玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/tinted_glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="启迪木板"
+      alt="启迪木板"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/edified_planks.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="遮光玻璃"
+      alt="遮光玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/tinted_glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="遮光玻璃"
+      alt="遮光玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/tinted_glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶块"
+      alt="伪紫水晶块"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/pseudoamethyst_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="遮光玻璃"
+      alt="遮光玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/tinted_glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="遮光玻璃"
+      alt="遮光玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/tinted_glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="智识界玄武岩"
+      alt="智识界玄武岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/noosphere_basalt.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="遮光玻璃"
+      alt="遮光玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/tinted_glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+  </div>
+  <div class="crafting-table-result recipe-item-slot">
+    <img
+      title="遮光咒灵灯笼"
+      alt="遮光咒灵灯笼"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/wisp_lantern_tinted.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >
+  </div>
+    </div>
+</div>    </div>
+  </details>
+<br />
+</div>
+<div id="items/reverberation_rod" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="回响之杖"
+      alt="回响之杖"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/reverberation_rod.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >回响之杖<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#items/reverberation_rod"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>我发现我能用远古城市中找到的奇怪碎片合成一种奇异的施法物品。<br />这件物品的奇异之处，就在于集中思维时，它能以每秒 20 次的频率施放其中的咒术，直到产生事故或者我施放终曲和安可时才停止。如此会触发一段冷却时间，通常有大约 1 秒。</p>
+<br />
+  <details class="details-collapsible recipe-details">
+      <summary class="collapse-details">
+    <span class="collapse-recipe-show">Click to show recipes</span>
+    <span class="collapse-recipe-hide">Click to hide recipes</span>
+  </summary>
+    <div class="crafting-tables">
+<div>
+    <h5>回响之杖</h5>
+    <div class="crafting-table">
+        <img
+      title="工作台"
+      alt="工作台"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/minecraft/textures/gui/hexdoc/crafting_table.png"
+      class="texture pixelated"
+    >
+  <div class="crafting-table-grid">
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="回响碎片"
+      alt="回响碎片"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/echo_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="黑曜石"
+      alt="黑曜石"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/obsidian.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="充能紫水晶"
+      alt="充能紫水晶"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/Common/src/main/resources/assets/hexcasting/textures/item/charged_amethyst.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="黑曜石"
+      alt="黑曜石"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/obsidian.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="回响碎片"
+      alt="回响碎片"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/echo_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>  </div>
+  <div class="crafting-table-result recipe-item-slot">
+    <img
+      title="回响之杖"
+      alt="回响之杖"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/reverberation_rod.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >
+  </div>
+    </div>
+</div>    </div>
+  </details>
+      <p>回响碎片似乎包含着某种怪异形态的媒质。因此它具有循环自身的倾向，同时会保留一部分上一次施法时的信息。</p>
+<br />
+  <div id="items/reverberation_rod@oneironaut:craftrod">
+<h4 class="pattern-title">指挥法杖 (entity, list of patterns →)<a
+    href="#items/reverberation_rod@oneironaut:craftrod"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe</canvas>
+  </details>
+      <p>和<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#patterns/spells/hexcasting">用于制造传统施法物品的法术</a>类似。消耗 10 个充能紫水晶。</p>
+  </div>
+<br />
+  <div id="items/reverberation_rod@oneironaut:getrodlook">
+<h4 class="pattern-title">指挥棒之精思 (→ vector)<a
+    href="#items/reverberation_rod@oneironaut:getrodlook"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qwqqqwqawa"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qwqqqwqawa</canvas>
+  </details>
+      <p>使用回响之杖施放时，返回当前循环开始时我的视线向量。</p>
+  </div>
+<br />
+  <div id="items/reverberation_rod@oneironaut:getrodpos">
+<h4 class="pattern-title">指挥棒之精思，第二型 (→ vector)<a
+    href="#items/reverberation_rod@oneironaut:getrodpos"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qwqqqwqawaa"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qwqqqwqawaa</canvas>
+  </details>
+      <p>使用回响之杖施放时，返回当前循环开始时我的眼部位置。</p>
+  </div>
+<br />
+  <div id="items/reverberation_rod@oneironaut:getrodstamp">
+<h4 class="pattern-title">节拍器之精思 (→ number)<a
+    href="#items/reverberation_rod@oneironaut:getrodstamp"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qwqqqwqawaaw"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qwqqqwqawaaw</canvas>
+  </details>
+      <p>使用回响之杖施放时，返回当前循环开始时的时间戳。</p>
+  </div>
+<br />
+  <div id="items/reverberation_rod@oneironaut:delayrod">
+<h4 class="pattern-title">节拍器之策略 (number →)<a
+    href="#items/reverberation_rod@oneironaut:delayrod"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qwqqqwqaqddq"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qwqqqwqaqddq</canvas>
+  </details>
+      <p>接受一个正整数。使用回响之杖施放时，将下一次施法延迟所给数个 1/20 秒。</p>
+  </div>
+<br />
+  <div id="items/reverberation_rod@oneironaut:haltrod">
+<h4 class="pattern-title">终曲<a
+    href="#items/reverberation_rod@oneironaut:haltrod"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="aqdeeweeew"
+        data-start="south_west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：aqdeeweeew</canvas>
+  </details>
+      <p>使用回响之杖施放时，强制停止当前循环。</p>
+  </div>
+<br />
+  <div id="items/reverberation_rod@oneironaut:resetrod">
+<h4 class="pattern-title">安可 (number →)<a
+    href="#items/reverberation_rod@oneironaut:resetrod"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="deaqqwqqqw"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：deaqqwqqqw</canvas>
+  </details>
+      <p>接受一个正整数。停止当前循环，并将冷却时间从 1 秒缩短至所给数个 1/20 秒。事故造成的冷却不受影响。</p>
+  </div>
+<br />
+  <details class="details-collapsible recipe-details">
+      <summary class="collapse-details">
+    <span class="collapse-recipe-show">Click to show recipes</span>
+    <span class="collapse-recipe-hide">Click to hide recipes</span>
+  </summary>
+    <div class="crafting-tables">
+<div>
+    <h5>回响法杖</h5>
+    <div class="crafting-table">
+        <img
+      title="工作台"
+      alt="工作台"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/minecraft/textures/gui/hexdoc/crafting_table.png"
+      class="texture pixelated"
+    >
+  <div class="crafting-table-grid">
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="木棍"
+      alt="木棍"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/stick.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="充能紫水晶"
+      alt="充能紫水晶"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/Common/src/main/resources/assets/hexcasting/textures/item/charged_amethyst.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="回响碎片"
+      alt="回响碎片"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/echo_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="木棍"
+      alt="木棍"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/stick.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="木棍"
+      alt="木棍"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/stick.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>        <div></div>  </div>
+  <div class="crafting-table-result recipe-item-slot">
+    <img
+      title="回响法杖"
+      alt="回响法杖"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/echo_staff.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >
+  </div>
+    </div>
+</div>    </div>
+  </details>
+      <p>回响碎片也可用于制造法杖，不过这种法杖唯一的特殊性质便是发出些幽匿的声音。</p>
+<br />
+</div>
+<div id="items/raycast_assailant" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="反射线追踪板岩"
+      alt="反射线追踪板岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/raycast_blocker.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >射线追踪阻塞<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#items/raycast_assailant"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>往方块中“织入”伪紫水晶，产物便能令抵达或穿过其的射线追踪（对实体的射线追踪也有效）返回 Null，就好像射线追踪没有检测到任何事物一样。</p>
+<br />
+  <details class="details-collapsible recipe-details">
+      <summary class="collapse-details">
+    <span class="collapse-recipe-show">Click to show recipes</span>
+    <span class="collapse-recipe-hide">Click to hide recipes</span>
+  </summary>
+    <div class="crafting-tables">
+<div>
+    <h5>反射线追踪板岩</h5>
+    <div class="crafting-table">
+        <img
+      title="工作台"
+      alt="工作台"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/minecraft/textures/gui/hexdoc/crafting_table.png"
+      class="texture pixelated"
+    >
+  <div class="crafting-table-grid">
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>  </div>
+  <div class="crafting-table-result recipe-item-slot">
+    <img
+      title="反射线追踪板岩"
+      alt="反射线追踪板岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/raycast_blocker.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >
+  </div>
+    </div>
+</div><div>
+    <h5>反射线追踪玻璃</h5>
+    <div class="crafting-table">
+        <img
+      title="工作台"
+      alt="工作台"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/minecraft/textures/gui/hexdoc/crafting_table.png"
+      class="texture pixelated"
+    >
+  <div class="crafting-table-grid">
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div></div>  </div>
+  <div class="crafting-table-result recipe-item-slot">
+    <img
+      title="反射线追踪玻璃"
+      alt="反射线追踪玻璃"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/raycast_blocker_glass.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >
+  </div>
+    </div>
+</div>    </div>
+  </details>
+<br />
+</div>
+<div id="items/mindrender" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="下界合金剑"
+      alt="下界合金剑"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/netherite_sword.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >意识撕裂者<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#items/mindrender"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>我曾读到过一种极其可怖的武器，“意识撕裂者”。古代的咒术师偶尔会用这种武器，它能将生物的思维直接斩断，造成无视所有已知保护手段的伤害。而且，如果造成的伤害令目标离真正的死亡仅一步之遥，则其会进入植物人状态，永远无法恢复如初。思考古代人为什么使用这种物件令我不由得寒透脊骨……</p>
+<br />
+  <div id="items/mindrender@oneironaut:applymindrender">
+<h4 class="pattern-title">赋能意识撕裂者 (entity →)<a
+    href="#items/mindrender@oneironaut:applymindrender"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qweqadeqadeqadqqqwdaqedaqedaqeqaqdwawdwawdwaqawdwawdwawddwwwwwqdeddw"
+        data-start="east"
+        data-per-world="True"
+      >浏览器不支持图案的可视化。图案代码见此：qweqadeqadeqadqqqwdaqedaqedaqeqaqdwawdwawdwaqawdwawdwawddwwwwwqdeddw</canvas>
+  </details>
+      <p>接受带有锋利魔咒的物品，或放有此类物品的物品展示框，并将锋利转换为同等级的意识撕裂。消耗由魔咒等级决定，目标为书时额外消耗 50%。</p>
+  </div>
+<br />
+</div>
+</section>
+<section id="greatwork">
+    <h2 class="category-title page-header">
+    <img
+      title="音乐唱片"
+      alt="音乐唱片"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/music_disc_11.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >卓伟之作<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#greatwork"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>我所见……甚多。我已……经历……湮灭与解构与重构。我已听闻世上的原子在被翻转而后被搅乱而后消散为能量时的尖啸。我已见我已见我已冂<span class="obfuscated">get stick bugged lmao</span></p>
+<div id="greatwork/noosphere_main" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="智识界玄武岩"
+      alt="智识界玄武岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/noosphere_basalt.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >奇怪领域<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#greatwork/noosphere_main"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>我成功了。<br />质道另一端的领域。环境中的媒质多到难以想象。我的意识正朝我尖啸，叫喊着我不应该在这里。但我必须前进。这里就是旅途的下一站。</p>
+<br />
+    <p>我在此勘测的每一件事物似乎主要都由媒质构成，与构筑物质类似，但浓度高出了几个数量级。<i>就连空气都是媒质。我是怎么呼吸的？</i></p><i><p><strong>我又是怎么能存在于此的？</strong></p></i>
+<br />
+</div>
+<div id="greatwork/noosphere_materials" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >富思维材料<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#greatwork/noosphere_materials"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+  <h4>思维浆液</h4>
+  <h4 class="spotlight-title page-header">思维浆液桶</h4>
+  <div class="spotlight">
+    <img
+      alt="Spotlight inventory slot"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/hexdoc/textures/gui/spotlight.png"
+    >
+    <img
+      title="思维浆液桶"
+      alt="思维浆液桶"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/thought_slurry_bucket.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >
+  </div>
+      <p>一种奇怪的流体，会搅混进入其中的媒质，并阻止紫水晶晶体的形成。浸在其中时，它会以愉悦的方式刺激我的意识。</p>
+<br />
+  <h4 class="spotlight-title page-header">智识界玄武岩</h4>
+  <div class="spotlight">
+    <img
+      alt="Spotlight inventory slot"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/hexdoc/textures/gui/spotlight.png"
+    >
+    <img
+      title="智识界玄武岩"
+      alt="智识界玄武岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/noosphere_basalt.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >
+  </div>
+      <p>主要由媒质构成的岩石，原理不明。可合成法术环方块。</p>
+<br />
+  <h4 class="spotlight-title page-header">伪紫水晶块</h4>
+  <div class="spotlight">
+    <img
+      alt="Spotlight inventory slot"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/hexdoc/textures/gui/spotlight.png"
+    >
+    <img
+      title="伪紫水晶块"
+      alt="伪紫水晶块"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/pseudoamethyst_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >
+  </div>
+      <p>一大块媒质晶体，与紫水晶类似但不完全相同。触摸时会有种嗡鸣感，就好像媒质自身在刺激神经一般。不加以特殊措施直接破坏会将其破碎为 1 到 4 块碎片。</p>
+<br />
+  <h4 class="spotlight-title page-header">伪紫水晶碎片</h4>
+  <div class="spotlight">
+    <img
+      alt="Spotlight inventory slot"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/hexdoc/textures/gui/spotlight.png"
+    >
+    <img
+      title="伪紫水晶碎片"
+      alt="伪紫水晶碎片"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/pseudoamethyst_shard.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >
+  </div>
+      <p>这些碎片能驱动法术，且比普通紫水晶提供的能量稍多一些。但是，它们貌似会排斥一切物品的内部媒质储库。我不知道为什么会这样，不过普通的充能紫水晶更好用一些。</p>
+<br />
+</div>
+<div id="greatwork/sentinel_detection" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="品红色蜡烛"
+      alt="品红色蜡烛"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/magenta_candle.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >哨卫侦测<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#greatwork/sentinel_detection"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>将智识界的伪紫水晶和深暗之域的有机感测体结合起来，就是一种检测环境媒质中扰动的方式。这种新探测器会检测大约 16 米内的<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#patterns/spells/sentinels">哨卫</a>，检测到则会根据最近哨卫的距离输出红石信号。如果最近的哨卫格外强大，则相邻的比较器会输出信号。</p>
+<br />
+  <details class="details-collapsible recipe-details">
+      <summary class="collapse-details">
+    <span class="collapse-recipe-show">Click to show recipes</span>
+    <span class="collapse-recipe-hide">Click to hide recipes</span>
+  </summary>
+    <div class="crafting-tables">
+<div>
+    <h5>哨卫探测器</h5>
+    <div class="crafting-table">
+        <img
+      title="工作台"
+      alt="工作台"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/minecraft/textures/gui/hexdoc/crafting_table.png"
+      class="texture pixelated"
+    >
+  <div class="crafting-table-grid">
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶块"
+      alt="伪紫水晶块"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/pseudoamethyst_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="幽匿感测体"
+      alt="幽匿感测体"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/sculk_sensor_inactive.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶块"
+      alt="伪紫水晶块"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/pseudoamethyst_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+  </div>
+  <div class="crafting-table-result recipe-item-slot">
+    <img
+      title="哨卫探测器"
+      alt="哨卫探测器"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/sentinel_sensor.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >
+  </div>
+    </div>
+</div>    </div>
+  </details>
+      <p><i>我相信监守者不会在意的。</i></p>
+<br />
+    <p>除此之外，这种探测器还可整合到牧师促动石中，产物会在区域内存在哨卫时启动（不过探测半径较普通探测器较低）。我叫这种装置“探察促动石”。尽管它不再对红石信号产生反应，但会获取代表触发哨卫的所有者的 iota，并置入法术环咒术的初始栈。<br />而由于施法时产生的媒质干扰，这种促动石无法侦测到自身放置的哨卫。</p>
+<br />
+  <details class="details-collapsible recipe-details">
+      <summary class="collapse-details">
+    <span class="collapse-recipe-show">Click to show recipes</span>
+    <span class="collapse-recipe-hide">Click to hide recipes</span>
+  </summary>
+    <div class="crafting-tables">
+<div>
+    <h5>探察促动石</h5>
+    <div class="crafting-table">
+        <img
+      title="工作台"
+      alt="工作台"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/minecraft/textures/gui/hexdoc/crafting_table.png"
+      class="texture pixelated"
+    >
+  <div class="crafting-table-grid">
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div></div>        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="哨卫探测器"
+      alt="哨卫探测器"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/sentinel_sensor.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="牧师促动石"
+      alt="牧师促动石"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/impetus_storedplayer_dim_east.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="板岩块"
+      alt="板岩块"
+      src="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/assets/hexcasting/textures/block/slate_block.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+  </div>
+  <div class="crafting-table-result recipe-item-slot">
+    <img
+      title="探察促动石"
+      alt="探察促动石"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/sentinel_trap.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >
+  </div>
+    </div>
+</div>    </div>
+  </details>
+      <p>这种探测器不论侦测到谁的哨卫都为产生反应，我应当避免让我铺设的陷阱法术环瞄准我自己。</p>
+<br />
+  <div id="greatwork/sentinel_detection@oneironaut:readsentinel">
+<h4 class="pattern-title">检视哨卫 (vec, player → num | NULL)<a
+    href="#greatwork/sentinel_detection@oneironaut:readsentinel"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="waeawaeddwwd"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：waeawaeddwwd</canvas>
+  </details>
+      <p>接受一个向量和一个玩家，并返回该位置到所给玩家哨卫的距离，或者返回 Null。消耗极少量媒质。</p>
+  </div>
+<br />
+    <p>在所给位置坐标构筑一个短时探测器，它会“监听”环境媒质中的模式，以此分辨出最为明显的哨卫标记。</p>
+<br />
+</div>
+<div id="greatwork/super_budding" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="伪紫水晶母岩"
+      alt="伪紫水晶母岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/super_budding.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >更好的媒质量产<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#greatwork/super_budding"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>我发现智识界出产的一种类紫水晶物质会接受村民的意识，这点上和普通的紫水晶一样。此外，这一过程得到的方块产出的媒质量比普通的紫水晶母岩多出许多，并且只要足够小心就能捡起搬运。</p>
+<br />
+  <details class="details-collapsible flay-recipe-details">
+    <summary class="collapse-details">
+      <span class="collapse-recipe-show">Click to show recipes</span>
+      <span class="collapse-recipe-hide">Click to hide recipes</span>
+    </summary>
+  <div>
+<h5>伪紫水晶母岩</h5>
+    <div class="flay-recipe">
+        <img
+          class="flay-recipe-background"
+          alt="Flay Mind Recipe GUI"
+          src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/doc/resources/assets/hexcasting/textures/gui/hexdoc/brainsweep.png"
+        >
+<img
+      title="大师 村民"
+      alt="大师 村民"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/doc/resources/assets/minecraft/textures/entities/villagers/none.png"
+      loading="lazy"
+      class="flay-recipe-entity texture pixelated"
+    >
+<div class="flay-recipe-villager-details">
+  <img
+    class="flay-recipe-villager-detail-icon"
+    alt="村庄英雄"
+    src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/mob_effect/hero_of_the_village.png"
+    style="width: 16px; height:16px"
+  >
+    Villager must be a 大师 or higher
+</div>
+        <div class="flay-recipe-block-ingredient">
+          <img
+      title="伪紫水晶块"
+      alt="伪紫水晶块"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/pseudoamethyst_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >
+        </div>
+        <div class="flay-recipe-result">
+          <img
+      title="伪紫水晶母岩"
+      alt="伪紫水晶母岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/super_budding.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >
+        </div>
+    </div>
+  </div>
+</details>
+  <p>比起普通紫水晶来说，伪紫水晶需要更强大的意识，但得到的回报绝对值得。</p>
+<br />
+    <p>伪紫水晶母岩有一奇特之处，就算浸没在思维浆液中抑制晶体形成，其媒质生成率依然足够平常使用。尽管总供给量近乎无穷，但任一操作能使用的媒质量则相当少，就像一片几十万几百万千米宽但只有几厘米深的海洋。<br />我应该注意在物品栏中把它放在其他媒质之瓶前面，不然不会优先使用它们。</p>
+<br />
+  <details class="details-collapsible recipe-details">
+      <summary class="collapse-details">
+    <span class="collapse-recipe-show">Click to show recipes</span>
+    <span class="collapse-recipe-hide">Click to hide recipes</span>
+  </summary>
+    <div class="crafting-tables">
+<div>
+    <h5>无穷媒质之瓶</h5>
+    <div class="crafting-table">
+        <img
+      title="工作台"
+      alt="工作台"
+      src="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/8958a6e92d7b9fe044256fd94dc5a74a4ef1e05e/src/hexdoc/_export/resources/assets/minecraft/textures/gui/hexdoc/crafting_table.png"
+      class="texture pixelated"
+    >
+  <div class="crafting-table-grid">
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="金锭"
+      alt="金锭"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/gold_ingot.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="伪紫水晶母岩"
+      alt="伪紫水晶母岩"
+      src="https://oneironaut.hexxy.media/v/0.2.2/1.0/assets/oneironaut/textures/block/super_budding.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="金锭"
+      alt="金锭"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/gold_ingot.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="思维浆液桶"
+      alt="思维浆液桶"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/thought_slurry_bucket.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="媒质之瓶"
+      alt="媒质之瓶"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/Common/src/main/resources/assets/hexcasting/textures/item/phial/phial_small_0.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture pixelated"
+    >
+        </div>
+        <div class="texture item-texture multi-textures cycle-textures">
+                <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture multi-texture-active texture "
+    >
+        </div>
+  </div>
+  <div class="crafting-table-result recipe-item-slot">
+    <img
+      title="无穷媒质之瓶"
+      alt="无穷媒质之瓶"
+      src="https://raw.githubusercontent.com/beholderface/oneironaut/eae2e84812db7d4698c1dc14d7206d539f643858/common/src/main/resources/assets/oneironaut/textures/item/endless_phial.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >
+  </div>
+    </div>
+</div>    </div>
+  </details>
+      <p>常态提供大约与 1/10 个紫水晶粉相当的媒质。虽然我<i>可以</i>同时持有好多个以轻松获取媒质，但每个媒质瓶的增量会快速减少。</p>
+<br />
+</div>
+</section>
+<section id="patterns">
+    <h2 class="category-title page-header">
+    <img
+      title="书架"
+      alt="书架"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/bookshelf.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >图案<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>我所发现的各式图案，和它们的功用。</p>
+<div id="patterns/frame_patterns" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="物品展示框"
+      alt="物品展示框"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/item_frame.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >物品展示框图案<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/frame_patterns"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>我发现了一些为与物品展示框交互设计的图案。它们不是什么高端法术，但确实是适合控制法术环之类事物的实用手段。</p><p>此外，分拣员之纯化对它们同样有效，因此试图寻找物品展示框专用的物品图案没有意义。</p>
+<br />
+  <div id="patterns/frame_patterns@oneironaut:readframerotation">
+<h4 class="pattern-title">装潢师之纯化 (item frame → number)<a
+    href="#patterns/frame_patterns@oneironaut:readframerotation"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wwawwqwwawwaeae"
+        data-start="south_west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：wwawwqwwawwaeae</canvas>
+  </details>
+      <p>接受一个物品展示框实体，并返回其中物品的朝向，值必然在 0 到 7 之间。</p>
+  </div>
+<br />
+  <div id="patterns/frame_patterns@oneironaut:setframerotation">
+<h4 class="pattern-title">装潢师之策略 (item frame, number →)<a
+    href="#patterns/frame_patterns@oneironaut:setframerotation"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wwawwqwwawwaqdq"
+        data-start="south_west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：wwawwqwwawwaqdq</canvas>
+  </details>
+      <p>接受一个物品展示框实体与一个 0 到 7 的整数，并将物品朝向设置为该数。消耗极少量媒质。</p>
+  </div>
+<br />
+</div>
+<div id="patterns/status_iotas" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="药水"
+      alt="药水"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/potion_overlay.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >状态 Iota<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/status_iotas"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>这些图案主要操作代表生物身上长时效果的 iota，我可以用这些图案评估生物的状态，比只用护士之纯化更加深入彻底。<br />虽然我的研究表明代表瞬时效果的状态 iota 也可能存在，但非常难以获取，而且我目前没想到任何有关用途。</p>
+<br />
+  <div id="patterns/status_iotas@oneironaut:getstatus">
+<h4 class="pattern-title">药师之纯化 (entity → [status])<a
+    href="#patterns/status_iotas@oneironaut:getstatus"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qqqqqedwd"
+        data-start="south_west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qqqqqedwd</canvas>
+  </details>
+      <p>接受一个生物，并返回目标当前所有效果组成的 iota。</p>
+  </div>
+<br />
+  <div id="patterns/status_iotas@oneironaut:getstatuscategory">
+<h4 class="pattern-title">药师之纯化，第二型 (status → num)<a
+    href="#patterns/status_iotas@oneironaut:getstatuscategory"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="eeeeeqawa"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：eeeeeqawa</canvas>
+  </details>
+      <p>接受一个状态效果，并根据该效果对生物产生正面、负面，或中性影响返回一个数。</p>
+  </div>
+<br />
+  <div id="patterns/status_iotas@oneironaut:getstatusduration">
+<h4 class="pattern-title">药剂师之纯化 (entity, status → num)<a
+    href="#patterns/status_iotas@oneironaut:getstatusduration"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qqqqqedwdwd"
+        data-start="south_west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qqqqqedwdwd</canvas>
+  </details>
+      <p>接受一个实体和一个状态效果，并返回目标身上所给状态效果的持续时间，以秒计。</p>
+  </div>
+<br />
+  <div id="patterns/status_iotas@oneironaut:getstatuslevel">
+<h4 class="pattern-title">药剂师之纯化，第二型 (entity, status → num)<a
+    href="#patterns/status_iotas@oneironaut:getstatuslevel"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="eeeeeqawawa"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：eeeeeqawawa</canvas>
+  </details>
+      <p>接受一个实体和一个状态效果，并返回目标身上所给状态效果的强度。</p>
+  </div>
+<br />
+  <div id="patterns/status_iotas@oneironaut:getbystatussingle">
+<h4 class="pattern-title">实体之馏化：状态 (status, vector → entity | NULL)<a
+    href="#patterns/status_iotas@oneironaut:getbystatussingle"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="eaeeeeeae"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：eaeeeeeae</canvas>
+  </details>
+      <p>接受一个状态效果和一个向量，并返回该处带有该状态效果的实体。</p>
+  </div>
+<br />
+  <div id="patterns/status_iotas@oneironaut:getbystatus">
+<h4 class="pattern-title">区域之提整：状态 (status, vec, num → [entity])<a
+    href="#patterns/status_iotas@oneironaut:getbystatus"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="ewqqqqqwe"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：ewqqqqqwe</canvas>
+  </details>
+      <p>接受一个状态效果，一个向量和一个数，返回该位置给定距离范围内所有带有给定状态效果生物的列表。</p>
+  </div>
+<br />
+  <div id="patterns/status_iotas@oneironaut:getbystatusinverse">
+<h4 class="pattern-title">区域之提整：非状态 (status, vec, num → [entity])<a
+    href="#patterns/status_iotas@oneironaut:getbystatusinverse"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qweeeeewq"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qweeeeewq</canvas>
+  </details>
+      <p>接受一个状态效果，一个向量和一个数，返回该位置给定距离范围内所有无给定状态效果生物的列表。</p>
+  </div>
+<br />
+  <div id="patterns/status_iotas@oneironaut:removestatus">
+<h4 class="pattern-title">清除状态 (entity, status →)<a
+    href="#patterns/status_iotas@oneironaut:removestatus"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="eeeeedaqdewed"
+        data-start="south_west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：eeeeedaqdewed</canvas>
+  </details>
+      <p>接受一个实体和一个状态效果，并移除该实体身上的所给状态效果。消耗由效果自身的伤害性、强度、剩余持续时间决定。</p>
+  </div>
+<br />
+    <p>若是要移除非自身实体身上的正面效果，则消耗会增加。</p><p>所有需要检测实体身上有无所给状态效果的图案都有副作用。如果该实体当前没有这种效果，则图案会失效，并给予我反胃。</p>
+<br />
+</div>
+<div id="patterns/dim_iotas" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="末地传送门框架"
+      alt="末地传送门框架"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/end_portal_frame.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >维度 Iota<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/dim_iotas"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>我发现了一种新 iota，它们似乎象征着现实本身的某一层面。为方便理解，我决定称其为“空间印记”。</p>
+<br />
+  <div id="patterns/dim_iotas@oneironaut:getdim1">
+<h4 class="pattern-title">空间之精思 (→ Imprint)<a
+    href="#patterns/dim_iotas@oneironaut:getdim1"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wqwqwqwqwqwaeqqe"
+        data-start="west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：wqwqwqwqwqwaeqqe</canvas>
+  </details>
+      <p>返回象征着我所处维度的空间印记。消耗极少量媒质。</p>
+  </div>
+<br />
+  <div id="patterns/dim_iotas@oneironaut:getdim2">
+<h4 class="pattern-title">空间之精思，第二型 (→ Imprint | NULL)<a
+    href="#patterns/dim_iotas@oneironaut:getdim2"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wqwqwqwqwqwaqeeq"
+        data-start="west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：wqwqwqwqwqwaqeeq</canvas>
+  </details>
+      <p>返回象征着我哨卫所处维度的空间印记。消耗没那么少量但还算少量的媒质。</p>
+  </div>
+<br />
+</div>
+<div id="patterns/idea_inscription" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="中型卷轴"
+      alt="中型卷轴"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/Common/src/main/resources/assets/hexcasting/textures/item/scroll_pristine_medium.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >思绪刻印<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/idea_inscription"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>智识界是思维的领域，它能用来存储信息也就顺理成章。这些图案就能把 iota 刻印入智识界，并能读出它们（不论当前所处什么维度）。它们还能把 iota 存储到其他生物的意识中，当然它们的意识也需和我一样……<i>无拘无束</i>。在相关描述中，用于指代向量和有效实体的词是“键”/“key”。</p>
+<br />
+    <p>这种操作用途不少，但智识界的环境媒质处于常态的运动中，任何存入其中的 iota 终会消解，就好像往海洋中倒热水一样。似乎这种信息在变为无用的垃圾前能存在一小时。</p><p><a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#greatwork/akashiclib">阿卡夏图书馆</a>的原理貌似与之类似，书架则相当于用来避免消解的阻隔层。</p>
+<br />
+  <div id="patterns/idea_inscription@oneironaut:writeidea">
+<h4 class="pattern-title">刻印思绪 (key, any →)<a
+    href="#patterns/idea_inscription@oneironaut:writeidea"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="eweweweweweeewqaqwe"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：eweweweweweeewqaqwe</canvas>
+  </details>
+      <p>接受一个有效键以及任意 iota，并将所给 iota 存入相应位置。消耗大约 1 个紫水晶粉。</p>
+  </div>
+<br />
+  <div id="patterns/idea_inscription@oneironaut:readidea">
+<h4 class="pattern-title">收回思绪 (key → any)<a
+    href="#patterns/idea_inscription@oneironaut:readidea"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qwqwqwqwqwqqqwedewq"
+        data-start="west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qwqwqwqwqwqqqwedewq</canvas>
+  </details>
+      <p>接受一个有效键，并返回相应 iota。消耗大约 1 个紫水晶粉。</p>
+  </div>
+<br />
+  <div id="patterns/idea_inscription@oneironaut:readideatime">
+<h4 class="pattern-title">元数据之纯化 (key → number | NULL)<a
+    href="#patterns/idea_inscription@oneironaut:readideatime"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qwqwqwqwqwqqqeqaqeq"
+        data-start="west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qwqwqwqwqwqqqeqaqeq</canvas>
+  </details>
+      <p>接受一个有效键, 并返回刻印对应 iota 的时间，或是返回 Null。消耗极少量媒质。</p>
+  </div>
+<br />
+  <div id="patterns/idea_inscription@oneironaut:readideawriter">
+<h4 class="pattern-title">元数据之馏化 (key, player → bool)<a
+    href="#patterns/idea_inscription@oneironaut:readideawriter"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qwqwqwqwqwqaeqedeqe"
+        data-start="west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qwqwqwqwqwqaeqedeqe</canvas>
+  </details>
+      <p>接受一个有效键和一个代表玩家的 iota，并检验对应 iota 是否由所给玩家刻印。消耗极少量媒质。</p>
+  </div>
+<br />
+</div>
+</section>
+<section id="patterns/spells">
+    <h2 class="category-title page-header">
+    <img
+      title="附魔书"
+      alt="附魔书"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/enchanted_book.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >法术<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/spells"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>能以魔法影响到世界的图案和操作。</p>
+<div id="patterns/spells/paint_conjured" class="entry">
+    <h3 class="entry-title page-header">
+    <div
+      role="img"
+      title="灵魂闪光染色剂"
+      aria-label="灵魂闪光染色剂 (animated)"
+      class="item-texture  texture animated-sync texture-hexcasting-textures-item-colorizer-uuid-png pixelated"
+    ></div>外化染色剂<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/spells/paint_conjured"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+  <div id="patterns/spells/paint_conjured@oneironaut:paintconjured">
+<h4 class="pattern-title">外化染色剂 (Vector, itemtype →)<a
+    href="#patterns/spells/paint_conjured@oneironaut:paintconjured"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="eqdweeqdwweeqddqdwwwdeww"
+        data-start="west"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：eqdweeqdwweeqddqdwwwdeww</canvas>
+  </details>
+      <p>接受一个向量与代表染色剂的物品类型。如果目标为我自己的方块，消耗极少量媒质；否则消耗 1 个紫水晶粉。</p>
+  </div>
+<br />
+    <p>将所给位置处构筑方块的颜色设置为所给染色剂的颜色；如果送入的是 Null，则将其设置为我意识的颜色。</p><p>不保证对非传统的构筑物质有效。</p>
+<br />
+    <p>这种效果有着奇怪的庆典感，就好像它曾用于某个盛大的节庆活动，与会队伍会把自己队的颜色泼洒到对手的领地上，类似于意识层面上的占领。</p>
+<br />
+</div>
+<div id="patterns/spells/particle_burst" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="烈焰粉"
+      alt="烈焰粉"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/blaze_powder.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >粒子迸发<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/spells/particle_burst"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+  <div id="patterns/spells/particle_burst@oneironaut:particleburst">
+<h4 class="pattern-title">粒子迸发 (vec, vec, num, num →)<a
+    href="#patterns/spells/particle_burst@oneironaut:particleburst"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="deeeewaaddwqqqqa"
+        data-start="east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：deeeewaaddwqqqqa</canvas>
+  </details>
+      <p>接受两个向量和两个数，并由其触发一束粒子。消耗极少量媒质。</p>
+  </div>
+<br />
+    <p>第一个向量决定了粒子束的起始位置，第二个向量则决定其方向和速度。第一个数决定各位置向量分量附加多大的随机数，第二个数则以同种方式决定方向向量的随机性。</p>
+<br />
+</div>
+</section>
+<section id="patterns/great_spells">
+    <h2 class="category-title page-header">
+    <img
+      title="潮涌能量"
+      alt="潮涌能量"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/mob_effect/conduit_power.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >卓越法术<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/great_spells"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>这类法术据信极难施放，但也极为强力。记载它们的文献极为少见（据称理由充分）。这也许只是某些消亡的老古董口中的胡言乱语，不过——它们只是简单的图案罢了。试试看又能出什么错呢？</p>
+<div id="patterns/spells/great/infuse_media" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="充能紫水晶"
+      alt="充能紫水晶"
+      src="https://raw.githubusercontent.com/object-Object/HexMod/327ad0bfa8585800a0334d6a0fbd4c96460c414e/Common/src/main/resources/assets/hexcasting/textures/item/charged_amethyst.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >媒质灌注<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/spells/great/infuse_media"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+  <div id="patterns/spells/great/infuse_media@oneironaut:infusemedia">
+<h4 class="pattern-title">媒质灌注 (Vector →)<a
+    href="#patterns/spells/great/infuse_media@oneironaut:infusemedia"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wwaqqqqqeqqqwwwqqeqqwwwqqweqadadadaqeqeqadadadaqe"
+        data-start="east"
+        data-per-world="True"
+      >浏览器不支持图案的可视化。图案代码见此：wwaqqqqqeqqqwwwqqeqqwwwqqweqadadadaqeqeqadadadaqe</canvas>
+  </details>
+      <p>接受一个向量，并向该位置方块中注入媒质，以嬗变该方块。消耗量与具体效果随目标变化而变。</p>
+  </div>
+<br />
+    <p>概念上来看，此法术与<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#patterns/spells/blockworks@hexcasting:edify">启迪树苗</a>类似。<br />然而，这种方法灌注的媒质相较之下经过精细调校，因此能产生更为有意思的效果。</p>
+<br />
+</div>
+<div id="patterns/spells/great/dim_teleport" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="末影之眼"
+      alt="末影之眼"
+      src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/a14c64362abe4a12c2dfd87f8d1673af9d1b09f4/data/1.19.1/items/ender_eye.png"
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >智识门径<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/spells/great/dim_teleport"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+  <div id="patterns/spells/great/dim_teleport@oneironaut:dimteleport">
+<h4 class="pattern-title">智识门径 (Entity, Imprint →)<a
+    href="#patterns/spells/great/dim_teleport@oneironaut:dimteleport"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qeewwwweeqeqeewwwweeqdqqdwwwdqeqdwwwdqdadwwdqdwwddadaqadaawww"
+        data-start="north_east"
+        data-per-world="True"
+      >浏览器不支持图案的可视化。图案代码见此：qeewwwweeqeqeewwwweeqdqqdwwwdqeqdwwwdqdadwwdqdwwddadaqadaawww</canvas>
+  </details>
+      <p>接受一个实体和一个空间元件，将所给实体传送入对应维度的同一位置。消耗 20 个充能紫水晶。</p>
+  </div>
+<br />
+    <p>目标抵达目的地时也会触发某种保护措施，以防目的地的危险环境造成伤害。</p><p>送入其他玩家时会失效。</p><p>受此法术影响时，我会有种奇怪的加速感，但并非朝着我能理解的任何轴加速。</p>
+<br />
+</div>
+<div id="patterns/spells/great/swap_space" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="末影箱"
+      alt="末影箱"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAzklEQVQ4T22SQQ4CMQwDg5C4wIEHrLjuIxC/4P9fKUq1TmZND5HaNE5sp3G73kfE5RSZez62obf3/h376zPvGXlWLlQkUJ4drDvBXXNMzWR1PRrmOSOL2Zw1QYoqFF1NEXglbzYgmMUrbxTFYAWkZoUbWY0FFjWZRIBYtu5mVFtIsNylYSspNDs8SUnaAqf++aWE6+cKyZJbKBPdWYW/sUn7Yq6LDRvQVNKftSygefSBX5dmTyaulZTZyN/aXFxI23OUdvoH7jL1c0NkwPgBAzkxXiBf0HkAAAAASUVORK5CYII="
+      loading="lazy"
+      class="item-texture  texture pixelated"
+    >空间互换<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/spells/great/swap_space"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+  <div id="patterns/spells/great/swap_space@oneironaut:swapspace">
+<h4 class="pattern-title">空间互换 ([vec, vec], [vec, vec], Imprint →)<a
+    href="#patterns/spells/great/swap_space@oneironaut:swapspace"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wqqqwwwwwqqqwwwqdaqadwqqwdaqadweqeqqqqeqeqaqeqedeqeqa"
+        data-start="east"
+        data-per-world="True"
+      >浏览器不支持图案的可视化。图案代码见此：wqqqwwwwwqqqwwwqdaqadwqqwdaqadweqeqqqqeqeqaqeqedeqeqa</canvas>
+  </details>
+      <p>接受均由两个向量组成的两个列表，用于定义两个长方体，以及一个空间印记。所定义的长方体必须保证尺寸与朝向一致。</p>
+  </div>
+<br />
+    <p>我不太清楚这个图案具体能做什么，它总是叫喊着什么特殊维度。也许它需要这种特殊维度作为中介？</p>
+<br />
+    <p>将我所处维度中第一个长方体包含的方块（需在影响范围内）与空间印记对应维度中第二个长方体包含的方块互换。消耗 5 个充能紫水晶，长方体中每 1 立方米额外消耗 1/2 个紫水晶粉。<br />不会互换不可破坏的方块，对包含大量数据的方块也无效。<br />两维度之一或两者均需为智识界。</p>
+<br />
+</div>
+<div id="patterns/spells/great/detection_shielding" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="玻璃"
+      alt="玻璃"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.19.2/1.0.dev1/assets/minecraft/textures/block/glass.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >侦测回避<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/spells/great/detection_shielding"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p>传统的隐身药水足以迷惑常人的感官，但面对咒术则毫无作用，让事物完全无法侦测的方法还有待发现。然而，我找到的这个法术应当是向上述目标迈出的第一步。它能将媒质像糠皮一样散在生物周围，以此干扰咒术的侦测手段。</p>
+<br />
+  <div id="patterns/spells/great/detection_shielding@oneironaut:resistdetection">
+<h4 class="pattern-title">隐匿遮罩 (entity, number →)<a
+    href="#patterns/spells/great/detection_shielding@oneironaut:resistdetection"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="wawwwdwdwwaqqqqqe"
+        data-start="east"
+        data-per-world="True"
+      >浏览器不支持图案的可视化。图案代码见此：wawwwdwdwwaqqqqqe</canvas>
+  </details>
+      <p>接受一个生物和一个数，并给予该实体持续所给数秒的咒术侦测护盾。每秒持续时间消耗 2 个紫水晶粉。</p>
+  </div>
+<br />
+    <p>同时每秒会消耗所影响实体 1/10 个紫水晶粉，护盾的构筑需要这些媒质。</p><p>我需要注意我把这种效果给予了什么事物，因为没有携带其他媒质来源的生物会消耗自身的意识来供给护盾。</p>
+<br />
+    <p>这种护盾在阻挡<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#patterns/basics@hexcasting:raycast/entity">侦查员之馏化</a>和各种<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#patterns/entities@hexcasting:zone_entity/animal">区域之馏化</a>时效果良好，但它对<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#patterns/entities@hexcasting:get_entity">实体之纯化</a>的变种没有作用，那些操作已经包含所处位置的精确概念。而且，这层糠皮自身也有能量特征，尽管暗淡，依然可用特种图案侦测。</p>
+<br />
+  <div id="patterns/spells/great/detection_shielding@oneironaut:detectshroud">
+<h4 class="pattern-title">辨察遮罩 (vector, number → [vector])<a
+    href="#patterns/spells/great/detection_shielding@oneironaut:detectshroud"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qqqqqwwaawewaawdww"
+        data-start="south_east"
+        data-per-world="False"
+      >浏览器不支持图案的可视化。图案代码见此：qqqqqwwaawewaawdww</canvas>
+  </details>
+      <p>接受一个向量和一个数，并返回以所给位置为起始，指向范围内带有遮罩的实体的单位向量列表，侦测半径为所给数。</p>
+  </div>
+<br />
+  <div id="patterns/spells/great/detection_shielding@oneironaut:invisibility">
+<h4 class="pattern-title">隐阳当空 (entity, number →)<a
+    href="#patterns/spells/great/detection_shielding@oneironaut:invisibility"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="qqqqqaewawaweqa"
+        data-start="south_west"
+        data-per-world="True"
+      >浏览器不支持图案的可视化。图案代码见此：qqqqqaewawaweqa</canvas>
+  </details>
+      <p>我还发现了能给予普通隐身效果的法术。和其他<a href="https://hexcasting.hexxy.media/v/0.10.3/1.0.dev22/en_us#patterns/great_spells/zeniths">天顶法术</a>功能一致，每 3 秒持续时间消耗 1 个紫水晶粉。</p>
+  </div>
+<br />
+</div>
+</section>
+  </main>
+</div>
+      <footer class="footer">
+        <div class="container">
+          <p class="text-muted">
+            Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.<br />
+            Minecraft content and materials are the intellectual property of their respective owners.<br />
+            Made with ❤️ using <a href="https://pypi.org/project/hexdoc/" target="_blank">hexdoc</a>.
+          </p>
+        </div>
+      </footer>
+  </body>
+</html>
