@@ -45,7 +45,7 @@ public abstract class EntityRaycastImmunityMixin {
             int stepResolution = 64;
             Vec3d step = look.multiply(1.0 / stepResolution);
             Identifier blockerTag = new Identifier(Oneironaut.MOD_ID, "blocksraycast");
-            for(int i = 0; i < origin.distanceTo(end) * stepResolution; i++){
+            for(int i = 0; i < origin.distanceTo(value.getPos()) * stepResolution; i++){
                 if (ctx.getWorld().getBlockState(new BlockPos(origin.add(step.multiply(i)))).isIn(MiscAPIKt.getBlockTagKey(blockerTag))){
                     return null;
                 }
