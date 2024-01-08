@@ -66,7 +66,7 @@ public class OneironautBlockRegistry {
     public static final RegistrySupplier<SentinelSensor> SENTINEL_SENSOR = BLOCKS.register("sentinel_sensor", () -> new SentinelSensor(AbstractBlock.Settings.of(HexBlocks.SLATE_BLOCK.getDefaultState().getMaterial())));
     public static final RegistrySupplier<BlockEntityType<SentinelSensorEntity>> SENTINEL_SENSOR_ENTITY = BLOCK_ENTITIES.register("sentinel_sensor_entity", () -> BlockEntityType.Builder.create(SentinelSensorEntity::new, OneironautBlockRegistry.SENTINEL_SENSOR.get()).build(null));
     public static final RegistrySupplier<Block> RAYCAST_BLOCKER = BLOCKS.register("raycast_blocker", () -> new Block(AbstractBlock.Settings.copy(Blocks.DEEPSLATE)));
-    public static final RegistrySupplier<Block> RAYCAST_BLOCKER_GLASS = BLOCKS.register("raycast_blocker_glass", () -> new Block(AbstractBlock.Settings.copy(Blocks.TINTED_GLASS)));
+    public static final RegistrySupplier<Block> RAYCAST_BLOCKER_GLASS = BLOCKS.register("raycast_blocker_glass", () -> new RaycastBlockerGlass(AbstractBlock.Settings.copy(Blocks.TINTED_GLASS)));
     public static final RegistrySupplier<Block> CIRCLE = BLOCKS.register("circle", () -> new CircleBlock(AbstractBlock.Settings.copy(Blocks.BLACK_CONCRETE)
             .nonOpaque().breakInstantly()));
 

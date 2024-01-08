@@ -43,9 +43,11 @@ public abstract class BlockRaycastImmunityMixin {
 
     @ModifyReturnValue(method = "execute", at = @At(value = "RETURN", remap = false), remap = false)
     private List<Iota> nullIfImmune(List<Iota> original, @Local CastingContext ctx){
-        BlockPos pos = new BlockPos(((Vec3Iota)original.get(0)).getVec3());
-        if (ctx.getWorld().getBlockState(pos).isIn(MiscAPIKt.getBlockTagKey(new Identifier(Oneironaut.MOD_ID, "blocksraycast")))){
-            return CollectionsKt.listOf(new NullIota());
+        if (original.get(0) instanceof Vec3Iota vec3){
+            BlockPos pos = new BlockPos(vec3.getVec3());
+            if (ctx.getWorld().getBlockState(pos).isIn(MiscAPIKt.getBlockTagKey(new Identifier(Oneironaut.MOD_ID, "blocksraycast")))){
+                return CollectionsKt.listOf(new NullIota());
+            }
         }
         return original;
     }

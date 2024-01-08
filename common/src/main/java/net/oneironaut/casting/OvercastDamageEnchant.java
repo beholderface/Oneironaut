@@ -1,6 +1,8 @@
 package net.oneironaut.casting;
 
 import at.petrak.hexcasting.api.misc.HexDamageSources;
+import at.petrak.hexcasting.common.casting.operators.spells.great.OpBrainsweep;
+import at.petrak.hexcasting.common.misc.Brainsweeping;
 import at.petrak.hexcasting.ktxt.AccessorWrappers;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.enchantment.DamageEnchantment;
@@ -73,6 +75,7 @@ public class OvercastDamageEnchant extends Enchantment {
                         } else {
                             Oneironaut.LOGGER.info(user.getDisplayName().getString() + " rent " + mob.getDisplayName().getString() + ", whitelisted.");
                         }
+                        //Brainsweeping.brainsweep(mob);
                         IXplatAbstractions.INSTANCE.brainsweep(mob);
                         if (user instanceof ServerPlayerEntity player){
                             IXplatAbstractions.INSTANCE.sendPacketNear(target.getPos(), 128.0, (ServerWorld) mob.world, new ParticleBurstPacket(

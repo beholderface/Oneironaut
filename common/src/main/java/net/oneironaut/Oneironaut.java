@@ -51,10 +51,11 @@ public class Oneironaut {
 
         TickEvent.SERVER_PRE.register((server) -> BottomlessMediaItem.time = server.getOverworld().getTime());
 
+
+        ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
         InteractionEvent.RIGHT_CLICK_ITEM.register((player, hand) -> {
             ItemStack heldStack = player.getStackInHand(hand);
             if (heldStack.isIn(MiscAPIKt.getItemTagKey(new Identifier("hexcasting:staves"))) && !(heldStack.getItem() instanceof ItemStaff)){
-                ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
                 fakeStaffStack.use(player.world, player, hand);
                 player.swingHand(hand);
             }
@@ -73,7 +74,6 @@ public class Oneironaut {
         CommandRegistrationEvent.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("queryoneironautconfig")
                 .requires(source -> source.hasPermissionLevel(2))
                 .executes(context -> {
-                    //boolean spam = OneironautConfig.getServer().getReduceEverbookLogSpam();
                     boolean planeshift = OneironautConfig.getServer().getPlaneShiftOtherPlayers();
                     int lifetime = OneironautConfig.getServer().getIdeaLifetime();
                     context.getSource().sendFeedback(Text.of("Idea Inscription lifetime: " + (double)lifetime / 20.0 + " seconds\n" +
