@@ -6,6 +6,7 @@
     "oneironaut:super_budding",
     "oneironaut:sentinel_sensor",
     "oneironaut:sentinel_trap",
-    "oneironaut:raycast_blocker"
+    "oneironaut:raycast_blocker",
+    "oneironaut:hex_resistant_block"
   ]
 }

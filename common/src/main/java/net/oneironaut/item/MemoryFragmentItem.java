@@ -3,6 +3,7 @@ package net.oneironaut.item;
 import at.petrak.hexcasting.common.items.ItemLoreFragment;
 import at.petrak.hexcasting.common.lib.HexSounds;
 import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -31,12 +32,15 @@ public class MemoryFragmentItem extends Item {
             new Identifier(Oneironaut.MOD_ID, "lore/treatise1"),
             new Identifier(Oneironaut.MOD_ID, "lore/treatise2"),
             new Identifier(Oneironaut.MOD_ID, "lore/treatise3"),
-            new Identifier(Oneironaut.MOD_ID, "lore/treatise4")
+            new Identifier(Oneironaut.MOD_ID, "lore/treatise4"),
+            new Identifier(Oneironaut.MOD_ID, "lore/science1"),
+            new Identifier(Oneironaut.MOD_ID, "lore/science2"),
+            new Identifier(Oneironaut.MOD_ID, "lore/science3")
     });
 
     public static final String CRITEREON_KEY = "grant";
 
-    //stolen from base hex lore fragment code
+    //mostly stolen from base hex lore fragment code
     @Override
     public TypedActionResult<ItemStack> use(World level, PlayerEntity player, Hand usedHand) {
         player.playSound(HexSounds.READ_LORE_FRAGMENT, 1f, 1f);
@@ -45,7 +49,11 @@ public class MemoryFragmentItem extends Item {
             handStack.decrement(1);
             return TypedActionResult.success(handStack);
         }
-
+        PlayerAdvancementTracker tracker = splayer.getAdvancementTracker();
+        Advancement rootAdvancement = splayer.world.getServer().getAdvancementLoader().get(new Identifier(Oneironaut.MOD_ID, "lore/root"));
+        if (!tracker.getProgress(rootAdvancement).isDone()){
+            tracker.grantCriterion(rootAdvancement, CRITEREON_KEY);
+        }
         Advancement unfoundLore = null;
         var shuffled = new ArrayList<>(NAMES);
         Collections.shuffle(shuffled);
@@ -55,7 +63,7 @@ public class MemoryFragmentItem extends Item {
                 continue; // uh oh
             }
 
-            if (!splayer.getAdvancementTracker().getProgress(adv).isDone()) {
+            if (!tracker.getProgress(adv).isDone()) {
                 unfoundLore = adv;
                 break;
             }
@@ -67,7 +75,7 @@ public class MemoryFragmentItem extends Item {
             level.playSound(null, player.getPos().x, player.getPos().y, player.getPos().z,
                     HexSounds.READ_LORE_FRAGMENT, SoundCategory.PLAYERS, 1f, 1f);
         } else {
-            splayer.getAdvancementTracker().grantCriterion(unfoundLore, CRITEREON_KEY);
+            tracker.grantCriterion(unfoundLore, CRITEREON_KEY);
         }
 
         Criteria.CONSUME_ITEM.trigger(splayer, handStack);

@@ -8,7 +8,7 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "oneironaut.advancements.lore.treatise2.description"
+      "translate": "oneironaut.advancements.lore.science1.description"
     },
     "frame": "task",
     "hidden": true,
@@ -17,7 +17,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "oneironaut.advancements.lore.treatise2"
+      "translate": "oneironaut.advancements.lore.science1"
     }
   },
   "requirements": [

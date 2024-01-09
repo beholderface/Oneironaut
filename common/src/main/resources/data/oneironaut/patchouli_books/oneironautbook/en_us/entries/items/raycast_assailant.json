@@ -11,6 +11,11 @@
       "type": "patchouli:crafting",
       "recipe": "oneironaut:raycast_blocker",
       "recipe2": "oneironaut:raycast_blocker_glass"
+    },
+    "oneironaut.page.raycast_assailant.3",
+    {
+      "type": "patchouli:crafting",
+      "recipe": "oneironaut:hex_resistant_block"
     }
   ]
 }

@@ -2,26 +2,31 @@ package net.oneironaut.casting.patterns.spells.great
 
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.mod.HexConfig
-import at.petrak.hexcasting.api.spell.*
+import at.petrak.hexcasting.api.spell.ParticleSpray
+import at.petrak.hexcasting.api.spell.RenderedSpell
+import at.petrak.hexcasting.api.spell.SpellAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
+import at.petrak.hexcasting.api.spell.getList
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
-import at.petrak.hexcasting.api.utils.downcast
-import net.minecraft.block.Block
+import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
+import net.oneironaut.Oneironaut
 import net.oneironaut.OneironautConfig
 import net.oneironaut.casting.mishaps.MishapBadCuboid
 import net.oneironaut.casting.mishaps.MishapNoNoosphere
+import net.oneironaut.getBlockTagKey
 import net.oneironaut.getDimIota
 import kotlin.math.abs
 
@@ -126,7 +131,12 @@ class OpSwapSpace : SpellAction {
                         destBE = destDim.getBlockEntity(destDimPos)
                         destBEData = destBE?.createNbt()
                         var newBE : BlockEntity?
-                        if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f) || ((originPointState.hasBlockEntity() || destPointState.hasBlockEntity()) && !OneironautConfig.server.swapSwapsBEs))){
+                        val breakingAllowed = IXplatAbstractions.INSTANCE.isBreakingAllowed(originDim, originDimPos, originPointState, ctx.caster) &&
+                                IXplatAbstractions.INSTANCE.isBreakingAllowed(destDim, destDimPos, destPointState, ctx.caster)
+                        val immuneTag = getBlockTagKey(Identifier(Oneironaut.MOD_ID, "hexbreakimmune"))
+                        if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f)
+                                    || ((originPointState.hasBlockEntity() || destPointState.hasBlockEntity()) && !OneironautConfig.server.swapSwapsBEs)
+                                    || !breakingAllowed)){
                             if (destBE != null){
                                 originDim.removeBlockEntity(originDimPos)
                                 originDim.setBlockState(originDimPos, destBE.cachedState/*, flags*/)

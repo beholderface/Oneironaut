@@ -1,5 +1,5 @@
 {
-  "parent": "hexcasting:lore",
+  "parent": "oneironaut:lore/root",
   "criteria": {
     "grant": {
       "trigger": "minecraft:impossible"
@@ -10,7 +10,7 @@
     "description": {
       "translate": "oneironaut.advancements.lore.treatise1.description"
     },
-    "frame": "goal",
+    "frame": "task",
     "hidden": true,
     "icon": {
       "item": "oneironaut:memory_fragment"
