@@ -133,7 +133,7 @@ class OpSwapSpace : SpellAction {
                         var newBE : BlockEntity?
                         val breakingAllowed = IXplatAbstractions.INSTANCE.isBreakingAllowed(originDim, originDimPos, originPointState, ctx.caster) &&
                                 IXplatAbstractions.INSTANCE.isBreakingAllowed(destDim, destDimPos, destPointState, ctx.caster)
-                        val immuneTag = getBlockTagKey(Identifier(Oneironaut.MOD_ID, "hexbreakimmune"))
+                        //val immuneTag = getBlockTagKey(Identifier(Oneironaut.MOD_ID, "hexbreakimmune"))
                         if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f)
                                     || ((originPointState.hasBlockEntity() || destPointState.hasBlockEntity()) && !OneironautConfig.server.swapSwapsBEs)
                                     || !breakingAllowed)){

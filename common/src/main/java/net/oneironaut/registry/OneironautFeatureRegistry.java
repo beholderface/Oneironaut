@@ -34,22 +34,6 @@ public class OneironautFeatureRegistry {
         CONFIG_FEATURES.register();
         PLACED_FEATURES.register();
 
-        /*//islands
-        Registry.register(Registry.FEATURE, NOOSPHERE_SEA_ISLAND_ID, NOOSPHERE_SEA_ISLAND);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_SMALL_ID, NOOSPHERE_SEA_ISLAND_SMALL);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_ISLAND_SMALL_ID, NOOSPHERE_SEA_ISLAND_SMALL_PLACED);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_MEDIUM_ID, NOOSPHERE_SEA_ISLAND_MEDIUM);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_ISLAND_MEDIUM_ID, NOOSPHERE_SEA_ISLAND_MEDIUM_PLACED);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_ISLAND_LARGE_ID, NOOSPHERE_SEA_ISLAND_LARGE);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_ISLAND_LARGE_ID, NOOSPHERE_SEA_ISLAND_LARGE_PLACED);
-        //volcano
-        Registry.register(Registry.FEATURE, NOOSPHERE_SEA_VOLCANO_ID, NOOSPHERE_SEA_VOLCANO);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, NOOSPHERE_SEA_VOLCANO_ID, NOOSPHERE_SEA_VOLCANO_CONFIGURED);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, NOOSPHERE_SEA_VOLCANO_ID, NOOSPHERE_SEA_VOLCANO_PLACED);
-        //pseudoamethyst veins
-        Registry.register(Registry.FEATURE, BLOCK_VEIN_ID, BLOCK_VEIN);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, PSEUDOAMETHYST_VEIN_ID, PSEUDOAMETHYST_VEIN);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, PSEUDOAMETHYST_VEIN_ID, PSEUDOAMETHYST_VEIN_PLACED);*/
         if (Platform.isFabric()){
             Predicate<BiomeSelectionContext> noosphereSeaHopefully = BiomeSelectors.vanilla().negate();
             Optional<RegistryKey<Biome>> noosphere_sea_preliminary = BuiltinRegistries.BIOME.getKey(BuiltinRegistries.BIOME.get(new Identifier("oneironaut:noosphere_sea")));
@@ -82,6 +66,16 @@ public class OneironautFeatureRegistry {
                     noosphereSeaHopefully,
                     GenerationStep.Feature.UNDERGROUND_ORES,
                     RegistryKey.of(PSEUDOAMETHYST_VEIN_PLACED.getRegistryKey(), PSEUDOAMETHYST_VEIN_ID)
+            );
+            BiomeModifications.addFeature(
+                    noosphereSeaHopefully,
+                    GenerationStep.Feature.LOCAL_MODIFICATIONS,
+                    RegistryKey.of(GEL_BLOB_PLACED.getRegistryKey(), GEL_BLOB_ID)
+            );
+            BiomeModifications.addFeature(
+                    noosphereSeaHopefully,
+                    GenerationStep.Feature.LOCAL_MODIFICATIONS,
+                    RegistryKey.of(ICE_BLOB_PLACED.getRegistryKey(), ICE_BLOB_ID)
             );
         } else {
             Oneironaut.LOGGER.info("phooey");
@@ -147,4 +141,21 @@ public class OneironautFeatureRegistry {
     );*/
     /*public static PlacedFeature PSEUDOAMETHYST_VEIN_PLACED = new PlacedFeature(
             RegistryEntry.of(PSEUDOAMETHYST_VEIN), List.of());*/
+
+    public static final RegistrySupplier<Feature<BlockBlobConfig>> BLOCK_BLOB = FEATURES.register("block_blob", () -> new BlockBlob(BlockBlobConfig.CODEC));
+
+    public static final Identifier GEL_BLOB_ID = new Identifier(Oneironaut.MOD_ID, "gel_blob");
+    public static final RegistrySupplier<ConfiguredFeature<BlockBlobConfig, BlockBlob>> GEL_BLOB = CONFIG_FEATURES.register("gel_blob", () -> new ConfiguredFeature<BlockBlobConfig, BlockBlob>(
+            (BlockBlob) BLOCK_BLOB.get(),
+            new BlockBlobConfig(new Identifier(Oneironaut.MOD_ID, "media_gel"), 250, 6, 2, 5, 1)));
+    public static final RegistrySupplier<PlacedFeature>  GEL_BLOB_PLACED = PLACED_FEATURES.register("gel_blob", () ->new PlacedFeature(
+            RegistryEntry.of(GEL_BLOB.get()), List.of()));
+
+    public static final Identifier ICE_BLOB_ID = new Identifier(Oneironaut.MOD_ID, "ice_blob");
+    public static final RegistrySupplier<ConfiguredFeature<BlockBlobConfig, BlockBlob>> ICE_BLOB = CONFIG_FEATURES.register("ice_blob", () -> new ConfiguredFeature<BlockBlobConfig, BlockBlob>(
+            (BlockBlob) BLOCK_BLOB.get(),
+            new BlockBlobConfig(new Identifier(Oneironaut.MOD_ID, "media_ice"), 150, 8, 1, 5, 8)));
+    public static final RegistrySupplier<PlacedFeature>  ICE_BLOB_PLACED = PLACED_FEATURES.register("ice_blob", () ->new PlacedFeature(
+            RegistryEntry.of(ICE_BLOB.get()), List.of()));
+
 }

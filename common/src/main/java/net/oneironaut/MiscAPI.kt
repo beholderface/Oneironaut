@@ -179,8 +179,7 @@ fun isPlayerEnlightened(player : ServerPlayerEntity) : Boolean {
 }
 
 fun isUsingRod(ctx : CastingContext) : Boolean {
-    if (ctx.source.equals(CastingContext.CastSource.PACKAGED_HEX)
-        && ctx.caster.activeItem.item.equals(OneironautItemRegistry.REVERBERATION_ROD.get().asItem())
+    if (ctx.source == CastingContext.CastSource.PACKAGED_HEX && ctx.caster.activeItem.item == OneironautItemRegistry.REVERBERATION_ROD.get().asItem()
         //&& ctx.caster.getStackInHand(ctx.castingHand).equals(OneironautThingRegistry.REVERBERATION_ROD.get().asItem())
         ){
         return true

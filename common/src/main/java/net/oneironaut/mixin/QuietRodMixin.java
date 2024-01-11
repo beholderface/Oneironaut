@@ -13,7 +13,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
+import net.oneironaut.casting.RodState;
 import net.oneironaut.item.BottomlessMediaItem;
+import net.oneironaut.item.ReverberationRod;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -50,7 +52,8 @@ public abstract class QuietRodMixin {
                 return sideEffects.add(particles);
             else if (isUsingRod(ctx)){
                 //do particles every 30 ticks
-                if ((((ctx.getCaster().getWorld().getTime() - ctx.getCaster().getActiveItem().getNbt().getDouble("initialTime")) % 30.0) == 0)){
+                RodState state = ReverberationRod.getState(ctx.getCaster());
+                if ((((ctx.getCaster().getWorld().getTime() - state.getTimestamp()) % 30.0) == 0)){
                     return sideEffects.add(particles);
                 } else {
                     return false;
@@ -67,12 +70,13 @@ public abstract class QuietRodMixin {
     private SoundEvent thing(SoundEvent event){
         CastingContext ctx = oneironaut$harness.getCtx();
         if (isUsingRod(ctx)){
+            RodState state = ReverberationRod.getState(ctx.getCaster());
             ServerPlayerEntity caster = ctx.getCaster();
-            ServerWorld world = ctx.getWorld();
+            //ServerWorld world = ctx.getWorld();
             if (caster != null){
-                ItemStack activeStack = caster.getActiveItem();
+                //ItemStack activeStack = caster.getActiveItem();
                 //play cast sound every 1.5 seconds
-                if ((((caster.getWorld().getTime() - activeStack.getNbt().getDouble("initialTime")) % 30.0) == 0) || event.equals(HexEvalSounds.MISHAP.sound())){
+                if ((((caster.getWorld().getTime() - state.getTimestamp()) % 30.0) == 0) || event.equals(HexEvalSounds.MISHAP.sound())){
                     return event;
                 } else {
                     return SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME;

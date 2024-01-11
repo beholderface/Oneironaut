@@ -1,0 +1,10 @@
+{
+  "type": "hexal:freeze",
+  "blockIn": {
+    "type": "block",
+    "block": "oneironaut:thought_slurry"
+  },
+  "result": {
+    "name": "oneironaut:media_ice"
+  }
+}

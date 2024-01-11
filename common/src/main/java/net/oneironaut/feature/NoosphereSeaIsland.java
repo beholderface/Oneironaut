@@ -14,7 +14,6 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.oneironaut.block.ThoughtSlurry;
 import net.oneironaut.registry.OneironautBlockRegistry;
-import net.oneironaut.registry.OneironautItemRegistry;
 //import java.lang.reflect.Array;
 //import java.util.ArrayList;
 
@@ -33,7 +32,7 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
         Random rand = context.getRandom();
         NoosphereSeaIslandConfig config = context.getConfig();
 
-        int num = config.number();
+        int num = config.size();
         Identifier blockID = config.blockID();
 
         BlockState state = Registry.BLOCK.get(blockID).getDefaultState();

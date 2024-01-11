@@ -8,6 +8,7 @@ import at.petrak.hexcasting.api.spell.iota.NullIota
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota
 import at.petrak.hexcasting.api.utils.*
 import net.oneironaut.casting.mishaps.MishapNoRod
+import net.oneironaut.item.ReverberationRod
 import net.oneironaut.registry.OneironautItemRegistry
 
 class OpGetInitialRodState(val mode: Int) : ConstMediaAction {
@@ -18,11 +19,12 @@ class OpGetInitialRodState(val mode: Int) : ConstMediaAction {
         if (ctx.caster.activeItem.item == rod.asItem() && ctx.source == CastingContext.CastSource.PACKAGED_HEX){
             val rodStack  = ctx.caster.activeItem
             val rodNbt = rodStack.nbt
+            val state = ReverberationRod.getState(ctx.caster)
             if (rodNbt != null){
                 when(mode){
-                    1 -> return listOf(Vec3Iota(vecFromNBT(rodNbt.getLongArray("initialLook"))))
-                    2 -> return listOf(Vec3Iota(vecFromNBT(rodNbt.getLongArray("initialPos"))))
-                    3 -> return listOf(DoubleIota(rodNbt.getLong("initialTime").toDouble()))
+                    1 -> return listOf(Vec3Iota(state.initialLook))
+                    2 -> return listOf(Vec3Iota(state.initialPos))
+                    3 -> return listOf(DoubleIota(state.timestamp.toDouble()))
                 }
             } else {
                 return listOf(NullIota())
