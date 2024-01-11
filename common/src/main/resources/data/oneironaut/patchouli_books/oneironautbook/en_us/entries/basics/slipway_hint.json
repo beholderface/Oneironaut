@@ -15,8 +15,7 @@
       "images": [
         "oneironaut:textures/book/slipway_hint_image.png"
       ],
-      "text": "oneironaut.page.slipway_hint.2",
-      "title": "oneironaut.page.slipway_hint.2.title"
+      "text": "oneironaut.page.slipway_hint.2"
     }
   ]
 }

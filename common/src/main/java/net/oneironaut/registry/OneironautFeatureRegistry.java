@@ -7,6 +7,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -19,6 +20,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.oneironaut.Oneironaut;
 import net.oneironaut.feature.*;
+import ram.talia.hexal.common.lib.HexalEntities;
 
 import java.util.List;
 import java.util.Optional;
@@ -77,6 +79,8 @@ public class OneironautFeatureRegistry {
                     GenerationStep.Feature.LOCAL_MODIFICATIONS,
                     RegistryKey.of(ICE_BLOB_PLACED.getRegistryKey(), ICE_BLOB_ID)
             );
+            //wish this worked
+            //BiomeModifications.addSpawn(noosphereSeaHopefully, SpawnGroup.MISC, HexalEntities.WANDERING_WISP, 10, 1, 8);
         } else {
             Oneironaut.LOGGER.info("phooey");
         }

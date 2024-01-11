@@ -26,6 +26,16 @@
       "type": "patchouli:spotlight",
       "item": "oneironaut:pseudoamethyst_shard",
       "text": "oneironaut.page.noosphere_materials.4"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "oneironaut:media_ice",
+      "text": "oneironaut.page.noosphere_materials.5"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "oneironaut:media_gel",
+      "text": "oneironaut.page.noosphere_materials.6"
     }
   ]
 }
