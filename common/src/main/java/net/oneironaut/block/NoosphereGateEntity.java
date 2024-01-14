@@ -14,7 +14,6 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.oneironaut.registry.OneironautBlockRegistry;
-import net.oneironaut.registry.OneironautItemRegistry;
 
 import static java.lang.Math.*;
 import static net.oneironaut.MiscAPIKt.stringToWorld;
@@ -130,11 +129,12 @@ public class NoosphereGateEntity extends BlockEntity {
             }
             //maintain wisps
             RegistryKey<World> worldKey = world.getRegistryKey();
-            if (!(gateLocationMap.containsKey(worldKey))){
+            //don't do that if the current world is the noosphere, because the wisp will never check the map if it's in the noosphere and it'd be pointless lag
+            if (!(gateLocationMap.containsKey(worldKey)) && !worldKey.getValue().toString().equals("oneironaut:noosphere")){
                 Map<BlockPos, Vec3d> newMap = new HashMap<BlockPos, Vec3d>();
                 newMap.put(pos, new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
                 gateLocationMap.put(worldKey, newMap);
-            } else {
+            } else if (gateLocationMap.containsKey(worldKey)){
                 Map<BlockPos, Vec3d> existingMap = gateLocationMap.get(worldKey);
                 if (!(existingMap.containsKey(pos))){
                     existingMap.put(pos, new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));

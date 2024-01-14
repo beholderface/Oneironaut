@@ -28,19 +28,6 @@ import java.util.List;
 
 @Mixin(value = {OpBlockRaycast.class, OpBlockAxisRaycast.class})
 public abstract class BlockRaycastImmunityMixin {
-    /*@Redirect(method = "execute", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/server/world/ServerWorld;raycast(Lnet/minecraft/world/RaycastContext;)Lnet/minecraft/util/hit/BlockHitResult;"
-            , remap = true), remap = false)
-    private BlockHitResult nullIfImmune(ServerWorld world, RaycastContext raycastContext){
-        BlockHitResult unmodifiedResult = world.raycast(raycastContext);
-        if (unmodifiedResult.getType().equals(HitResult.Type.BLOCK)){
-            if (world.getBlockState(unmodifiedResult.getBlockPos()).isIn(MiscAPIKt.getBlockTagKey(new Identifier(Oneironaut.MOD_ID, "blocksraycast")))){
-                return BlockHitResult.createMissed(raycastContext.getStart(), Direction.DOWN, unmodifiedResult.getBlockPos());
-            }
-        }
-        return unmodifiedResult;
-    }*/
-
     @ModifyReturnValue(method = "execute", at = @At(value = "RETURN", remap = false), remap = false)
     private List<Iota> nullIfImmune(List<Iota> original, @Local CastingContext ctx, @Local BlockHitResult hit){
         if (original.get(0) instanceof Vec3Iota vec3){
