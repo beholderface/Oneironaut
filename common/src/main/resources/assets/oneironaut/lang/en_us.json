@@ -148,7 +148,7 @@
   "oneironaut.page.raycast_assailant.1": "By \"threading\" pseudoamethyst through a block, I can create something which causes any raycast (including entity raycasts) that hits or passes through it to return null, as if it didn't hit anything.",
   "oneironaut.page.raycast_assailant.3": "Strangely, combining pseudoamethyst with obsidian in the same way does not confer anti-raycast properties, instead making it nigh-indestructible to hexes. However, the resultant block loses much of its durability, being no stronger than common stone (though it retains its blast resistance).",
   "oneironaut.page.status_iotas.1": "These patterns work with a type of iota that represents lingering effects on a creature, which can allow me to asses the state of a creature more thoroughly than with only Nurse's Purification.$(br)While my research suggests that status iotas representing instantaneous effects are possible, they would be very difficult to obtain, and I cannot think of any use case for them at the moment.",
-  "oneironaut.page.status_iotas.2": "Accepts a living entity, and returns a list status iotas representing all effects on the target.",
+  "oneironaut.page.status_iotas.2": "Accepts a living entity, and returns a list of status iotas representing all effects on the target.",
   "oneironaut.page.status_iotas.3": "Accepts a status effect type, and returns a number based on whether the effect is likely to be helpful, harmful, or neutral to a creature.",
   "oneironaut.page.status_iotas.4": "Accepts an entity and a status effect type, and returns the effect on the target's duration in seconds.",
   "oneironaut.page.status_iotas.5": "Accepts an entity and a status effect type, and returns the effect on the target's potency.",

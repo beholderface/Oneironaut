@@ -30,15 +30,6 @@
   ],
   "precipitation": "none",
   "spawn_costs": {},
-  "spawners": {
-    "creature": [
-      {
-        "type": "hexal:wisp/wandering",
-        "maxCount": 8,
-        "minCount": 4,
-        "weight": 10
-      }
-    ]
-  },
+  "spawners": {},
   "temperature": 0.2
 }
