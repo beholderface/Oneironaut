@@ -15,7 +15,7 @@ import dev.onyxstudios.cca.api.v3.item.ItemComponent;
 
 @Mixin(CCMediaHolder.ItemBased.class)
 public class BottomlessMediaPriorityMixin {
-    @Shadow @Final private MediaHolderItem mediaHolder;
+    @Shadow(remap = false) @Final private MediaHolderItem mediaHolder;
     /*@Unique
     private final CCMediaHolder holder = (CCMediaHolder) (Object) this;*/
 

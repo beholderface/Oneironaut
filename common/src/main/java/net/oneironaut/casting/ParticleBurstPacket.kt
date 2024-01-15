@@ -11,6 +11,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
+import net.oneironaut.Oneironaut
 import ram.talia.hexal.api.nextColour
 
 
@@ -35,7 +36,7 @@ class ParticleBurstPacket(val origin : Vec3d, val direction : Vec3d, val posRand
 
     companion object {
         @JvmField
-        val ID: Identifier = modLoc("particleburst")
+        val ID: Identifier = Identifier(Oneironaut.MOD_ID, "particleburst")
 
         @JvmStatic
         fun deserialise(buffer: ByteBuf): ParticleBurstPacket {

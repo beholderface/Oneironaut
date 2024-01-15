@@ -55,12 +55,14 @@ public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
         @ConfigEntry.Gui.CollapsibleObject
         private MiscConfig miscConfig = new MiscConfig();
 
+
         static class MiscConfig {
             int ideaLifetime = DEFAULT_IDEA_LIFETIME;
             boolean planeShiftOtherPlayers = DEFAULT_ALLOW_PLANESHIFT_OTHERS;
             //boolean reduceEverbookLogSpam = DEFAULT_REDUCE_EVERBOOK_SPAM;
             boolean swapRequiresNoosphere = DEFAULT_SWAP_NOOSPHERE;
             boolean swapSwapsBEs = DEFAULT_SWAP_BES;
+            boolean impulseRedirectsFireball = DEFAULT_REDIRECT_FIREBALL;
         }
         @Override
         public boolean getPlaneShiftOtherPlayers() {
@@ -97,6 +99,11 @@ public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
         @Override
         public boolean getSwapSwapsBEs() {
             return miscConfig.swapSwapsBEs;
+        }
+
+        @Override
+        public boolean getImpulseRedirectsFireball() {
+            return miscConfig.impulseRedirectsFireball;
         }
 
         private static boolean isValidID(Object o) {

@@ -3,21 +3,28 @@ package net.oneironaut;
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.event.CompoundEventResult;
-import dev.architectury.event.Event;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.TickEvent;
-import dev.architectury.platform.Platform;
-import net.minecraft.item.Item;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.s2c.play.EntityS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.oneironaut.casting.IdeaInscriptionManager;
 import net.oneironaut.item.BottomlessMediaItem;
 import net.oneironaut.registry.*;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static net.minecraft.server.command.CommandManager.literal;
 
@@ -49,8 +56,9 @@ public class Oneironaut {
             //SentinelTracker sentinelState = SentinelTracker.getServerState(startedserver);
         });
 
-        TickEvent.SERVER_PRE.register((server) -> BottomlessMediaItem.time = server.getOverworld().getTime());
-
+        TickEvent.SERVER_PRE.register((server) -> {
+            BottomlessMediaItem.time = server.getOverworld().getTime();
+        });
 
         ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
         InteractionEvent.RIGHT_CLICK_ITEM.register((player, hand) -> {

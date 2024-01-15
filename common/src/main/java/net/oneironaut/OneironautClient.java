@@ -2,6 +2,7 @@ package net.oneironaut;
 
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
+import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -9,14 +10,20 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.oneironaut.block.ThoughtSlurry;
 import net.oneironaut.item.ReverberationRod;
 import net.oneironaut.registry.OneironautBlockRegistry;
 import net.oneironaut.registry.OneironautItemRegistry;
 
+import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Common client loading entrypoint.

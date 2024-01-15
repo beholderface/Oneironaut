@@ -37,6 +37,7 @@ public class WispLanternEntity extends BlockEntity {
         } else {
             color = IXplatAbstractions.INSTANCE.getColorizer(player);
         }
+
     }
 
     @Override

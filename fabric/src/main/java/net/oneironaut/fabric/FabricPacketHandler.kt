@@ -5,6 +5,8 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.network.PacketByteBuf
+import net.oneironaut.casting.FireballUpdatePacket
+import net.oneironaut.casting.ItemUpdatePacket
 import net.oneironaut.casting.ParticleBurstPacket
 import java.util.function.Consumer
 import java.util.function.Function
@@ -12,6 +14,8 @@ import java.util.function.Function
 object FabricPacketHandler {
     fun initClientBound(){
         ClientPlayNetworking.registerGlobalReceiver(ParticleBurstPacket.ID, makeClientBoundHandler(ParticleBurstPacket::deserialise, ParticleBurstPacket::handle))
+        ClientPlayNetworking.registerGlobalReceiver(FireballUpdatePacket.ID, makeClientBoundHandler(FireballUpdatePacket::deserialise, FireballUpdatePacket::handle))
+        ClientPlayNetworking.registerGlobalReceiver(ItemUpdatePacket.ID, makeClientBoundHandler(ItemUpdatePacket::deserialise, ItemUpdatePacket::handle))
     }
 
     private fun <T> makeClientBoundHandler(decoder: Function<PacketByteBuf, T>, handler: Consumer<T>): ClientPlayNetworking.PlayChannelHandler {

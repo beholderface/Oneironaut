@@ -12,6 +12,7 @@
     "BlockRaycastImmunityMixin",
     "BrainsweepTargetMixin",
     "EntityRaycastImmunityMixin",
+    "ImpulseRedirectFireballMixin",
     "NoosphereWispMixin",
     "OpBreakBlockImmunityMixin",
     "QuietRodMixin",

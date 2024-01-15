@@ -7,15 +7,15 @@ import at.petrak.hexcasting.api.spell.SpellAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.getEntity
 import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.EnchantmentLevelEntry
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.Entity
-import net.minecraft.entity.decoration.ItemFrameEntity
 import net.minecraft.item.EnchantedBookItem
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtList
+import net.oneironaut.casting.ItemUpdatePacket
 import net.oneironaut.casting.mishaps.MishapMissingEnchant
 import net.oneironaut.registry.OneironautMiscRegistry
 import ram.talia.hexal.api.getItemEntityOrItemFrame
@@ -42,7 +42,7 @@ class OpApplyOvercastDamage : SpellAction {
                 throw MishapMissingEnchant(stack, Enchantments.SHARPNESS)
             }
             return Triple(
-                Spell(stack, level, true, stackEnchants),
+                Spell(stack, level, true, stackEnchants, holder),
                 (level.toDouble().pow(2) * MediaConstants.CRYSTAL_UNIT * 15).toInt(),
                 listOf(ParticleSpray.cloud(holder.pos, 2.0))
             )
@@ -55,14 +55,14 @@ class OpApplyOvercastDamage : SpellAction {
                 throw MishapMissingEnchant(stack, Enchantments.SHARPNESS)
             }
             return Triple(
-                Spell(stack, level, false, stackEnchants),
+                Spell(stack, level, false, stackEnchants, holder),
                 (level.toDouble().pow(2) * MediaConstants.CRYSTAL_UNIT * 10).toInt(),
                 listOf(ParticleSpray.cloud(holder.pos, 2.0))
             )
         }
     }
 
-    private data class Spell(val stack : ItemStack, val level : Int, val book : Boolean, val existingEnchantments : Map<Enchantment, Int>) : RenderedSpell{
+    private data class Spell(val stack : ItemStack, val level : Int, val book : Boolean, val existingEnchantments : Map<Enchantment, Int>, val holder : Entity) : RenderedSpell{
         override fun cast(ctx: CastingContext) {
             val overcastdamage = OneironautMiscRegistry.OVERCAST_DAMAGE_ENCHANT.get()
             val enchantsToKeep = HashMap<Enchantment, Int>()
@@ -89,6 +89,7 @@ class OpApplyOvercastDamage : SpellAction {
                     stack.addEnchantment(it.key, it.value)
                 }
             }
+            IXplatAbstractions.INSTANCE.sendPacketNear(stack.holder?.pos, 128.0, ctx.world, ItemUpdatePacket(stack, holder))
         }
 
     }
