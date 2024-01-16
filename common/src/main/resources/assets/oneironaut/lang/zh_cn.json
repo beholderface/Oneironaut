@@ -148,7 +148,7 @@
   "oneironaut.page.raycast_assailant.1": "往方块中“织入”伪紫水晶，产物便能令抵达或穿过其的射线追踪（对实体的射线追踪也有效）返回 Null，就好像射线追踪没有检测到任何事物一样。",
   "oneironaut.page.raycast_assailant.3": "奇怪的是，以同种方式加工伪紫水晶和黑曜石的产物不具备阻碍射线追踪的能力，而是变得近乎无法被咒术摧毁。However, the resultant block loses much of its durability, being no stronger than common stone (though it retains its blast resistance).",
   "oneironaut.page.status_iotas.1": "这些图案主要操作代表生物身上长时效果的 iota，我可以用这些图案评估生物的状态，比只用护士之纯化更加深入彻底。$(br)虽然我的研究表明代表瞬时效果的状态 iota 也可能存在，但非常难以获取，而且我目前没想到任何有关用途。",
-  "oneironaut.page.status_iotas.2": "接受一个生物，并返回目标当前所有效果组成的 iota。",
+  "oneironaut.page.status_iotas.2": "接受一个生物，并返回目标当前所有效果组成的列表 iota。",
   "oneironaut.page.status_iotas.3": "接受一个状态效果，并根据该效果对生物产生正面、负面，或中性影响返回一个数。",
   "oneironaut.page.status_iotas.4": "接受一个实体和一个状态效果，并返回目标身上所给状态效果的持续时间，以秒计。",
   "oneironaut.page.status_iotas.5": "接受一个实体和一个状态效果，并返回目标身上所给状态效果的强度。",
