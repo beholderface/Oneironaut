@@ -19,6 +19,7 @@ import net.minecraft.state.property.Properties
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
@@ -26,6 +27,7 @@ import net.minecraft.world.StructureWorldAccess
 import net.oneironaut.registry.*
 import ram.talia.hexal.common.lib.HexalBlocks
 import java.util.*
+import kotlin.math.absoluteValue
 
 fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
@@ -186,6 +188,40 @@ fun isUsingRod(ctx : CastingContext) : Boolean {
     } else {
         return false
     }
+}
+
+fun getPositionsInCuboid(corner1 : BlockPos, corner2 : BlockPos, pointsToExclude : List<BlockPos>) : List<BlockPos>{
+    val cuboid = Box(corner1, corner2)
+    val lowerCorner = BlockPos(cuboid.minX, cuboid.minY, cuboid.minZ)
+    val outputList : MutableList<BlockPos> = mutableListOf()
+    var currentPos : BlockPos
+    for (i in 0 .. cuboid.xLength.toInt()){
+        for (j in 0 .. cuboid.yLength.toInt()){
+            for (k in 0 .. cuboid.zLength.toInt()){
+                currentPos = lowerCorner.add(i, j, k)
+                if (!pointsToExclude.contains(currentPos)){
+                    outputList.add(currentPos)
+                }
+            }
+        }
+    }
+    return outputList.toList()
+}
+
+fun getPositionsInCuboid(corner1 : BlockPos, corner2 : BlockPos, pointToExclude : BlockPos) : List<BlockPos>{
+    return getPositionsInCuboid(corner1, corner2, listOf(pointToExclude))
+}
+
+fun getPositionsInCuboid(corner1 : BlockPos, corner2 : BlockPos) : List<BlockPos>{
+    return getPositionsInCuboid(corner1, corner2, listOf(corner2.add((corner1.x - corner2.x).absoluteValue + 20, 0, 0)))
+}
+
+fun getBoxCorners(box : Box) : List<Vec3d>{
+    return listOf(Vec3d(box.minX, box.minY, box.minZ), Vec3d(box.maxX, box.minY, box.minZ),
+        Vec3d(box.maxX, box.maxY, box.minZ), Vec3d(box.maxX, box.maxY, box.maxZ),
+        Vec3d(box.minX, box.maxY, box.maxZ), Vec3d(box.minX, box.minY, box.maxZ),
+        Vec3d(box.maxX, box.minY, box.maxZ), Vec3d(box.minX, box.maxY, box.minZ)
+    )
 }
 
 //tried to write a smoother way to keep important blockstate values, didn't work

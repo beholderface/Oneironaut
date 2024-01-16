@@ -49,6 +49,7 @@ public class OneironautClient {
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CIRCLE.get(), RenderLayer.getCutout());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.RAYCAST_BLOCKER_GLASS.get(), RenderLayer.getTranslucent());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.MEDIA_GEL.get(), RenderLayer.getTranslucent());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CELL.get(), RenderLayer.getTranslucent());
         } else {
             Oneironaut.LOGGER.info("oh no, forge, aaaaaaaaaaaa");
         }

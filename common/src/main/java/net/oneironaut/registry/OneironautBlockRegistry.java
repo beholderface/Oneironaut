@@ -59,7 +59,9 @@ public class OneironautBlockRegistry {
             .velocityMultiplier(0.05f).jumpVelocityMultiplier(0.25f).mapColor(MapColor.PALE_PURPLE).sounds(BlockSoundGroup.SLIME).nonOpaque()
     ));
     //will eventually do something related to cellular automata, and be related to the media gel
-    public static final RegistrySupplier<CellularController> CELLULAR_CONTROLLER = BLOCKS.register("cellular_controller", ()-> new CellularController(AbstractBlock.Settings.of(Material.ORGANIC_PRODUCT)));
-    public static final RegistrySupplier<BlockEntityType<CellularControllerEntity>> CELLULAR_CONTROLLER_ENTITY = BLOCK_ENTITIES.register("cellular_controller_entity", () -> BlockEntityType.Builder.create(CellularControllerEntity::new, CELLULAR_CONTROLLER.get()).build(null));
+    public static final RegistrySupplier<CellBlock> CELL = BLOCKS.register("cell", ()-> new CellBlock(AbstractBlock.Settings.copy(Blocks.SLIME_BLOCK)
+            .velocityMultiplier(0.05f).jumpVelocityMultiplier(0.25f).mapColor(MapColor.PALE_PURPLE).sounds(BlockSoundGroup.SLIME).nonOpaque()
+    ));
+    public static final RegistrySupplier<BlockEntityType<CellEntity>> CELL_ENTITY = BLOCK_ENTITIES.register("cell_entity", () -> BlockEntityType.Builder.create(CellEntity::new, CELL.get()).build(null));
 
 }

@@ -22,12 +22,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
-import net.oneironaut.Oneironaut
-import net.oneironaut.OneironautConfig
+import net.oneironaut.*
 import net.oneironaut.casting.mishaps.MishapBadCuboid
 import net.oneironaut.casting.mishaps.MishapNoNoosphere
-import net.oneironaut.getBlockTagKey
-import net.oneironaut.getDimIota
 import kotlin.math.abs
 
 class OpSwapSpace : SpellAction {
@@ -59,11 +56,12 @@ class OpSwapSpace : SpellAction {
         val destCuboidCorner2 = BlockPos((destWorldCuboid.getAt(1) as Vec3Iota).vec3)
         val originBox = Box(BlockPos(originCuboidCorner1), BlockPos(originCuboidCorner2))
         val destBox = Box(BlockPos(destCuboidCorner1), BlockPos(destCuboidCorner2))
-        val boxCorners = arrayOf(Vec3d(originBox.minX, originBox.minY, originBox.minZ), Vec3d(originBox.maxX, originBox.minY, originBox.minZ),
+        /*val boxCorners = arrayOf(Vec3d(originBox.minX, originBox.minY, originBox.minZ), Vec3d(originBox.maxX, originBox.minY, originBox.minZ),
             Vec3d(originBox.maxX, originBox.maxY, originBox.minZ), Vec3d(originBox.maxX, originBox.maxY, originBox.maxZ),
             Vec3d(originBox.minX, originBox.maxY, originBox.maxZ), Vec3d(originBox.minX, originBox.minY, originBox.maxZ),
             Vec3d(originBox.maxX, originBox.minY, originBox.maxZ), Vec3d(originBox.minX, originBox.maxY, originBox.minZ)
-            )
+            )*/
+        val boxCorners = getBoxCorners(originBox)
         boxCorners.iterator().forEachRemaining {
             ctx.assertVecInRange(it)
         }
