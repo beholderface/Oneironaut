@@ -3,18 +3,19 @@ package net.oneironaut.casting.cell;
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.iota.Iota;
+import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
 import at.petrak.hexcasting.api.spell.mishaps.Mishap;
+import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.explosion.Explosion;
-import net.minecraft.world.explosion.ExplosionBehavior;
-import net.oneironaut.Oneironaut;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class OpCellExplosion implements ICellSpell{
     public static final String[][] explosionPattern = {{
@@ -29,13 +30,8 @@ public class OpCellExplosion implements ICellSpell{
             "C   C",
             " C C ",
             "  C  ",
-    }, {
-        //so, this "plane" would be the same as the above one
-        "1"
-    }, {"1" }, {"1" }, {"1" }, {"1" }, {"1" }, {
-        //and this one is the same as the first
-        "0"
-    }};
+    }, {"1"}, {"1"}, {"1"}, {"1"}, {"1"}, {"1"}, {"0"}
+    };
 
     private final String[][] rawPattern;
     private List<BlockPos> pattern;// = new ArrayList<>();
@@ -83,13 +79,24 @@ public class OpCellExplosion implements ICellSpell{
         return this.cost;
     }
 
-    public @NotNull Pair<Integer, @Nullable Mishap> evaluateConditions(CastingContext ctx, List<Iota> args, Box bounds) {
+    public @NotNull Pair<Integer, @Nullable Mishap> evaluateConditions(CastingContext ctx, List<Iota> capturedArgs, Box bounds) {
         //Oneironaut.LOGGER.info("eval method sucessfully called");
+        Optional<Iota> target = CellSpellManager.getOptionalIota(capturedArgs, 0, Vec3Iota.TYPE);
+        if (target.isPresent()){
+            Vec3Iota vector = (Vec3Iota) target.get();
+            if(!ctx.isVecInRange(vector.getVec3())){
+                return new Pair<>(this.cost, new MishapLocationTooFarAway(vector.getVec3(), (String) null/*??? why does the normal assertVecInRange method use this cast*/));
+            }
+        }
         return new Pair<>(this.cost, null);
     }
-    public @Nullable Mishap execute(CastingContext ctx, List<Iota> processedArgs, Box bounds, BlockPos corner) {
+    public @Nullable Mishap execute(CastingContext ctx, List<Iota> capturedArgs, Box bounds, BlockPos corner) {
         //Oneironaut.LOGGER.info("execute method sucessfully called");
         Vec3d targetPoint = ctx.getCaster().getPos().add(ctx.getCaster().getEyePos()).multiply(0.5);
+        Optional<Iota> possibleTarget = CellSpellManager.getOptionalIota(capturedArgs, 0, Vec3Iota.TYPE);
+        if (possibleTarget.isPresent()){
+            targetPoint = ((Vec3Iota) possibleTarget.get()).getVec3();
+        }
         ctx.getWorld().createExplosion(ctx.getCaster(), targetPoint.x, targetPoint.y, targetPoint.z, 20, false, Explosion.DestructionType.BREAK);
         return null;
     }

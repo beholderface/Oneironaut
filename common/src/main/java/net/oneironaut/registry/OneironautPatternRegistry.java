@@ -21,14 +21,11 @@ import net.minecraft.util.Identifier;
 import net.oneironaut.casting.patterns.rod.OpDelayRod;
 import net.oneironaut.casting.patterns.rod.OpGetInitialRodState;
 import net.oneironaut.casting.patterns.rod.OpHaltRod;
-import net.oneironaut.casting.patterns.spells.OpAdvanceAutomaton;
-import net.oneironaut.casting.patterns.spells.OpCircle;
-import net.oneironaut.casting.patterns.spells.OpParticleBurst;
+import net.oneironaut.casting.patterns.spells.*;
 import net.oneironaut.casting.patterns.spells.great.*;
 import net.oneironaut.casting.patterns.spells.idea.OpGetIdeaTimestamp;
 import net.oneironaut.casting.patterns.spells.idea.OpGetIdeaWriter;
 import net.oneironaut.casting.patterns.spells.idea.OpReadIdea;
-import net.oneironaut.casting.patterns.spells.OpSplatoon;
 import net.oneironaut.casting.patterns.spells.idea.OpWriteIdea;
 import net.oneironaut.casting.patterns.status.*;
 
@@ -72,8 +69,8 @@ public class OneironautPatternRegistry {
     public static HexPattern CIRCLE = register(HexPattern.fromAngles("wwwwwwqwwwwwwqwwwwwwqwwwwwwqwwwwwwqwwwwww", HexDir.SOUTH_EAST), "circle", new OpCircle());
     public static HexPattern REMOVE_STATUS = register(HexPattern.fromAngles("eeeeedaqdewed", HexDir.SOUTH_WEST), "removestatus", new OpRemoveStatus());
     //it's supposed to look like a classic game of life glider
-    public static HexPattern ADVANCE_AUTOMATON = register(HexPattern.fromAngles("qqwqwqwaqeee", HexDir.SOUTH_WEST), "advanceautomaton", new OpAdvanceAutomaton(false));
-    public static HexPattern TRIGGER_AUTOMATON = register(HexPattern.fromAngles("eewewewdeqqq", HexDir.SOUTH_EAST), "triggerautomaton", new OpAdvanceAutomaton(true));
+    public static HexPattern ADVANCE_AUTOMATON = register(HexPattern.fromAngles("qqwqwqwaqeee", HexDir.SOUTH_WEST), "advanceautomaton", new OpAdvanceAutomaton());
+    public static HexPattern TRIGGER_AUTOMATON = register(HexPattern.fromAngles("eewewewdeqqq", HexDir.SOUTH_EAST), "triggerautomaton", new OpTriggerAutomaton(true));
 
     /*dang you hexdoc
     public static HexPattern CRAFT_ROD = register(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST), "craftrod", new OpMakePackagedSpell<>((ItemPackagedHex) OneironautThingRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT*/

@@ -1,6 +1,8 @@
 package net.oneironaut.casting.cell;
 
 import at.petrak.hexcasting.api.spell.casting.CastingContext;
+import at.petrak.hexcasting.api.spell.iota.Iota;
+import at.petrak.hexcasting.api.spell.iota.IotaType;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -128,5 +130,14 @@ public class CellSpellManager {
             }
         }
         return output;
+    }
+    public static Optional<Iota> getOptionalIota(List<Iota> args, int index, IotaType<?> type){
+        if (args.size() - 1 >= index){
+            Iota iota = args.get(index);
+            if (iota.getType().equals(type)){
+                return Optional.of(iota);
+            }
+        }
+        return Optional.empty();
     }
 }
