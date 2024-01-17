@@ -12,7 +12,7 @@ class MishapUnhappySlime(val mishap : Mishap) : Mishap() {
     override fun accentColor(ctx: CastingContext, errorCtx: Context): FrozenColorizer = dyeColor(DyeColor.PURPLE)
 
     override fun errorMessage(ctx: CastingContext, errorCtx: Context): Text {
-        return error("oneironaut:unhappyslime", mishap.errorMessage(ctx, errorCtx).string)
+        return error("oneironaut:unhappyslime", mishap.errorMessage(ctx, errorCtx))
     }
 
     override fun execute(ctx: CastingContext, errorCtx: Context, stack: MutableList<Iota>) {

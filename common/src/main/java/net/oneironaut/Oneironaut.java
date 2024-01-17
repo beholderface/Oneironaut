@@ -92,6 +92,13 @@ public class Oneironaut {
         //IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState()
     }
 
+    //for easily toggling whether several things should be logged without having to search through the whole file
+    public static void boolLogger(String str, boolean bool){
+        if (bool){
+            LOGGER.info(str);
+        }
+    }
+
     /**
      * Shortcut for identifiers specific to this mod.
      */

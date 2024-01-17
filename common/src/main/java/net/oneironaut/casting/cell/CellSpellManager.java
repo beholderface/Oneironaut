@@ -88,7 +88,7 @@ public class CellSpellManager {
                 for (y = 0; y </*= (y1) - */y2; y++, i++){
                     for (z = 0; z </*= (z1) - */z2; z++, i++){
                         foundPattern = cellsInBox(world, spellBox.offset(lowerCorner.add(x, y, z)));
-                        Oneironaut.LOGGER.info("Pattern tested on iteration " + i +": " + foundPattern.toString() + " (" + foundPattern.size() + " blocks)");
+                        //Oneironaut.LOGGER.info("Pattern tested on iteration " + i +": " + foundPattern.toString() + " (" + foundPattern.size() + " blocks)");
                         if (foundPattern.equals(spell.getPattern())){
                             return new Pair<>(lowerCorner.add(x,y,z), spell);
                         }

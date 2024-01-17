@@ -14,7 +14,6 @@ import net.oneironaut.getBoxCorners
 import net.oneironaut.getPositionsInCuboid
 import net.oneironaut.registry.OneironautBlockRegistry
 
-//processCellPattern will eventually be used to tell the spell that it should check the automaton cuboid for patterns that trigger special effects
 class OpAdvanceAutomaton : SpellAction {
     override val argc = 2
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {

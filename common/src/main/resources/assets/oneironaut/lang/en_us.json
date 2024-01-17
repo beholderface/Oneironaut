@@ -214,7 +214,7 @@
   "hexcasting.mishap.oneironaut:norod": "Expected a Reverberation Rod in hand.",
   "hexcasting.mishap.oneironaut:missingeffect": "Expected %s to be affected by %s, but they are not.",
   "hexcasting.mishap.oneironaut:missingenchant": "Expected %s to be enchanted with %s, but it is not.",
-  "hexcasting.mishap.oneironaut:unhappyslime": "The slime says %s",
+  "hexcasting.mishap.oneironaut:unhappyslime": "The slime says \"%s\"",
   "oneironaut.mishap.noitemframe": "an item frame",
   "oneironaut.mishap.novecorentity": "a vector or player",
   "oneironaut.mishap.unenlightenedtarget": "an enlightened player",

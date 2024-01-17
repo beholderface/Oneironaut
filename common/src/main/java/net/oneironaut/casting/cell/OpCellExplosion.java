@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.explosion.Explosion;
+import net.oneironaut.Oneironaut;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,11 +84,18 @@ public class OpCellExplosion implements ICellSpell{
         //Oneironaut.LOGGER.info("eval method sucessfully called");
         Optional<Iota> target = CellSpellManager.getOptionalIota(capturedArgs, 0, Vec3Iota.TYPE);
         if (target.isPresent()){
+            //Oneironaut.LOGGER.info("target present");
             Vec3d vector = ((Vec3Iota) target.get()).getVec3();
-            ctx.assertVecInRange(vector);
+            //ctx.assertVecInRange(vector);
+            //Oneironaut.LOGGER.info("target point: " + vector.toString() + ", squared distance to caster is " + vector.squaredDistanceTo(ctx.getCaster().getEyePos()));
             if(!ctx.isVecInRange(vector)){
-                return new Pair<>(this.cost, new MishapLocationTooFarAway(vector, (String) null/*??? why does the normal assertVecInRange method use this cast*/));
+                //Oneironaut.LOGGER.info("target out of range");
+                return new Pair<>(this.cost, new MishapLocationTooFarAway(vector, "too_far"));
+            } else {
+                //Oneironaut.LOGGER.info("target in range");
             }
+        } else {
+            //Oneironaut.LOGGER.info("no target present");
         }
         return new Pair<>(this.cost, null);
     }
