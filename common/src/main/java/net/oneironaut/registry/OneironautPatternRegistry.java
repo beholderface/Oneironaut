@@ -12,6 +12,10 @@ import kotlin.Triple;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.oneironaut.Oneironaut;
+import net.oneironaut.casting.cell.OpCellExplosion;
+import net.oneironaut.casting.cell.CellSpellManager;
+import net.oneironaut.casting.cell.ICellSpell;
+import net.oneironaut.casting.cell.OpCellHeal;
 import net.oneironaut.casting.patterns.*;
 import net.minecraft.util.Identifier;
 import net.oneironaut.casting.patterns.rod.OpDelayRod;
@@ -69,6 +73,7 @@ public class OneironautPatternRegistry {
     public static HexPattern REMOVE_STATUS = register(HexPattern.fromAngles("eeeeedaqdewed", HexDir.SOUTH_WEST), "removestatus", new OpRemoveStatus());
     //it's supposed to look like a classic game of life glider
     public static HexPattern ADVANCE_AUTOMATON = register(HexPattern.fromAngles("qqwqwqwaqeee", HexDir.SOUTH_WEST), "advanceautomaton", new OpAdvanceAutomaton(false));
+    public static HexPattern TRIGGER_AUTOMATON = register(HexPattern.fromAngles("eewewewdeqqq", HexDir.SOUTH_EAST), "triggerautomaton", new OpAdvanceAutomaton(true));
 
     /*dang you hexdoc
     public static HexPattern CRAFT_ROD = register(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST), "craftrod", new OpMakePackagedSpell<>((ItemPackagedHex) OneironautThingRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT*/
@@ -82,6 +87,12 @@ public class OneironautPatternRegistry {
     public static HexPattern APPLY_MIND_RENDER = registerPerWorld(HexPattern.fromAngles("qweqadeqadeqadqqqwdaqedaqedaqeqaqdwawdwawdwaqawdwawdwawddwwwwwqdeddw", HexDir.EAST), "applymindrender", new OpApplyOvercastDamage());
 
 
+    //cell spells
+    public static List<Triple<String[][], Identifier, ICellSpell>> CELL_PATTERNS = new ArrayList<>();
+
+    public static String[][] CELL_EXPLOSION = registerCellSpell(OpCellExplosion.explosionPattern, "explosion", new OpCellExplosion(OpCellExplosion.explosionPattern, "oneironaut.cellspell.explosion"));
+    public static String[][] CELL_HEAL = registerCellSpell(OpCellHeal.line, "heal", new OpCellHeal(OpCellHeal.line, "oneironaut.cellspell.heal"));
+
     public static void init() {
         try {
             for (Triple<HexPattern, Identifier, Action> patternTriple : PATTERNS) {
@@ -89,6 +100,9 @@ public class OneironautPatternRegistry {
             }
             for (Triple<HexPattern, Identifier, Action> patternTriple : PER_WORLD_PATTERNS) {
                 PatternRegistry.mapPattern(patternTriple.getFirst(), patternTriple.getSecond(), patternTriple.getThird(), true);
+            }
+            for (Triple<String[][], Identifier, ICellSpell> cellTriple : CELL_PATTERNS){
+                CellSpellManager.registerCellSpell(cellTriple.getFirst(), cellTriple.getSecond(), cellTriple.getThird());
             }
         } catch (PatternRegistry.RegisterPatternException e) {
             e.printStackTrace();
@@ -134,5 +148,11 @@ public class OneironautPatternRegistry {
     @FunctionalInterface
     public static interface UncheckedPatternRegister{
         public void register() throws PatternRegistry.RegisterPatternException;
+    }
+
+    private static String[][] registerCellSpell(String[][] pattern, String name, ICellSpell spell){
+        Triple<String[][], Identifier, ICellSpell> triple = new Triple<>(pattern, id(name), spell);
+        CELL_PATTERNS.add(triple);
+        return pattern;
     }
 }
