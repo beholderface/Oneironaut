@@ -70,20 +70,20 @@ public class CellSpellManager {
             boolean canFit = boxCanFit(bounds, spellBox);
             if (canFit){
                 possibleSpells.add(spell);
-                Oneironaut.LOGGER.info("Box for " + spell.getTranslationKey() + " can fit in checked zone.");
+                //Oneironaut.LOGGER.info("Box for " + spell.getTranslationKey() + " can fit in checked zone.");
             } else {
-                Oneironaut.LOGGER.info("Box for " + spell.getTranslationKey() + " cannot fit in checked zone.");
+                //Oneironaut.LOGGER.info("Box for " + spell.getTranslationKey() + " cannot fit in checked zone.");
             }
         }
         for (ICellSpell spell : possibleSpells){
-            Oneironaut.LOGGER.info("Checking box for " + spell.getTranslationKey());
+            //Oneironaut.LOGGER.info("Checking box for " + spell.getTranslationKey());
             Box spellBox = spell.getBoundingBox();
             List<BlockPos> foundPattern = null;
             //iterate over all possible positions for the pattern box
             int x = 0, y = 0, z = 0, i = 1;
             double x1 = bounds.getXLength(), y1 = bounds.getYLength(), z1 = bounds.getZLength();
             double x2 = spellBox.getXLength(), y2 = spellBox.getYLength(), z2 = spellBox.getZLength();
-            Oneironaut.LOGGER.info("{} - {}, {} - {}, {} - {}", x1, x2, y1, y2, z1, z2);
+            //Oneironaut.LOGGER.info("{} - {}, {} - {}, {} - {}", x1, x2, y1, y2, z1, z2);
             for (x = 0; x </*= (x1) - */x2; x++, i++){
                 for (y = 0; y </*= (y1) - */y2; y++, i++){
                     for (z = 0; z </*= (z1) - */z2; z++, i++){
@@ -111,8 +111,8 @@ public class CellSpellManager {
         List<BlockPos> output = new ArrayList<>();
         BlockPos lowerCorner = new BlockPos(bounds.minX, bounds.minY, bounds.minZ);
         BlockPos upperCorner = new BlockPos(bounds.maxX, bounds.maxY, bounds.maxZ);
-        Oneironaut.LOGGER.info("lower corner: " + lowerCorner.toShortString());
-        Oneironaut.LOGGER.info("upper corner: " + upperCorner.toShortString());
+        //Oneironaut.LOGGER.info("lower corner: " + lowerCorner.toShortString());
+        //Oneironaut.LOGGER.info("upper corner: " + upperCorner.toShortString());
         for (int y = 0; y < bounds.getYLength(); y++){
             for (int z = 0; z < bounds.getZLength(); z++){
                 for (int x = 0; x < bounds.getXLength(); x++){

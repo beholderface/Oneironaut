@@ -4,11 +4,13 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.spell.*
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.oneironaut.casting.cell.CellSpellManager
 import net.oneironaut.casting.cell.ICellSpell
+import net.oneironaut.casting.mishaps.MishapUnhappySlime
 import net.oneironaut.getBoxCorners
 import net.oneironaut.getPositionsInCuboid
 import net.oneironaut.registry.OneironautBlockRegistry
@@ -31,9 +33,10 @@ class OpTriggerAutomaton(val processCellPattern : Boolean) : SpellAction {
             if (cellSpell != null){
                 val cellSpellConditions = cellSpell.second.evaluateConditions(ctx, args, box);
                 cellSpellCost = cellSpellConditions.first
-                if (cellSpellConditions.second != null){
-                    //mishap if the cell spell says to mishap
-                    throw cellSpellConditions.second!!
+                val mishap = cellSpellConditions.second
+                //mishap if the cell spell says to mishap
+                if (mishap != null){
+                    throw MishapUnhappySlime(mishap)
                 }
                 //Oneironaut.LOGGER.info("pattern found: " + cellSpell.second.translationKey)
             } else {

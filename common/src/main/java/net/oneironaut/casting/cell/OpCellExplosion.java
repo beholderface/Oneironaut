@@ -83,9 +83,10 @@ public class OpCellExplosion implements ICellSpell{
         //Oneironaut.LOGGER.info("eval method sucessfully called");
         Optional<Iota> target = CellSpellManager.getOptionalIota(capturedArgs, 0, Vec3Iota.TYPE);
         if (target.isPresent()){
-            Vec3Iota vector = (Vec3Iota) target.get();
-            if(!ctx.isVecInRange(vector.getVec3())){
-                return new Pair<>(this.cost, new MishapLocationTooFarAway(vector.getVec3(), (String) null/*??? why does the normal assertVecInRange method use this cast*/));
+            Vec3d vector = ((Vec3Iota) target.get()).getVec3();
+            ctx.assertVecInRange(vector);
+            if(!ctx.isVecInRange(vector)){
+                return new Pair<>(this.cost, new MishapLocationTooFarAway(vector, (String) null/*??? why does the normal assertVecInRange method use this cast*/));
             }
         }
         return new Pair<>(this.cost, null);
