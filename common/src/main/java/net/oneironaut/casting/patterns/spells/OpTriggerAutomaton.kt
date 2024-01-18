@@ -4,19 +4,14 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.spell.*
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
-import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
-import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
-import net.oneironaut.Oneironaut
 import net.oneironaut.casting.cell.CellSpellManager
 import net.oneironaut.casting.cell.ICellSpell
 import net.oneironaut.casting.mishaps.MishapUnhappySlime
 import net.oneironaut.getBoxCorners
-import net.oneironaut.getPositionsInCuboid
-import net.oneironaut.registry.OneironautBlockRegistry
 
-class OpTriggerAutomaton(val processCellPattern : Boolean) : SpellAction {
+class OpTriggerAutomaton() : SpellAction {
     override val argc = 3
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
         val box = Box(BlockPos(args.getVec3(0, argc)), BlockPos(args.getVec3(1, argc)))
