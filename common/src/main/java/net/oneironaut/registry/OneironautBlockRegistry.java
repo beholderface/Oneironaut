@@ -6,6 +6,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.registry.Registry;
 import net.oneironaut.Oneironaut;
 import net.oneironaut.block.*;
@@ -64,4 +65,7 @@ public class OneironautBlockRegistry {
     ));
     public static final RegistrySupplier<BlockEntityType<CellEntity>> CELL_ENTITY = BLOCK_ENTITIES.register("cell_entity", () -> BlockEntityType.Builder.create(CellEntity::new, CELL.get()).build(null));
 
+
+    //used for the eternal chorus mixin
+    public static final BooleanProperty ETERNAL = BooleanProperty.of("eternal");
 }

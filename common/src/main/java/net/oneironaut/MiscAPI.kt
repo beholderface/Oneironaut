@@ -71,7 +71,7 @@ fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
         Blocks.RESPAWN_ANCHOR -> Pair(Blocks.RESPAWN_ANCHOR.defaultState.with(Properties.CHARGES, 4), 100)
         //"fuck you" *uncries your obsidian*
         Blocks.CRYING_OBSIDIAN -> Pair(Blocks.OBSIDIAN.defaultState, 10)
-        Blocks.CHORUS_FLOWER -> Pair(Blocks.CHORUS_FLOWER.defaultState, 5)
+        Blocks.CHORUS_FLOWER -> Pair(Blocks.CHORUS_FLOWER.defaultState.with(OneironautBlockRegistry.ETERNAL, true), 5)
         Blocks.WITHER_SKELETON_SKULL -> Pair(Blocks.SKELETON_SKULL.defaultState, 5)
         Blocks.WITHER_SKELETON_WALL_SKULL -> Pair(Blocks.SKELETON_WALL_SKULL.defaultState, 5)
         Blocks.WITHER_ROSE -> {
