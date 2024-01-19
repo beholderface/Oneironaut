@@ -13,6 +13,7 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.oneironaut.Oneironaut;
+import net.oneironaut.OneironautConfig;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,18 +28,19 @@ import static net.oneironaut.registry.OneironautBlockRegistry.ETERNAL;
 public class EternalChorusMixin {
 
     @Shadow @Final public static IntProperty AGE;
+    @Unique private static final boolean debugMessages = false;
+    @Unique private static final boolean allowEternal = OneironautConfig.getServer().getInfusionEternalChorus();
 
     @Inject(method = "appendProperties", at = @At(value = "HEAD", remap = true), remap = true)
     public void addEternal(StateManager.Builder<Block, BlockState> builder, CallbackInfo ci){
         builder.add(ETERNAL);
     }
-    @Unique private static final boolean debugMessages = false;
     @WrapOperation(method = "randomTick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/block/ChorusFlowerBlock;grow(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;I)V",
     remap = true), remap = true)
     private void growForever(ChorusFlowerBlock instance, World world, BlockPos pos, int age, Operation<Void> original, @Local(ordinal = 0) BlockState state){
         boolean isEternal = state.get(ETERNAL);
-        if (!isEternal){
+        if (!isEternal || !allowEternal){
             Oneironaut.boolLogger("not eternal", debugMessages);
             original.call(instance, world, pos, age);
         } else {
@@ -55,7 +57,7 @@ public class EternalChorusMixin {
             remap = true, ordinal = 0), remap = true)
     private void stopDying1(ChorusFlowerBlock instance, World world, BlockPos pos, Operation<Void> original, @Local(ordinal = 0) BlockState state){
         boolean isEternal = state.get(ETERNAL);
-        if (!isEternal){
+        if (!isEternal || !allowEternal){
             Oneironaut.boolLogger("not eternal", debugMessages);
             original.call(instance, world, pos);
         } else {
@@ -69,7 +71,7 @@ public class EternalChorusMixin {
             remap = true, ordinal = 1), remap = true)
     private void stopDying2(ChorusFlowerBlock instance, World world, BlockPos pos, Operation<Void> original, @Local(ordinal = 0) BlockState state){
         boolean isEternal = state.get(ETERNAL);
-        if (!isEternal){
+        if (!isEternal || !allowEternal){
             Oneironaut.boolLogger("not eternal", debugMessages);
             original.call(instance, world, pos);
         } else {

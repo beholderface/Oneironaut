@@ -63,6 +63,7 @@ public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
             boolean swapRequiresNoosphere = DEFAULT_SWAP_NOOSPHERE;
             boolean swapSwapsBEs = DEFAULT_SWAP_BES;
             boolean impulseRedirectsFireball = DEFAULT_REDIRECT_FIREBALL;
+            boolean infusionEternalChorus = DEFAULT_INFUSE_CHORUS;
         }
         @Override
         public boolean getPlaneShiftOtherPlayers() {
@@ -104,6 +105,11 @@ public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
         @Override
         public boolean getImpulseRedirectsFireball() {
             return miscConfig.impulseRedirectsFireball;
+        }
+
+        @Override
+        public boolean getInfusionEternalChorus() {
+            return miscConfig.infusionEternalChorus;
         }
 
         private static boolean isValidID(Object o) {

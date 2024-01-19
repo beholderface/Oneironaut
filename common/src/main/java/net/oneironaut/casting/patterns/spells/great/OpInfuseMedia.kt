@@ -20,8 +20,8 @@ class OpInfuseMedia : SpellAction {
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>>? {
         val target = args.getVec3(0, argc)
         ctx.assertVecInRange(target)
-        val targetType = ctx.world.getBlockState(BlockPos(target)).block
-        val (result, cost) = getInfuseResult(targetType)
+        val targetType = ctx.world.getBlockState(BlockPos(target))
+        val (result, cost) = getInfuseResult(targetType, ctx)
         if (result == Blocks.BARRIER.defaultState){
             throw MishapUninfusable.of(BlockPos(target)/*, "media"*/)
         }

@@ -21,9 +21,9 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
+import net.oneironaut.recipe.OneironautRecipeTypes
 import net.oneironaut.registry.*
 import ram.talia.hexal.common.lib.HexalBlocks
 import java.util.*
@@ -61,11 +61,11 @@ fun getItemTagKey(id : Identifier) : TagKey<Item>{
 }
 
 
-fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
+fun getInfuseResult(targetState: BlockState, ctx: CastingContext) : Pair<BlockState, Int> {
     //val block = BlockPos(target)
     //val targetType = ctx.world.getBlockState(block).block
     //BlockTags.SMALL_FLOWERS
-    val conversionResult : Pair<BlockState, Int> = when(targetType){
+    var conversionResult : Pair<BlockState, Int> = when(targetState.block){
         HexalBlocks.SLIPWAY -> Pair(OneironautBlockRegistry.NOOSPHERE_GATE.get().defaultState, 200)
         Blocks.SCULK_SHRIEKER -> Pair(Blocks.SCULK_SHRIEKER.defaultState.with(Properties.CAN_SUMMON, true), 100)
         Blocks.RESPAWN_ANCHOR -> Pair(Blocks.RESPAWN_ANCHOR.defaultState.with(Properties.CHARGES, 4), 100)
@@ -87,9 +87,17 @@ fun getInfuseResult(targetType: Block) : Pair<BlockState, Int> {
         Blocks.SOUL_SAND -> Pair(Blocks.SAND.defaultState, 5)
         Blocks.SOUL_TORCH -> Pair(Blocks.TORCH.defaultState, 5)
         Blocks.SOUL_WALL_TORCH -> Pair(Blocks.WALL_TORCH.defaultState, 5)
-        Blocks.SOUL_SOIL -> Pair(Blocks.DIRT.defaultState, 5)
+        //Blocks.SOUL_SOIL -> Pair(Blocks.DIRT.defaultState, 5)
         Blocks.SOUL_LANTERN -> Pair(Blocks.LANTERN.defaultState, 5)
         else -> Pair(Blocks.BARRIER.defaultState, -1)
+    }
+    if (conversionResult.second == -1){
+        val recipeManager = ctx.world.recipeManager
+        val infusionRecipes = recipeManager.listAllOfType(OneironautRecipeTypes.INFUSION_TYPE)
+        val recipe = infusionRecipes.find { it.matches(targetState) }
+        if (recipe != null){
+            conversionResult = Pair(recipe.blockOut, recipe.mediaCost)
+        }
     }
     return conversionResult
 }
