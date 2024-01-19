@@ -21,7 +21,7 @@ class OpInfuseMedia : SpellAction {
         val target = args.getVec3(0, argc)
         ctx.assertVecInRange(target)
         val targetType = ctx.world.getBlockState(BlockPos(target))
-        val (result, cost) = getInfuseResult(targetType, ctx)
+        val (result, cost) = getInfuseResult(targetType, ctx.world)
         if (result == Blocks.BARRIER.defaultState){
             throw MishapUninfusable.of(BlockPos(target)/*, "media"*/)
         }

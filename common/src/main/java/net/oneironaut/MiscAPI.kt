@@ -12,6 +12,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.item.Item
+import net.minecraft.recipe.RecipeManager
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -23,10 +24,12 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
+import net.minecraft.world.World
 import net.oneironaut.recipe.OneironautRecipeTypes
 import net.oneironaut.registry.*
 import ram.talia.hexal.common.lib.HexalBlocks
 import java.util.*
+import javax.annotation.Nullable
 import kotlin.math.absoluteValue
 
 fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
@@ -61,12 +64,16 @@ fun getItemTagKey(id : Identifier) : TagKey<Item>{
 }
 
 
-fun getInfuseResult(targetState: BlockState, ctx: CastingContext) : Pair<BlockState, Int> {
-    //val block = BlockPos(target)
-    //val targetType = ctx.world.getBlockState(block).block
-    //BlockTags.SMALL_FLOWERS
+fun getInfuseResult(targetState: BlockState, world: World) : Pair<BlockState, Int> {
+    //at the moment this when thing is just for the wither rose transmutation, since everything without special behavior is now handled in recipe jsons
     var conversionResult : Pair<BlockState, Int> = when(targetState.block){
-        HexalBlocks.SLIPWAY -> Pair(OneironautBlockRegistry.NOOSPHERE_GATE.get().defaultState, 200)
+        Blocks.WITHER_ROSE -> {
+            val smallflowers = arrayOf(Blocks.DANDELION, Blocks.POPPY, Blocks.BLUE_ORCHID, Blocks.ALLIUM, Blocks.AZURE_BLUET, Blocks.RED_TULIP, Blocks.ORANGE_TULIP,
+                Blocks.WHITE_TULIP, Blocks.PINK_TULIP, Blocks.CORNFLOWER, Blocks.LILY_OF_THE_VALLEY)
+            val flowerIndex = kotlin.random.Random.nextInt(0, smallflowers.size)
+            Pair(smallflowers[flowerIndex].defaultState, 5)
+        }
+        /*HexalBlocks.SLIPWAY -> Pair(OneironautBlockRegistry.NOOSPHERE_GATE.get().defaultState, 200)
         Blocks.SCULK_SHRIEKER -> Pair(Blocks.SCULK_SHRIEKER.defaultState.with(Properties.CAN_SUMMON, true), 100)
         Blocks.RESPAWN_ANCHOR -> Pair(Blocks.RESPAWN_ANCHOR.defaultState.with(Properties.CHARGES, 4), 100)
         //"fuck you" *uncries your obsidian*
@@ -74,12 +81,6 @@ fun getInfuseResult(targetState: BlockState, ctx: CastingContext) : Pair<BlockSt
         Blocks.CHORUS_FLOWER -> Pair(Blocks.CHORUS_FLOWER.defaultState.with(OneironautBlockRegistry.ETERNAL, true), 5)
         Blocks.WITHER_SKELETON_SKULL -> Pair(Blocks.SKELETON_SKULL.defaultState, 5)
         Blocks.WITHER_SKELETON_WALL_SKULL -> Pair(Blocks.SKELETON_WALL_SKULL.defaultState, 5)
-        Blocks.WITHER_ROSE -> {
-            val smallflowers = arrayOf(Blocks.DANDELION, Blocks.POPPY, Blocks.BLUE_ORCHID, Blocks.ALLIUM, Blocks.AZURE_BLUET, Blocks.RED_TULIP, Blocks.ORANGE_TULIP,
-                Blocks.WHITE_TULIP, Blocks.PINK_TULIP, Blocks.CORNFLOWER, Blocks.LILY_OF_THE_VALLEY)
-            val flowerIndex = kotlin.random.Random.nextInt(0, smallflowers.size)
-            Pair(smallflowers[flowerIndex].defaultState, 5)
-        }
         HexBlocks.AVENTURINE_EDIFIED_LEAVES -> Pair(HexBlocks.AMETHYST_EDIFIED_LEAVES.defaultState.with(Properties.PERSISTENT, true), 1)
         HexBlocks.AMETHYST_EDIFIED_LEAVES -> Pair(HexBlocks.CITRINE_EDIFIED_LEAVES.defaultState.with(Properties.PERSISTENT, true), 1)
         HexBlocks.CITRINE_EDIFIED_LEAVES -> Pair(HexBlocks.AVENTURINE_EDIFIED_LEAVES.defaultState.with(Properties.PERSISTENT, true), 1)
@@ -87,17 +88,24 @@ fun getInfuseResult(targetState: BlockState, ctx: CastingContext) : Pair<BlockSt
         Blocks.SOUL_SAND -> Pair(Blocks.SAND.defaultState, 5)
         Blocks.SOUL_TORCH -> Pair(Blocks.TORCH.defaultState, 5)
         Blocks.SOUL_WALL_TORCH -> Pair(Blocks.WALL_TORCH.defaultState, 5)
-        //Blocks.SOUL_SOIL -> Pair(Blocks.DIRT.defaultState, 5)
-        Blocks.SOUL_LANTERN -> Pair(Blocks.LANTERN.defaultState, 5)
+        Blocks.SOUL_SOIL -> Pair(Blocks.DIRT.defaultState, 5)
+        Blocks.SOUL_LANTERN -> Pair(Blocks.LANTERN.defaultState, 5)*/
         else -> Pair(Blocks.BARRIER.defaultState, -1)
     }
+    val debugMessages = false
     if (conversionResult.second == -1){
-        val recipeManager = ctx.world.recipeManager
+        Oneironaut.boolLogger("did not find a hard-coded conversion", debugMessages)
+        val recipeManager : RecipeManager = world.recipeManager
         val infusionRecipes = recipeManager.listAllOfType(OneironautRecipeTypes.INFUSION_TYPE)
         val recipe = infusionRecipes.find { it.matches(targetState) }
         if (recipe != null){
+            Oneironaut.boolLogger("found a matching recipe", debugMessages)
             conversionResult = Pair(recipe.blockOut, recipe.mediaCost)
+        } else {
+            Oneironaut.boolLogger("no matching recipe found", debugMessages)
         }
+    } else {
+        Oneironaut.boolLogger("found a hard-coded conversion", debugMessages)
     }
     return conversionResult
 }

@@ -29,7 +29,6 @@ public class EternalChorusMixin {
 
     @Shadow @Final public static IntProperty AGE;
     @Unique private static final boolean debugMessages = false;
-    @Unique private static final boolean allowEternal = OneironautConfig.getServer().getInfusionEternalChorus();
 
     @Inject(method = "appendProperties", at = @At(value = "HEAD", remap = true), remap = true)
     public void addEternal(StateManager.Builder<Block, BlockState> builder, CallbackInfo ci){
@@ -39,6 +38,7 @@ public class EternalChorusMixin {
             target = "Lnet/minecraft/block/ChorusFlowerBlock;grow(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;I)V",
     remap = true), remap = true)
     private void growForever(ChorusFlowerBlock instance, World world, BlockPos pos, int age, Operation<Void> original, @Local(ordinal = 0) BlockState state){
+        boolean allowEternal = OneironautConfig.getServer().getInfusionEternalChorus();
         boolean isEternal = state.get(ETERNAL);
         if (!isEternal || !allowEternal){
             Oneironaut.boolLogger("not eternal", debugMessages);
@@ -56,6 +56,7 @@ public class EternalChorusMixin {
             target = "Lnet/minecraft/block/ChorusFlowerBlock;die(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V",
             remap = true, ordinal = 0), remap = true)
     private void stopDying1(ChorusFlowerBlock instance, World world, BlockPos pos, Operation<Void> original, @Local(ordinal = 0) BlockState state){
+        boolean allowEternal = OneironautConfig.getServer().getInfusionEternalChorus();
         boolean isEternal = state.get(ETERNAL);
         if (!isEternal || !allowEternal){
             Oneironaut.boolLogger("not eternal", debugMessages);
@@ -70,6 +71,7 @@ public class EternalChorusMixin {
             target = "Lnet/minecraft/block/ChorusFlowerBlock;die(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V",
             remap = true, ordinal = 1), remap = true)
     private void stopDying2(ChorusFlowerBlock instance, World world, BlockPos pos, Operation<Void> original, @Local(ordinal = 0) BlockState state){
+        boolean allowEternal = OneironautConfig.getServer().getInfusionEternalChorus();
         boolean isEternal = state.get(ETERNAL);
         if (!isEternal || !allowEternal){
             Oneironaut.boolLogger("not eternal", debugMessages);

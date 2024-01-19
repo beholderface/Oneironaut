@@ -6,12 +6,16 @@ import net.minecraft.util.Identifier
 import net.oneironaut.Oneironaut.MOD_ID
 import net.oneironaut.Oneironaut.id
 import java.util.function.BiConsumer
+import net.minecraft.util.registry.Registry;
+import net.oneironaut.Oneironaut
 
 class OneironautRecipeTypes {
     companion object {
+        val debugMessages = false
         @JvmStatic
         fun registerTypes(r: BiConsumer<RecipeType<*>, Identifier>) {
             for ((key, value) in TYPES) {
+                Oneironaut.boolLogger("Attempting to register type $value with key $key", debugMessages)
                 r.accept(value, key)
             }
         }
@@ -28,7 +32,11 @@ class OneironautRecipeTypes {
             }
             // never will be a collision because it's a new object
             TYPES[id(name)] = type
+            Oneironaut.boolLogger("Attempting to register type $name, with id ${type.toString()}", debugMessages)
             return type
         }
+
+        public fun <T> bind(registry: Registry<in T>): BiConsumer<T, Identifier> =
+            BiConsumer<T, Identifier> { t, id -> Registry.register(registry, id, t) }
     }
 }

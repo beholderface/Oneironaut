@@ -12,12 +12,16 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.registry.Registry;
 import net.oneironaut.casting.IdeaInscriptionManager;
 import net.oneironaut.item.BottomlessMediaItem;
+import net.oneironaut.recipe.OneironautRecipeSerializer;
+import net.oneironaut.recipe.OneironautRecipeTypes;
 import net.oneironaut.registry.*;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +29,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import static net.minecraft.server.command.CommandManager.literal;
 
@@ -45,6 +50,9 @@ public class Oneironaut {
         OneironautFeatureRegistry.init();
         OneironautIotaTypeRegistry.init();
         OneironautPatternRegistry.init();
+        //Registry.register(Registry.RECIPE_SERIALIZER, OneironautRecipeSerializer.)
+        OneironautRecipeSerializer.registerSerializers(OneironautRecipeTypes.Companion.bind(Registry.RECIPE_SERIALIZER));
+        OneironautRecipeTypes.registerTypes(OneironautRecipeTypes.Companion.bind(Registry.RECIPE_TYPE));
 
         //Registry.register(Registry.CHUNK_GENERATOR, new Identifier(MOD_ID, "noosphere"))
 

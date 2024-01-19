@@ -1,0 +1,15 @@
+{
+  "type": "oneironaut:infuse",
+  "blockIn": {
+    "type": "block",
+    "block": "minecraft:chorus_flower"
+  },
+  "resultType": {
+    "name": "minecraft:chorus_flower",
+    "properties": {
+      "eternal": "true",
+      "age": "0"
+    }
+  },
+  "mediaCost": 100000
+}

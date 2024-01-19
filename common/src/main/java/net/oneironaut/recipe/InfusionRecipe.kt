@@ -17,7 +17,7 @@ import net.minecraft.world.World
 import net.minecraft.util.JsonHelper
 
 //pretty much all of this is yoinked from hexal
-data class InfusionRecipe(val id: Identifier, val blockIn : StateIngredient, val blockOut : BlockState, val mediaCost : Int) : Recipe<Inventory> {
+data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredient, val blockOut : BlockState, val mediaCost : Int) : Recipe<Inventory> {
     override fun matches(inventory: Inventory, world: World) = false
 
     fun matches(blockIn : BlockState): Boolean = this.blockIn.test(blockIn)
@@ -28,7 +28,7 @@ data class InfusionRecipe(val id: Identifier, val blockIn : StateIngredient, val
 
     override fun getOutput() : ItemStack = ItemStack.EMPTY.copy()
 
-    override fun getId() = id
+    override fun getId() = identifier
 
     override fun getSerializer(): RecipeSerializer<*>  = OneironautRecipeSerializer.INFUSE
 
