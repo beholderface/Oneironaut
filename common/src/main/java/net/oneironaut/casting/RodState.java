@@ -10,7 +10,7 @@ public class RodState {
     public RodState(Entity player, boolean active){
         this.timestamp = player.world.getTime();
         this.initialLook = player.getRotationVector();
-        this.initialPos = player.getPos();
+        this.initialPos = player.getEyePos();
         this.delay = 0;
         this.resetCooldown = 20;
         this.ownerID = player.getUuid();

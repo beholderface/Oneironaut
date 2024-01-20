@@ -5,6 +5,7 @@
   "sortnum": 0,
   "advancement": "oneironaut:enter_noosphere",
   "read_by_default": false,
+  "entry_color": "54398a",
   "pages": [
     {
       "type": "patchouli:text",
