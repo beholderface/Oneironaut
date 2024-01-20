@@ -33,19 +33,6 @@ class OpInfuseMedia : SpellAction {
     }
     private data class Spell(val target: BlockPos, var result: BlockState, val cost: Int) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
-            if (ctx.world.getBlockState(target).properties.contains(Properties.WATERLOGGED)){
-                result = result.with(Properties.WATERLOGGED, ctx.world.getBlockState(target).get(Properties.WATERLOGGED))
-            }
-            if (ctx.world.getBlockState(target).properties.contains(Properties.ROTATION)){
-                result = result.with(Properties.ROTATION, ctx.world.getBlockState(target).get(Properties.ROTATION))
-            }
-            if (ctx.world.getBlockState(target).properties.contains(Properties.HORIZONTAL_FACING)){
-                result = result.with(Properties.HORIZONTAL_FACING, ctx.world.getBlockState(target).get(Properties.HORIZONTAL_FACING))
-            }
-            if (ctx.world.getBlockState(target).properties.contains(Properties.HANGING)){
-                result = result.with(Properties.HANGING, ctx.world.getBlockState(target).get(Properties.HANGING))
-            }
-            //ctx.caster.sendMessage(Text.of("$result costs ${cost / 10} charged amethyst"))
             ctx.caster.world.setBlockState(target, result)
         }
     }

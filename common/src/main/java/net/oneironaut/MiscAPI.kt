@@ -5,7 +5,6 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
-import at.petrak.hexcasting.common.lib.HexBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -17,19 +16,19 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties
+import net.minecraft.state.property.Property
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
 import net.oneironaut.recipe.OneironautRecipeTypes
 import net.oneironaut.registry.*
-import ram.talia.hexal.common.lib.HexalBlocks
 import java.util.*
-import javax.annotation.Nullable
 import kotlin.math.absoluteValue
 
 fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
@@ -107,7 +106,36 @@ fun getInfuseResult(targetState: BlockState, world: World) : Pair<BlockState, In
     } else {
         Oneironaut.boolLogger("found a hard-coded conversion", debugMessages)
     }
-    return conversionResult
+    return Pair(preserveStates(targetState, conversionResult.first), conversionResult.second)
+}
+fun preserveStates(oldState : BlockState, desiredState : BlockState) : BlockState{
+    val debugmessages = true
+    var newState = desiredState
+    val boolsToKeep : List<Property<Boolean>> = listOf(Properties.WATERLOGGED, Properties.HANGING)
+    for (property in boolsToKeep){
+        if (oldState.contains(property)){
+            val value = oldState.get(property)
+            Oneironaut.boolLogger("property ${property.name} has value $value", debugmessages)
+            newState = newState.with(property, value)
+        }
+    }
+    val intsToKeep : List<Property<Int>> = listOf(Properties.ROTATION)
+    for (property in intsToKeep){
+        if (oldState.contains(property)){
+            val value = oldState.get(property)
+            Oneironaut.boolLogger("property ${property.name} has value $value", debugmessages)
+            newState = newState.with(property, value)
+        }
+    }
+    val dirsToKeep : List<Property<Direction>> = listOf(Properties.FACING, Properties.HORIZONTAL_FACING)
+    for (property in dirsToKeep){
+        if (oldState.contains(property)){
+            val value = oldState.get(property)
+            Oneironaut.boolLogger("property ${property.name} has value $value", debugmessages)
+            newState = newState.with(property, value)
+        }
+    }
+    return newState
 }
 
 fun isUnsafe(world: ServerWorld, pos: BlockPos, up: Boolean) : Boolean{
@@ -239,20 +267,3 @@ fun getBoxCorners(box : Box) : List<Vec3d>{
         Vec3d(box.maxX, box.minY, box.maxZ), Vec3d(box.minX, box.maxY, box.minZ)
     )
 }
-
-//tried to write a smoother way to keep important blockstate values, didn't work
-/*
-fun keepImportantStates(ctx: CastingContext, target: BlockPos, desired: BlockState) : BlockState{
-    val state = ctx.world.getBlockState(target)
-    val statesToKeep = listOf(Properties.HORIZONTAL_FACING, Properties.WATERLOGGED, Properties.ROTATION, Properties.HANGING, Properties.LIT, Properties.SIGNAL_FIRE)
-    var modifiedState = desired
-    var current = statesToKeep[1]
-    for (item in statesToKeep){
-        current = item
-        if (state.properties.contains(item) && desired.properties.contains(item)){
-            modifiedState = modifiedState.with(item, state.get(current))
-        }
-    }
-    return modifiedState
-}
-*/
