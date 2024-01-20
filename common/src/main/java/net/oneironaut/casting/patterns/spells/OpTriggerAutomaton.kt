@@ -6,14 +6,16 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.oneironaut.Oneironaut
 import net.oneironaut.casting.cell.CellSpellManager
 import net.oneironaut.casting.cell.ICellSpell
 import net.oneironaut.casting.mishaps.MishapUnhappySlime
 import net.oneironaut.getBoxCorners
 
-class OpTriggerAutomaton() : SpellAction {
+class OpTriggerAutomaton : SpellAction {
     override val argc = 3
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
+        val debugMessages = true;
         val box = Box(BlockPos(args.getVec3(0, argc)), BlockPos(args.getVec3(1, argc)))
         val corners = getBoxCorners(box)
         for(c in corners){
@@ -30,15 +32,15 @@ class OpTriggerAutomaton() : SpellAction {
             val mishap = cellSpellConditions.second
             //mishap if the cell spell says to mishap
             if (mishap != null){
-                //Oneironaut.LOGGER.info("should be mishapping")
+                Oneironaut.boolLogger("should be mishapping", debugMessages)
                 //throw mishap
                 throw MishapUnhappySlime(mishap)
             } else {
-                //Oneironaut.LOGGER.info("no mishap")
+                Oneironaut.boolLogger("no mishap", debugMessages)
             }
-            //Oneironaut.LOGGER.info("pattern found: " + cellSpell.second.translationKey)
+            Oneironaut.boolLogger("pattern found: " + cellSpell.second.translationKey, debugMessages)
         } else {
-            //Oneironaut.LOGGER.info("no pattern found")
+            Oneironaut.boolLogger("no pattern found", debugMessages)
         }
         val cost = ((box.xLength * box.yLength * box.zLength * (MediaConstants.DUST_UNIT * 0.1)) + cellSpellCost).toInt()
         return if (cellSpell == null){

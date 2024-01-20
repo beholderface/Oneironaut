@@ -55,5 +55,4 @@ data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredi
             return InfusionRecipe(recipeID, blockIn, result, cost)
         }
     }
-
 }

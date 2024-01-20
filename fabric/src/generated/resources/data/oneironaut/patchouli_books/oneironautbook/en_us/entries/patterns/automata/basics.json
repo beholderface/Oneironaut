@@ -1,0 +1,14 @@
+{
+  "name": "oneironaut.entry.automata.basics",
+  "category": "oneironaut:automata",
+  "icon": "oneironaut:cell",
+  "sortnum": 0,
+  "advancement": "oneironaut:enter_noosphere",
+  "read_by_default": false,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "oneironaut.entry.automata.basics.1"
+    }
+  ]
+}

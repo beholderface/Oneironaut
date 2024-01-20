@@ -18,23 +18,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+//this is currently unimplemented for balance reasons
 public class OpCellHeal implements ICellSpell{
-
-    public static final String[][] healPattern = {
-            {
-                    "   ",
-                    "CCC",
-                    "   "
-            },
-            {
-                    "CCC",
-                    "   ",
-                    "CCC"
-            },
-            {
-                "0"
-            }
-    };
+    //this pattern doesn't work for some reason
     public static final String[][] line = {
             {
                     "CCC"

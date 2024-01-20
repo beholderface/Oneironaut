@@ -12,10 +12,7 @@ import kotlin.Triple;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.oneironaut.Oneironaut;
-import net.oneironaut.casting.cell.OpCellExplosion;
-import net.oneironaut.casting.cell.CellSpellManager;
-import net.oneironaut.casting.cell.ICellSpell;
-import net.oneironaut.casting.cell.OpCellHeal;
+import net.oneironaut.casting.cell.*;
 import net.oneironaut.casting.patterns.*;
 import net.minecraft.util.Identifier;
 import net.oneironaut.casting.patterns.rod.OpDelayRod;
@@ -88,7 +85,8 @@ public class OneironautPatternRegistry {
     public static List<Triple<String[][], Identifier, ICellSpell>> CELL_PATTERNS = new ArrayList<>();
 
     public static String[][] CELL_EXPLOSION = registerCellSpell(OpCellExplosion.explosionPattern, "explosion", new OpCellExplosion(OpCellExplosion.explosionPattern, "oneironaut.cellspell.explosion"));
-    public static String[][] CELL_HEAL = registerCellSpell(OpCellHeal.line, "heal", new OpCellHeal(OpCellHeal.line, "oneironaut.cellspell.heal"));
+    //public static String[][] CELL_HEAL = registerCellSpell(OpCellHeal.line, "heal", new OpCellHeal(OpCellHeal.line, "oneironaut.cellspell.heal"));
+    public static String[][] CELL_UNIFY = registerCellSpell(OpCellUnify.unifyPattern, "unify", new OpCellUnify(OpCellUnify.unifyPattern, "oneironaut.cellspell.unify"));
 
     public static void init() {
         try {

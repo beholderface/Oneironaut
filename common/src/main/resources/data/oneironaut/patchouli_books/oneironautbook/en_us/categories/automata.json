@@ -1,0 +1,7 @@
+{
+  "name": "oneironaut.category.automata",
+  "icon": "oneironaut:cell",
+  "description": "oneironaut.category.automata.desc",
+  "parent": "hexcasting:patterns",
+  "sortnum": 2
+}
