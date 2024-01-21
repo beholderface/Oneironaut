@@ -2,7 +2,6 @@ package net.oneironaut.block;
 
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 import net.minecraft.block.*;
-import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;

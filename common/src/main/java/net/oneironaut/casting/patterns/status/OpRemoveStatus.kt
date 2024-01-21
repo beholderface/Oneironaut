@@ -34,7 +34,7 @@ class OpRemoveStatus : SpellAction {
         if (costExponent.equals(1.0) && !(target.equals(ctx.caster))){
             costExponent = 2.0
         }
-        var cost = ((effectStrenth.pow(costExponent) * effectDuration) * MediaConstants.DUST_UNIT).toInt()
+        var cost = ((effectStrenth.pow(costExponent.coerceAtMost(5.0)) * effectDuration.coerceAtMost((20 * 60 * 10 /*ten minutes*/).toDouble())) * MediaConstants.DUST_UNIT).toInt()
         if (costExponent == 1.1){
             cost /= 10
         }

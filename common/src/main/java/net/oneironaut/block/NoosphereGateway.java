@@ -4,6 +4,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
@@ -40,6 +41,11 @@ public class NoosphereGateway extends BlockWithEntity{
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         //if (type != OneironautThingRegistry.NOOSPHERE_GATE_ENTITY.get()) return null;
         return (_world, _pos, _state, _be) -> ((NoosphereGateEntity)_be).tick(_world, _pos, _state);
+    }
+
+    @Override
+    public PistonBehavior getPistonBehavior(BlockState pState) {
+        return PistonBehavior.BLOCK;
     }
 
 }
