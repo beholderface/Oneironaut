@@ -5,49 +5,31 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
-import net.oneironaut.Oneironaut;
 import net.oneironaut.registry.OneironautBlockRegistry;
 
 import static java.lang.Math.*;
 import static net.oneironaut.MiscAPIKt.stringToWorld;
 import static net.oneironaut.MiscAPIKt.playerUUIDtoServerPlayer;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class NoosphereGateEntity extends BlockEntity {
     public static Map<RegistryKey<World>, Map<BlockPos, Vec3d>> gateLocationMap = new HashMap<>();
-    //public BlockPos initialPos;
-    private static final boolean debugMessages = false;
     public NoosphereGateEntity(BlockPos pos, BlockState state) {
         super(OneironautBlockRegistry.NOOSPHERE_GATE_ENTITY.get(), pos, state);
-        //this.initialPos = this.pos;
-        //Oneironaut.boolLogger("Creating gate BE, initialPos: " + this.initialPos.toShortString(), debugMessages);
-        //this.initialWorld = this.world.getRegistryKey().getValue().toString();
         //Oneironaut.LOGGER.info("super Creating blockentity.");
     }
     public void tick(World world, BlockPos pos, BlockState state){
-        //destroy self if moved
-        /*if (!this.initialPos.equals(this.pos)){
-            world.removeBlock(pos, false);
-            Oneironaut.boolLogger("Destroying gate block, initialPos: " + this.initialPos.toShortString(), debugMessages);
-            return;
-        }*/
         //Oneironaut.LOGGER.info("Spam.");
         Vec3d doublePos = new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
         if (!world.isClient){
@@ -205,31 +187,4 @@ public class NoosphereGateEntity extends BlockEntity {
 
         //world.setBlockState(pos.add(0, 1, 0), Blocks.ACACIA_FENCE.getDefaultState());
     }
-
-    /*@Override
-    public void writeNbt(NbtCompound nbt){
-        if (this.initialPos == null){
-            this.initialPos = this.pos;
-        }
-        nbt.putIntArray("initialPos", new int[]{this.initialPos.getX(),this.initialPos.getY(),this.initialPos.getZ()});
-        Oneironaut.boolLogger("Writing gate NBT, initialPos: " + initialPos.toShortString(), debugMessages);
-    }
-    @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
-        int[] posArray = nbt.getIntArray("initialPos");
-        this.initialPos = (posArray == null) ? this.pos : new BlockPos(posArray[0],posArray[1],posArray[2]);
-        Oneironaut.boolLogger("Reading gate BE position, " + this.initialPos.toShortString(), debugMessages);
-    }
-
-    @Nullable
-    @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
-    }
-
-    @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return createNbt();
-    }*/
 }
