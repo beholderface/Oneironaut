@@ -1,5 +1,8 @@
 package net.oneironaut.casting;
 
+import at.petrak.hexcasting.api.spell.iota.Iota;
+import at.petrak.hexcasting.api.spell.iota.ListIota;
+import at.petrak.hexcasting.api.spell.iota.NullIota;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
@@ -15,6 +18,7 @@ public class RodState {
         this.resetCooldown = 20;
         this.ownerID = player.getUuid();
         this.currentlyCasting = active;
+        this.storedIota = new NullIota();
     }
 
     private final long timestamp;
@@ -24,6 +28,7 @@ public class RodState {
     private int resetCooldown;
     private final UUID ownerID;
     private boolean currentlyCasting;
+    private Iota storedIota;
 
     public long getTimestamp(){
         return this.timestamp;
@@ -73,5 +78,16 @@ public class RodState {
 
     public void stopCasting(){
         this.currentlyCasting = false;
+    }
+
+    public Iota getStoredIota(){
+        return this.storedIota;
+    }
+    public boolean setStoredIota(Iota newIota){
+        if (newIota.getType().equals(ListIota.TYPE)){
+            return false;
+        }
+        this.storedIota = newIota;
+        return true;
     }
 }

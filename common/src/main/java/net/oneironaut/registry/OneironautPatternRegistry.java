@@ -15,6 +15,7 @@ import net.oneironaut.Oneironaut;
 import net.oneironaut.casting.cell.*;
 import net.oneironaut.casting.patterns.*;
 import net.minecraft.util.Identifier;
+import net.oneironaut.casting.patterns.rod.OpAccessRAM;
 import net.oneironaut.casting.patterns.rod.OpDelayRod;
 import net.oneironaut.casting.patterns.rod.OpGetInitialRodState;
 import net.oneironaut.casting.patterns.rod.OpHaltRod;
@@ -42,6 +43,8 @@ public class OneironautPatternRegistry {
     public static HexPattern ROD_LOOK = register(HexPattern.fromAngles("qwqqqwqawa", HexDir.SOUTH_EAST), "getrodlook", new OpGetInitialRodState(1));
     public static HexPattern ROD_POS = register(HexPattern.fromAngles("qwqqqwqawaa", HexDir.SOUTH_EAST), "getrodpos", new OpGetInitialRodState(2));
     public static HexPattern ROD_STAMP = register(HexPattern.fromAngles("qwqqqwqawaaw", HexDir.SOUTH_EAST), "getrodstamp", new OpGetInitialRodState(3));
+    public static HexPattern ROD_RAM_READ = register(HexPattern.fromAngles("qeeweeewddw", HexDir.NORTH_EAST), "readrodram", new OpAccessRAM(0));
+    public static HexPattern ROD_RAM_WRITE = register(HexPattern.fromAngles("eqqwqqqwaaw", HexDir.NORTH_WEST), "writerodram", new OpAccessRAM(1));
     public static HexPattern READ_FRAME_ROTATION = register(HexPattern.fromAngles("wwawwqwwawwaeae", HexDir.SOUTH_WEST), "readframerotation", new OpFrameRotation(0));
     public static HexPattern READ_IDEA = register(HexPattern.fromAngles("qwqwqwqwqwqqqwedewq", HexDir.WEST), "readidea", new OpReadIdea());
     public static HexPattern READ_IDEA_TIME = register(HexPattern.fromAngles("qwqwqwqwqwqqqeqaqeq", HexDir.WEST), "readideatime", new OpGetIdeaTimestamp());

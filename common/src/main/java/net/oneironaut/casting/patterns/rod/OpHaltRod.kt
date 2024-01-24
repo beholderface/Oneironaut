@@ -16,10 +16,7 @@ class OpHaltRod(val reset : Int) : ConstMediaAction {
             val state = ReverberationRod.getState(ctx.caster)
             if(reset == 1){
                 val delay = args.getPositiveInt(0, argc)
-                if (delay <= 100){
-                    state.setResetCooldown(delay)
-                    //ctx.caster.activeItem.nbt.putInt("resetDelay", delay)
-                }
+                state.setResetCooldown(delay.coerceAtLeast(1).coerceAtMost(100))
             }
             state.stopCasting()
             //ctx.caster.stopUsingItem()
