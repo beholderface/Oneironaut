@@ -28,7 +28,7 @@ public class CellSpellManager {
         }
         cellSpells.put(id, spell);
         spell.initPattern(pattern);
-        Oneironaut.LOGGER.info("Registered cell pattern " + spell.getPattern().toString() + " ("+ spell.getPattern().size() +" blocks) with identifier " + id.toString());
+        //Oneironaut.LOGGER.info("Registered cell pattern " + spell.getPattern().toString() + " ("+ spell.getPattern().size() +" blocks) with identifier " + id.toString());
     }
 
     public static ICellSpell getCellSpell(Identifier id){

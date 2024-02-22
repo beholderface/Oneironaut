@@ -3,7 +3,7 @@
   "category": "hexcasting:items",
   "icon": "oneironaut:reverberation_rod",
   "sortnum": 6,
-  "advancement": "minecraft:adventure/avoid_vibration",
+  "advancement": "oneironaut:unlock_rod",
   "pages": [
     "oneironaut.page.rod.1",
     {
