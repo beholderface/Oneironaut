@@ -63,33 +63,16 @@ fun getItemTagKey(id : Identifier) : TagKey<Item>{
 }
 
 
-fun getInfuseResult(targetState: BlockState, world: World) : Pair<BlockState, Int> {
+fun getInfuseResult(targetState: BlockState, world: World) : Triple<BlockState, Int, String?> {
     //at the moment this when thing is just for the wither rose transmutation, since everything without special behavior is now handled in recipe jsons
-    var conversionResult : Pair<BlockState, Int> = when(targetState.block){
+    var conversionResult : Triple<BlockState, Int, String?> = when(targetState.block){
         Blocks.WITHER_ROSE -> {
             val smallflowers = arrayOf(Blocks.DANDELION, Blocks.POPPY, Blocks.BLUE_ORCHID, Blocks.ALLIUM, Blocks.AZURE_BLUET, Blocks.RED_TULIP, Blocks.ORANGE_TULIP,
                 Blocks.WHITE_TULIP, Blocks.PINK_TULIP, Blocks.CORNFLOWER, Blocks.LILY_OF_THE_VALLEY)
             val flowerIndex = kotlin.random.Random.nextInt(0, smallflowers.size)
-            Pair(smallflowers[flowerIndex].defaultState, 5)
+            Triple(smallflowers[flowerIndex].defaultState, 5, null)
         }
-        /*HexalBlocks.SLIPWAY -> Pair(OneironautBlockRegistry.NOOSPHERE_GATE.get().defaultState, 200)
-        Blocks.SCULK_SHRIEKER -> Pair(Blocks.SCULK_SHRIEKER.defaultState.with(Properties.CAN_SUMMON, true), 100)
-        Blocks.RESPAWN_ANCHOR -> Pair(Blocks.RESPAWN_ANCHOR.defaultState.with(Properties.CHARGES, 4), 100)
-        //"fuck you" *uncries your obsidian*
-        Blocks.CRYING_OBSIDIAN -> Pair(Blocks.OBSIDIAN.defaultState, 10)
-        Blocks.CHORUS_FLOWER -> Pair(Blocks.CHORUS_FLOWER.defaultState.with(OneironautBlockRegistry.ETERNAL, true), 5)
-        Blocks.WITHER_SKELETON_SKULL -> Pair(Blocks.SKELETON_SKULL.defaultState, 5)
-        Blocks.WITHER_SKELETON_WALL_SKULL -> Pair(Blocks.SKELETON_WALL_SKULL.defaultState, 5)
-        HexBlocks.AVENTURINE_EDIFIED_LEAVES -> Pair(HexBlocks.AMETHYST_EDIFIED_LEAVES.defaultState.with(Properties.PERSISTENT, true), 1)
-        HexBlocks.AMETHYST_EDIFIED_LEAVES -> Pair(HexBlocks.CITRINE_EDIFIED_LEAVES.defaultState.with(Properties.PERSISTENT, true), 1)
-        HexBlocks.CITRINE_EDIFIED_LEAVES -> Pair(HexBlocks.AVENTURINE_EDIFIED_LEAVES.defaultState.with(Properties.PERSISTENT, true), 1)
-        Blocks.SOUL_CAMPFIRE -> Pair(Blocks.CAMPFIRE.defaultState, 5)
-        Blocks.SOUL_SAND -> Pair(Blocks.SAND.defaultState, 5)
-        Blocks.SOUL_TORCH -> Pair(Blocks.TORCH.defaultState, 5)
-        Blocks.SOUL_WALL_TORCH -> Pair(Blocks.WALL_TORCH.defaultState, 5)
-        Blocks.SOUL_SOIL -> Pair(Blocks.DIRT.defaultState, 5)
-        Blocks.SOUL_LANTERN -> Pair(Blocks.LANTERN.defaultState, 5)*/
-        else -> Pair(Blocks.BARRIER.defaultState, -1)
+        else -> Triple(Blocks.BARRIER.defaultState, -1, null)
     }
     val debugMessages = false
     if (conversionResult.second == -1){
@@ -99,40 +82,48 @@ fun getInfuseResult(targetState: BlockState, world: World) : Pair<BlockState, In
         val recipe = infusionRecipes.find { it.matches(targetState) }
         if (recipe != null){
             Oneironaut.boolLogger("found a matching recipe", debugMessages)
-            conversionResult = Pair(recipe.blockOut, recipe.mediaCost)
+            val advancement = recipe.advancement
+            val passedAdvancement : String? = if (advancement.equals("")){
+                null
+            } else {
+                advancement
+            }
+            conversionResult = Triple(recipe.blockOut, recipe.mediaCost, passedAdvancement)
         } else {
             Oneironaut.boolLogger("no matching recipe found", debugMessages)
         }
     } else {
         Oneironaut.boolLogger("found a hard-coded conversion", debugMessages)
     }
-    return Pair(preserveStates(targetState, conversionResult.first), conversionResult.second)
+    return Triple(preserveStates(targetState, conversionResult.first), conversionResult.second, conversionResult.third)
 }
 fun preserveStates(oldState : BlockState, desiredState : BlockState) : BlockState{
-    val debugmessages = true
+    val debugmessages = false
     var newState = desiredState
-    val boolsToKeep : List<Property<Boolean>> = listOf(Properties.WATERLOGGED, Properties.HANGING)
-    for (property in boolsToKeep){
-        if (oldState.contains(property)){
-            val value = oldState.get(property)
-            Oneironaut.boolLogger("property ${property.name} has value $value", debugmessages)
-            newState = newState.with(property, value)
+    if (desiredState != Blocks.BARRIER.defaultState){
+        val boolsToKeep : List<Property<Boolean>> = listOf(Properties.WATERLOGGED, Properties.HANGING)
+        for (property in boolsToKeep){
+            if (oldState.contains(property)){
+                val value = oldState.get(property)
+                Oneironaut.boolLogger("property ${property.name} has value $value", debugmessages)
+                newState = newState.with(property, value)
+            }
         }
-    }
-    val intsToKeep : List<Property<Int>> = listOf(Properties.ROTATION)
-    for (property in intsToKeep){
-        if (oldState.contains(property)){
-            val value = oldState.get(property)
-            Oneironaut.boolLogger("property ${property.name} has value $value", debugmessages)
-            newState = newState.with(property, value)
+        val intsToKeep : List<Property<Int>> = listOf(Properties.ROTATION)
+        for (property in intsToKeep){
+            if (oldState.contains(property)){
+                val value = oldState.get(property)
+                Oneironaut.boolLogger("property ${property.name} has value $value", debugmessages)
+                newState = newState.with(property, value)
+            }
         }
-    }
-    val dirsToKeep : List<Property<Direction>> = listOf(Properties.FACING, Properties.HORIZONTAL_FACING)
-    for (property in dirsToKeep){
-        if (oldState.contains(property)){
-            val value = oldState.get(property)
-            Oneironaut.boolLogger("property ${property.name} has value $value", debugmessages)
-            newState = newState.with(property, value)
+        val dirsToKeep : List<Property<Direction>> = listOf(Properties.FACING, Properties.HORIZONTAL_FACING)
+        for (property in dirsToKeep) {
+            if (oldState.contains(property)) {
+                val value = oldState.get(property)
+                Oneironaut.boolLogger("property ${property.name} has value $value", debugmessages)
+                newState = newState.with(property, value)
+            }
         }
     }
     return newState

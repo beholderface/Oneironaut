@@ -7,5 +7,6 @@
   "resultType": {
     "name": "oneironaut:cell"
   },
-  "mediaCost": 10000
+  "mediaCost": 10000,
+  "advancement": "oneironaut:create_automata"
 }

@@ -39,7 +39,7 @@ public class DetectionResistEffect extends StatusEffect {
             ItemStack offStack = entity.getOffHandStack();
             if ((time % 5) == 0){
                 ((ServerWorld)entity.world).playSoundFromEntity(
-                        null, entity, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.PLAYERS, 3f, 1f);
+                        null, entity, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.PLAYERS, 1.5f, 1f);
             }
             if (entity.isPlayer()){
                 if ((time % 20) == 0){

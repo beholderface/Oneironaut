@@ -1,7 +1,7 @@
 {
   "name": "oneironaut.entry.automata.basics",
   "category": "oneironaut:automata",
-  "icon": "oneironaut:cell",
+  "icon": "oneironaut:media_gel",
   "sortnum": 0,
   "advancement": "oneironaut:enter_noosphere",
   "read_by_default": false,
@@ -9,7 +9,18 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "oneironaut.entry.automata.basics.1"
+      "text": "oneironaut.page.automata.basics.1"
+    },
+    {
+      "type": "patchouli:text",
+      "advancement": "oneironaut:create_automata",
+      "text": "oneironaut.page.automata.basics.2"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "advancement": "oneironaut:create_automata",
+      "item": "oneironaut:cell",
+      "text": "oneironaut.page.automata.basics.3"
     }
   ]
 }

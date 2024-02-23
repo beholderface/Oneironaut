@@ -195,7 +195,7 @@
   "oneironaut.page.lore.science3.1": "这种晶体很是有趣。一件仅由媒质构成的物体，浓度超越了传统的构筑方块，甚至超越了我在图书馆中的同事们研究的那些致密媒质晶体。媒质密度类似的紫水晶中的痕量二氧化硅都不存在于此晶体中。而令其静置一段时间后，晶体粉末会以分形模式累积，就好像这种晶体在常态施法。",
   "oneironaut.page.lore.science3.2": "在显微镜下详细检验了这种晶体，可观察到这些分形状结构会向晶体内部延伸，且会以固定模式一直变化。这有无可能是一种时间晶体？",
   "oneironaut.category.automata.desc": "这种黏性物质展现出的智能较为基础，但也并非朽木不可雕。我能把它用在什么地方呢？",
-  "oneironaut.entry.automata.basics.1": "虽然我可以用媒质脉冲与这些黏液交流，但它们并不会主动接受，而是更倾向于思忖自身难以捉摸的智慧产生的想法。也许只要把这种群体意识分为不同分区，得到的各分段就更倾向于聆听了。$(br2)$(l:oneironaut:patterns/spells/great/infusemedia)我想我应该有这种操作需要的法术……$(/l)",
+  "oneironaut.page.automata.basics.1": "虽然我可以用媒质脉冲与这些黏液交流，但它们并不会主动接受，而是更倾向于思忖自身难以捉摸的智慧产生的想法。也许只要把这种群体意识分为不同分区，得到的各分段就更倾向于聆听了。$(br2)$(l:oneironaut:patterns/spells/great/infusemedia)我想我应该有这种操作需要的法术……$(/l)",
   "this.is.a.comment.5": "Advancements--------------------------------------------------------------------------------------------",
   "oneironaut.advancements.noosphere.enter": "思维与梦的领域",
   "oneironaut.advancements.noosphere.enter.description": "进入智识界",
