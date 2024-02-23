@@ -12,6 +12,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.text.Text
 import net.minecraft.util.math.Box
+import net.oneironaut.Oneironaut
 import net.oneironaut.registry.OneironautMiscRegistry
 import ram.talia.hexal.api.getEntityType
 import ram.talia.hexal.api.spell.iota.EntityTypeIota
@@ -26,6 +27,9 @@ class OpFilteredEntityRaycast : ConstMediaAction {
             if (livingEntity.hasStatusEffect(OneironautMiscRegistry.DETECTION_RESISTANCE.get())){
                 return false
             }
+        }
+        if (entity.type.toString().contains("hexbound", true) && entity.type.toString().contains("shield", true)){
+            return true
         }
         for (iota in filter){
             val typeIota = iota as EntityTypeIota
