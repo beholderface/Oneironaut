@@ -208,8 +208,11 @@
   "this.is.a.comment.5": "Advancements--------------------------------------------------------------------------------------------",
   "oneironaut.advancements.noosphere.enter": "A Realm of Thought and Dream",
   "oneironaut.advancements.noosphere.enter.description": "Enter the Noosphere",
-  "oneironaut.advancements.noosphere.create_automata": "ooo",
-  "oneironaut.advancements.noosphere.create_automata.description": "ahh",
+  "oneironaut.advancements.noosphere.create_automata": "Differentiated",
+
+  "note.for.translators.1": "This is in reference to Botania's Dandelifeon, which uses somewhat similar cellular automata.",
+  "oneironaut.advancements.noosphere.create_automata.description": "Why's everyone talking about dandelions?",
+
   "oneironaut.advancements.lore.root": "Oneironaut Lore",
   "oneironaut.advancements.lore.root.description": "Memories lost to time",
   "oneironaut.advancements.lore.treatise1": "Hexcaster's Memory #1",
