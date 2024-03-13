@@ -15,6 +15,10 @@ import net.oneironaut.casting.mishaps.MishapMissingEffect
 import net.oneironaut.getStatusEffect
 import kotlin.math.pow
 
+
+
+//this code was never implemented, and has now been superseded by the cellular version
+
 class OpCopyStatus : SpellAction {
     override val argc = 3
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>>? {

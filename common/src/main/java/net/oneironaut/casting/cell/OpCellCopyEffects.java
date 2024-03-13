@@ -1,31 +1,37 @@
 package net.oneironaut.casting.cell;
 
-import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.api.spell.casting.CastingContext;
+import at.petrak.hexcasting.api.spell.iota.EntityIota;
 import at.petrak.hexcasting.api.spell.iota.Iota;
+import at.petrak.hexcasting.api.spell.iota.NullIota;
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
 import at.petrak.hexcasting.api.spell.mishaps.Mishap;
-import at.petrak.hexcasting.api.spell.mishaps.MishapEntityTooFarAway;
+import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota;
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway;
+import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs;
 import com.mojang.datafixers.util.Pair;
 import kotlin.Triple;
-import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import net.oneironaut.MiscAPIKt;
 import net.oneironaut.registry.OneironautBlockRegistry;
+import net.oneironaut.registry.PotionIota;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class OpCellUnify implements ICellSpell{
-    public static final String[][] unifyPattern = {
+public class OpCellCopyEffects implements ICellSpell{
+    public static final String[][] copyPattern = {
             {
                     "   ",
                     "CCC",
@@ -47,7 +53,7 @@ public class OpCellUnify implements ICellSpell{
     private final Box bounds;
     private final String translationKey;
 
-    public OpCellUnify(String[][] rawPattern, String translationKey){
+    public OpCellCopyEffects(String[][] rawPattern, String translationKey){
         this.rawPattern = rawPattern;
         this.translationKey  = translationKey;
         BlockPos lowerCorner = BlockPos.ORIGIN;
@@ -87,42 +93,41 @@ public class OpCellUnify implements ICellSpell{
     public @NotNull Triple<Integer, @Nullable Mishap, List<Iota>> evaluateConditions(CastingContext ctx, List<Iota> capturedArgs, Box bounds) {
         //Oneironaut.LOGGER.info("eval method sucessfully called");
         int cost = (int) ((bounds.getXLength() * bounds.getYLength() * bounds.getZLength()) * 0.25);
-        Optional<Iota> boxCorner1Container = CellSpellManager.getOptionalIota(capturedArgs, 0, Vec3Iota.TYPE);
-        Optional<Iota> boxCorner2Container = CellSpellManager.getOptionalIota(capturedArgs, 1, Vec3Iota.TYPE);
-        if (boxCorner1Container.isPresent() && boxCorner2Container.isPresent()){
-            Vec3d boxCorner1 = ((Vec3Iota) boxCorner1Container.get()).getVec3();
-            Vec3d boxCorner2 = ((Vec3Iota) boxCorner2Container.get()).getVec3();
-            Box box = new Box(boxCorner1, boxCorner2);
-            for (Vec3d corner : MiscAPIKt.getBoxCorners(box)){
-                if (!ctx.isVecInRange(corner)){
-                    return new Triple<>(-1, new MishapLocationTooFarAway(corner, "too_far"), capturedArgs);
+        Optional<Iota> targetContainer = CellSpellManager.getOptionalIota(capturedArgs, 0, EntityIota.TYPE);
+        Optional<Iota> effectContainer = CellSpellManager.getOptionalIota(capturedArgs, 1, PotionIota.TYPE);
+        Optional<Iota> originContainer = CellSpellManager.getOptionalIota(capturedArgs, 2, EntityIota.TYPE);
+        LivingEntity target = null;
+        StatusEffect effect = null;
+        LivingEntity origin = ctx.getCaster();
+        if (targetContainer.isPresent()){
+            EntityIota targetIota = ((EntityIota) targetContainer.get());
+            if (targetIota.getEntity() instanceof LivingEntity liveTarget){
+                target = liveTarget;
+                if (effectContainer.isPresent()){
+                    PotionIota effectIota = (PotionIota) effectContainer.get();
+                    effect = effectIota.getEffect();
                 }
-            }
-            cost = (int) ((box.getXLength() * box.getYLength() * box.getZLength()) * 0.25);
-        }
-        return new Triple<>(cost, null, capturedArgs);
-    }
-    public @Nullable Mishap execute(CastingContext ctx, List<Iota> capturedArgs, Box bounds, BlockPos corner) {
-        //Oneironaut.LOGGER.info("execute method sucessfully called");
-        Optional<Iota> boxCorner1Container = CellSpellManager.getOptionalIota(capturedArgs, 0, Vec3Iota.TYPE);
-        Optional<Iota> boxCorner2Container = CellSpellManager.getOptionalIota(capturedArgs, 1, Vec3Iota.TYPE);
-        Box boxToUnify = bounds;
-        if (boxCorner1Container.isPresent() && boxCorner2Container.isPresent()){
-            boxToUnify = new Box(((Vec3Iota) boxCorner1Container.get()).getVec3(), ((Vec3Iota) boxCorner2Container.get()).getVec3());
-        }
-        Vec3d lowerCorner = new Vec3d(boxToUnify.minX, boxToUnify.minY, boxToUnify.minZ);
-        ServerWorld world = ctx.getWorld();
-        for (int i = 0; i < bounds.getXLength(); i++){
-            for (int j = 0; j < bounds.getYLength(); j++){
-                for (int k = 0; k < bounds.getZLength(); k++){
-                    Vec3d offset = new Vec3d(i,j,k);
-                    BlockPos targetPos = new BlockPos(lowerCorner.add(offset));
-                    if (world.getBlockState(targetPos).getBlock().equals(OneironautBlockRegistry.CELL.get())){
-                        world.setBlockState(targetPos, OneironautBlockRegistry.MEDIA_GEL.get().getDefaultState());
+                if (originContainer.isPresent()){
+                    EntityIota originIota = ((EntityIota) originContainer.get());
+                    if (originIota.getEntity() instanceof LivingEntity liveOrigin){
+                        origin = liveOrigin;
                     }
                 }
+            } else {
+                return new Triple<>(cost, new MishapInvalidIota(targetIota, 2, Text.translatable("hexcasting.mishap.invalid_value.class.entity.living")), capturedArgs);
             }
+        } else {
+            //TODO: replace this with a bespoke mishap
+            return new Triple<>(cost, new MishapNotEnoughArgs(1, 0), capturedArgs);
         }
+        List<Iota> processedArgs = new ArrayList<>();
+        processedArgs.add(new EntityIota(target));
+        processedArgs.add(effect == null ? new NullIota() : new PotionIota(effect));
+        processedArgs.add(new EntityIota(origin));
+        return new Triple<>(cost, null, processedArgs);
+    }
+    public @Nullable Mishap execute(CastingContext ctx, List<Iota> capturedArgs, Box bounds, BlockPos corner) {
+        //TODO: actually make this do the thing
         return null;
     }
 

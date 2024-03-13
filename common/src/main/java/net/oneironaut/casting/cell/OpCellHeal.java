@@ -7,6 +7,7 @@ import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
 import at.petrak.hexcasting.api.spell.mishaps.Mishap;
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway;
 import com.mojang.datafixers.util.Pair;
+import kotlin.Triple;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.BlockPos;
@@ -73,9 +74,9 @@ public class OpCellHeal implements ICellSpell{
         return this.cost;
     }
 
-    public @NotNull Pair<Integer, @Nullable Mishap> evaluateConditions(CastingContext ctx, List<Iota> capturedArgs, Box bounds) {
+    public @NotNull Triple<Integer, @Nullable Mishap, List<Iota>> evaluateConditions(CastingContext ctx, List<Iota> capturedArgs, Box bounds) {
         //Oneironaut.LOGGER.info("eval method sucessfully called");
-        return new Pair<>(this.cost, null);
+        return new Triple<>(this.cost, null, capturedArgs);
     }
     public @Nullable Mishap execute(CastingContext ctx, List<Iota> capturedArgs, Box bounds, BlockPos corner) {
         //Oneironaut.LOGGER.info("execute method sucessfully called");

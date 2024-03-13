@@ -39,15 +39,15 @@ class OpSwapSpace : SpellAction {
         val originWorldKey = originWorld.registryKey
         val originWorldCuboid = args.getList(0, argc)
         if (originWorldCuboid.size() != 2){
-            throw MishapInvalidIota(args[0], 2, Text.literal("List is improperly sized."))
+            throw MishapInvalidIota(args[0], 2, Text.translatable("oneironaut.mishap.wrongsizelist"))
         } else if ((originWorldCuboid.getAt(0).type != Vec3Iota.TYPE) || originWorldCuboid.getAt(1).type != Vec3Iota.TYPE){
-            throw MishapInvalidIota(args[0], 2, Text.literal("List does not contain two vectors."))
+            throw MishapInvalidIota(args[0], 2, Text.translatable("oneironaut.mishap.twovectorsplease"))
         }
         val destWorldCuboid = args.getList(1, argc)
         if (destWorldCuboid.size() != 2){
-            throw MishapInvalidIota(args[1], 1, Text.literal("List is improperly sized."))
+            throw MishapInvalidIota(args[1], 1, Text.translatable("oneironaut.mishap.wrongsizelist"))
         } else if ((destWorldCuboid.getAt(0).type != Vec3Iota.TYPE) || destWorldCuboid.getAt(1).type != Vec3Iota.TYPE){
-            throw MishapInvalidIota(args[1], 1, Text.literal("List does not contain two vectors."))
+            throw MishapInvalidIota(args[1], 1, Text.translatable("oneironaut.mishap.twovectorsplease"))
         }
 
         val originCuboidCorner1 = BlockPos((originWorldCuboid.getAt(0) as Vec3Iota).vec3)

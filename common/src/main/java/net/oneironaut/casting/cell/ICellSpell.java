@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.mishaps.Mishap;
 import com.mojang.datafixers.util.Pair;
+import kotlin.Triple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ public interface ICellSpell {
     void initPattern(String[][] pattern);
     @NotNull List<BlockPos> getPattern();
     //the returned value should be the media cost, in raw units.
-    @NotNull Pair<Integer, @Nullable Mishap> evaluateConditions(CastingContext ctx, List<Iota> capturedArgs, Box bounds);
+    @NotNull Triple<Integer, @Nullable Mishap, List<Iota>> evaluateConditions(CastingContext ctx, List<Iota> capturedArgs, Box bounds);
     @Nullable Mishap execute(CastingContext ctx, List<Iota> capturedArgs, Box bounds, BlockPos corner);
     @NotNull Box getBoundingBox();
     /*

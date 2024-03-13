@@ -7,6 +7,7 @@ import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
 import at.petrak.hexcasting.api.spell.mishaps.Mishap;
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway;
 import com.mojang.datafixers.util.Pair;
+import kotlin.Triple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -80,7 +81,7 @@ public class OpCellExplosion implements ICellSpell{
         return this.cost;
     }
 
-    public @NotNull Pair<Integer, @Nullable Mishap> evaluateConditions(CastingContext ctx, List<Iota> capturedArgs, Box bounds) {
+    public @NotNull Triple<Integer, @Nullable Mishap, List<Iota>> evaluateConditions(CastingContext ctx, List<Iota> capturedArgs, Box bounds) {
         //Oneironaut.LOGGER.info("eval method sucessfully called");
         Optional<Iota> target = CellSpellManager.getOptionalIota(capturedArgs, 0, Vec3Iota.TYPE);
         if (target.isPresent()){
@@ -90,14 +91,14 @@ public class OpCellExplosion implements ICellSpell{
             //Oneironaut.LOGGER.info("target point: " + vector.toString() + ", squared distance to caster is " + vector.squaredDistanceTo(ctx.getCaster().getEyePos()));
             if(!ctx.isVecInRange(vector)){
                 //Oneironaut.LOGGER.info("target out of range");
-                return new Pair<>(this.cost, new MishapLocationTooFarAway(vector, "too_far"));
+                return new Triple<>(this.cost, new MishapLocationTooFarAway(vector, "too_far"), capturedArgs);
             } else {
                 //Oneironaut.LOGGER.info("target in range");
             }
         } else {
             //Oneironaut.LOGGER.info("no target present");
         }
-        return new Pair<>(this.cost, null);
+        return new Triple<>(this.cost, null, capturedArgs);
     }
     public @Nullable Mishap execute(CastingContext ctx, List<Iota> capturedArgs, Box bounds, BlockPos corner) {
         //Oneironaut.LOGGER.info("execute method sucessfully called");

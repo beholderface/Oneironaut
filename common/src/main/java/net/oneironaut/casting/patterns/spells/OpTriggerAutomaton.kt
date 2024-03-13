@@ -15,7 +15,7 @@ import net.oneironaut.getBoxCorners
 class OpTriggerAutomaton : SpellAction {
     override val argc = 3
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
-        val debugMessages = true;
+        val debugMessages = false;
         val box = Box(BlockPos(args.getVec3(0, argc)), BlockPos(args.getVec3(1, argc)))
         val corners = getBoxCorners(box)
         for(c in corners){
@@ -23,6 +23,7 @@ class OpTriggerAutomaton : SpellAction {
         }
         var cellSpellCost = 0
         val capturedArgs = args.getList(2, argc).toList()
+        var processedArgs = capturedArgs
         advanceAutomaton(ctx, box)
         //Oneironaut.LOGGER.info("checking for pattern")
         val cellSpell : com.mojang.datafixers.util.Pair<BlockPos, ICellSpell>? = CellSpellManager.findPattern(ctx, box)
@@ -30,6 +31,7 @@ class OpTriggerAutomaton : SpellAction {
             val cellSpellConditions = cellSpell.second.evaluateConditions(ctx, capturedArgs, box);
             cellSpellCost = cellSpellConditions.first
             val mishap = cellSpellConditions.second
+            processedArgs = cellSpellConditions.third
             //mishap if the cell spell says to mishap
             if (mishap != null){
                 Oneironaut.boolLogger("should be mishapping", debugMessages)
@@ -45,13 +47,13 @@ class OpTriggerAutomaton : SpellAction {
         val cost = ((box.xLength * box.yLength * box.zLength * (MediaConstants.DUST_UNIT * 0.1)) + cellSpellCost).toInt()
         return if (cellSpell == null){
             Triple(
-                Spell(box, null, null, capturedArgs),
+                Spell(box, null, null, processedArgs),
                 cost,
                 listOf(ParticleSpray.cloud(box.center, 2.0))
             )
         } else {
             Triple(
-                Spell(box, cellSpell.first, cellSpell.second, capturedArgs),
+                Spell(box, cellSpell.first, cellSpell.second, processedArgs),
                 cost,
                 listOf(ParticleSpray.cloud(box.center, 2.0))
             )

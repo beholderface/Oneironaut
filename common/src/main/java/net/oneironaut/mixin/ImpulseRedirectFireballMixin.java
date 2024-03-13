@@ -37,9 +37,11 @@ public abstract class ImpulseRedirectFireballMixin {
 
     @Unique
     private static final Identifier immuneTag = new Identifier(Oneironaut.MOD_ID, "impulse_redirect_blacklist");
+    @Unique
+    private static final boolean redirectionEnabled = OneironautConfig.getServer().getImpulseRedirectsFireball();
     @Inject(method = "cast", at = @At(value = "RETURN", remap = false), remap = false)
     public void redirectFireball(CastingContext ctx, CallbackInfo ci/*, @Local(ordinal = 0) Entity target*/){
-        if (target instanceof ExplosiveProjectileEntity explosive && OneironautConfig.getServer().getImpulseRedirectsFireball()){
+        if (target instanceof ExplosiveProjectileEntity explosive && redirectionEnabled){
             /*TrackedData<Float> POWER_X = DataTracker.registerData(ExplosiveProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
             TrackedData<Float> POWER_Y = DataTracker.registerData(ExplosiveProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
             TrackedData<Float> POWER_Z = DataTracker.registerData(ExplosiveProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);*/
