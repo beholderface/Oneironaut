@@ -44,7 +44,8 @@ class OpTriggerAutomaton : SpellAction {
         } else {
             Oneironaut.boolLogger("no pattern found", debugMessages)
         }
-        val cost = ((box.xLength * box.yLength * box.zLength * (MediaConstants.DUST_UNIT * 0.1)) + cellSpellCost).toInt()
+        //more expensive than just advance automaton to discourage people from exclusively using trigger, which is significantly more performance-heavy
+        val cost = ((box.xLength * box.yLength * box.zLength * (MediaConstants.DUST_UNIT * 0.25)) + cellSpellCost).toInt()
         return if (cellSpell == null){
             Triple(
                 Spell(box, null, null, processedArgs),

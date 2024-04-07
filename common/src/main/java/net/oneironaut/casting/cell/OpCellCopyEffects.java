@@ -5,15 +5,14 @@ import at.petrak.hexcasting.api.spell.iota.EntityIota;
 import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.iota.NullIota;
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
-import at.petrak.hexcasting.api.spell.mishaps.Mishap;
-import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota;
-import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway;
-import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs;
+import at.petrak.hexcasting.api.spell.mishaps.*;
+import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import com.mojang.datafixers.util.Pair;
 import kotlin.Triple;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -21,6 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.oneironaut.MiscAPIKt;
+import net.oneironaut.casting.mishaps.MishapCellMissingRequirement;
 import net.oneironaut.registry.OneironautBlockRegistry;
 import net.oneironaut.registry.PotionIota;
 import org.jetbrains.annotations.NotNull;
@@ -33,14 +33,34 @@ import java.util.Optional;
 public class OpCellCopyEffects implements ICellSpell{
     public static final String[][] copyPattern = {
             {
-                    "   ",
-                    "CCC",
-                    "   "
+                    "C   C",
+                    " C C ",
+                    "     ",
+                    " C C ",
+                    "C   C"
             },
             {
-                    "CCC",
-                    "   ",
-                    "CCC"
+                    "C   C",
+                    " C C ",
+                    "  C  ",
+                    " C C ",
+                    "C   C"
+            },
+            {
+                    "     ",
+                    " C C ",
+                    "     ",
+                    " C C ",
+                    "     "
+            },
+            {
+                    "2"
+            },
+            {
+                    "2"
+            },
+            {
+                    "1"
             },
             {
                     "0"
@@ -90,6 +110,13 @@ public class OpCellCopyEffects implements ICellSpell{
         return this.pattern;
     }
 
+    private static int copyCostCalculation(StatusEffectInstance effect, CastingContext ctx, LivingEntity target){
+        if (effect != null){
+            return 1;
+        }
+        return 0;
+    }
+
     public @NotNull Triple<Integer, @Nullable Mishap, List<Iota>> evaluateConditions(CastingContext ctx, List<Iota> capturedArgs, Box bounds) {
         //Oneironaut.LOGGER.info("eval method sucessfully called");
         int cost = (int) ((bounds.getXLength() * bounds.getYLength() * bounds.getZLength()) * 0.25);
@@ -103,6 +130,9 @@ public class OpCellCopyEffects implements ICellSpell{
             EntityIota targetIota = ((EntityIota) targetContainer.get());
             if (targetIota.getEntity() instanceof LivingEntity liveTarget){
                 target = liveTarget;
+                if (!ctx.isEntityInRange(target)){
+                    return new Triple<>(cost, new MishapEntityTooFarAway(target), capturedArgs);
+                }
                 if (effectContainer.isPresent()){
                     PotionIota effectIota = (PotionIota) effectContainer.get();
                     effect = effectIota.getEffect();
@@ -111,14 +141,29 @@ public class OpCellCopyEffects implements ICellSpell{
                     EntityIota originIota = ((EntityIota) originContainer.get());
                     if (originIota.getEntity() instanceof LivingEntity liveOrigin){
                         origin = liveOrigin;
+                        if (!ctx.isEntityInRange(origin)){
+                            return new Triple<>(cost, new MishapEntityTooFarAway(origin), capturedArgs);
+                        }
+                    } else {
+                        return new Triple<>(cost, new MishapInvalidIota(targetIota, 0, Text.translatable("hexcasting.mishap.invalid_value.class.entity.living")), capturedArgs);
+                    }
+                    if (origin.equals(target)){
+                        return new Triple<>(cost, MishapBadEntity.of(target, "oneironaut:requiresdifferententities"), capturedArgs);
                     }
                 }
             } else {
                 return new Triple<>(cost, new MishapInvalidIota(targetIota, 2, Text.translatable("hexcasting.mishap.invalid_value.class.entity.living")), capturedArgs);
             }
         } else {
-            //TODO: replace this with a bespoke mishap
-            return new Triple<>(cost, new MishapNotEnoughArgs(1, 0), capturedArgs);
+            return new Triple<>(cost, new MishapCellMissingRequirement("hexcasting.mishap.invalid_value.class.entity.living"), capturedArgs);
+        }
+        if (effect == null){
+            var effectsToCopy = origin.getActiveStatusEffects();
+            for (StatusEffectInstance effectInstance : effectsToCopy.values()){
+                cost += copyCostCalculation(effectInstance, ctx, target);
+            }
+        } else {
+            cost += copyCostCalculation(origin.getStatusEffect(effect), ctx, target);
         }
         List<Iota> processedArgs = new ArrayList<>();
         processedArgs.add(new EntityIota(target));
@@ -127,7 +172,17 @@ public class OpCellCopyEffects implements ICellSpell{
         return new Triple<>(cost, null, processedArgs);
     }
     public @Nullable Mishap execute(CastingContext ctx, List<Iota> capturedArgs, Box bounds, BlockPos corner) {
-        //TODO: actually make this do the thing
+        Iota maybeEffect = capturedArgs.get(1);
+        LivingEntity target = (LivingEntity) ((EntityIota) capturedArgs.get(0)).getEntity();
+        StatusEffect effect = maybeEffect.getType() == PotionIota.TYPE ? ((PotionIota) maybeEffect).getEffect() : null;
+        LivingEntity origin = (LivingEntity) ((EntityIota) capturedArgs.get(2)).getEntity();
+        if (effect == null) {
+            for (StatusEffectInstance effectInstance : origin.getStatusEffects()){
+                target.addStatusEffect(effectInstance, ctx.getCaster());
+            }
+        } else {
+            target.addStatusEffect(origin.getStatusEffect(effect), ctx.getCaster());
+        }
         return null;
     }
 

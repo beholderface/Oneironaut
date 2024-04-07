@@ -18,6 +18,7 @@ import kotlin.math.pow
 
 
 //this code was never implemented, and has now been superseded by the cellular version
+//feel free to add your own pattern to use it, it *should* work just fine (though I haven't tested it)
 
 class OpCopyStatus : SpellAction {
     override val argc = 3

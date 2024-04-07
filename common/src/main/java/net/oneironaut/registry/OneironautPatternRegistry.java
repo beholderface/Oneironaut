@@ -91,6 +91,7 @@ public class OneironautPatternRegistry {
     public static String[][] CELL_EXPLOSION = registerCellSpell(OpCellExplosion.explosionPattern, "explosion", new OpCellExplosion(OpCellExplosion.explosionPattern, "oneironaut.cellspell.explosion"));
     //public static String[][] CELL_HEAL = registerCellSpell(OpCellHeal.line, "heal", new OpCellHeal(OpCellHeal.line, "oneironaut.cellspell.heal"));
     public static String[][] CELL_UNIFY = registerCellSpell(OpCellUnify.unifyPattern, "unify", new OpCellUnify(OpCellUnify.unifyPattern, "oneironaut.cellspell.unify"));
+    public static String[][] CELL_COPY_EFFECTS = registerCellSpell(OpCellCopyEffects.copyPattern, "copyeffects", new OpCellCopyEffects(OpCellCopyEffects.copyPattern, "oneironaut.cellspell.copyeffects"));
 
     public static void init() {
         try {
