@@ -33,31 +33,25 @@ import java.util.Optional;
 public class OpCellCopyEffects implements ICellSpell{
     public static final String[][] copyPattern = {
             {
-                    "C   C",
-                    " C C ",
-                    "     ",
-                    " C C ",
-                    "C   C"
-            },
-            {
-                    "C   C",
-                    " C C ",
                     "  C  ",
                     " C C ",
-                    "C   C"
-            },
-            {
-                    "     ",
+                    "C   C",
                     " C C ",
+                    "  C  "
+            },
+            {
+                    "  C  ",
                     "     ",
-                    " C C ",
-                    "     "
+                    "C   C",
+                    "     ",
+                    "  C  "
             },
             {
-                    "2"
-            },
-            {
-                    "2"
+                    "  C  ",
+                    "  C  ",
+                    "CC CC",
+                    "  C  ",
+                    "  C  "
             },
             {
                     "1"
