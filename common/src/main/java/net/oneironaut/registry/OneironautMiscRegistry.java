@@ -1,33 +1,16 @@
 package net.oneironaut.registry;
 
-import at.petrak.hexcasting.common.items.ItemStaff;
-import at.petrak.hexcasting.common.lib.HexBlocks;
-import at.petrak.hexcasting.common.lib.HexItems;
-import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Material;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import net.oneironaut.Oneironaut;
 import net.oneironaut.block.*;
 import net.oneironaut.casting.DetectionResistEffect;
 import net.oneironaut.casting.MissingEffect;
 import net.oneironaut.casting.OvercastDamageEnchant;
-import net.oneironaut.item.BottomlessMediaItem;
-import net.oneironaut.item.EchoStaff;
-import net.oneironaut.item.PseudoamethystShard;
-import net.oneironaut.item.ReverberationRod;
 
 public class OneironautMiscRegistry {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
