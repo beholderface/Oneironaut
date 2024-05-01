@@ -15,6 +15,7 @@
     "EternalChorusMixin",
     "ImpulseRedirectFireballMixin",
     "NoosphereWispMixin",
+    "OneResetSoundMixin",
     "OpBreakBlockImmunityMixin",
     "QuietRodMixin",
     "SentinelTrapMixinCast",

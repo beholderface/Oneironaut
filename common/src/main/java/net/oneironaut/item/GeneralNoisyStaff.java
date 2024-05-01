@@ -27,7 +27,15 @@ public class GeneralNoisyStaff extends ItemStaff {
     }
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        if (player.isSneaking()) {
+        super.use(world, player, hand);
+        if (world.isClient){
+            if (player.isSneaking()){
+                player.playSound(this.resetSound, this.soundModifiers[0], this.soundModifiers[1]);
+            } else {
+                player.playSound(this.openSound, this.soundModifiers[2], this.soundModifiers[3]);
+            }
+        }
+        /*if (player.isSneaking()) {
             player.playSound(this.resetSound, this.soundModifiers[0], this.soundModifiers[1]);
             if (!world.isClient && player instanceof ServerPlayerEntity serverPlayer) {
                 IXplatAbstractions.INSTANCE.clearCastingData(serverPlayer);
@@ -47,7 +55,7 @@ public class GeneralNoisyStaff extends ItemStaff {
         }
 
         player.incrementStat(Stats.USED.getOrCreateStat(this));
-//        player.gameEvent(GameEvent.ITEM_INTERACT_START);
+//        player.gameEvent(GameEvent.ITEM_INTERACT_START);*/
 
         return TypedActionResult.success(player.getStackInHand(hand));
     }
