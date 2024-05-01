@@ -30,10 +30,6 @@ mod_name = "Oneironaut"
 author = "beholderface"
 show_landing_text = false
 
-[textures.override]
-"oneironaut:sentinel_trap" = { texture="oneironaut:textures/block/sentinel_trap_powered.png" }
-"oneironaut:sentinel_sensor" = { texture="oneironaut:textures/block/sentinel_sensor.png" }
-
 [extra.hexcasting]
 # regexes for parsing pattern registry files - try running copier update and picking a different regex if your patterns aren't loading
 # NOTE: "!Raw" means "don't apply variable interpolation to this value"
