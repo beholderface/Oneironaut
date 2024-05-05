@@ -9,11 +9,13 @@ import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.TickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -32,6 +34,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 import static net.minecraft.server.command.CommandManager.literal;
+import static net.oneironaut.MiscAPIKt.getItemTagKey;
 
 /**
  * This is effectively the loading entrypoint for most of your code, at least
@@ -69,11 +72,17 @@ public class Oneironaut {
         });
 
         ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
+        TagKey<Item> realStaffTag = getItemTagKey(new Identifier("hexcasting:staves"));
+        TagKey<Item> fakeStaffTag = getItemTagKey(new Identifier("oneironaut:datapack_staves"));
         InteractionEvent.RIGHT_CLICK_ITEM.register((player, hand) -> {
             ItemStack heldStack = player.getStackInHand(hand);
-            if (heldStack.isIn(MiscAPIKt.getItemTagKey(new Identifier("hexcasting:staves"))) && !(heldStack.getItem() instanceof ItemStaff)){
-                fakeStaffStack.use(player.world, player, hand);
-                player.swingHand(hand);
+            if (heldStack.isIn(fakeStaffTag) && !(heldStack.getItem() instanceof ItemStaff)){
+                if (heldStack.isIn(realStaffTag)){
+                    fakeStaffStack.use(player.world, player, hand);
+                    player.swingHand(hand);
+                } else {
+                    LOGGER.info(player.getName().getString() + " has right-clicked an item tagged as a datapacked staff, but that item does not have the normal staff tag, which is necessary for the datapack staff functionality to work.");
+                }
             }
             return CompoundEventResult.pass();
         });
