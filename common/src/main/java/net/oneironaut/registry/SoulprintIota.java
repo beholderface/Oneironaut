@@ -28,6 +28,7 @@ public class SoulprintIota extends Iota{
             SoulprintIota other = (SoulprintIota) that;
             Pair<UUID, String> thisPayload = (Pair<UUID, String>) this.payload;
             Pair<UUID, String> thatPayload = (Pair<UUID, String>) other.payload;
+            //not checking the entity name because player name changes are a thing
             return thisPayload.getLeft().equals(thatPayload.getLeft());
         }
         return false;
