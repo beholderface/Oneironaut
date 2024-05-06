@@ -13,6 +13,8 @@
     "BrainsweepTargetMixin",
     "EntityRaycastImmunityMixin",
     "EternalChorusMixin",
+    "GlowAmbitEffectAmbitMixin",
+    "GlowAmbitEffectGlowMixin",
     "ImpulseRedirectFireballMixin",
     "NoosphereWispMixin",
     "OneResetSoundMixin",

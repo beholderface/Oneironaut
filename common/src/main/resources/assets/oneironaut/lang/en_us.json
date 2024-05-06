@@ -253,6 +253,8 @@
   "this.is.a.comment.7": "Other---------------------------------------------------------------------------------------------",
   "hexcasting.iota.oneironaut:dim": "Dimension",
   "hexcasting.iota.oneironaut:potion": "Status Effect",
+  "hexcasting.iota.oneironaut:uuid": "Soulprint",
+  "hexcasting.iota.oneironaut:uuid.label": "Soulprint of %s",
   "biome.oneironaut.noosphere_sea": "Noosphere Sea",
   "text.oneironaut.clearIdeasResponse": "Cleared iota storage map.",
   "effect.oneironaut.detection_resistance": "Media Shroud",

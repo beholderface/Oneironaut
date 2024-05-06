@@ -3,7 +3,7 @@
   "category": "hexcasting:items",
   "icon": "oneironaut:reverberation_rod",
   "sortnum": 6,
-  "advancement": "minecraft:adventure/avoid_vibration",
+  "advancement": "oneironaut:unlock_rod",
   "pages": [
     "oneironaut.page.rod.1",
     {
@@ -68,9 +68,25 @@
       "text": "oneironaut.page.rod.9"
     },
     {
+      "type": "hexcasting:pattern",
+      "op_id": "oneironaut:writerodram",
+      "anchor": "oneironaut:writerodram",
+      "input": "non-list",
+      "output": "",
+      "text": "oneironaut.page.rod.10"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "oneironaut:readrodram",
+      "anchor": "oneironaut:readrodram",
+      "input": "",
+      "output": "non-list",
+      "text": "oneironaut.page.rod.11"
+    },
+    {
       "type": "patchouli:crafting",
       "recipe": "oneironaut:echo_staff",
-      "text": "oneironaut.page.rod.10"
+      "text": "oneironaut.page.rod.12"
     }
   ]
 }

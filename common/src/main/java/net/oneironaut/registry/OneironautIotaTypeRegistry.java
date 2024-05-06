@@ -23,6 +23,7 @@ public class OneironautIotaTypeRegistry {
     public static Map<Identifier, IotaType<?>> TYPES = new HashMap<>();
     public static final IotaType<DimIota> DIM = type("dim", DimIota.TYPE);
     public static final IotaType<PotionIota> POTION = type("potion", PotionIota.TYPE);
+    public static final IotaType<SoulprintIota> UUID = type("uuid", SoulprintIota.TYPE);
 
     public static void init() {
         for (Map.Entry<Identifier, IotaType<?>> entry : TYPES.entrySet()) {

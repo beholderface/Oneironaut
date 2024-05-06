@@ -18,7 +18,7 @@ class OpAccessRAM(storeInt : Int) : ConstMediaAction {
         if (!isUsingRod(ctx)){
             throw MishapNoRod()
         }
-        Oneironaut.boolLogger(ListIota.TYPE.toString(), true)
+        Oneironaut.boolLogger(ListIota.TYPE.toString(), false)
         val state = ReverberationRod.getState(ctx.caster)
         if (store){
             val iotaToStore = args[0]

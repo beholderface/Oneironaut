@@ -12,6 +12,7 @@ import kotlin.Triple;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.oneironaut.Oneironaut;
+import net.oneironaut.casting.GlowingAmbitEffect;
 import net.oneironaut.casting.cell.*;
 import net.oneironaut.casting.patterns.*;
 import net.minecraft.util.Identifier;
@@ -67,11 +68,13 @@ public class OneironautPatternRegistry {
     public static HexPattern HALT_ROD = register(HexPattern.fromAngles("aqdeeweeew", HexDir.SOUTH_WEST), "haltrod", new OpHaltRod(0));
     public static HexPattern RESET_ROD = register(HexPattern.fromAngles("deaqqwqqqw", HexDir.SOUTH_EAST), "resetrod", new OpHaltRod(1));
     public static HexPattern WRITE_IDEA = register(HexPattern.fromAngles("eweweweweweeewqaqwe", HexDir.EAST), "writeidea", new OpWriteIdea());
+    public static HexPattern GET_SOULPRINT = register(HexPattern.fromAngles("qqaqwedee", HexDir.EAST), "getsoulprint", new OpGetSoulprint());
     public static HexPattern CIRCLE = register(HexPattern.fromAngles("wwwwwwqwwwwwwqwwwwwwqwwwwwwqwwwwwwqwwwwww", HexDir.SOUTH_EAST), "circle", new OpCircle());
     public static HexPattern REMOVE_STATUS = register(HexPattern.fromAngles("eeeeedaqdewed", HexDir.SOUTH_WEST), "removestatus", new OpRemoveStatus());
+    public static HexPattern APPLY_NOT_MISSING = register(HexPattern.fromAngles("qdaeqeawaeqeadqqdeed", HexDir.SOUTH_WEST), "applynotmissing", new OpPotionEffect(OneironautMiscRegistry.NOT_MISSING.get(), 1, false, false, false));
     //it's supposed to look like a classic game of life glider
     public static HexPattern ADVANCE_AUTOMATON = register(HexPattern.fromAngles("qqwqwqwaqeee", HexDir.SOUTH_WEST), "advanceautomaton", new OpAdvanceAutomaton());
-    public static HexPattern TRIGGER_AUTOMATON = register(HexPattern.fromAngles("eewewewdeqqq", HexDir.SOUTH_EAST), "triggerautomaton", new OpTriggerAutomaton());
+    //public static HexPattern TRIGGER_AUTOMATON = regi(not actually, hexdoc regex, this is commented out)ster(HexPattern.fromAngles("eewewewdeqqq", HexDir.SOUTH_EAST), "triggerautomaton", new OpTriggerAutomaton());
 
     /*dang you hexdoc
     public static HexPattern CRAFT_ROD = register(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST), "craftrod", new OpMakePackagedSpell<>((ItemPackagedHex) OneironautThingRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT*/
@@ -88,10 +91,10 @@ public class OneironautPatternRegistry {
     //cell spells
     public static List<Triple<String[][], Identifier, ICellSpell>> CELL_PATTERNS = new ArrayList<>();
 
-    public static String[][] CELL_EXPLOSION = registerCellSpell(OpCellExplosion.explosionPattern, "explosion", new OpCellExplosion(OpCellExplosion.explosionPattern, "oneironaut.cellspell.explosion"));
+    //public static String[][] CELL_EXPLOSION = registerCellSpell(OpCellExplosion.explosionPattern, "explosion", new OpCellExplosion(OpCellExplosion.explosionPattern, "oneironaut.cellspell.explosion"));
     //public static String[][] CELL_HEAL = registerCellSpell(OpCellHeal.line, "heal", new OpCellHeal(OpCellHeal.line, "oneironaut.cellspell.heal"));
-    public static String[][] CELL_UNIFY = registerCellSpell(OpCellUnify.unifyPattern, "unify", new OpCellUnify(OpCellUnify.unifyPattern, "oneironaut.cellspell.unify"));
-    public static String[][] CELL_COPY_EFFECTS = registerCellSpell(OpCellCopyEffects.copyPattern, "copyeffects", new OpCellCopyEffects(OpCellCopyEffects.copyPattern, "oneironaut.cellspell.copyeffects"));
+    //public static String[][] CELL_UNIFY = registerCellSpell(OpCellUnify.unifyPattern, "unify", new OpCellUnify(OpCellUnify.unifyPattern, "oneironaut.cellspell.unify"));
+    //public static String[][] CELL_COPY_EFFECTS = registerCellSpell(OpCellCopyEffects.copyPattern, "copyeffects", new OpCellCopyEffects(OpCellCopyEffects.copyPattern, "oneironaut.cellspell.copyeffects"));
 
     public static void init() {
         try {
@@ -106,8 +109,7 @@ public class OneironautPatternRegistry {
             }
         } catch (PatternRegistry.RegisterPatternException e) {
             e.printStackTrace();
-        }
-        registerItemDependentPatterns();
+        }        registerItemDependentPatterns();
 
     }
 //stolen from gloop

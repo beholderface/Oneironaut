@@ -1,5 +1,5 @@
 {
-  "name": "oneironaut.entry.framepatterns",
+  "name": "oneironaut.entry.miscpatterns",
   "category": "hexcasting:patterns",
   "icon": "minecraft:item_frame",
   "sortnum": 3,
@@ -8,7 +8,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "oneironaut.page.framepatterns.1"
+      "text": "oneironaut.page.miscpatterns.1"
     },
     {
       "type": "hexcasting:pattern",
@@ -16,7 +16,7 @@
       "anchor": "oneironaut:readframerotation",
       "input": "item frame",
       "output": "number",
-      "text": "oneironaut.page.framepatterns.3"
+      "text": "oneironaut.page.miscpatterns.2"
     },
     {
       "type": "hexcasting:pattern",
@@ -24,7 +24,18 @@
       "anchor": "oneironaut:setframerotation",
       "input": "item frame, number",
       "output": "",
-      "text": "oneironaut.page.framepatterns.4"
+      "text": "oneironaut.page.miscpatterns.3"
+    },
+    {
+      "type": "patchouli:empty"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "oneironaut:filteredentityraycast",
+      "anchor": "oneironaut:filteredentityraycast",
+      "input": "[type], vec, vec",
+      "output": "entity | NULL",
+      "text": "oneironaut.page.miscpatterns.4"
     }
   ]
 }
