@@ -242,7 +242,7 @@
   "hexcasting.mishap.oneironaut:norequirediota": "The slime demands %s",
   "hexcasting.mishap.oneironaut:requiresdifferententities": "an entity different from the target",
   "oneironaut.mishap.noitemframe": "an item frame",
-  "oneironaut.mishap.novecorentity": "a vector or player",
+  "oneironaut.mishap.invalidideakey": "a vector, player, or soulprint",
   "oneironaut.mishap.unenlightenedtarget": "an enlightened player",
   "oneironaut.mishap.notbrainswept": "a flayed villager",
   "oneironaut.mishap.badentitykey": "an enlightened player or a flayed villager",

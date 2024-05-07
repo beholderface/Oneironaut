@@ -17,7 +17,9 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.oneironaut.casting.IdeaInscriptionManager
+import net.oneironaut.getSoulprint
 import net.oneironaut.isPlayerEnlightened
+import net.oneironaut.registry.SoulprintIota
 
 class OpReadIdea : ConstMediaAction {
     override val argc = 1
@@ -27,7 +29,7 @@ class OpReadIdea : ConstMediaAction {
         val rawKeyIota = args[0]
         val keyEntity : Entity
         val keyPos : BlockPos
-        if (rawKeyIota.type.equals(EntityIota.TYPE)){
+        if (rawKeyIota.type == EntityIota.TYPE){
             keyEntity = args.getEntity(0, argc)
             ctx.assertEntityInRange(keyEntity)
             if (keyEntity.type.equals(EntityType.VILLAGER)){
@@ -41,11 +43,14 @@ class OpReadIdea : ConstMediaAction {
             } else {
                 throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.badentitykey"))
             }
-        } else if (rawKeyIota.type.equals(Vec3Iota.TYPE)){
+        } else if (rawKeyIota.type == Vec3Iota.TYPE){
             keyPos = BlockPos(args.getVec3(0, argc))
             output = IdeaInscriptionManager.readIota(keyPos, ctx.world)
+        } else if (rawKeyIota.type == SoulprintIota.TYPE){
+            val keySoulprint = args.getSoulprint(0, argc).toString() + "soul"
+            output = IdeaInscriptionManager.readIota(keySoulprint, ctx.world)
         } else {
-            throw MishapInvalidIota(rawKeyIota, 0, Text.translatable("oneironaut.mishap.novecorentity"));
+            throw MishapInvalidIota(rawKeyIota, 0, Text.translatable("oneironaut.mishap.invalidideakey"));
         }
         return listOf(output)
     }

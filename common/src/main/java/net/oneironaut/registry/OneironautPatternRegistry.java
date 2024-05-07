@@ -12,8 +12,6 @@ import kotlin.Triple;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.oneironaut.Oneironaut;
-import net.oneironaut.casting.GlowingAmbitEffect;
-import net.oneironaut.casting.cell.*;
 import net.oneironaut.casting.patterns.*;
 import net.minecraft.util.Identifier;
 import net.oneironaut.casting.patterns.rod.OpAccessRAM;
@@ -89,7 +87,7 @@ public class OneironautPatternRegistry {
 
 
     //cell spells
-    public static List<Triple<String[][], Identifier, ICellSpell>> CELL_PATTERNS = new ArrayList<>();
+    //public static List<Triple<String[][], Identifier, ICellSpell>> CELL_PATTERNS = new ArrayList<>();
 
     //public static String[][] CELL_EXPLOSION = registerCellSpell(OpCellExplosion.explosionPattern, "explosion", new OpCellExplosion(OpCellExplosion.explosionPattern, "oneironaut.cellspell.explosion"));
     //public static String[][] CELL_HEAL = registerCellSpell(OpCellHeal.line, "heal", new OpCellHeal(OpCellHeal.line, "oneironaut.cellspell.heal"));
@@ -104,9 +102,9 @@ public class OneironautPatternRegistry {
             for (Triple<HexPattern, Identifier, Action> patternTriple : PER_WORLD_PATTERNS) {
                 PatternRegistry.mapPattern(patternTriple.getFirst(), patternTriple.getSecond(), patternTriple.getThird(), true);
             }
-            for (Triple<String[][], Identifier, ICellSpell> cellTriple : CELL_PATTERNS){
+            /*for (Triple<String[][], Identifier, ICellSpell> cellTriple : CELL_PATTERNS){
                 CellSpellManager.registerCellSpell(cellTriple.getFirst(), cellTriple.getSecond(), cellTriple.getThird());
-            }
+            }*/
         } catch (PatternRegistry.RegisterPatternException e) {
             e.printStackTrace();
         }        registerItemDependentPatterns();
@@ -152,9 +150,9 @@ public class OneironautPatternRegistry {
         public void register() throws PatternRegistry.RegisterPatternException;
     }
 
-    private static String[][] registerCellSpell(String[][] pattern, String name, ICellSpell spell){
+    /*private static String[][] registerCellSpell(String[][] pattern, String name, ICellSpell spell){
         Triple<String[][], Identifier, ICellSpell> triple = new Triple<>(pattern, id(name), spell);
         CELL_PATTERNS.add(triple);
         return pattern;
-    }
+    }*/
 }

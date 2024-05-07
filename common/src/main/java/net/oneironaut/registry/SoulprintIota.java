@@ -1,13 +1,20 @@
 package net.oneironaut.registry;
 
+import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.iota.IotaType;
 import at.petrak.hexcasting.api.utils.HexUtils;
+import at.petrak.hexcasting.common.lib.HexItems;
+import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
+import net.minecraft.util.math.Vec3d;
+import net.oneironaut.item.BottomlessMediaItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -42,7 +49,7 @@ public class SoulprintIota extends Iota{
         return data;
     }
     public @NotNull UUID getEntity(){
-        return (UUID) this.payload;
+        return ((Pair<UUID, String>) this.payload).getLeft();
     }
     public static IotaType<SoulprintIota> TYPE = new IotaType<>() {
         @Override
@@ -55,7 +62,12 @@ public class SoulprintIota extends Iota{
         public Text display(NbtElement tag) {
             var ctag = HexUtils.downcast(tag, NbtCompound.TYPE);
             var name = ctag.getString("entity_name");
-            return Text.translatable("hexcasting.iota.oneironaut:uuid.label", name);
+            var uuid = ctag.getUuid("iota_uuid");
+            Text original = Text.translatable("hexcasting.iota.oneironaut:uuid.label", name);
+            ItemStack soulglimmerStack = HexItems.UUID_COLORIZER.getDefaultStack();
+            FrozenColorizer soulglimmercolor = new FrozenColorizer(soulglimmerStack, uuid);
+            Style coloredStyle = original.getStyle().withColor(IXplatAbstractions.INSTANCE.getRawColor(soulglimmercolor, BottomlessMediaItem.time, Vec3d.ZERO));
+            return original.copy().setStyle(coloredStyle);
         }
         @Override
         public int color() {

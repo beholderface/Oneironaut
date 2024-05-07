@@ -52,6 +52,15 @@ fun List<Iota>.getStatusEffect(idx: Int, argc: Int = 0, allowShroud : Boolean) :
     throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "status effect")
 }
 
+fun List<Iota>.getSoulprint(idx: Int, argc: Int = 0) : UUID {
+    val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
+    if (x is SoulprintIota) {
+        return x.entity
+    }
+
+    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "imprint")
+}
+
 fun getBlockTagKey(id : Identifier) : TagKey<Block>{
     return TagKey.of(Registry.BLOCK_KEY, id)
 }

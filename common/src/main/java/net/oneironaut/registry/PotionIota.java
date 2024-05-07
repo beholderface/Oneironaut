@@ -7,6 +7,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
@@ -61,14 +62,15 @@ public class PotionIota extends Iota{
         @Override
         public Text display(NbtElement tag) {
             var ctag = HexUtils.downcast(tag, NbtCompound.TYPE);
-            var id = ctag.getString("potion_key");
-            String translatedName = Text.translatable(id).getString();
-            String formatCode = switch (id){
-                case "effect.oneironaut.detection_resistance" -> "§d";
-                case "effect.oneironaut.missing" -> "§4§l";
-                default -> "§1";
+            var text = ctag.getString("potion_key");
+            Text translatedName = Text.translatable(text);
+            Style originalStyle = translatedName.getStyle();
+            Style formattedStyle = switch (text){
+                case "effect.oneironaut.detection_resistance" -> originalStyle.withColor(0xff55ff);
+                case "effect.oneironaut.missing" -> originalStyle.withColor(0xaa0000).withBold(true);
+                default -> originalStyle.withColor(0x0000aa);
             };
-            return Text.of(formatCode+translatedName);
+            return translatedName.copy().setStyle(formattedStyle);
         }
         @Override
         public int color() {
