@@ -2,29 +2,39 @@ package net.oneironaut.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
+import net.oneironaut.Oneironaut;
 import net.oneironaut.block.NoosphereGateEntity;
+import net.oneironaut.casting.DoubleComponent;
 import net.oneironaut.registry.OneironautBlockRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import ram.talia.hexal.api.config.HexalConfig;
+import ram.talia.hexal.client.sounds.WispCastingSoundInstance;
 import ram.talia.hexal.common.entities.BaseCastingWisp;
+import ram.talia.hexal.common.lib.HexalSounds;
 
-import java.util.Iterator;
+import java.awt.*;
 import java.util.Map;
+import java.util.Optional;
 
 
 @SuppressWarnings("ConstantConditions")
 @Mixin(value = BaseCastingWisp.class)
-public abstract class NoosphereWispMixin
+public abstract class MiscWispMixin
 {
+
     @Unique
-    private final int baseUpkeep = HexalConfig.getServer().getTickingWispUpkeepPerTick();
+    private final BaseCastingWisp oneironaut$wisp = (BaseCastingWisp) (Object) this;
+
+    //the code for negating wisp upkeep
     @Unique
     private static final Map<RegistryKey<World>, Map<BlockPos, Vec3d>> gateMap = NoosphereGateEntity.gateLocationMap;
 
@@ -34,7 +44,7 @@ public abstract class NoosphereWispMixin
                     remap = false),
             remap = false)
     public int freeIfNoosphereNormal(BaseCastingWisp wisp, Operation<Integer> original){
-        if (free(wisp)){
+        if (oneironaut$free(wisp)){
             return 0;
         }
         return original.call(wisp);
@@ -46,14 +56,14 @@ public abstract class NoosphereWispMixin
                     remap = false),
             remap = false)
     public int freeIfNoosphereSleepy(BaseCastingWisp wisp, Operation<Integer> original){
-        if (free(wisp)){
+        if (oneironaut$free(wisp)){
             return 0;
         }
         return original.call(wisp);
     }
 
     @Unique
-    private static boolean free(BaseCastingWisp wisp){
+    private static boolean oneironaut$free(BaseCastingWisp wisp){
         boolean foundGate = false;
         //Contrary to what Big IDE wants you to think, casting wisp to Entity is not redundant.
         //This is because outside of dev environments, the desired methods do not seem to exist in BaseCastingWisp.
@@ -81,4 +91,23 @@ public abstract class NoosphereWispMixin
         }
         return foundGate;
     }
+
+    //the code for modifying wisp volume here doesn't actually work because you can't set SoundInstance volume after construction
+    /*@WrapOperation(method = "playCastSoundClient", at = @At(value = "INVOKE",
+            target = "Lram/talia/hexal/common/lib/HexalSounds$SoundEntry;playAt(Lnet/minecraft/world/World;Lnet/minecraft/util/math/Vec3d;FFZ)V",
+            remap = true))
+    public void playVolumeModified(HexalSounds.SoundEntry instance, World world, Vec3d pos, float volume, float pitch, boolean fade, Operation<Void> original,
+                                   //@Local WispCastingSoundInstance sound
+                                   ){
+        ComponentKey<DoubleComponent> volumeComponent = DoubleComponent.VOLUME;
+        Optional<DoubleComponent> maybeVolume = volumeComponent.maybeGet(oneironaut$wisp);
+        double multiplier = 1.0;
+        if (maybeVolume.isPresent()){
+            multiplier = maybeVolume.get().getValue();
+            Oneironaut.LOGGER.info("component found, with value " + multiplier);
+        } else {
+            Oneironaut.LOGGER.info("no component found, using default multiplier of" + multiplier);
+        }
+        instance.playAt(world, pos, (0.3f * (float)multiplier), pitch, fade);
+    }*/
 }

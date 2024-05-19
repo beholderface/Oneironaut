@@ -38,5 +38,10 @@
     "architectury": ">=6.5.85",
     "hexcasting": ">=0.10.3",
     "hexal": ">=0.2.18"
+  },
+  "custom": {
+    "cardinal-components": [
+      "oneironaut:wisp_volume"
+    ]
   }
 }

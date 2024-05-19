@@ -11,6 +11,14 @@ loom {
     accessWidenerPath = file("src/main/resources/oneironaut.accesswidener")
 }
 
+repositories {
+    mavenCentral()
+    maven {
+        name = "Ladysnake Mods"
+        url = 'https://maven.ladysnake.org/releases'
+    }
+}
+
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
@@ -23,12 +31,12 @@ dependencies {
     modCompileOnly "at.petra-k.paucal:paucal-common-$minecraftVersion:$paucalVersion"
     modCompileOnly "at.petra-k.hexcasting:hexcasting-fabric-$minecraftVersion:$hexcastingVersion"
     modCompileOnly "vazkii.patchouli:Patchouli-xplat:$minecraftVersion-$patchouliVersion"
-    modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
+    //modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
     modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"
     //modCompileOnly "maven.modrinth:hexgloop:${gloopVersion}"
     //modCompileOnly "maven.modrinth:wnboi:${wnboiVersion}"
     compileOnly(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixinExtrasVersion}"))
-
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-api:$cca_version"
 }
 
 publishing {
@@ -43,8 +51,4 @@ publishing {
     repositories {
         // Add repositories to publish to here.
     }
-}
-
-repositories {
-    mavenCentral()
 }

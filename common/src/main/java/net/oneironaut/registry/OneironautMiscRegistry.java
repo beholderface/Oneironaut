@@ -2,16 +2,16 @@ package net.oneironaut.registry;
 
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.oneironaut.Oneironaut;
 import net.oneironaut.block.*;
-import net.oneironaut.casting.DetectionResistEffect;
-import net.oneironaut.casting.GlowingAmbitEffect;
-import net.oneironaut.casting.MissingEffect;
-import net.oneironaut.casting.OvercastDamageEnchant;
+import net.oneironaut.casting.*;
 
 public class OneironautMiscRegistry {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
@@ -35,4 +35,5 @@ public class OneironautMiscRegistry {
     public static final RegistrySupplier<ThoughtSlurry> THOUGHT_SLURRY_FLOWING = FLUIDS.register("thought_slurry_flowing", () -> ThoughtSlurry.FLOWING_FLUID /*new ThoughtSlurry.Flowing(OneironautThingRegistry.THOUGHT_SLURRY_ATTRIBUTES)*/);
 
     public static final RegistrySupplier<OvercastDamageEnchant> OVERCAST_DAMAGE_ENCHANT = ENCHANTMENTS.register("overcast_damage", OvercastDamageEnchant::new);
+
 }

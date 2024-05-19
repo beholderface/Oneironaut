@@ -16,7 +16,7 @@
     "GlowAmbitEffectAmbitMixin",
     "GlowAmbitEffectGlowMixin",
     "ImpulseRedirectFireballMixin",
-    "NoosphereWispMixin",
+    "MiscWispMixin",
     "OneResetSoundMixin",
     "OpBreakBlockImmunityMixin",
     "QuietRodMixin",
