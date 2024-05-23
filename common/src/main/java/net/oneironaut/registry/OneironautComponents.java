@@ -9,7 +9,7 @@ import net.oneironaut.casting.DoubleComponent;
 import ram.talia.hexal.common.entities.BaseCastingWisp;
 
 public final class OneironautComponents implements EntityComponentInitializer/*, ItemComponentInitializer*/ {
-    public static final ComponentKey<DoubleComponent> WISP_VOLUME = ComponentRegistry.getOrCreate(new Identifier("oneironaut", "wisp_volume"), DoubleComponent.class);
+    //public static final ComponentKey<DoubleComponent> WISP_VOLUME = ComponentRegistry.getOrCreate(new Identifier("oneironaut", "wisp_volume"), DoubleComponent.class);
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {

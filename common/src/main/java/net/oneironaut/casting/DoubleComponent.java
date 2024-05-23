@@ -12,8 +12,7 @@ public class DoubleComponent implements AutoSyncedComponent {
     private double value = 1f;
     private Entity entity;
 
-    // final DoubleComponent wispVolumeComponent = new DoubleComponent(0.1f, 10f, 1f);
-    public static final ComponentKey<DoubleComponent> VOLUME = ComponentRegistry.getOrCreate(new Identifier("oneironaut", "wisp_volume"), DoubleComponent.class);
+    //public static final ComponentKey<DoubleComponent> VOLUME = ComponentRegistry.getOrCreate(new Identifier("oneironaut", "wisp_volume"), DoubleComponent.class);
 
 
     public DoubleComponent(Entity e){
@@ -25,7 +24,7 @@ public class DoubleComponent implements AutoSyncedComponent {
 
     public void setValue(double newValue) {
         this.value = newValue;
-        DoubleComponent.VOLUME.sync(this.entity);
+        //DoubleComponent.VOLUME.sync(this.entity);
     }
 
     @Override
