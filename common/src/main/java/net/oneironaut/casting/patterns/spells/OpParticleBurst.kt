@@ -27,7 +27,7 @@ class OpParticleBurst : ConstMediaAction {
             IXplatAbstractions.INSTANCE.sendPacketNear(target, 128.0, ctx.world, ParticleBurstPacket(target, direction, posRandom, speedRandom, color, 16, false))
             return listOf()
         } else {
-            //probably never actually going to be encountered, but still
+            //definitely never going to be encountered, but still
             ctx.caster.sendMessage(Text.translatable("text.oneironaut.noforgeyet"))
             return listOf(args[0], args[1], args[2], args[3])
         }

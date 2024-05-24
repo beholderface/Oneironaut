@@ -1,11 +1,11 @@
 {
   "type": "minecraft:jigsaw",
-  "biomes": "#oneironaut:has_structure/caster_tower",
+  "biomes": "#oneironaut:has_structure/media_laboratory",
   "step": "surface_structures",
   "spawn_overrides": {},
   "terrain_adaptation": "none",
-  "start_pool": "oneironaut:caster_tower",
-  "size": 1,
+  "start_pool": "oneironaut:media_laboratory",
+  "size": 3,
   "start_height": {
     "absolute": -3
   },

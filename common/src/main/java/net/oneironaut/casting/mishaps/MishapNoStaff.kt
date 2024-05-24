@@ -12,14 +12,14 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.explosion.Explosion
 
-class MishapNoStaff() : Mishap() {
+class MishapNoStaff(val spellName : Text) : Mishap() {
     override fun accentColor(ctx: CastingContext, errorCtx: Context): FrozenColorizer = dyeColor(DyeColor.PURPLE)
 
     override fun particleSpray(ctx: CastingContext) =
         ParticleSpray.burst(ctx.caster.pos, 1.0)
 
     override fun errorMessage(ctx: CastingContext, errorCtx: Context): Text =
-        error("oneironaut:nostaff")
+        error("oneironaut:nostaff", spellName)
 
     override fun execute(ctx: CastingContext, errorCtx: Context, stack: MutableList<Iota>) {
         yeetHeldItem(ctx, Hand.MAIN_HAND)
@@ -29,8 +29,8 @@ class MishapNoStaff() : Mishap() {
 
     companion object {
         @JvmStatic
-        fun of(): MishapNoStaff {
-            return MishapNoStaff()
+        fun of(spellName : Text): MishapNoStaff {
+            return MishapNoStaff(spellName)
         }
     }
 

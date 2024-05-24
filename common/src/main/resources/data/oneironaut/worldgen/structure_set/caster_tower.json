@@ -2,13 +2,13 @@
   "structures": [
     {
       "structure": "oneironaut:caster_tower",
-      "weight": 150
+      "weight": 1
     }
   ],
   "placement": {
     "type": "minecraft:random_spread",
-    "spacing": 32,
+    "spacing": 48,
     "separation": 16,
-    "salt": 1646207470
+    "salt": 1646206470
   }
 }
