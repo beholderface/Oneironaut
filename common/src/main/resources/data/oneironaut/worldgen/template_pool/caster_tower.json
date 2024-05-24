@@ -1,9 +1,9 @@
 {
-  "fallback": "minecraft:empty",
   "name": "oneironaut:caster_tower",
+  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 150,
+      "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "location": "oneironaut:caster_tower",

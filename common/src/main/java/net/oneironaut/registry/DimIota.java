@@ -59,16 +59,17 @@ public class DimIota extends Iota{
         public Text display(NbtElement tag) {
             //return Text.translatable("text.oneironaut.dimiota.name");
             var ctag = HexUtils.downcast(tag, NbtCompound.TYPE);
-            var id = ctag.getString("dim_key");
+            var text = Text.of(ctag.getString("dim_key"));
             //var id = world.getValue().toString();
-            String formatCode = switch (id) {
-                case "minecraft:overworld" -> "§2";
-                case "minecraft:the_nether" -> "§4";
-                case "minecraft:the_end" -> "§e";
-                case "oneironaut:noosphere" -> "§5§l";
-                default -> "§9";
+            Style originalStyle = text.getStyle();
+            Style formattedStyle = switch (text.getString()) {
+                case "minecraft:overworld" -> originalStyle.withColor(0x00aa00);
+                case "minecraft:the_nether" -> originalStyle.withColor(0xaa0000);
+                case "minecraft:the_end" -> originalStyle.withColor(0xffff55);
+                case "oneironaut:noosphere" -> originalStyle.withColor(0xaa00aa).withBold(true);
+                default -> originalStyle.withColor(0x5555ff);
             };
-            return Text.of(formatCode+id);
+            return text.copy().setStyle(formattedStyle);
             //return Text.of("bees");
             //return Text.of(ctag.get("dim_ID").toString());
         }

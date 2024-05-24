@@ -2,12 +2,12 @@ package net.oneironaut.registry;
 
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.common.items.ItemStaff;
-import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.item.*;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Rarity;
 import net.oneironaut.Oneironaut;
 import net.minecraft.util.registry.Registry;
@@ -44,7 +44,8 @@ public class OneironautItemRegistry {
     public static final RegistrySupplier<ReverberationRod> REVERBERATION_ROD = ITEMS.register("reverberation_rod", () -> new ReverberationRod(ONEIRONAUT_UNSTACKABLE));
     public static final RegistrySupplier<BottomlessMediaItem> BOTTOMLESS_MEDIA_ITEM = ITEMS.register("endless_phial", () -> new BottomlessMediaItem(ONEIRONAUT_UNSTACKABLE));
     public static final RegistrySupplier<BlockItem> SUPER_BUDDING_ITEM = ITEMS.register("super_budding", () -> new BlockItem(OneironautBlockRegistry.SUPER_BUDDING.get(), ONEIRONAUT_STACKABLE64));
-    public static final RegistrySupplier<ItemStaff> ECHO_STAFF = ITEMS.register("echo_staff", () -> new EchoStaff(ONEIRONAUT_UNSTACKABLE));
+    public static final RegistrySupplier<ItemStaff> ECHO_STAFF = ITEMS.register("echo_staff", () -> new GeneralNoisyStaff(ONEIRONAUT_UNSTACKABLE, SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, SoundEvents.BLOCK_SCULK_SHRIEKER_SHRIEK, null));
+    public static final RegistrySupplier<ItemStaff> BEACON_STAFF = ITEMS.register("beacon_staff", () -> new GeneralNoisyStaff(ONEIRONAUT_UNSTACKABLE, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundEvents.BLOCK_BEACON_DEACTIVATE, null));
     public static final RegistrySupplier<ShovelItem> SPOON_STAFF = ITEMS.register("spoon_staff", () -> new ShovelItem(ToolMaterials.IRON, 1.5F, -3.0F, ONEIRONAUT_UNSTACKABLE.maxDamage(1024)));
     public static final RegistrySupplier<BlockItem> SENTINEL_TRAP_ITEM = ITEMS.register("sentinel_trap", () -> new BlockItem(OneironautBlockRegistry.SENTINEL_TRAP.get(), ONEIRONAUT_STACKABLE64));
     public static final RegistrySupplier<BlockItem> SENTINEL_SENSOR_ITEM = ITEMS.register("sentinel_sensor", () -> new BlockItem(OneironautBlockRegistry.SENTINEL_SENSOR.get(), ONEIRONAUT_STACKABLE64));

@@ -37,19 +37,28 @@ fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
         return x
     }
 
-    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "imprint")
+    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "oneironaut:imprint")
 }
 
 fun List<Iota>.getStatusEffect(idx: Int, argc: Int = 0, allowShroud : Boolean) : StatusEffect{
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is PotionIota) {
         if (!allowShroud && (x as PotionIota).getEffect().equals(OneironautMiscRegistry.DETECTION_RESISTANCE.get())){
-            throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "detectable status effect")
+            throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "oneironaut:visiblestatus")
         }
         return (x as PotionIota).effect
     }
 
-    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "status effect")
+    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "oneironaut:status")
+}
+
+fun List<Iota>.getSoulprint(idx: Int, argc: Int = 0) : UUID {
+    val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
+    if (x is SoulprintIota) {
+        return x.entity
+    }
+
+    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "oneironaut:soulprint")
 }
 
 fun getBlockTagKey(id : Identifier) : TagKey<Block>{

@@ -7,9 +7,6 @@ import at.petrak.hexcasting.api.spell.iota.Iota
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
-import net.oneironaut.Oneironaut
-import net.oneironaut.casting.cell.CellSpellManager
-import net.oneironaut.casting.cell.ICellSpell
 import net.oneironaut.getBoxCorners
 import net.oneironaut.getPositionsInCuboid
 import net.oneironaut.registry.OneironautBlockRegistry
@@ -24,12 +21,12 @@ class OpAdvanceAutomaton : SpellAction {
         }
         val cost = (box.xLength * box.yLength * box.zLength * (MediaConstants.DUST_UNIT * 0.1)).toInt()
         return Triple(
-                Spell(box, null, null, args, false),
+                Spell(box, null, args, false),
                 cost,
                 listOf(ParticleSpray.cloud(box.center, 2.0))
             )
     }
-    private data class Spell(val box : Box, val corner : BlockPos?, val cellSpell : ICellSpell?,
+    private data class Spell(val box : Box, val corner : BlockPos?,
                              val args : List<Iota>?, val execute : Boolean) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
             advanceAutomaton(ctx, box)

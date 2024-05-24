@@ -9,6 +9,7 @@ import net.minecraft.entity.decoration.ItemFrameEntity
 import net.minecraft.text.Text
 import ram.talia.hexal.api.spell.iota.ItemTypeIota
 
+//unimplemented because when I wrote it I didn't realize that Sorter's Purification can do this already
 class OpFrameItem() : ConstMediaAction {
     override val argc = 1
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {

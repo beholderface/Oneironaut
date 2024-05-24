@@ -9,9 +9,11 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
+import net.minecraft.item.Item;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -68,18 +70,21 @@ public class OneironautClient {
             //return OneironautItemRegistry.REVERBERATION_ROD.get().hasHex(stack) ? 0.99f : -0.01f;
         });
         //ah yes, because I definitely want to turn my expensive staff into a much less expensive variant
-        ItemPropertiesRegistry.register(OneironautItemRegistry.ECHO_STAFF.get(), ItemStaff.FUNNY_LEVEL_PREDICATE, (stack, level, holder, holderID) -> {
-            if (!stack.hasCustomName()) {
-                return 0;
-            }
-            var name = stack.getName().getString().toLowerCase(Locale.ROOT);
-            if (name.contains("old")) {
-                return 1f;
-            } else if (name.contains("wand of the forest")) {
-                return 2f;
-            } else {
-                return 0f;
-            }
-        });
+        Item[] nameSensitiveStaves = {OneironautItemRegistry.ECHO_STAFF.get(), OneironautItemRegistry.BEACON_STAFF.get(), OneironautItemRegistry.SPOON_STAFF.get()};
+        for (Item staff: nameSensitiveStaves) {
+            ItemPropertiesRegistry.register(staff, ItemStaff.FUNNY_LEVEL_PREDICATE, (stack, level, holder, holderID) -> {
+                if (!stack.hasCustomName()) {
+                    return 0;
+                }
+                var name = stack.getName().getString().toLowerCase(Locale.ROOT);
+                if (name.contains("old")) {
+                    return 1f;
+                } else if (name.contains("wand of the forest")) {
+                    return 2f;
+                } else {
+                    return 0f;
+                }
+            });
+        }
     }
 }

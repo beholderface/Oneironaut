@@ -8,10 +8,12 @@ import at.petrak.hexcasting.api.spell.casting.CastingHarness;
 import at.petrak.hexcasting.api.spell.mishaps.Mishap;
 import at.petrak.hexcasting.common.items.magic.ItemMediaHolder;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -39,7 +41,7 @@ public class DetectionResistEffect extends StatusEffect {
             ItemStack offStack = entity.getOffHandStack();
             if ((time % 5) == 0){
                 ((ServerWorld)entity.world).playSoundFromEntity(
-                        null, entity, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.PLAYERS, 1.5f, 1f);
+                        null, entity, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, entity.getSoundCategory(), 1.5f, 1f);
             }
             if (entity.isPlayer()){
                 if ((time % 20) == 0){

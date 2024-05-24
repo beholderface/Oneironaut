@@ -3,9 +3,9 @@
   "biomes": "#oneironaut:has_structure/caster_tower",
   "step": "surface_structures",
   "spawn_overrides": {},
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "none",
   "start_pool": "oneironaut:caster_tower",
-  "size": 3,
+  "size": 1,
   "start_height": {
     "absolute": -3
   },
