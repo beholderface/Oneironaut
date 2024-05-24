@@ -10,4 +10,4 @@ Ideas by **beholderface**, with some input from the members of [the Petrak@'s Mo
 
 Textures by **beholderface** and [**Falkory**](https://github.com/Falkory220)
 
-Chinese translation by [ChujikYahus](https://github.com/ChuijkYahus)
+Chinese translation by [**ChujikYahus**](https://github.com/ChuijkYahus)
