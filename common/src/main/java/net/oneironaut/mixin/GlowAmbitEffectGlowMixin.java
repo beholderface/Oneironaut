@@ -17,7 +17,7 @@ public abstract class GlowAmbitEffectGlowMixin {
 
     @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
 
-    @ModifyReturnValue(method = "isGlowing()Z", at = @At("RETURN"))
+    @ModifyReturnValue(method = "isGlowing()Z", at = @At(value = "RETURN", remap = true), remap = false)
     public boolean makeSpecialGlowingWork(boolean original){
         if (!original){
             if (this.hasStatusEffect(OneironautMiscRegistry.NOT_MISSING.get())){

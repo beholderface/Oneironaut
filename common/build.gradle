@@ -35,7 +35,7 @@ dependencies {
     modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"
     //modCompileOnly "maven.modrinth:hexgloop:${gloopVersion}"
     //modCompileOnly "maven.modrinth:wnboi:${wnboiVersion}"
-    compileOnly(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixinExtrasVersion}"))
+    modImplementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixinExtrasVersion}"))
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-api:$cca_version"
 }
 

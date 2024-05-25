@@ -10,7 +10,8 @@ import at.petrak.hexcasting.api.spell.iota.Iota
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
-import net.oneironaut.Oneironaut
+import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.text.Text
 import net.oneironaut.registry.OneironautMiscRegistry
 import kotlin.math.max
 
@@ -35,8 +36,11 @@ class OpMarkEntity() : SpellAction {
 
     private class Spell(val target : LivingEntity, val levelToApply : Int) : RenderedSpell{
         override fun cast(ctx: CastingContext) {
-            val instance = StatusEffectInstance(markerEffect, 1200, levelToApply)
-            target.addStatusEffect(instance)
+            ctx.caster.sendMessage(Text.literal("For the time being, this spell effectively just applies Glowing, due to mixin trouble. Sorry."), true)
+            val glowInstance = StatusEffectInstance(StatusEffects.GLOWING, 1200)
+            val markInstance = StatusEffectInstance(markerEffect, 1200, levelToApply)
+            target.addStatusEffect(markInstance)
+            target.addStatusEffect(glowInstance)
         }
 
     }
