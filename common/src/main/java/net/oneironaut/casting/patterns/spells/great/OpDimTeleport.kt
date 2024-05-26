@@ -166,7 +166,6 @@ class OpDimTeleport : SpellAction {
                 } else {
                     target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                     if (Platform.isForge()){
-                        //for some reason I couldn't get any other method of interdimensional teleportation to work for non-players on forge
                         val destString = destination.registryKey.value.toString()
                         val command = "execute in $destString as ${target.uuid.toString()} run tp $x $y $z"
                         val executor = target.server?.commandManager
@@ -180,9 +179,6 @@ class OpDimTeleport : SpellAction {
                         destination.setBlockState((floorSpot), HexBlocks.CONJURED_BLOCK.defaultState)
                         BlockConjured.setColor(destination, floorSpot, colorizer)
                     }
-                    //now I can :)
-                    //but should I? forge support and all
-                    //FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
                 }
             }
         }

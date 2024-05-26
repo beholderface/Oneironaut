@@ -56,9 +56,13 @@ public class OneironautClient {
             Oneironaut.LOGGER.info("oh no, forge, aaaaaaaaaaaa");
         }
 
-        ItemPropertiesRegistry.register(OneironautItemRegistry.REVERBERATION_ROD.get(), ItemPackagedHex.HAS_PATTERNS_PRED, (stack, world, holder, holderID) -> {
-            return OneironautItemRegistry.REVERBERATION_ROD.get().hasHex(stack) ? 0.99f : -0.01f;
-        });
+        ItemPackagedHex[] castingItems = {OneironautItemRegistry.REVERBERATION_ROD.get(), OneironautItemRegistry.INSULATED_TRINKET.get()};
+        for (ItemPackagedHex item : castingItems){
+            ItemPropertiesRegistry.register(item, ItemPackagedHex.HAS_PATTERNS_PRED, (stack, world, holder, holderID) -> {
+                return item.hasHex(stack) ? 0.99f : -0.01f;
+            });
+        }
+
         ItemPropertiesRegistry.register(OneironautItemRegistry.REVERBERATION_ROD.get(), ReverberationRod.CASTING_PREDICATE, (stack, world, holder, holderID) -> {
             //return 0.99f;
             if (holder != null){
@@ -69,6 +73,7 @@ public class OneironautClient {
             }
             //return OneironautItemRegistry.REVERBERATION_ROD.get().hasHex(stack) ? 0.99f : -0.01f;
         });
+
         //ah yes, because I definitely want to turn my expensive staff into a much less expensive variant
         Item[] nameSensitiveStaves = {OneironautItemRegistry.ECHO_STAFF.get(), OneironautItemRegistry.BEACON_STAFF.get(), OneironautItemRegistry.SPOON_STAFF.get()};
         for (Item staff: nameSensitiveStaves) {

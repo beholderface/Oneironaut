@@ -3,14 +3,20 @@ package net.oneironaut.registry;
 import at.petrak.hexcasting.api.PatternRegistry;
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.api.spell.Action;
+import at.petrak.hexcasting.api.spell.casting.eval.ContinuationFrame;
+import at.petrak.hexcasting.api.spell.casting.eval.FrameEvaluate;
+import at.petrak.hexcasting.api.spell.iota.Iota;
+import at.petrak.hexcasting.api.spell.iota.PatternIota;
 import at.petrak.hexcasting.api.spell.math.HexDir;
 import at.petrak.hexcasting.api.spell.math.HexPattern;
+import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidPattern;
 import at.petrak.hexcasting.common.casting.operators.spells.OpMakePackagedSpell;
 import at.petrak.hexcasting.common.casting.operators.spells.OpPotionEffect;
 import dev.architectury.registry.registries.RegistrySupplier;
 import kotlin.Triple;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
+import net.minecraft.server.world.ServerWorld;
 import net.oneironaut.Oneironaut;
 import net.oneironaut.casting.patterns.*;
 import net.minecraft.util.Identifier;
@@ -26,6 +32,7 @@ import net.oneironaut.casting.patterns.spells.idea.OpGetIdeaWriter;
 import net.oneironaut.casting.patterns.spells.idea.OpReadIdea;
 import net.oneironaut.casting.patterns.spells.idea.OpWriteIdea;
 import net.oneironaut.casting.patterns.status.*;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,6 +131,11 @@ public class OneironautPatternRegistry {
             PatternRegistry.mapPattern(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST),
                     new Identifier(Oneironaut.MOD_ID, "craftrod"),
                     new OpMakePackagedSpell<>(OneironautItemRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT * 10));
+        });
+        itemDependentPatternRegisterers.put(OneironautItemRegistry.INSULATED_TRINKET, () -> {
+            PatternRegistry.mapPattern(HexPattern.fromAngles("wwaqqqqqeaeaqdadqaeqqeaeq", HexDir.EAST),
+                    new Identifier(Oneironaut.MOD_ID, "craftinsulatedtrinket"),
+                    new OpMakePackagedSpell<>(OneironautItemRegistry.INSULATED_TRINKET.get(), MediaConstants.SHARD_UNIT * 10));
         });
     }
 

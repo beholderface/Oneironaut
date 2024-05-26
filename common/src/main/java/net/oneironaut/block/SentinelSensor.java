@@ -20,6 +20,7 @@ public class SentinelSensor extends BlockWithEntity {
     public static final BooleanProperty GREAT = BooleanProperty.of("great");
     public SentinelSensor(Settings settings){
         super(settings);
+        this.setDefaultState(this.getDefaultState().with(GREAT, false));
     }
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
