@@ -8,7 +8,7 @@
   "server": [
   ],
   "mixins": [
-    "net.beholderface.oneironaut.fabric.mixin.BottomlessMediaPriorityMixin"
+    "BottomlessMediaPriorityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
