@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "net.oneironaut.mixin",
+  "package": "net.beholderface.oneironaut.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "oneironaut.mixins.refmap.json",
   "minVersion": "0.8",
@@ -9,19 +9,19 @@
   "server": [
   ],
   "mixins": [
-    "BlockRaycastImmunityMixin",
-    "BrainsweepTargetMixin",
-    "EntityRaycastImmunityMixin",
-    "EraseSoulprintSignatureMixin",
-    "ImpulseRedirectFireballMixin",
-    "MiscWispMixin",
-    "OpBreakBlockImmunityMixin",
-    "QuietRodMixin",
-    "SentinelTrapMixinCast",
-    "SentinelTrapMixinSummon",
-    "ShroudMediaCostMixin",
-    "TrinketInsulationMixin",
-    "ZoneDistImmunityMixin"
+    "net.beholderface.oneironaut.mixin.BlockRaycastImmunityMixin",
+    "net.beholderface.oneironaut.mixin.BrainsweepTargetMixin",
+    "net.beholderface.oneironaut.mixin.EntityRaycastImmunityMixin",
+    "net.beholderface.oneironaut.mixin.EraseSoulprintSignatureMixin",
+    "net.beholderface.oneironaut.mixin.ImpulseRedirectFireballMixin",
+    "net.beholderface.oneironaut.mixin.MiscWispMixin",
+    "net.beholderface.oneironaut.mixin.OpBreakBlockImmunityMixin",
+    "net.beholderface.oneironaut.mixin.QuietRodMixin",
+    "net.beholderface.oneironaut.mixin.SentinelTrapMixinCast",
+    "net.beholderface.oneironaut.mixin.SentinelTrapMixinSummon",
+    "net.beholderface.oneironaut.mixin.ShroudMediaCostMixin",
+    "net.beholderface.oneironaut.mixin.TrinketInsulationMixin",
+    "net.beholderface.oneironaut.mixin.ZoneDistImmunityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -16,13 +16,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.oneironaut.fabric.OneironautFabric"
+      "net.beholderface.oneironaut.fabric.OneironautFabric"
     ],
     "client": [
-      "net.oneironaut.fabric.OneironautClientFabric"
+      "net.beholderface.oneironaut.fabric.OneironautClientFabric"
     ],
     "cardinal-components": [
-      "net.oneironaut.fabric.OneironautCC"
+      "net.beholderface.oneironaut.fabric.OneironautCC"
     ]
   },
   "mixins": [
