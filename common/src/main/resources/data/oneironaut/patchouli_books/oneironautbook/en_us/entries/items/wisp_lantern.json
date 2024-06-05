@@ -10,6 +10,12 @@
       "type": "patchouli:crafting",
       "recipe": "oneironaut:wisp_lantern",
       "recipe2": "oneironaut:wisp_lantern_tinted"
+    },
+    "oneironaut.page.wisp_lanterns.2",
+    {
+      "type": "patchouli:crafting",
+      "recipe": "oneironaut:wisp_battery",
+      "text": "oneironaut.page.wisp_lanterns.3"
     }
   ]
 }

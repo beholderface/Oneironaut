@@ -51,7 +51,7 @@ public class WispBattery extends BlockWithEntity {
         int media = ((WispBatteryEntity)world.getBlockEntity(pos)).getMedia();
         int capacity = WispBatteryEntity.CAPACITY;
         if (media < 0){
-            return 15;
+            return (int) (world.getTime() % 15);
         } else {
             return (int) Math.floor(((double) media / capacity) * 15);
         }
@@ -88,7 +88,4 @@ public class WispBattery extends BlockWithEntity {
     public boolean emitsRedstonePower(BlockState state) {
         return true;
     }
-    /*public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return 0;
-    }*/
 }

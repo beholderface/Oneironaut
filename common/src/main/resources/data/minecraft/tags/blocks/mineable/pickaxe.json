@@ -7,6 +7,7 @@
     "oneironaut:sentinel_sensor",
     "oneironaut:sentinel_trap",
     "oneironaut:raycast_blocker",
-    "oneironaut:hex_resistant_block"
+    "oneironaut:hex_resistant_block",
+    "oneironaut:wisp_battery"
   ]
 }
