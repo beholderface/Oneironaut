@@ -1,23 +1,15 @@
 package net.beholderface.oneironaut.block;
 
+import net.beholderface.oneironaut.block.blockentity.NoosphereGateEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.beholderface.oneironaut.Oneironaut;
 
 import javax.annotation.Nullable;
-import java.util.Map;
 
 //import static net.oneironaut.MiscAPIKt.stringToWorld;
 //import static net.oneironaut.MiscAPIKt.clientPlayertoServerPlayer;

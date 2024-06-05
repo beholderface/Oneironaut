@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.block;
+package net.beholderface.oneironaut.block.blockentity;
 
 import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;

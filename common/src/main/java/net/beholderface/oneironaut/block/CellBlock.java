@@ -1,16 +1,15 @@
 package net.beholderface.oneironaut.block;
 
+import net.beholderface.oneironaut.block.blockentity.CellEntity;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;

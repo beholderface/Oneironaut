@@ -43,8 +43,8 @@
   "hexcasting.spell.oneironaut:getsoulprint": "Soulprint Reflection",
   "hexcasting.spell.oneironaut:signitem": "Sign Item",
   "hexcasting.spell.oneironaut:checksignature": "Signature Purification",
+
   "this.is.a.comment.2": "Block/Item names--------------------------------------------------------------------------------------------",
-  "block.oneironaut.pseudoamethyst_block": "Pseudoamethyst Block",
   "item.oneironaut.pseudoamethyst_shard": "Pseudoamethyst Shard",
   "item.oneironaut.thought_slurry_bucket": "Thought Slurry Bucket",
   "item.oneironaut.reverberation_rod": "Reverberation Rod",
@@ -57,6 +57,8 @@
   "item.oneironaut.pigment_noosphere": "Noetic Pigment",
   "item.oneironaut.memory_fragment": "Memory Fragment",
   "item.oneironaut.memory_fragment.all": "It seems I've consumed all the memories that this crystal can offer me...",
+
+  "block.oneironaut.pseudoamethyst_block": "Pseudoamethyst Block",
   "block.oneironaut.thought_slurry": "Thought Slurry",
   "block.oneironaut.thought_slurry_flowing": "Flowing Thought Slurry",
   "block.oneironaut.noosphere_basalt": "Noosphere Basalt",
@@ -72,7 +74,10 @@
   "block.oneironaut.media_ice": "Sagely Ice",
   "block.oneironaut.media_gel": "Plasmodial Psyche",
   "block.oneironaut.cell": "Dissonant Psyche",
+  "block.oneironaut.wisp_battery": "Media Diffuser",
+
   "fluid.oneironaut.thought_slurry": "Thought Slurry",
+
   "this.is.a.comment.3": "Book entry titles--------------------------------------------------------------------------------------------",
   "oneironaut.entry.dim_iotas": "Dimension Iotas",
   "oneironaut.entry.status_iotas": "Status Iotas",
@@ -88,6 +93,7 @@
   "oneironaut.entry.raycast_assailant": "Anti-Hex Blocks",
   "oneironaut.entry.mindrender": "Mind Render",
   "oneironaut.entry.soulprints": "Soulprints",
+
   "this.is.a.comment.4": "Book pages--------------------------------------------------------------------------------------------",
   "oneironaut.page.spaceswap.1": "Accepts two lists of two vectors, to define two cuboids, and a Spatial Imprint. These cuboids must have the exact same dimensions and rotation.",
   "oneironaut.page.spaceswap.2": "I'm not quite sure what this one is supposed to do, it's always yelling at me about special dimensions. Perhaps it needs to use this special dimension as an intermediary?",
@@ -208,6 +214,7 @@
   "oneironaut.page.soulprints.2": "Returns my soulprint, mishapping if cast using anything other than a staff. Costs a negligible amount of media.",
   "oneironaut.page.soulprints.3": "Invisibly engraves my soulprint onto the item in my other hand, or erases it if it is already there. Costs 1 amethyst dust.$(br)I should be careful to seal any focuses or similar that I sign, as acquiring an unsealed signed focus may allow someone to impersonate me, and Erase Item gets rid of the signature.",
   "oneironaut.page.soulprints.4": "Accepts a soulprint, and checks if the item in my other hand is engraved with it. Returns true if so, false otherwise. Costs a negligible amount of media.",
+
   "this.is.a.comment.5": "Advancements--------------------------------------------------------------------------------------------",
   "oneironaut.advancements.noosphere.enter": "A Realm of Thought and Dream",
   "oneironaut.advancements.noosphere.enter.description": "Enter the Noosphere",
@@ -231,6 +238,7 @@
   "oneironaut.advancements.lore.science2.description": "Research into the properties of the Noosphere",
   "oneironaut.advancements.lore.science3": "Scientist's Memory #3",
   "oneironaut.advancements.lore.science3.description": "Research into the structure of pseudoamethyst",
+
   "this.is.a.comment.6": "Mishaps--------------------------------------------------------------------------------------------",
   "hexcasting.mishap.oneironaut:mismatchcubes": "Supplied cuboids are dissimilar.",
   "hexcasting.mishap.oneironaut:uninfusable": "Expected an infusable block at %s, but got %s.",
@@ -256,6 +264,7 @@
   "hexcasting.mishap.invalid_value.class.oneironaut:status": "a status effect",
   "hexcasting.mishap.invalid_value.class.oneironaut:visiblestatus": "a detectable status effect",
   "hexcasting.mishap.invalid_value.class.oneironaut:soulprint": "a soulprint",
+
   "this.is.a.comment.7": "Other---------------------------------------------------------------------------------------------",
   "hexcasting.iota.oneironaut:dim": "Dimension",
   "hexcasting.iota.oneironaut:potion": "Status Effect",

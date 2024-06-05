@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.block;
+package net.beholderface.oneironaut.block.blockentity;
 
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.BlockState;

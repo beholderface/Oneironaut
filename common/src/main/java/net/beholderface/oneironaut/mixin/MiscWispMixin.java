@@ -2,30 +2,19 @@ package net.beholderface.oneironaut.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import net.beholderface.oneironaut.block.NoosphereGateEntity;
+import net.beholderface.oneironaut.block.blockentity.NoosphereGateEntity;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
-import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
-import net.beholderface.oneironaut.Oneironaut;
-import net.beholderface.oneironaut.block.NoosphereGateEntity;
-import net.beholderface.oneironaut.casting.DoubleComponent;
-import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import ram.talia.hexal.client.sounds.WispCastingSoundInstance;
 import ram.talia.hexal.common.entities.BaseCastingWisp;
-import ram.talia.hexal.common.lib.HexalSounds;
 
-import java.awt.*;
 import java.util.Map;
-import java.util.Optional;
 
 
 @SuppressWarnings("ConstantConditions")

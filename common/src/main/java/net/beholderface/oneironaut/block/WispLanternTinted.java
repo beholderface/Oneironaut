@@ -2,6 +2,7 @@ package net.beholderface.oneironaut.block;
 
 import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.beholderface.oneironaut.block.blockentity.WispLanternEntityTinted;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;

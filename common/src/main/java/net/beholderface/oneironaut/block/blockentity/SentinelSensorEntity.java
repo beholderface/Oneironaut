@@ -1,7 +1,8 @@
-package net.beholderface.oneironaut.block;
+package net.beholderface.oneironaut.block.blockentity;
 
 import at.petrak.hexcasting.api.player.Sentinel;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.beholderface.oneironaut.block.SentinelSensor;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.MinecraftServer;

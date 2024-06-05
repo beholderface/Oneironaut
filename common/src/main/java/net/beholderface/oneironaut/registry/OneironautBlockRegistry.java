@@ -4,13 +4,13 @@ import at.petrak.hexcasting.common.lib.HexBlocks;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.beholderface.oneironaut.block.*;
+import net.beholderface.oneironaut.block.blockentity.*;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.registry.Registry;
 import net.beholderface.oneironaut.Oneironaut;
-import net.beholderface.oneironaut.block.*;
 
 public class OneironautBlockRegistry {
     //public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ITEM_KEY);
@@ -66,6 +66,8 @@ public class OneironautBlockRegistry {
     ));
     public static final RegistrySupplier<BlockEntityType<CellEntity>> CELL_ENTITY = BLOCK_ENTITIES.register("cell_entity", () -> BlockEntityType.Builder.create(CellEntity::new, CELL.get()).build(null));
 
+    public static final RegistrySupplier<WispBattery> WISP_BATTERY = BLOCKS.register("wisp_battery", ()-> new WispBattery(AbstractBlock.Settings.copy(HexBlocks.SLATE_BLOCK)));
+    public static final RegistrySupplier<BlockEntityType<WispBatteryEntity>> WISP_BATTERY_ENTITY = BLOCK_ENTITIES.register("wisp_battery_entity", ()-> BlockEntityType.Builder.create(WispBatteryEntity::new, WISP_BATTERY.get()).build(null));
 
     //used for the eternal chorus mixin
     public static final BooleanProperty ETERNAL = BooleanProperty.of("eternal");

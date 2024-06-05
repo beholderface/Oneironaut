@@ -1,6 +1,7 @@
 package net.beholderface.oneironaut.block;
 
 import at.petrak.hexcasting.api.misc.FrozenColorizer;
+import net.beholderface.oneironaut.block.blockentity.WispLanternEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;

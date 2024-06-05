@@ -1,38 +1,24 @@
 package net.beholderface.oneironaut.block;
 
 import at.petrak.hexcasting.api.block.circle.BlockAbstractImpetus;
-import at.petrak.hexcasting.api.block.circle.BlockCircleComponent;
-import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus;
-import at.petrak.hexcasting.api.player.Sentinel;
 import at.petrak.hexcasting.api.spell.iota.EntityIota;
-import at.petrak.hexcasting.common.blocks.circles.impetuses.BlockStoredPlayerImpetus;
-import at.petrak.hexcasting.common.blocks.entity.BlockEntityStoredPlayerImpetus;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.beholderface.oneironaut.block.blockentity.SentinelTrapImpetusEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import at.petrak.hexcasting.common.lib.HexSounds;
-
-import net.minecraft.util.math.random.Random;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
 
 public class SentinelTrapImpetus extends BlockAbstractImpetus {
 

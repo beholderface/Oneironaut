@@ -63,5 +63,5 @@ public class OneironautItemRegistry {
     public static final RegistrySupplier<BlockItem> MEDIA_ICE_ITEM = ITEMS.register("media_ice", () -> new BlockItem(OneironautBlockRegistry.MEDIA_ICE.get(), ONEIRONAUT_STACKABLE64));
     public static final RegistrySupplier<BlockItem> MEDIA_GEL_ITEM = ITEMS.register("media_gel", () -> new BlockItem(OneironautBlockRegistry.MEDIA_GEL.get(), ONEIRONAUT_STACKABLE64));
     public static final RegistrySupplier<BlockItem> CELL_ITEM = ITEMS.register("cell", () -> new BlockItem(OneironautBlockRegistry.CELL.get(), ONEIRONAUT_STACKABLE64));
-
+    public static final RegistrySupplier<BlockItem> WISP_BATTERY_ITEM = ITEMS.register("wisp_battery", ()-> new BlockItem(OneironautBlockRegistry.WISP_BATTERY.get(), ONEIRONAUT_STACKABLE16));
 }

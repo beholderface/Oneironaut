@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.block;
+package net.beholderface.oneironaut.block.blockentity;
 
 import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus;
 import at.petrak.hexcasting.api.utils.NBTHelper;

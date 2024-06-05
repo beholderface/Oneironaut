@@ -1,6 +1,6 @@
 package net.beholderface.oneironaut.block;
 
-import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.beholderface.oneironaut.block.blockentity.SentinelSensorEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;

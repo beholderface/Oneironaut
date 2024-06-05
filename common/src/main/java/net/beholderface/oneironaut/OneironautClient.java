@@ -50,6 +50,7 @@ public class OneironautClient {
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ThoughtSlurry.STILL_FLUID, ThoughtSlurry.FLOWING_FLUID);
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_LANTERN.get(), RenderLayer.getCutout());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_LANTERN_TINTED.get(), RenderLayer.getCutout());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_BATTERY.get(), RenderLayer.getCutout());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CIRCLE.get(), RenderLayer.getCutout());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.RAYCAST_BLOCKER_GLASS.get(), RenderLayer.getTranslucent());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.MEDIA_GEL.get(), RenderLayer.getTranslucent());
