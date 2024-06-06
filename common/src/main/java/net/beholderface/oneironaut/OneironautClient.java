@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
@@ -33,6 +34,16 @@ import java.util.Map;
  * Common client loading entrypoint.
  */
 public class OneironautClient {
+
+    private static int applyBlockRenderLayers(Block[] blocks, RenderLayer layer){
+        int applied = 0;
+        for (Block block : blocks){
+            BlockRenderLayerMap.INSTANCE.putBlock(block, layer);
+            applied++;
+        }
+        return applied;
+    }
+
     public static void init() {
 
         if (Platform.isFabric()){
@@ -47,14 +58,25 @@ public class OneironautClient {
                     0x8621c2
             ));
 
+            Block[] cutoutBlocks = {OneironautBlockRegistry.WISP_LANTERN.get(), OneironautBlockRegistry.WISP_LANTERN_TINTED.get(),
+                    OneironautBlockRegistry.WISP_BATTERY.get(), OneironautBlockRegistry.WISP_BATTERY_DECORATIVE.get(),
+                    OneironautBlockRegistry.CIRCLE.get()};
+            Block[] translucentBlocks = {OneironautBlockRegistry.RAYCAST_BLOCKER_GLASS.get(), OneironautBlockRegistry.MEDIA_GEL.get(),
+                    OneironautBlockRegistry.CELL.get()};
+
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ThoughtSlurry.STILL_FLUID, ThoughtSlurry.FLOWING_FLUID);
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_LANTERN.get(), RenderLayer.getCutout());
+
+            Oneironaut.LOGGER.info("Applied cutout layer to " + applyBlockRenderLayers(cutoutBlocks, RenderLayer.getCutout()) + " blocks");
+            Oneironaut.LOGGER.info("Applied translucent layer to " + applyBlockRenderLayers(translucentBlocks, RenderLayer.getTranslucent()) + " blocks");
+
+            /*BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_LANTERN.get(), RenderLayer.getCutout());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_LANTERN_TINTED.get(), RenderLayer.getCutout());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_BATTERY.get(), RenderLayer.getCutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CIRCLE.get(), RenderLayer.getCutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.RAYCAST_BLOCKER_GLASS.get(), RenderLayer.getTranslucent());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_BATTERY_DECORATIVE.get(), RenderLayer.getCutout());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CIRCLE.get(), RenderLayer.getCutout());*/
+            /*BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.RAYCAST_BLOCKER_GLASS.get(), RenderLayer.getTranslucent());
             BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.MEDIA_GEL.get(), RenderLayer.getTranslucent());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CELL.get(), RenderLayer.getTranslucent());
+            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CELL.get(), RenderLayer.getTranslucent());*/
         } else {
             Oneironaut.LOGGER.info("oh no, forge, aaaaaaaaaaaa");
         }

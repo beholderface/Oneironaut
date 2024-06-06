@@ -68,6 +68,8 @@ public class OneironautBlockRegistry {
 
     public static final RegistrySupplier<WispBattery> WISP_BATTERY = BLOCKS.register("wisp_battery", ()-> new WispBattery(AbstractBlock.Settings.copy(HexBlocks.SLATE_BLOCK)));
     public static final RegistrySupplier<BlockEntityType<WispBatteryEntity>> WISP_BATTERY_ENTITY = BLOCK_ENTITIES.register("wisp_battery_entity", ()-> BlockEntityType.Builder.create(WispBatteryEntity::new, WISP_BATTERY.get()).build(null));
+    public static final RegistrySupplier<WispBatteryFake> WISP_BATTERY_DECORATIVE = BLOCKS.register("decorative_wisp_battery", ()-> new WispBatteryFake(AbstractBlock.Settings.copy(HexBlocks.SLATE_BLOCK)));
+    public static final RegistrySupplier<BlockEntityType<WispBatteryEntityFake>> WISP_BATTERY_ENTITY_DECORATIVE = BLOCK_ENTITIES.register("decorative_wisp_battery_entity", ()-> BlockEntityType.Builder.create(WispBatteryEntityFake::new, WISP_BATTERY_DECORATIVE.get()).build(null));
 
     //used for the eternal chorus mixin
     public static final BooleanProperty ETERNAL = BooleanProperty.of("eternal");

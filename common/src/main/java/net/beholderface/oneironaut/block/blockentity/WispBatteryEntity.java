@@ -36,7 +36,7 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
         super(OneironautBlockRegistry.WISP_BATTERY_ENTITY.get(), pos, state);
     }
 
-    private static int[] getColors(Random random){
+    public static int[] getColors(Random random){
         ArrayList<Integer> colors = new ArrayList<>();
         for (int i = 0; i < 32; i++){
             for (ItemDyeColorizer color : HexItems.DYE_COLORIZERS.values()){

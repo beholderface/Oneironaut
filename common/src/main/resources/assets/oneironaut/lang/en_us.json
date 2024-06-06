@@ -75,6 +75,7 @@
   "block.oneironaut.media_gel": "Plasmodial Psyche",
   "block.oneironaut.cell": "Dissonant Psyche",
   "block.oneironaut.wisp_battery": "Wisp Weaver",
+  "block.oneironaut.decorative_wisp_battery": "Lesser Wisp Weaver",
 
   "fluid.oneironaut.thought_slurry": "Thought Slurry",
 
@@ -113,6 +114,7 @@
   "oneironaut.page.wisp_lanterns.1": "I've found that by using materials unique to the Noosphere, I can create a special jar capable of producing and containing a tiny wisp. While this wisp cannot cast anything, it emits quite a bit of light, and will mimic pigments shown to it.$(br)I can also craft a version with tinted glass, in case the wisp's light would disrupt my study's aesthetic.",
   "oneironaut.page.wisp_lanterns.2": "Additionally, by feeding this illumination wisp significant amounts of media, I can cause it to undergo mitosis, with the newly-created wisp being seemingly-identical to the wandering wisps produced by slipways.$(br2)The device to split the wisp in this way can be fed media-bearing items via hoppers or similar, and is capable of storing 640 charged amethyst worth of media.",
   "oneironaut.page.wisp_lanterns.3": "Simply apply a redstone signal to activate. Produces a wisp every four seconds, and consumes two charged amethyst to do so.$(br)The capacity and fill level of the phial used make no difference.",
+  "oneironaut.page.wisp_lanterns.4": "Alternatively, I can create a version which does not consume any media, but produces wisps which yield only net-zero media when consumed.$(br2)All the sparkly shiny orbs, none of the prohibitive cost!",
 
   "oneironaut.page.noosphere_materials.1": "A strange fluid which agitates media entering it, preventing amethyst crystal formation. Stimulates my mind in pleasing ways when I immerse myself in it.",
   "oneironaut.page.noosphere_materials.2": "A rock which is primarily composed of media, somehow. Can be used to craft spell circle blocks.",

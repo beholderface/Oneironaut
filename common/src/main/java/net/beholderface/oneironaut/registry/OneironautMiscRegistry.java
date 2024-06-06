@@ -9,7 +9,11 @@ import net.beholderface.oneironaut.casting.DetectionResistEffect;
 import net.beholderface.oneironaut.casting.GlowingAmbitEffect;
 import net.beholderface.oneironaut.casting.MissingEffect;
 import net.beholderface.oneironaut.casting.OvercastDamageEnchant;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.Identifier;
@@ -22,6 +26,7 @@ public class OneironautMiscRegistry {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
     public static final DeferredRegister<StatusEffect> EFFECTS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.MOB_EFFECT_KEY);
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ENCHANTMENT_KEY);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ENTITY_TYPE_KEY);
 
     //I will not scream at my computer over this
 
@@ -40,5 +45,4 @@ public class OneironautMiscRegistry {
     public static final RegistrySupplier<ThoughtSlurry> THOUGHT_SLURRY_FLOWING = FLUIDS.register("thought_slurry_flowing", () -> ThoughtSlurry.FLOWING_FLUID /*new ThoughtSlurry.Flowing(OneironautThingRegistry.THOUGHT_SLURRY_ATTRIBUTES)*/);
 
     public static final RegistrySupplier<OvercastDamageEnchant> OVERCAST_DAMAGE_ENCHANT = ENCHANTMENTS.register("overcast_damage", OvercastDamageEnchant::new);
-
 }

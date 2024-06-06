@@ -1,26 +1,36 @@
 package net.beholderface.oneironaut.block;
 
-import at.petrak.hexcasting.common.blocks.circles.directrix.BlockRedstoneDirectrix;
-import net.beholderface.oneironaut.block.blockentity.SentinelSensorEntity;
+import at.petrak.hexcasting.api.misc.FrozenColorizer;
+import at.petrak.hexcasting.api.misc.MediaConstants;
+import at.petrak.hexcasting.common.lib.HexItems;
+import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
+import kotlin.collections.CollectionsKt;
 import net.beholderface.oneironaut.block.blockentity.WispBatteryEntity;
+import net.beholderface.oneironaut.block.blockentity.WispBatteryEntityFake;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import ram.talia.hexal.common.entities.WanderingWisp;
 
-public class WispBattery extends BlockWithEntity {
+import static net.beholderface.oneironaut.block.blockentity.WispBatteryEntity.getColors;
+
+public class WispBatteryFake extends BlockWithEntity {
     public static final BooleanProperty REDSTONE_POWERED = Properties.POWERED;
-    public WispBattery(Settings settings){
+    public WispBatteryFake(Settings settings){
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState()
                 .with(REDSTONE_POWERED, false));
@@ -28,33 +38,6 @@ public class WispBattery extends BlockWithEntity {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(REDSTONE_POWERED);
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new WispBatteryEntity(pos, state);
-    }
-
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (_world, _pos, _state, _be) -> ((WispBatteryEntity)_be).tick(_world, _pos, _state);
-    }
-
-    @Override
-    public boolean hasComparatorOutput(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        int media = ((WispBatteryEntity)world.getBlockEntity(pos)).getMedia();
-        int capacity = WispBatteryEntity.CAPACITY;
-        if (media < 0){
-            return (int) ((world.getTime() / 2) % 15);
-        } else {
-            return (int) Math.floor(((double) media / capacity) * 15);
-        }
     }
 
     @Override
@@ -84,8 +67,19 @@ public class WispBattery extends BlockWithEntity {
         }
     }
 
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return (_world, _pos, _state, _be) -> ((WispBatteryEntityFake)_be).tick(_world, _pos, _state);
+    }
+
     //it doesn't actually, I just want redstone to point at it
     public boolean emitsRedstonePower(BlockState state) {
         return true;
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new WispBatteryEntityFake(pos, state);
     }
 }

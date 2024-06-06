@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.casting;
+package net.beholderface.oneironaut.components;
 
 import dev.onyxstudios.cca.api.v3.component.Component;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
