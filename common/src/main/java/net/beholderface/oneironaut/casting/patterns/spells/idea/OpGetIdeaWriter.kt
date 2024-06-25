@@ -12,12 +12,14 @@ import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager
 import net.beholderface.oneironaut.getSoulprint
+import net.beholderface.oneironaut.registry.OneironautIotaTypeRegistry
 import net.beholderface.oneironaut.registry.SoulprintIota
 
 class OpGetIdeaWriter : ConstMediaAction {
@@ -26,7 +28,11 @@ class OpGetIdeaWriter : ConstMediaAction {
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         var output : Iota = GarbageIota()
         val rawKeyIota = args[0]
-        val suspect = args.getPlayer(1, argc)
+        val suspect = if (args[1].type == OneironautIotaTypeRegistry.UUID){
+            args.getSoulprint(1, argc)
+        } else {
+            args.getPlayer(1, argc).uuid
+        }
         val keyEntity : Entity
         val keyPos : BlockPos
         if (rawKeyIota.type == EntityIota.TYPE){

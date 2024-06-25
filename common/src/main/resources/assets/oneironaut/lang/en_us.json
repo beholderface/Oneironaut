@@ -115,7 +115,10 @@
   "oneironaut.page.wisp_lanterns.1": "I've found that by using materials unique to the Noosphere, I can create a special jar capable of producing and containing a tiny wisp. While this wisp cannot cast anything, it emits quite a bit of light, and will mimic pigments shown to it.$(br)I can also craft a version with tinted glass, in case the wisp's light would disrupt my study's aesthetic.",
   "oneironaut.page.wisp_lanterns.2": "Additionally, by feeding this illumination wisp significant amounts of media, I can cause it to undergo mitosis, with the newly-created wisp being seemingly-identical to the wandering wisps produced by slipways.$(br2)The device to split the wisp in this way can be fed media-bearing items via hoppers or similar, and is capable of storing 640 charged amethyst worth of media.",
   "oneironaut.page.wisp_lanterns.3": "Simply apply a redstone signal to activate. Produces a wisp every four seconds, and consumes two charged amethyst to do so.$(br)The capacity and fill level of the phial used make no difference.",
-  "oneironaut.page.wisp_lanterns.4": "Alternatively, I can create a version which does not consume any media, but produces wisps which yield only net-zero media when consumed.$(br2)All the sparkly shiny orbs, none of the prohibitive cost!",
+  "oneironaut.page.wisp_lanterns.4": "Alternatively, I can create a version which does not consume (or accept) any media, but produces wisps which yield only net-zero media when consumed.$(br2)All the sparkly shiny orbs, none of the prohibitive cost!",
+  "oneironaut.page.wisp_lanterns.5.originaltoolong": "Using similar principles, I've designed a device which can capture (and contain) wisps for their eventual release, though it does not work on wandering wisps due to their instability.$(br)Capturing one of my own wisps always consumes one amethyst shard worth of its (rechargable) 64-charged capacity, and capturing someone else's costs half again as much media as it contains. To capture a wisp, I must simply use the item on a wisp, and it will be sucked into the housing(assuming it has sufficient media and does not already contain a wisp).",
+  "oneironaut.page.wisp_lanterns.5": "Using similar principles, I've designed a device which captures, stores, and releases wisps, though it does not work on unstable wandering wisps. Capturing one of my own wisps uses one amethyst shard from its 64-charged capacity. Capturing someone else's wisp costs half again the media it contains. To capture a wisp, I must simply use the device on it, assuming it has enough media and isn't already occupied.",
+  "oneironaut.page.wisp_lanterns.6": "When releasing a cyclic wisp, it is placed on the side of the block I use the item on. Projectile wisps are launched from my face, retaining their previous speed (but not direction). To discard a contained wisp, I need only use the item while crouching.",
 
   "oneironaut.page.noosphere_materials.1": "A strange fluid which agitates media entering it, preventing amethyst crystal formation. Stimulates my mind in pleasing ways when I immerse myself in it.",
   "oneironaut.page.noosphere_materials.2": "A rock which is primarily composed of media, somehow. Can be used to craft spell circle blocks.",
@@ -283,7 +286,7 @@
   "effect.oneironaut.missing": "Broken Potion Iota",
   "enchantment.oneironaut.overcast_damage": "Mind Render",
   "itemGroup.oneironaut.oneironaut": "Oneironaut",
-  "oneironaut.tooltip.wispcapturedevice.haswisp": "Contains a wisp.",
-  "oneironaut.tooltip.wispcapturedevice.nowisp": "Does not contain a wisp.",
+  "oneironaut.tooltip.wispcapturedevice.haswisp": "Contains a wisp with %s dust and hex signature %s.",
+  "oneironaut.tooltip.wispcapturedevice.nowisp": "No wisp.",
   "text.oneironaut.lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 }

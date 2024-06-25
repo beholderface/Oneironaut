@@ -11,3 +11,5 @@ Ideas by **beholderface**, with some input from the members of [the Petrak@'s Mo
 Textures by **beholderface** and [**Falkory**](https://github.com/Falkory220)
 
 Chinese translation by [**ChujikYahus**](https://github.com/ChuijkYahus)
+
+A few passages in book entries condensed by ChatGPT based on text by beholderface

@@ -128,12 +128,12 @@ public class IdeaInscriptionManager extends PersistentState {
             return new NullIota();
         }
     }
-    public static Iota getIotaWriter(Object key, ServerPlayerEntity suspect, ServerWorld world){
+    public static Iota getIotaWriter(Object key, UUID suspectID, ServerWorld world){
         String keyString = key.toString();
         boolean foundSuspect = false;
         NbtCompound iotaNbt = getValidEntry(keyString, world);
         if (iotaNbt != null){
-            foundSuspect = suspect.getUuid().equals(iotaNbt.getUuid("writer"));
+            foundSuspect = suspectID.equals(iotaNbt.getUuid("writer"));
         }
         return new BooleanIota(foundSuspect);
     }
