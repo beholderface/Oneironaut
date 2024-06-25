@@ -26,7 +26,7 @@ public class OneironautMiscRegistry {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
     public static final DeferredRegister<StatusEffect> EFFECTS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.MOB_EFFECT_KEY);
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ENCHANTMENT_KEY);
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ENTITY_TYPE_KEY);
+    //public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ENTITY_TYPE_KEY);
 
     //I will not scream at my computer over this
 

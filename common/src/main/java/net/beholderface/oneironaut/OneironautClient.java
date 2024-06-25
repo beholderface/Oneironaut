@@ -5,6 +5,7 @@ import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
 import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
+import net.beholderface.oneironaut.item.WispCaptureItem;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.beholderface.oneironaut.registry.OneironautItemRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -97,6 +98,9 @@ public class OneironautClient {
                 return -0.01f;
             }
             //return OneironautItemRegistry.REVERBERATION_ROD.get().hasHex(stack) ? 0.99f : -0.01f;
+        });
+        ItemPropertiesRegistry.register(OneironautItemRegistry.WISP_CAPTURE_ITEM.get(), WispCaptureItem.FILLED_PREDICATE, (stack, world, holder, holderID) -> {
+            return ((WispCaptureItem)stack.getItem()).hasWisp(stack, world) ? 0.99f : -0.01f;
         });
 
         //ah yes, because I definitely want to turn my expensive staff into a much less expensive variant

@@ -12,7 +12,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
-import net.beholderface.oneironaut.registry.OneironautItemRegistry
 import net.beholderface.oneironaut.registry.OneironautMiscRegistry
 
 class OpDetectShrouded : ConstMediaAction {

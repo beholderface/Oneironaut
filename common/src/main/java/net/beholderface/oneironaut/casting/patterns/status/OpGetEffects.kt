@@ -3,7 +3,6 @@ package net.beholderface.oneironaut.casting.patterns.status
 import at.petrak.hexcasting.api.spell.ConstMediaAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.getLivingEntityButNotArmorStand
-import at.petrak.hexcasting.api.spell.iota.DoubleIota
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.iota.ListIota
 import net.beholderface.oneironaut.registry.PotionIota

@@ -57,6 +57,7 @@
   "item.oneironaut.pigment_noosphere": "Noetic Pigment",
   "item.oneironaut.memory_fragment": "Memory Fragment",
   "item.oneironaut.memory_fragment.all": "It seems I've consumed all the memories that this crystal can offer me...",
+  "item.oneironaut.wisp_capture_device": "Wisp Wrangler",
 
   "block.oneironaut.pseudoamethyst_block": "Pseudoamethyst Block",
   "block.oneironaut.thought_slurry": "Thought Slurry",
@@ -282,5 +283,7 @@
   "effect.oneironaut.missing": "Broken Potion Iota",
   "enchantment.oneironaut.overcast_damage": "Mind Render",
   "itemGroup.oneironaut.oneironaut": "Oneironaut",
+  "oneironaut.tooltip.wispcapturedevice.haswisp": "Contains a wisp.",
+  "oneironaut.tooltip.wispcapturedevice.nowisp": "Does not contain a wisp.",
   "text.oneironaut.lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 }
