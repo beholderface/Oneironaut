@@ -148,11 +148,11 @@ public class OneironautPatternRegistry {
                     new Identifier(Oneironaut.MOD_ID, "craftrod"),
                     new OpMakePackagedSpell<>(OneironautItemRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT * 10));
         });
-        itemDependentPatternRegisterers.put(OneironautItemRegistry.INSULATED_TRINKET, () -> {
-            PatternRegistry.mapPattern(HexPattern.fromAngles("wwaqqqqqeaeaqdadqaeqqeaeq", HexDir.EAST),
+        /*itemDependentPatternRegisterers.put(OneironautItemRegistry.INSULATED_TRINKET, () -> {
+            Pattern!Registry.map!Pattern(HexPattern!from!Angles("wwaqqqqqeaeaqdadqaeqqeaeq", HexDir.EAST),
                     new Identifier(Oneironaut.MOD_ID, "craftinsulatedtrinket"),
                     new OpMakePackagedSpell<>(OneironautItemRegistry.INSULATED_TRINKET.get(), MediaConstants.SHARD_UNIT * 10));
-        });
+        });*/
     }
 
     private static void registerItemDependentPatterns(){

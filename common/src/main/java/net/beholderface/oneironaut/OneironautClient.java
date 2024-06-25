@@ -82,7 +82,7 @@ public class OneironautClient {
             Oneironaut.LOGGER.info("oh no, forge, aaaaaaaaaaaa");
         }
 
-        ItemPackagedHex[] castingItems = {OneironautItemRegistry.REVERBERATION_ROD.get(), OneironautItemRegistry.INSULATED_TRINKET.get()};
+        ItemPackagedHex[] castingItems = {OneironautItemRegistry.REVERBERATION_ROD.get()/*, OneironautItemRegistry.INSULATED_TRINKET.get()*/};
         for (ItemPackagedHex item : castingItems){
             ItemPropertiesRegistry.register(item, ItemPackagedHex.HAS_PATTERNS_PRED, (stack, world, holder, holderID) -> {
                 return item.hasHex(stack) ? 0.99f : -0.01f;
