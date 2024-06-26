@@ -1261,21 +1261,21 @@
   .texture-oneironaut-textures-block-thought_slurry-png {
     animation: texture-oneironaut-textures-block-thought_slurry-png 0.0s linear infinite;
     background-size: 100%;
-    background-image: url("https://raw.githubusercontent.com/beholderface/oneironaut/ab1fa9f1bb53d5de4edb0f68ac991125da86bd0d/common/src/main/resources/assets/oneironaut/textures/block/thought_slurry.png");
+    background-image: url("https://raw.githubusercontent.com/beholderface/oneironaut/e99f30e898e5bbdbdcd3f23413bb4582c655e252/common/src/main/resources/assets/oneironaut/textures/block/thought_slurry.png");
   }
   @keyframes texture-oneironaut-textures-block-thought_slurry-png {
   }
   .texture-oneironaut-textures-block-thought_slurry_flowing-png {
     animation: texture-oneironaut-textures-block-thought_slurry_flowing-png 0.0s linear infinite;
     background-size: 100%;
-    background-image: url("https://raw.githubusercontent.com/beholderface/oneironaut/ab1fa9f1bb53d5de4edb0f68ac991125da86bd0d/common/src/main/resources/assets/oneironaut/textures/block/thought_slurry_flowing.png");
+    background-image: url("https://raw.githubusercontent.com/beholderface/oneironaut/e99f30e898e5bbdbdcd3f23413bb4582c655e252/common/src/main/resources/assets/oneironaut/textures/block/thought_slurry_flowing.png");
   }
   @keyframes texture-oneironaut-textures-block-thought_slurry_flowing-png {
   }
   .texture-oneironaut-textures-item-memory_fragment-png {
     animation: texture-oneironaut-textures-item-memory_fragment-png 0.0s linear infinite;
     background-size: 100%;
-    background-image: url("https://raw.githubusercontent.com/beholderface/oneironaut/ab1fa9f1bb53d5de4edb0f68ac991125da86bd0d/common/src/main/resources/assets/oneironaut/textures/item/memory_fragment.png");
+    background-image: url("https://raw.githubusercontent.com/beholderface/oneironaut/e99f30e898e5bbdbdcd3f23413bb4582c655e252/common/src/main/resources/assets/oneironaut/textures/item/memory_fragment.png");
   }
   @keyframes texture-oneironaut-textures-item-memory_fragment-png {
   }
