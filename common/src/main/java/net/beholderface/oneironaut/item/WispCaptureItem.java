@@ -124,8 +124,8 @@ public class WispCaptureItem extends ItemMediaHolder {
             cost = (int) Math.ceil(wisp.getMedia() * 1.5);
         }
         if (!world.isClient){
-            if (this.getMedia(stack) >= cost){
-                this.setMedia(stack, this.getMedia(stack) - cost);
+            if (this.getMedia(stack) >= cost || user.isCreative()){
+                this.deductMedia(stack, cost, user);
                 NbtCompound wispData = wisp.writeNbt(new NbtCompound());
                 NBTHelper.putCompound(stackNbt, WISP_DATA_TAG, wispData);
                 ((Entity) wisp).kill();
@@ -148,9 +148,9 @@ public class WispCaptureItem extends ItemMediaHolder {
     private boolean releaseWisp(ItemStack stack, Vec3d spawnPos, @NotNull PlayerEntity user){
         NbtCompound nbt = stack.getOrCreateNbt();
         World world = user.world;
-        if (nbt.getInt(ItemMediaHolder.TAG_MEDIA) >= MediaConstants.SHARD_UNIT) {
+        if (this.getMedia(stack) >= MediaConstants.SHARD_UNIT || user.isCreative()) {
             Oneironaut.boolLogger("Releasing contained wisp", debugMessages);
-            this.setMedia(stack, this.getMedia(stack) - MediaConstants.SHARD_UNIT);
+            this.deductMedia(stack, MediaConstants.SHARD_UNIT, user);
             EntityType<?> wispType = this.getWispType(stack);
             BaseCastingWisp wisp = null;
             if (wispType == HexalEntities.TICKING_WISP){
@@ -236,6 +236,12 @@ public class WispCaptureItem extends ItemMediaHolder {
             }
         }
         return null;
+    }
+
+    private void deductMedia(ItemStack stack, int amount, PlayerEntity player){
+        if (!player.isCreative()){
+            this.setMedia(stack, this.getMedia(stack) - amount);
+        }
     }
 
     public boolean hasWisp(ItemStack stack, World world){
