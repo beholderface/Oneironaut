@@ -10,7 +10,7 @@ public record NoosphereSeaVolcanoConfig(Identifier mainBlockID, Identifier secon
     public static Codec<NoosphereSeaVolcanoConfig> CODEC = RecordCodecBuilder.create(
             instance ->
                     instance.group(
-                            Identifier.CODEC.fieldOf("mainBlockID").forGetter(NoosphereSeaVolcanoConfig::mainBlockID),
-                            Identifier.CODEC.fieldOf("secondaryBlockID").forGetter(NoosphereSeaVolcanoConfig::secondaryBlockID))
+                            Identifier.CODEC.fieldOf("mainblockid").forGetter(NoosphereSeaVolcanoConfig::mainBlockID),
+                            Identifier.CODEC.fieldOf("secondaryblockid").forGetter(NoosphereSeaVolcanoConfig::secondaryBlockID))
                     .apply(instance, NoosphereSeaVolcanoConfig::new));
 }

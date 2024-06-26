@@ -11,6 +11,6 @@ public record NoosphereSeaIslandConfig(int size, Identifier blockID) implements 
             instance ->
                     instance.group(
                             Codecs.POSITIVE_INT.fieldOf("size").forGetter(NoosphereSeaIslandConfig::size),
-                            Identifier.CODEC.fieldOf("blockID").forGetter(NoosphereSeaIslandConfig::blockID))
+                            Identifier.CODEC.fieldOf("blockid").forGetter(NoosphereSeaIslandConfig::blockID))
                     .apply(instance, NoosphereSeaIslandConfig::new));
 }

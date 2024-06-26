@@ -10,7 +10,7 @@ import net.minecraft.world.gen.feature.FeatureConfig;
 public record BlockBlobConfig(Identifier mainBlockID, int rarity, int size, int squish, int falloff, int immersion) implements FeatureConfig {
     public static Codec<BlockBlobConfig> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Identifier.CODEC.fieldOf("mainBlockID").forGetter(BlockBlobConfig::mainBlockID),
+                    Identifier.CODEC.fieldOf("mainblockid").forGetter(BlockBlobConfig::mainBlockID),
                     Codecs.POSITIVE_INT.fieldOf("rarity").forGetter(BlockBlobConfig::rarity),
                     Codecs.POSITIVE_INT.fieldOf("size").forGetter(BlockBlobConfig::size),
                     Codecs.POSITIVE_INT.fieldOf("squish").forGetter(BlockBlobConfig::squish),

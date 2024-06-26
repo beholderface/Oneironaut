@@ -7,7 +7,6 @@
   "resultType": {
     "name": "minecraft:chorus_flower",
     "properties": {
-      "eternal": "true",
       "age": "0"
     }
   },

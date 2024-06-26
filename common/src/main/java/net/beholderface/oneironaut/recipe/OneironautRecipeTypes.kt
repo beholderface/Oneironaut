@@ -11,7 +11,7 @@ import net.beholderface.oneironaut.Oneironaut
 
 class OneironautRecipeTypes {
     companion object {
-        val debugMessages = false
+        const val debugMessages = false
         @JvmStatic
         fun registerTypes(r: BiConsumer<RecipeType<*>, Identifier>) {
             for ((key, value) in TYPES) {
