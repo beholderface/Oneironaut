@@ -17,7 +17,7 @@ import net.minecraft.world.World
 import net.minecraft.util.JsonHelper
 
 //pretty much all of this is yoinked from hexal
-data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredient, val blockOut : BlockState, val mediaCost : Int, val advancement : String?) : Recipe<Inventory> {
+data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredient, val blockOut : BlockState, val mediaCost : Int) : Recipe<Inventory> {
     override fun matches(inventory: Inventory, world: World) = false
 
     fun matches(blockIn : BlockState): Boolean = this.blockIn.test(blockIn)
@@ -39,8 +39,7 @@ data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredi
             val blockIn = StateIngredientHelper.deserialize(JsonHelper.getObject(json, "blockIn"))
             val result = StateIngredientHelper.readBlockState(JsonHelper.getObject(json, "resultType"))
             val cost = JsonHelper.getInt(json, "mediaCost")
-            val advancement = JsonHelper.getString(json, "advancement", "")
-            return InfusionRecipe(recipeID, blockIn, result, cost, advancement)
+            return InfusionRecipe(recipeID, blockIn, result, cost)
         }
 
         override fun write(buf: PacketByteBuf, recipe: InfusionRecipe) {
@@ -53,8 +52,7 @@ data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredi
             val blockIn = StateIngredientHelper.read(buf)
             val result = Block.getStateFromRawId(buf.readVarInt())
             val cost = buf.readInt()
-            val advancement = buf.readString()
-            return InfusionRecipe(recipeID, blockIn, result, cost, advancement)
+            return InfusionRecipe(recipeID, blockIn, result, cost)
         }
     }
 }

@@ -98,13 +98,13 @@ fun getInfuseResult(targetState: BlockState, world: World) : Triple<BlockState, 
                 "found a matching recipe",
                 debugMessages
             )
-            val advancement = recipe.advancement
+            /*val advancement = recipe.advancement
             val passedAdvancement : String? = if (advancement.equals("")){
                 null
             } else {
                 advancement
-            }
-            conversionResult = Triple(recipe.blockOut, recipe.mediaCost, passedAdvancement)
+            }*/
+            conversionResult = Triple(recipe.blockOut, recipe.mediaCost, null)
         } else {
             Oneironaut.boolLogger(
                 "no matching recipe found",
