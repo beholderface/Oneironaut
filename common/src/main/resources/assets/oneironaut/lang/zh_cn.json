@@ -57,7 +57,7 @@
   "item.oneironaut.pigment_noosphere": "智识染色剂",
   "item.oneironaut.memory_fragment": "记忆碎片",
   "item.oneironaut.memory_fragment.all": "似乎我已经集齐了这些晶体中所有我能找到的记忆……",
-  "item.oneironaut.wisp_capture_device": "Wisp Wrangler",
+  "item.oneironaut.wisp_capture_device": "咒灵牧织器",
 
   "block.oneironaut.pseudoamethyst_block": "伪紫水晶块",
   "block.oneironaut.thought_slurry": "思维浆液",
@@ -75,8 +75,8 @@
   "block.oneironaut.media_ice": "贤能智冰",
   "block.oneironaut.media_gel": "精神原质团",
   "block.oneironaut.cell": "失协精神",
-  "block.oneironaut.wisp_battery": "Wisp Weaver",
-  "block.oneironaut.decorative_wisp_battery": "Lesser Wisp Weaver",
+  "block.oneironaut.wisp_battery": "咒灵编织器",
+  "block.oneironaut.decorative_wisp_battery": "初等咒灵编织器",
 
   "fluid.oneironaut.thought_slurry": "思维浆液",
 
@@ -286,7 +286,7 @@
   "effect.oneironaut.missing": "损坏的状态效果iota",
   "enchantment.oneironaut.overcast_damage": "意识撕裂",
   "itemGroup.oneironaut.oneironaut": "航梦",
-  "oneironaut.tooltip.wispcapturedevice.haswisp": "Contains a wisp with %s dust and hex signature %s.",
-  "oneironaut.tooltip.wispcapturedevice.nowisp": "No wisp.",
+  "oneironaut.tooltip.wispcapturedevice.haswisp": "包含具有%s个紫水晶粉、咒术印识为%s的咒灵。",
+  "oneironaut.tooltip.wispcapturedevice.nowisp": "没有咒灵。",
   "text.oneironaut.lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 }
