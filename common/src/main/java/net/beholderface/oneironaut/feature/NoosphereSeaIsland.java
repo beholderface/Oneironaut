@@ -1,12 +1,17 @@
 package net.beholderface.oneironaut.feature;
 
+import at.petrak.hexcasting.common.misc.AkashicTreeGrower;
 import com.mojang.serialization.Codec;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
@@ -46,30 +51,48 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
             for (int y = origin.getY(); y < 32; y++){
                 scanPos = scanPos.up();
                 if ((world.getFluidState(scanPos).getFluid().equals(ThoughtSlurry.STILL_FLUID) && world.getBlockState(scanPos.up()).isAir())){
+                    BlockPos surfaceCenter = scanPos.up();
                     //make a small basalt island
-                    //BlockPos currentPos = scanPos;
-                    //Vec3i offset;
-                    //int area = (int) Math.pow(num, 2);
                     Block[] replaceable = new Block[]{
                             OneironautBlockRegistry.THOUGHT_SLURRY_BLOCK.get(),
                             Blocks.AIR
                     };
                     genCircle(world, scanPos, num, state, replaceable);
+                    boolean generatedTrees = false;
                     if (num >= 19){
                         scanPos = scanPos.down();
                         genCircle(world, scanPos, 11, state, replaceable);
+                        if (rand.nextBetween(1, 5) == 5){
+                            generatedTrees = true;
+                            int treeCount = rand.nextBetween(2, 6);
+                            for (int i = 0; i < treeCount; i++){
+                                BlockPos treeSpot = surfaceCenter.add(rand.nextBetween(-7, 7), 0, rand.nextBetween(-7, 7));
+                                world.setBlockState(treeSpot, OneironautBlockRegistry.EDIFIED_TREE_SPAWNER.get().getDefaultState(), 3);
+                            }
+                        }
                     }
                     if (num >= 11){
                         scanPos = scanPos.down();
                         genCircle(world, scanPos, 7, state, replaceable);
+                        if (rand.nextBetween(1, 5) == 5 && num == 11){
+                            generatedTrees = true;
+                            int treeCount = rand.nextBetween(1, 3);
+                            for (int i = 0; i < treeCount; i++){
+                                BlockPos treeSpot = surfaceCenter.add(rand.nextBetween(-4, 4), 0, rand.nextBetween(-4, 4));
+                                world.setBlockState(treeSpot, OneironautBlockRegistry.EDIFIED_TREE_SPAWNER.get().getDefaultState(), 3);
+                            }
+                        }
+                        if (rand.nextBetween(1, generatedTrees ? 3 : 25 - num) == 1){
+                            BoatEntity boat = new BoatEntity(EntityType.BOAT, world.toServerWorld());
+                            boat.setBoatType(BoatEntity.Type.getType(rand.nextBetween(0, 6)));
+                            Vec3d surfaceCenterDouble = new Vec3d(surfaceCenter.getX(), surfaceCenter.getY(), surfaceCenter.getZ());
+                            Vec3d boatPos = surfaceCenterDouble.add(new Vec3d(1.0, 0.0, 0.0)
+                                    .rotateY((float) Math.toRadians(rand.nextBetween(0, 360))).multiply(rand.nextBetween(num - 3, (int) (num * 1.5))));
+                            boat.setPos(boatPos.x, boatPos.y, boatPos.z);
+                            boat.setYaw(rand.nextBetween(-180, 180));
+                            world.spawnEntity(boat);
+                        }
                     }
-/*for (int i = 0; i < area; i++){
-                    offset = new Vec3i(i % num, 0, i / num );
-                    currentPos = currentPos.add(offset);
-                    if (currentPos.isWithinDistance(scanPos.add((num / 2.0),(num / 2.0),(num / 2.0)), (double) num / 2)){
-                        world.setBlockState(currentPos, state, 0x10);
-                    }
-                }*/
                     //Oneironaut.LOGGER.info("Successfully placed an island at " + scanPos);
                     return true;
                 }

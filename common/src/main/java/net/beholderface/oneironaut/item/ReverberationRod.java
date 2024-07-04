@@ -49,7 +49,7 @@ public class ReverberationRod extends ItemPackagedHex  {
 
     @Override
     public UseAction getUseAction(ItemStack stack) {
-        return UseAction.BLOCK;
+        return UseAction.NONE;
     }
 
 
