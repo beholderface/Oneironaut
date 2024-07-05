@@ -19,6 +19,7 @@ private val markerEffect: StatusEffect = OneironautMiscRegistry.NOT_MISSING.get(
 
 class OpMarkEntity() : SpellAction {
     override val argc = 1
+    override val isGreat = true
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>>? {
         val target = args.getLivingEntityButNotArmorStand(0, argc)
         ctx.assertEntityInRange(target)
