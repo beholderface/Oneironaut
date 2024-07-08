@@ -40,7 +40,7 @@ fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
     throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "oneironaut:imprint")
 }
 
-fun List<Iota>.getStatusEffect(idx: Int, argc: Int = 0, allowShroud : Boolean) : StatusEffect{
+/*fun List<Iota>.getStatusEffect(idx: Int, argc: Int = 0, allowShroud : Boolean) : StatusEffect{
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is PotionIota) {
         if (!allowShroud && (x as PotionIota).getEffect().equals(
@@ -51,7 +51,7 @@ fun List<Iota>.getStatusEffect(idx: Int, argc: Int = 0, allowShroud : Boolean) :
     }
 
     throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "oneironaut:status")
-}
+}*/
 
 fun List<Iota>.getSoulprint(idx: Int, argc: Int = 0) : UUID {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
