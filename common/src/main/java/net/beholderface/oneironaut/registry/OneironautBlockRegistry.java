@@ -9,8 +9,11 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.registry.Registry;
 import net.beholderface.oneironaut.Oneironaut;
+
+import java.util.function.ToIntFunction;
 
 public class OneironautBlockRegistry {
     //public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.ITEM_KEY);
@@ -74,9 +77,13 @@ public class OneironautBlockRegistry {
     public static RegistrySupplier<EdifiedTreeSpawnerBlock> EDIFIED_TREE_SPAWNER = BLOCKS.register("edified_tree_spawner", ()-> new EdifiedTreeSpawnerBlock(AbstractBlock.Settings.of(Material.AIR)));
     public static RegistrySupplier<BlockEntityType<EdifiedTreeSpawnerBlockEntity>> EDIFIED_TREE_SPAWNER_ENTITY = BLOCK_ENTITIES.register("edified_tree_spawner_entity", ()->BlockEntityType.Builder.create(EdifiedTreeSpawnerBlockEntity::new, EDIFIED_TREE_SPAWNER.get()).build(null));
 
-    public static RegistrySupplier<HoverElevatorBlock> HOVER_ELEVATOR = BLOCKS.register("hover_elevator", ()-> new HoverElevatorBlock(AbstractBlock.Settings.copy(HexBlocks.SLATE_BLOCK)));
+    public static RegistrySupplier<HoverElevatorBlock> HOVER_ELEVATOR = BLOCKS.register("hover_elevator", ()-> new HoverElevatorBlock(AbstractBlock.Settings.copy(HexBlocks.SLATE_BLOCK).luminance(createLightLevelFromPoweredBlockState(12))));
     public static RegistrySupplier<BlockEntityType<HoverElevatorBlockEntity>> HOVER_ELEVATOR_ENTITY = BLOCK_ENTITIES.register("hover_elevator_entity", ()->BlockEntityType.Builder.create(HoverElevatorBlockEntity::new, HOVER_ELEVATOR.get()).build(null));
 
+    //mostly just stolen from the vanilla class since it's private in there
+    protected static ToIntFunction<BlockState> createLightLevelFromPoweredBlockState(int litLevel) {
+        return state -> state.get(Properties.POWERED) ? litLevel : 0;
+    }
 
 
 

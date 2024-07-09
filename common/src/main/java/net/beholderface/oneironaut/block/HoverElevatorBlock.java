@@ -1,6 +1,7 @@
 package net.beholderface.oneironaut.block;
 
 import net.beholderface.oneironaut.block.blockentity.HoverElevatorBlockEntity;
+import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -16,11 +17,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class HoverElevatorBlock extends BlockWithEntity {
     public static final DirectionProperty FACING = Properties.FACING;
@@ -44,10 +49,11 @@ public class HoverElevatorBlock extends BlockWithEntity {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext pContext) {
+        BlockState output = this.getDefaultState().with(POWERED, pContext.getWorld().isReceivingRedstonePower(pContext.getBlockPos()));
         if (pContext.getPlayer() != null){
-            return this.getDefaultState().with(Properties.FACING, !pContext.getPlayer().isSneaking() ? pContext.getSide() : pContext.getSide().getOpposite());
+            return output.with(Properties.FACING, !pContext.getPlayer().isSneaking() ? pContext.getSide() : pContext.getSide().getOpposite());
         } else {
-            return this.getDefaultState().with(Properties.FACING, pContext.getSide());
+            return output.with(Properties.FACING, pContext.getSide());
         }
     }
 
@@ -69,23 +75,22 @@ public class HoverElevatorBlock extends BlockWithEntity {
     }
 
     @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        if (world.isReceivingRedstonePower(pos)){
-            world.setBlockState(pos, state.with(POWERED, true));
+    public boolean hasComparatorOutput(BlockState pState) {
+        return true;
+    }
+
+    @Override
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        int output = 0;
+        Optional<HoverElevatorBlockEntity> blockEntityMaybe = world.getBlockEntity(pos, OneironautBlockRegistry.HOVER_ELEVATOR_ENTITY.get());
+        if (blockEntityMaybe.isPresent()){
+            output = blockEntityMaybe.get().getLevel();
         }
+        return output;
     }
 
     @Override
     public BlockRenderType getRenderType(BlockState state){
         return BlockRenderType.MODEL;
-    }
-
-    @Override
-    public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (entity.bypassesLandingEffects()) {
-            super.onLandedUpon(world, state, pos, entity, fallDistance);
-        } else {
-            entity.handleFallDamage(fallDistance, 0.0f, DamageSource.FALL);
-        }
     }
 }
