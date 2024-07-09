@@ -172,15 +172,18 @@ public class HoverElevatorBlockEntity extends BlockEntity {
                 velocity = PlayerPositionRecorder.getMotion(serverPlayerEntity);
             }
             double antigravNum = 0.08;
+            boolean applyAntigrav = true;
             if (counterVerticalMomentum){
                 if (velocity.y < -0.1){
                     hoverVec = hoverVec.add(0.0, 0.005, 0.0);
                 } else if (velocity.y > 0.01){
-                    //WHY U NO STOP
-                    hoverVec = hoverVec.add(0.0, -0.1, 0.0);
+                    applyAntigrav = false;
+                    //this is kinda jank but it's the only thing that's reliably worked for stopping vertical motion
+                    //I do not know why
+                    hoverVec = hoverVec.add(0.0, velocity.y * -1, 0.0);
                 }
             }
-            hoverVec = hoverVec.add(new Vec3d(0.0, antigravNum, 0.0));
+            hoverVec = hoverVec.add(new Vec3d(0.0, applyAntigrav ? antigravNum : 0.0, 0.0));
             entity.addVelocity(hoverVec.x, hoverVec.y, hoverVec.z);
         }
         HOVER_MAP.clear();
