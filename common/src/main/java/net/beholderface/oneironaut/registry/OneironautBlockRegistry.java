@@ -73,6 +73,15 @@ public class OneironautBlockRegistry {
 
     public static RegistrySupplier<EdifiedTreeSpawnerBlock> EDIFIED_TREE_SPAWNER = BLOCKS.register("edified_tree_spawner", ()-> new EdifiedTreeSpawnerBlock(AbstractBlock.Settings.of(Material.AIR)));
     public static RegistrySupplier<BlockEntityType<EdifiedTreeSpawnerBlockEntity>> EDIFIED_TREE_SPAWNER_ENTITY = BLOCK_ENTITIES.register("edified_tree_spawner_entity", ()->BlockEntityType.Builder.create(EdifiedTreeSpawnerBlockEntity::new, EDIFIED_TREE_SPAWNER.get()).build(null));
+
+    public static RegistrySupplier<HoverElevatorBlock> HOVER_ELEVATOR = BLOCKS.register("hover_elevator", ()-> new HoverElevatorBlock(AbstractBlock.Settings.copy(HexBlocks.SLATE_BLOCK)));
+    public static RegistrySupplier<BlockEntityType<HoverElevatorBlockEntity>> HOVER_ELEVATOR_ENTITY = BLOCK_ENTITIES.register("hover_elevator_entity", ()->BlockEntityType.Builder.create(HoverElevatorBlockEntity::new, HOVER_ELEVATOR.get()).build(null));
+
+
+
+
+
+
     //used for the eternal chorus mixin
     public static final BooleanProperty ETERNAL = BooleanProperty.of("eternal");
 }

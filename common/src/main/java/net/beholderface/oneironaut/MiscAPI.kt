@@ -62,8 +62,11 @@ fun List<Iota>.getSoulprint(idx: Int, argc: Int = 0) : UUID {
     throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "oneironaut:soulprint")
 }
 
-fun getBlockTagKey(id : Identifier) : TagKey<Block>{
-    return TagKey.of(Registry.BLOCK_KEY, id)
+fun getBlockTagKey(id : Identifier?) : TagKey<Block>?{
+    if (id != null){
+        return TagKey.of(Registry.BLOCK_KEY, id)
+    }
+    return null
 }
 fun getEntityTagKey(id : Identifier) : TagKey<EntityType<*>>{
     return TagKey.of(Registry.ENTITY_TYPE_KEY, id)

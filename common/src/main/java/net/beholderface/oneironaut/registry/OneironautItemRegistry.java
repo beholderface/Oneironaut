@@ -66,4 +66,5 @@ public class OneironautItemRegistry {
     public static final RegistrySupplier<BlockItem> WISP_BATTERY_ITEM = ITEMS.register("wisp_battery", ()-> new BlockItem(OneironautBlockRegistry.WISP_BATTERY.get(), ONEIRONAUT_STACKABLE64));
     public static final RegistrySupplier<BlockItem> WISP_BATTERY_DECORATIVE_ITEM = ITEMS.register("decorative_wisp_battery", ()-> new BlockItem(OneironautBlockRegistry.WISP_BATTERY_DECORATIVE.get(), ONEIRONAUT_STACKABLE64));
     public static final RegistrySupplier<WispCaptureItem> WISP_CAPTURE_ITEM = ITEMS.register("wisp_capture_device", ()-> new WispCaptureItem(ONEIRONAUT_UNSTACKABLE));
+    public static final RegistrySupplier<BlockItem> HOVER_ELEVATOR_ITEM = ITEMS.register("hover_elevator", ()->new BlockItem(OneironautBlockRegistry.HOVER_ELEVATOR.get(), ONEIRONAUT_STACKABLE64));
 }

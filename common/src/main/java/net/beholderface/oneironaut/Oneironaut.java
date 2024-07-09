@@ -3,10 +3,12 @@ package net.beholderface.oneironaut;
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.event.CompoundEventResult;
+import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.TickEvent;
+import net.beholderface.oneironaut.block.blockentity.HoverElevatorBlockEntity;
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager;
 import net.beholderface.oneironaut.item.BottomlessMediaItem;
 import net.beholderface.oneironaut.recipe.OneironautRecipeSerializer;
@@ -58,6 +60,9 @@ public class Oneironaut {
         TickEvent.SERVER_PRE.register((server) -> {
             BottomlessMediaItem.time = server.getOverworld().getTime();
         });
+
+        TickEvent.SERVER_POST.register((server)->{HoverElevatorBlockEntity.processHover();});
+        ClientTickEvent.CLIENT_POST.register((client)->{HoverElevatorBlockEntity.processHover();});
 
         ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
         TagKey<Item> realStaffTag = getItemTagKey(new Identifier("hexcasting:staves"));
