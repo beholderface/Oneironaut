@@ -62,7 +62,6 @@ public class Oneironaut {
         });
 
         TickEvent.SERVER_POST.register((server)->{HoverElevatorBlockEntity.processHover();});
-        ClientTickEvent.CLIENT_POST.register((client)->{HoverElevatorBlockEntity.processHover();});
 
         ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
         TagKey<Item> realStaffTag = getItemTagKey(new Identifier("hexcasting:staves"));

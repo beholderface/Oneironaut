@@ -4,7 +4,7 @@
 	"texture_size": [32, 48],
 	"textures": {
 		"0": "oneironaut:block/hover_elevator",
-		"particle": "oneironaut:block/hover_elevator"
+		"particle": "hexcasting:block/slate"
 	},
 	"elements": [
 		{

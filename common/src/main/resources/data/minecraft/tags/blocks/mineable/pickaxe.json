@@ -8,6 +8,7 @@
     "oneironaut:sentinel_trap",
     "oneironaut:raycast_blocker",
     "oneironaut:hex_resistant_block",
-    "oneironaut:wisp_battery"
+    "oneironaut:wisp_battery",
+    "oneironaut:hover_elevator"
   ]
 }

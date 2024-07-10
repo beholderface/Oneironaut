@@ -37,9 +37,9 @@ import java.util.*;
 
 public class HoverElevatorBlockEntity extends BlockEntity {
 
-    private static final Map<LivingEntity, Integer> HOVER_MAP = new HashMap<>();
+    public static final Map<LivingEntity, Integer> HOVER_MAP = new HashMap<>();
     private static final DirectionProperty FACING = HoverElevatorBlock.FACING;
-    private static final int color = new FrozenColorizer(HexItems.DYE_COLORIZERS.get(DyeColor.PURPLE).getDefaultStack(), Util.NIL_UUID).getColor(0f, Vec3d.ZERO);
+    public static final int color = new FrozenColorizer(HexItems.DYE_COLORIZERS.get(DyeColor.PURPLE).getDefaultStack(), Util.NIL_UUID).getColor(0f, Vec3d.ZERO);
 
     private Box pairCuboid = null;
     private int level = 0;
@@ -127,8 +127,10 @@ public class HoverElevatorBlockEntity extends BlockEntity {
         BlockPos current;
         Box output = this.defaultCuboid;
         int i = 1;
-        int range = dir.getAxis() == Direction.Axis.Y ? 128 : 64;
-        for (; i <= range; i++){
+        int initialRange = (dir.getAxis() == Direction.Axis.Y ? 128 : 64) + 1;
+        int adjustedRange = initialRange;
+        int repeaters = 0;
+        for (; i <= adjustedRange; i++){
             current = pos.add(dirVec.multiply(i));
             BlockState checkedState = world.getBlockState(current);
             TagKey<Block> breakImmune = MiscAPIKt.getBlockTagKey(Identifier.tryParse("oneironaut:hexbreakimmune"));
@@ -143,6 +145,9 @@ public class HoverElevatorBlockEntity extends BlockEntity {
                         break;
                     }
                 }
+            } else if (checkedState.getBlock() == OneironautBlockRegistry.HOVER_REPEATER.get() && repeaters < 3){
+                adjustedRange = i + (initialRange - 1);
+                repeaters++;
             } else if (checkedState.isIn(breakImmune) || checkedState.isIn(rayImmune)){
                 break;
             }
@@ -163,8 +168,8 @@ public class HoverElevatorBlockEntity extends BlockEntity {
         for (LivingEntity entity : HOVER_MAP.keySet()){
             Vec3d hoverVec = Vec3d.ZERO;
             Vec3d look = entity.getRotationVector();
-            int axesNum = HOVER_MAP.get(entity);
-            int divisor = 20;
+            int axesNum = HOVER_MAP.getOrDefault(entity, 0);
+            int divisor = 15;
             boolean counterVerticalMomentum = true;
             if (!entity.isSneaking()){
                 if ((axesNum & 1) == 1){

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "item": "oneironaut:pseudoamethyst_shard"
+    },
+    "M": {
+      "item": "minecraft:phantom_membrane"
+    },
+    "S": {
+      "item": "minecraft:shulker_shell"
+    },
+    "B": {
+      "item": "hexcasting:slate_block"
+    }
+  },
+  "pattern": [
+    " P ",
+    "MSM",
+    "BSB"
+  ],
+  "result": {
+    "item": "oneironaut:hover_repeater",
+    "count": 3
+  }
+}
