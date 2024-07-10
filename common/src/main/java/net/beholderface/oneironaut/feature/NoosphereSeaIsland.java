@@ -75,14 +75,14 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
                         scanPos = scanPos.down();
                         genCircle(world, scanPos, 7, state, replaceable);
                         if (rand.nextBetween(1, 5) == 5 && num == 11){
-                            generatedTrees = true;
+                            //generatedTrees = true;
                             int treeCount = rand.nextBetween(1, 3);
                             for (int i = 0; i < treeCount; i++){
                                 BlockPos treeSpot = surfaceCenter.add(rand.nextBetween(-4, 4), 0, rand.nextBetween(-4, 4));
                                 world.setBlockState(treeSpot, OneironautBlockRegistry.EDIFIED_TREE_SPAWNER.get().getDefaultState(), 3);
                             }
                         }
-                        if (rand.nextBetween(1, generatedTrees ? 3 : 25 - num) == 1){
+                        /*if (rand.nextBetween(1, generatedTrees ? 3 : 25 - num) == 1){
                             BoatEntity boat = new BoatEntity(EntityType.BOAT, world.toServerWorld());
                             boat.setBoatType(BoatEntity.Type.getType(rand.nextBetween(0, 6)));
                             Vec3d surfaceCenterDouble = new Vec3d(surfaceCenter.getX(), surfaceCenter.getY(), surfaceCenter.getZ());
@@ -91,7 +91,7 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
                             boat.setPos(boatPos.x, boatPos.y, boatPos.z);
                             boat.setYaw(rand.nextBetween(-180, 180));
                             world.spawnEntity(boat);
-                        }
+                        }*/
                     }
                     //Oneironaut.LOGGER.info("Successfully placed an island at " + scanPos);
                     return true;
