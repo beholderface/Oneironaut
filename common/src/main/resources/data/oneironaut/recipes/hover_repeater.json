@@ -12,12 +12,15 @@
     },
     "B": {
       "item": "hexcasting:slate_block"
+    },
+    "X": {
+      "item": "minecraft:purpur_block"
     }
   },
   "pattern": [
     " P ",
     "MSM",
-    "BSB"
+    "BXB"
   ],
   "result": {
     "item": "oneironaut:hover_repeater",
