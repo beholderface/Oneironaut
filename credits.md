@@ -10,6 +10,8 @@ Ideas by **beholderface**, with some input from the members of [the Petrak@'s Mo
 
 Textures by **beholderface** and [**Falkory**](https://github.com/Falkory220)
 
-Chinese translation by [**ChujikYahus**](https://github.com/ChuijkYahus)
+Chinese translation by [**ChuijkYahus**](https://github.com/ChuijkYahus)
+
+A few more complex `.json` files created with the generators at [**misode.github.io**](https://misode.github.io)
 
 A few passages in book entries condensed by ChatGPT based on text by beholderface

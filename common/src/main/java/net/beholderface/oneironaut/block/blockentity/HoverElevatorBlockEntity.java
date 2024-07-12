@@ -35,6 +35,8 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
+import static net.beholderface.oneironaut.MiscAPIKt.vecProximity;
+
 public class HoverElevatorBlockEntity extends BlockEntity {
 
     public static final Map<LivingEntity, Integer> HOVER_MAP = new HashMap<>();
@@ -153,14 +155,6 @@ public class HoverElevatorBlockEntity extends BlockEntity {
             }
         }
         return output;
-    }
-
-    private static double vecProximity(Vec3d a, Vec3d b){
-        //I'm not sure what the best way to do this is, but this way works for hexes so it's what I tried first
-        return a.subtract(b).length();
-    }
-    private static double vecProximity(Direction a, Vec3d b){
-        return vecProximity(Vec3d.of(a.getVector()), b);
     }
 
     public static void processHover(){

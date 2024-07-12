@@ -24,7 +24,8 @@ public class HoverRepeaterBlock extends Block {
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         Random rand = world.random;
         Vec3d particleCenter = Vec3d.ofCenter(new Vec3i(pos.getX(), pos.getY(), pos.getZ())).add(0.0, 0.2, 0.0);
-        for (int i = 0; i < rand.nextBetween(1, 3); i++){
+        int limit = rand.nextBetween(1, 3);
+        for (int i = 0; i < limit; i++){
             world.addParticle(new ConjureParticleOptions(HoverElevatorBlockEntity.color, true),
                     particleCenter.x + (((rand.nextGaussian() * 2) - 1) / 50), particleCenter.y + (((rand.nextGaussian() * 2) - 1) / 50),
                     particleCenter.z + (((rand.nextGaussian() * 2) - 1) / 50), 0.0, 0.0, 0.0);

@@ -5,11 +5,14 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
+import net.beholderface.oneironaut.recipe.OneironautRecipeTypes
+import net.beholderface.oneironaut.registry.DimIota
+import net.beholderface.oneironaut.registry.OneironautItemRegistry
+import net.beholderface.oneironaut.registry.SoulprintIota
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.item.Item
 import net.minecraft.recipe.RecipeManager
 import net.minecraft.server.MinecraftServer
@@ -26,8 +29,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
-import net.beholderface.oneironaut.recipe.OneironautRecipeTypes
-import net.beholderface.oneironaut.registry.*
 import java.util.*
 import kotlin.math.absoluteValue
 
@@ -295,4 +296,13 @@ fun getBoxCorners(box : Box) : List<Vec3d>{
         Vec3d(box.minX, box.maxY, box.maxZ), Vec3d(box.minX, box.minY, box.maxZ),
         Vec3d(box.maxX, box.minY, box.maxZ), Vec3d(box.minX, box.maxY, box.minZ)
     )
+}
+
+fun vecProximity(a: Vec3d, b: Vec3d): Double {
+    //I'm not sure what the best way to do this is, but this way works for hexes so it's what I tried first
+    return a.normalize().subtract(b.normalize()).length()
+}
+
+fun vecProximity(a: Direction, b: Vec3d): Double {
+    return vecProximity(Vec3d.of(a.vector), b)
 }

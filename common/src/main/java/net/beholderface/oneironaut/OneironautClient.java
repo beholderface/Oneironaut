@@ -2,11 +2,13 @@ package net.beholderface.oneironaut;
 
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
+import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
-import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
+import net.beholderface.oneironaut.block.ThoughtSlurry;
 import net.beholderface.oneironaut.block.blockentity.HoverElevatorBlockEntity;
+import net.beholderface.oneironaut.item.ReverberationRod;
 import net.beholderface.oneironaut.item.WispCaptureItem;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.beholderface.oneironaut.registry.OneironautItemRegistry;
@@ -15,23 +17,19 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.block.Block;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import net.beholderface.oneironaut.block.ThoughtSlurry;
-import net.beholderface.oneironaut.item.ReverberationRod;
-import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
-import net.beholderface.oneironaut.registry.OneironautItemRegistry;
 
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Common client loading entrypoint.
@@ -47,6 +45,31 @@ public class OneironautClient {
         return applied;
     }
 
+    private static float processObservationPredicate(ItemStack stack, ClientWorld world, LivingEntity holder, int holderID){
+        ClientPlayerEntity cachedPlayer = cachedClient.player;
+        float output = -0.01f;
+        int fov = cachedClient.options.getFov().getValue();
+        double threshold = fov / (fov <= 85 ? 90.0 : 100.0);
+        if (stack.isInFrame() && cachedPlayer != null){
+            assert stack.getFrame() != null;
+            if (MiscAPIKt.vecProximity(stack.getFrame().getPos().subtract(cachedPlayer.getEyePos()), cachedPlayer.getRotationVector()) <= threshold) {
+                output = 0.99f;
+            }
+        }
+        if (stack.getHolder() != null && cachedPlayer != null && stack.getHolder() != cachedPlayer){
+            Vec3d holderCenterApprox = stack.getHolder().getPos().add(stack.getHolder().getEyePos()).multiply(0.5);
+            if (MiscAPIKt.vecProximity(holderCenterApprox.subtract(cachedPlayer.getEyePos()), cachedPlayer.getRotationVector()) <= threshold) {
+                output = 0.99f;
+            }
+        }
+        if (holder == cachedPlayer && holder != null && (holder.getStackInHand(Hand.MAIN_HAND) == stack || holder.getStackInHand(Hand.OFF_HAND) == stack)){
+            output = 0.99f;
+        }
+        return output;
+    }
+
+    //private static ClientPlayerEntity cachedPlayer = null;
+    private static MinecraftClient cachedClient = null;
     public static void init() {
 
         if (Platform.isFabric()){
@@ -63,7 +86,8 @@ public class OneironautClient {
 
             Block[] cutoutBlocks = {OneironautBlockRegistry.WISP_LANTERN.get(), OneironautBlockRegistry.WISP_LANTERN_TINTED.get(),
                     OneironautBlockRegistry.WISP_BATTERY.get(), OneironautBlockRegistry.WISP_BATTERY_DECORATIVE.get(),
-                    OneironautBlockRegistry.CIRCLE.get()};
+                    OneironautBlockRegistry.CIRCLE.get(), OneironautBlockRegistry.PSEUDOAMETHYST_CLUSTER.get(), OneironautBlockRegistry.PSEUDOAMETHYST_BUD_LARGE.get(),
+                    OneironautBlockRegistry.PSEUDOAMETHYST_BUD_MEDIUM.get(), OneironautBlockRegistry.PSEUDOAMETHYST_BUD_SMALL.get()};
             Block[] translucentBlocks = {OneironautBlockRegistry.RAYCAST_BLOCKER_GLASS.get(), OneironautBlockRegistry.MEDIA_GEL.get(),
                     OneironautBlockRegistry.CELL.get()};
 
@@ -74,15 +98,15 @@ public class OneironautClient {
 
             ClientTickEvent.CLIENT_POST.register((client)->{
                 HoverElevatorBlockEntity.processHover();});
-
-            /*BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_LANTERN.get(), RenderLayer.getCutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_LANTERN_TINTED.get(), RenderLayer.getCutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_BATTERY.get(), RenderLayer.getCutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.WISP_BATTERY_DECORATIVE.get(), RenderLayer.getCutout());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CIRCLE.get(), RenderLayer.getCutout());*/
-            /*BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.RAYCAST_BLOCKER_GLASS.get(), RenderLayer.getTranslucent());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.MEDIA_GEL.get(), RenderLayer.getTranslucent());
-            BlockRenderLayerMap.INSTANCE.putBlock(OneironautBlockRegistry.CELL.get(), RenderLayer.getTranslucent());*/
+            ClientLifecycleEvent.CLIENT_STARTED.register((client)->{
+                //cachedPlayer = client.player;
+                cachedClient = client;
+                if (cachedClient != null){
+                    Oneironaut.LOGGER.info("Cached client object. Player:" + client.player);
+                } else {
+                    Oneironaut.LOGGER.info("Could not cache client object.");
+                }
+            });
         } else {
             Oneironaut.LOGGER.info("oh no, forge, aaaaaaaaaaaa");
         }
@@ -107,6 +131,9 @@ public class OneironautClient {
         ItemPropertiesRegistry.register(OneironautItemRegistry.WISP_CAPTURE_ITEM.get(), WispCaptureItem.FILLED_PREDICATE, (stack, world, holder, holderID) -> {
             return ((WispCaptureItem)stack.getItem()).hasWisp(stack, world) ? 0.99f : -0.01f;
         });
+
+        ItemPropertiesRegistry.register(OneironautItemRegistry.SHIFTING_PSEUDOAMETHYST.get(), new Identifier(Oneironaut.MOD_ID, "observation"),
+                OneironautClient::processObservationPredicate);
 
         //ah yes, because I definitely want to turn my expensive staff into a much less expensive variant
         Item[] nameSensitiveStaves = {OneironautItemRegistry.ECHO_STAFF.get(), OneironautItemRegistry.BEACON_STAFF.get(), OneironautItemRegistry.SPOON_STAFF.get()};

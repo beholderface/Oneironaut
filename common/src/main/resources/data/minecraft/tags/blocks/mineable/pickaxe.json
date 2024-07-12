@@ -9,6 +9,10 @@
     "oneironaut:raycast_blocker",
     "oneironaut:hex_resistant_block",
     "oneironaut:wisp_battery",
-    "oneironaut:hover_elevator"
+    "oneironaut:hover_elevator",
+    "oneironaut:pseudoamethyst_cluster",
+    "oneironaut:pseudoamethyst_bud_small",
+    "oneironaut:pseudoamethyst_bud_medium",
+    "oneironaut:pseudoamethyst_bud_large"
   ]
 }

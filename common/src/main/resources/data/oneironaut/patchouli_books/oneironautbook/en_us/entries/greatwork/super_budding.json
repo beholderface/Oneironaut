@@ -20,9 +20,28 @@
       "text": "oneironaut.page.super_budding.3"
     },
     {
+      "type": "patchouli:spotlight",
+      "item": "oneironaut:shifting_pseudoamethyst",
+      "text": "oneironaut.page.super_budding.4"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "oneironaut:shifting_stabilization/shifting_to_pseudo_shard",
+      "recipe2": "oneironaut:shifting_stabilization/shifting_to_dust"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "oneironaut:shifting_stabilization/shifting_to_normal_shard",
+      "recipe2": "oneironaut:shifting_stabilization/shifting_to_charged"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "oneironaut.page.super_budding.5"
+    },
+    {
       "type": "patchouli:crafting",
       "recipe": "oneironaut:endless_phial",
-      "text": "oneironaut.page.super_budding.4"
+      "text": "oneironaut.page.super_budding.6"
     }
   ]
 }

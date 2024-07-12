@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "oneironaut:block/pseudoamethyst_bud_medium"
+  }
+}
