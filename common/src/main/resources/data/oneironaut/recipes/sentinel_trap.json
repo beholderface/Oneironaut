@@ -9,11 +9,14 @@
     },
     "S": {
       "item": "oneironaut:sentinel_sensor"
+    },
+    "P": {
+      "item": "oneironaut:shifting_pseudoamethyst"
     }
   },
   "pattern": [
-    " B ",
-    "BSB",
+    " S ",
+    "BPB",
     "BCB"
   ],
   "result": {
