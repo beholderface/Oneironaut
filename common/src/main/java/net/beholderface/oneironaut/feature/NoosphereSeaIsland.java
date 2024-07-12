@@ -57,11 +57,11 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
                             OneironautBlockRegistry.THOUGHT_SLURRY_BLOCK.get(),
                             Blocks.AIR
                     };
-                    genCircle(world, scanPos, num, state, replaceable);
+                    genCircle(world, scanPos, num, state, replaceable, 1.0);
                     boolean generatedTrees = false;
                     if (num >= 19){
                         scanPos = scanPos.down();
-                        genCircle(world, scanPos, 11, state, replaceable);
+                        genCircle(world, scanPos, 11, state, replaceable, 1.0);
                         if (rand.nextBetween(1, 5) == 5){
                             generatedTrees = true;
                             int treeCount = rand.nextBetween(2, 6);
@@ -73,7 +73,7 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
                     }
                     if (num >= 11){
                         scanPos = scanPos.down();
-                        genCircle(world, scanPos, 7, state, replaceable);
+                        genCircle(world, scanPos, 7, state, replaceable, 1.0);
                         if (rand.nextBetween(1, 5) == 5 && num == 11){
                             //generatedTrees = true;
                             int treeCount = rand.nextBetween(1, 3);

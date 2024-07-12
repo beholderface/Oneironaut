@@ -214,7 +214,7 @@ fun playerUUIDtoServerPlayer(uuid: UUID, server: MinecraftServer): ServerPlayerE
     return server.playerManager?.getPlayer(uuid)
 }
 
-fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, state : BlockState, replacable : Array<Block>) : Int{
+fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, state : BlockState, replacable : Array<Block>, fillPortion : Double) : Int{
     val realCenter = Vec3d(center.x + 0.5, center.y + 0.5, center.z + 0.5)
     //val area = diameter * diameter
     val radius = diameter.toDouble() / 2
@@ -226,6 +226,7 @@ fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, s
         for (y in 0 .. diameter){
             offset = Vec3d(x.toDouble(), 0.0, y.toDouble())
             current = corner.add(offset)
+            if (world.random.nextBetween(0, 999) / 10.0 <= fillPortion * 100)
             if (current.distanceTo(realCenter) <= radius && replacable.contains(world.getBlockState(BlockPos(current)).block)){
                 world.setBlockState(BlockPos(current), state, 0b10)
                 placed++
