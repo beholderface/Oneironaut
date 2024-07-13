@@ -46,6 +46,11 @@ public class OvercastDamageEnchant extends Enchantment {
     }
 
     @Override
+    public boolean isAvailableForRandomSelection() {
+        return false;
+    }
+
+    @Override
     public boolean isAcceptableItem(ItemStack stack) {
         return stack.getItem() instanceof AxeItem || super.isAcceptableItem(stack);
     }
