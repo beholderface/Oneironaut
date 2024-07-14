@@ -68,7 +68,7 @@ public class OneironautPatternRegistry {
     public static HexPattern RESIST_DETECTION = registerPerWorld(HexPattern.fromAngles("wawwwdwdwwaqqqqqe", HexDir.EAST), "resistdetection", new OpResistDetection());
     public static HexPattern APPLY_NOT_MISSING = registerPerWorld(HexPattern.fromAngles("qdaeqeawaeqeadqqdeed", HexDir.SOUTH_WEST), "applynotmissing", new OpMarkEntity());
     public static HexPattern APPLY_MIND_RENDER = registerPerWorld(HexPattern.fromAngles("qweqadeqadeqadqqqwdaqedaqedaqeqaqdwawdwawdwaqawdwawdwawddwwwwwqdeddw", HexDir.EAST), "applymindrender", new OpApplyOvercastDamage());
-
+    public static HexPattern REVIVE_FLAYED = registerPerWorld(HexPattern.fromAngles("qeqwqqedeeeeeaqwqeqaqedqde", HexDir.NORTH_EAST), "reviveflayed", new OpReviveFlayed());
 
     //cell spells
     //public static List<Triple<String[][], Identifier, ICellSpell>> CELL_PATTERNS = new ArrayList<>();

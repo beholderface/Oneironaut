@@ -5,6 +5,9 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
+import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
+import at.petrak.hexcasting.xplat.IXplatAbstractions
+import net.beholderface.oneironaut.casting.UnBrainsweepPacket
 import net.beholderface.oneironaut.recipe.OneironautRecipeTypes
 import net.beholderface.oneironaut.casting.iotatypes.DimIota
 import net.beholderface.oneironaut.registry.OneironautItemRegistry
@@ -13,7 +16,11 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.ai.goal.GoalSelector
+import net.minecraft.entity.mob.MobEntity
+import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.item.Item
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.recipe.RecipeManager
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
@@ -27,6 +34,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.registry.Registry
+import net.minecraft.village.VillagerProfession
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
 import java.util.*
@@ -306,4 +314,27 @@ fun vecProximity(a: Vec3d, b: Vec3d): Double {
 
 fun vecProximity(a: Direction, b: Vec3d): Double {
     return vecProximity(Vec3d.of(a.vector), b)
+}
+
+fun MobEntity.unbrainsweep(){
+    val patient = this
+    if (!patient.world.isClient){
+        //Oneironaut.LOGGER.info("Attempting to unbrainsweep ${this.name} client-side")
+        IXplatAbstractions.INSTANCE.sendPacketNear(patient.pos, 128.0, patient.world as ServerWorld, UnBrainsweepPacket(patient.id))
+    }/* else {
+        Oneironaut.LOGGER.info("Attempting to unbrainsweep ${this.name} server-side")
+    }*/
+    val component = HexCardinalComponents.BRAINSWEPT.get(patient)
+    component.isBrainswept = false
+    patient.isAiDisabled = false
+    val brain = patient.brain
+    patient.goalSelector = GoalSelector(patient.world.profilerSupplier)
+    brain.resetPossibleActivities()
+    brain.refreshActivities(patient.world.timeOfDay, patient.world.time)
+    if (patient is VillagerEntity){
+        val newData = patient.villagerData.withLevel(0).withProfession(VillagerProfession.NITWIT)
+        patient.villagerData = newData
+    }
+    val refreshNBT = patient.writeNbt(NbtCompound())
+    patient.readNbt(refreshNBT)
 }
