@@ -12,7 +12,6 @@ import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.iota.NullIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapImmuneEntity
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
-import at.petrak.hexcasting.api.utils.downcast
 import at.petrak.hexcasting.common.blocks.BlockConjured
 import at.petrak.hexcasting.common.lib.HexBlocks
 import at.petrak.hexcasting.xplat.IXplatAbstractions
@@ -21,12 +20,11 @@ import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 import net.beholderface.oneironaut.getDimIota
-import net.beholderface.oneironaut.registry.DimIota
+import net.beholderface.oneironaut.casting.iotatypes.DimIota
 import net.minecraft.block.Blocks
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
@@ -52,7 +50,8 @@ class OpDimTeleport : SpellAction {
         val destination : DimIota
         if (args[1] is NullIota){
             noosphere = true;
-            destination = DimIota("oneironaut:noosphere")
+            destination =
+                DimIota("oneironaut:noosphere")
         } else {
             destination = args.getDimIota(1, argc)
         }

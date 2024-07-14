@@ -3,16 +3,11 @@ package net.beholderface.oneironaut.casting.patterns
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.spell.ConstMediaAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
-import at.petrak.hexcasting.api.spell.getPlayer
-import at.petrak.hexcasting.api.spell.getVec3
-import at.petrak.hexcasting.api.spell.iota.DoubleIota
 import at.petrak.hexcasting.api.spell.iota.Iota
-import at.petrak.hexcasting.api.spell.iota.NullIota
-import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.minecraft.text.Text
 import net.minecraft.util.Pair
 import net.beholderface.oneironaut.casting.mishaps.MishapNoStaff
-import net.beholderface.oneironaut.registry.SoulprintIota
+import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
 
 class OpGetSoulprint : ConstMediaAction{
     override val argc = 0

@@ -12,7 +12,6 @@ import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.text.Text
@@ -20,7 +19,7 @@ import net.minecraft.util.math.BlockPos
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager
 import net.beholderface.oneironaut.getSoulprint
 import net.beholderface.oneironaut.registry.OneironautIotaTypeRegistry
-import net.beholderface.oneironaut.registry.SoulprintIota
+import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
 
 class OpGetIdeaWriter : ConstMediaAction {
     override val argc = 2

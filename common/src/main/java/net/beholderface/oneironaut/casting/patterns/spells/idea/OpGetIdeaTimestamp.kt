@@ -4,7 +4,6 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.spell.ConstMediaAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.getEntity
-import at.petrak.hexcasting.api.spell.getPlayer
 import at.petrak.hexcasting.api.spell.getVec3
 import at.petrak.hexcasting.api.spell.iota.EntityIota
 import at.petrak.hexcasting.api.spell.iota.GarbageIota
@@ -18,7 +17,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager
 import net.beholderface.oneironaut.getSoulprint
-import net.beholderface.oneironaut.registry.SoulprintIota
+import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
 
 class OpGetIdeaTimestamp : ConstMediaAction {
     override val argc = 1

@@ -1,14 +1,11 @@
-package net.beholderface.oneironaut.registry;
+package net.beholderface.oneironaut.casting.iotatypes;
 
 import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.iota.IotaType;
-import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
 import at.petrak.hexcasting.api.utils.HexUtils;
+import net.beholderface.oneironaut.registry.OneironautIotaTypeRegistry;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.*;

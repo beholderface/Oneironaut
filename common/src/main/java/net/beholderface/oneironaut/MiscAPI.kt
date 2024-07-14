@@ -6,9 +6,9 @@ import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
 import net.beholderface.oneironaut.recipe.OneironautRecipeTypes
-import net.beholderface.oneironaut.registry.DimIota
+import net.beholderface.oneironaut.casting.iotatypes.DimIota
 import net.beholderface.oneironaut.registry.OneironautItemRegistry
-import net.beholderface.oneironaut.registry.SoulprintIota
+import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks

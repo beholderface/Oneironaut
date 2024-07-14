@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.registry;
+package net.beholderface.oneironaut.casting.iotatypes;
 
 import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.api.spell.iota.Iota;
@@ -6,6 +6,7 @@ import at.petrak.hexcasting.api.spell.iota.IotaType;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.beholderface.oneironaut.registry.OneironautIotaTypeRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;

@@ -4,14 +4,14 @@ import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.iota.IotaType;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.beholderface.oneironaut.Oneironaut;
+import net.beholderface.oneironaut.casting.iotatypes.DimIota;
+import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static net.beholderface.oneironaut.Oneironaut.id;
 
 public class OneironautIotaTypeRegistry {
     public static final Registry<IotaType<?>> REGISTRY = IXplatAbstractions.INSTANCE.getIotaTypeRegistry();

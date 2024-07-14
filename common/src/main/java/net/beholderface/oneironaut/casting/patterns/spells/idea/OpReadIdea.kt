@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager
 import net.beholderface.oneironaut.getSoulprint
 import net.beholderface.oneironaut.isPlayerEnlightened
-import net.beholderface.oneironaut.registry.SoulprintIota
+import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
 
 class OpReadIdea : ConstMediaAction {
     override val argc = 1
