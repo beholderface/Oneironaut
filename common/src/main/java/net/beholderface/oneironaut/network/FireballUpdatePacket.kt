@@ -1,25 +1,14 @@
-package net.beholderface.oneironaut.casting
+package net.beholderface.oneironaut.network
 
-import at.petrak.hexcasting.api.HexAPI.modLoc
-import at.petrak.hexcasting.api.misc.FrozenColorizer
 import at.petrak.hexcasting.common.network.IMessage
-import at.petrak.hexcasting.common.lib.HexSounds
-import at.petrak.hexcasting.common.particles.ConjureParticleOptions
 import io.netty.buffer.ByteBuf
 import net.minecraft.client.MinecraftClient
-import net.minecraft.entity.Entity
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.beholderface.oneironaut.Oneironaut
-import net.beholderface.oneironaut.OneironautClient
-import ram.talia.hexal.api.nextColour
 import java.util.ConcurrentModificationException
-import java.util.UUID
 
 
 class FireballUpdatePacket(val targetVelocity : Vec3d, val entity : ExplosiveProjectileEntity?) : IMessage {

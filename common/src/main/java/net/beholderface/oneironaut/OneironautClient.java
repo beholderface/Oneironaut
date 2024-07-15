@@ -45,31 +45,47 @@ public class OneironautClient {
         return applied;
     }
 
+    public static long lastShiftingHoverTick = 0L;
+    public static ItemStack lastHoveredShifting = null;
     private static float processObservationPredicate(ItemStack stack, ClientWorld world, LivingEntity holder, int holderID){
         ClientPlayerEntity cachedPlayer = cachedClient.player;
-        float output = -0.01f;
+        final float OFF = 0.99f;
+        final float ON = -0.01f;
+        float output = ON;
         int fov = cachedClient.options.getFov().getValue();
         double threshold = fov / (fov <= 85 ? 90.0 : 100.0);
-        if (stack.isInFrame() && cachedPlayer != null){
-            assert stack.getFrame() != null;
-            if (MiscAPIKt.vecProximity(stack.getFrame().getPos().subtract(cachedPlayer.getEyePos()), cachedPlayer.getRotationVector()) <= threshold) {
-                output = 0.99f;
+        if (cachedPlayer != null){
+            if (stack.isInFrame()){
+                assert stack.getFrame() != null;
+                if (MiscAPIKt.vecProximity(stack.getFrame().getPos().subtract(cachedPlayer.getEyePos()), cachedPlayer.getRotationVector()) <= threshold) {
+                    output = OFF;
+                }
+            }
+            if (stack.getHolder() != null && stack.getHolder() != cachedPlayer){
+                Vec3d holderCenterApprox = stack.getHolder().getPos().add(stack.getHolder().getEyePos()).multiply(0.5);
+                if (MiscAPIKt.vecProximity(holderCenterApprox.subtract(cachedPlayer.getEyePos()), cachedPlayer.getRotationVector()) <= threshold) {
+                    output = OFF;
+                }
+            }
+            if (holder == cachedPlayer && (holder.getStackInHand(Hand.MAIN_HAND) == stack || holder.getStackInHand(Hand.OFF_HAND) == stack)){
+                output = OFF;
+            }
+            if (cachedPlayer.currentScreenHandler.getCursorStack() == stack ||
+                    (lastShiftingHoverTick + 1 >= cachedPlayer.world.getTime() && lastHoveredShifting == stack)){
+                output = OFF;
             }
         }
-        if (stack.getHolder() != null && cachedPlayer != null && stack.getHolder() != cachedPlayer){
-            Vec3d holderCenterApprox = stack.getHolder().getPos().add(stack.getHolder().getEyePos()).multiply(0.5);
-            if (MiscAPIKt.vecProximity(holderCenterApprox.subtract(cachedPlayer.getEyePos()), cachedPlayer.getRotationVector()) <= threshold) {
-                output = 0.99f;
-            }
-        }
-        if (holder == cachedPlayer && holder != null && (holder.getStackInHand(Hand.MAIN_HAND) == stack || holder.getStackInHand(Hand.OFF_HAND) == stack)){
-            output = 0.99f;
+        if (!cachedClient.isWindowFocused()){
+            output = ON;
         }
         return output;
     }
 
     //private static ClientPlayerEntity cachedPlayer = null;
     private static MinecraftClient cachedClient = null;
+    public static MinecraftClient getCachedClient(){
+        return cachedClient;
+    }
     public static void init() {
 
         if (Platform.isFabric()){

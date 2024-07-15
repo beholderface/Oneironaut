@@ -7,7 +7,7 @@ import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
 import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
 import at.petrak.hexcasting.xplat.IXplatAbstractions
-import net.beholderface.oneironaut.casting.UnBrainsweepPacket
+import net.beholderface.oneironaut.network.UnBrainsweepPacket
 import net.beholderface.oneironaut.recipe.OneironautRecipeTypes
 import net.beholderface.oneironaut.casting.iotatypes.DimIota
 import net.beholderface.oneironaut.registry.OneironautItemRegistry

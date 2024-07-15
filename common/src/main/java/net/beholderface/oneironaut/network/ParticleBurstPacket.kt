@@ -1,6 +1,5 @@
-package net.beholderface.oneironaut.casting
+package net.beholderface.oneironaut.network
 
-import at.petrak.hexcasting.api.HexAPI.modLoc
 import at.petrak.hexcasting.api.misc.FrozenColorizer
 import at.petrak.hexcasting.common.network.IMessage
 import at.petrak.hexcasting.common.lib.HexSounds

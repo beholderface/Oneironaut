@@ -264,11 +264,11 @@ public class WispCaptureItem extends ItemMediaHolder {
     }
 
     @Override
-    public void appendTooltip(ItemStack pStack, @Nullable World world, List<Text> pTooltipComponents, TooltipContext context) {
-        super.appendTooltip(pStack, world, pTooltipComponents, context);
-        if (this.hasWisp(pStack, null)){
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> pTooltipComponents, TooltipContext context) {
+        super.appendTooltip(stack, world, pTooltipComponents, context);
+        if (this.hasWisp(stack, null)){
             String hashString = "???";
-            NbtCompound wispData = this.getWispData(pStack, null);
+            NbtCompound wispData = this.getWispData(stack, null);
             assert wispData != null;
             int media = wispData.getInt("media");
             NbtElement hexData = wispData.get("hex");

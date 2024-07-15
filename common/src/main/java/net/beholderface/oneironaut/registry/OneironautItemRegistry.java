@@ -39,7 +39,7 @@ public class OneironautItemRegistry {
 
     public static final RegistrySupplier<ItemStolenMediaProvider> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new
             ItemStolenMediaProvider(ONEIRONAUT_STACKABLE64, (int) (MediaConstants.SHARD_UNIT * 1.5), 1500));
-    public static final RegistrySupplier<Item> SHIFTING_PSEUDOAMETHYST = ITEMS.register("shifting_pseudoamethyst", ()-> new Item(ONEIRONAUT_STACKABLE64.rarity(Rarity.UNCOMMON)));
+    public static final RegistrySupplier<Item> SHIFTING_PSEUDOAMETHYST = ITEMS.register("shifting_pseudoamethyst", ()-> new ShiftingPseudoamethystItem(ONEIRONAUT_STACKABLE64.rarity(Rarity.UNCOMMON)));
     public static final RegistrySupplier<ArchitecturyBucketItem> THOUGHT_SLURRY_BUCKET = ITEMS.register("thought_slurry_bucket", () -> new ArchitecturyBucketItem(OneironautMiscRegistry.THOUGHT_SLURRY, ONEIRONAUT_UNSTACKABLE));
     public static final RegistrySupplier<ReverberationRod> REVERBERATION_ROD = ITEMS.register("reverberation_rod", () -> new ReverberationRod(ONEIRONAUT_UNSTACKABLE));
     public static final RegistrySupplier<BottomlessMediaItem> BOTTOMLESS_MEDIA_ITEM = ITEMS.register("endless_phial", () -> new BottomlessMediaItem(ONEIRONAUT_UNSTACKABLE));

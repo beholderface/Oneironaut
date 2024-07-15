@@ -1,14 +1,11 @@
 package net.beholderface.oneironaut.fabric
 
+import net.beholderface.oneironaut.network.*
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.network.PacketByteBuf
-import net.beholderface.oneironaut.casting.FireballUpdatePacket
-import net.beholderface.oneironaut.casting.ItemUpdatePacket
-import net.beholderface.oneironaut.casting.ParticleBurstPacket
-import net.beholderface.oneironaut.casting.UnBrainsweepPacket
 import java.util.function.Consumer
 import java.util.function.Function
 
@@ -18,6 +15,7 @@ object FabricPacketHandler {
         ClientPlayNetworking.registerGlobalReceiver(FireballUpdatePacket.ID, makeClientBoundHandler(FireballUpdatePacket::deserialise, FireballUpdatePacket::handle))
         ClientPlayNetworking.registerGlobalReceiver(ItemUpdatePacket.ID, makeClientBoundHandler(ItemUpdatePacket::deserialise, ItemUpdatePacket::handle))
         ClientPlayNetworking.registerGlobalReceiver(UnBrainsweepPacket.ID, makeClientBoundHandler(UnBrainsweepPacket::deserialise, UnBrainsweepPacket::handle))
+        ClientPlayNetworking.registerGlobalReceiver(SpoopyScreamPacket.ID, makeClientBoundHandler(SpoopyScreamPacket::deserialise, SpoopyScreamPacket::handle))
     }
 
     private fun <T> makeClientBoundHandler(decoder: Function<PacketByteBuf, T>, handler: Consumer<T>): ClientPlayNetworking.PlayChannelHandler {

@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.casting
+package net.beholderface.oneironaut.network
 
 import at.petrak.hexcasting.common.network.IMessage
 import io.netty.buffer.ByteBuf

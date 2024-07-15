@@ -15,7 +15,7 @@ import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.Entity
 import net.minecraft.item.EnchantedBookItem
 import net.minecraft.item.ItemStack
-import net.beholderface.oneironaut.casting.ItemUpdatePacket
+import net.beholderface.oneironaut.network.ItemUpdatePacket
 import net.beholderface.oneironaut.casting.mishaps.MishapMissingEnchant
 import net.beholderface.oneironaut.registry.OneironautMiscRegistry
 import ram.talia.hexal.api.getItemEntityOrItemFrame
