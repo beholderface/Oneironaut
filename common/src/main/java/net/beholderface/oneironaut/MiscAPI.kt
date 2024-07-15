@@ -320,7 +320,7 @@ fun MobEntity.unbrainsweep(){
     val patient = this
     if (!patient.world.isClient){
         //Oneironaut.LOGGER.info("Attempting to unbrainsweep ${this.name} client-side")
-        IXplatAbstractions.INSTANCE.sendPacketNear(patient.pos, 128.0, patient.world as ServerWorld, UnBrainsweepPacket(patient.id))
+        IXplatAbstractions.INSTANCE.sendPacketNear(patient.pos, 256.0, patient.world as ServerWorld, UnBrainsweepPacket(patient.id))
     }/* else {
         Oneironaut.LOGGER.info("Attempting to unbrainsweep ${this.name} server-side")
     }*/

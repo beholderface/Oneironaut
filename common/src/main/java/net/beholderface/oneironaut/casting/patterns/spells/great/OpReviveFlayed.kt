@@ -28,7 +28,7 @@ class OpReviveFlayed : SpellAction {
             }
             return Triple(Spell(patient), cost, listOf(ParticleSpray.cloud(patient.pos, 1.0)))
         } else {
-            throw MishapBadEntity(patient, Text.of("oneironaut:requiresflayedmob"))
+            throw MishapBadEntity(patient, Text.of("oneironaut.mishap.requiresflayedmob"))
         }
     }
 

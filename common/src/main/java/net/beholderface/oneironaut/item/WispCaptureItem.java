@@ -124,7 +124,7 @@ public class WispCaptureItem extends ItemMediaHolder {
             cost = (int) Math.ceil(wisp.getMedia() * 1.5);
         }
         if (!world.isClient){
-            if (this.getMedia(stack) >= cost || user.isCreative()){
+            if ((this.getMedia(stack) >= cost || user.isCreative()) && !wisp.getSeon()){
                 this.deductMedia(stack, cost, user);
                 NbtCompound wispData = wisp.writeNbt(new NbtCompound());
                 NBTHelper.putCompound(stackNbt, WISP_DATA_TAG, wispData);
