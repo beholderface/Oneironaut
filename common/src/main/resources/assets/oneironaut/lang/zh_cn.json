@@ -48,7 +48,7 @@
 
   "this.is.a.comment.2": "Block/Item names--------------------------------------------------------------------------------------------",
   "item.oneironaut.pseudoamethyst_shard": "伪紫水晶碎片",
-  "item.oneironaut.shifting_pseudoamethyst": "变化的伪紫水晶",
+  "item.oneironaut.shifting_pseudoamethyst": "易形伪紫水晶",
   "item.oneironaut.thought_slurry_bucket": "思维浆液桶",
   "item.oneironaut.reverberation_rod": "回响之杖",
   "item.oneironaut.endless_phial": "无穷媒质之瓶",
@@ -214,7 +214,7 @@
   "oneironaut.page.lore.treatise2.2": "这种方法最简单的实现方式需要$(l:patterns/meta#hexcasting:for_each)托特之策略$(/l)，传入多个重复的实体 iota 组成的列表即可。当然也有其他（且通常更好的）方法存在。但除去重复绘制图案外，这些方法大多离不开循环这一命题，这就有点超出这篇文档的范畴了。",
   "oneironaut.page.lore.treatise3.1": "虽然$(l:patterns/meta#hexcasting:for_each)托特之策略$(/l)极其适合同时对多个目标施放同一法术，但对同一目标施放多次法术就有点麻烦了。它不仅容易导致咒术的停止，运行开始后还无法添加或移除作用目标。$(br)而绕过这些局限也很简单，换用另一种循环即可。",
   "oneironaut.page.lore.treatise3.2.header": "While 循环",
-  "oneironaut.page.lore.treatise3.2": "While 循环是一种在既定条件达成之前一直运行的循环，比如条件可以是实体的速度达到了给定值。一个仅会复制自身再运行栈顶 iota 的图案列表就是这种循环最简单的实现方式。如果单独运行它，那么咒术会进入无限循环，除非产生事故不然不会停止。",
+  "oneironaut.page.lore.treatise3.2": "While 循环是一种在既定条件达成之前一直运行的循环，条件可以是实体的速度达到了给定值等。一个仅会复制自身再运行栈顶 iota 的图案列表就是这种循环最简单的实现方式。如果单独运行它，那么咒术会进入无限循环，除非产生事故不然不会停止。",
   "oneironaut.page.lore.treatise3.3": "向其中加入实际功能和一些布尔逻辑，就能创造出有用的 while 循环。前文所提无限循环的代码如下：$(br)内省$(br)双子之分解$(br)赫尔墨斯之策略$(br)反思$(br)双子之分解$(br)赫尔墨斯之策略$(br2)向其中加入根据条件是否运行列表内赫尔墨斯之策略的逻辑，达成相应条件后循环便会终止。",
   "oneironaut.page.lore.treatise3.4.header": "循环展开",
   "oneironaut.page.lore.treatise3.4": "“已展开循环”/“Unrolled loop”是一种更为复杂的循环。和托特之策略一样，构建时其迭代次数同样固定，难以增加修改。但如有需要，卡戎之策略可以令其提前停止。比较来看，这种循环仅产生一到两层递归深度（循环体运行所致深度不计），是其优势所在。先写定想要重复的图案列表，再多次复制，最后把所有列表合成一体，就实现了循环展开。",
