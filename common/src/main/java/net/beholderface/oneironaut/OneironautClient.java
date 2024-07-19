@@ -29,6 +29,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.ConcurrentModificationException;
 import java.util.Locale;
 
 /**
@@ -112,8 +113,14 @@ public class OneironautClient {
             Oneironaut.LOGGER.info("Applied cutout layer to " + applyBlockRenderLayers(cutoutBlocks, RenderLayer.getCutout()) + " blocks");
             Oneironaut.LOGGER.info("Applied translucent layer to " + applyBlockRenderLayers(translucentBlocks, RenderLayer.getTranslucent()) + " blocks");
 
+            Oneironaut.LOGGER.info("not Registering client-side hoverlift processor.");
             ClientTickEvent.CLIENT_POST.register((client)->{
-                HoverElevatorBlockEntity.processHover();});
+                try {
+                    HoverElevatorBlockEntity.processHover(false, client.world != null ? client.world.getTime() : -1L);
+                } catch (ConcurrentModificationException exception){
+                    Oneironaut.LOGGER.info("Oopside client-side hoverlift exception " + exception.getMessage());
+                }
+            });
             ClientLifecycleEvent.CLIENT_STARTED.register((client)->{
                 //cachedPlayer = client.player;
                 cachedClient = client;

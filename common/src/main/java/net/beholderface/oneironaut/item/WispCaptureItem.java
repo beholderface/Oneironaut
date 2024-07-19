@@ -84,7 +84,7 @@ public class WispCaptureItem extends ItemMediaHolder {
             } else {
                 Oneironaut.boolLogger("Raycast did not find anything." + world.isClient, debugMessages);
             }
-        } else if (user.isSneaking() && world instanceof ServerWorld serverWorld){
+        } else if (user.isSneaking() && !world.isClient && world instanceof ServerWorld serverWorld){
             user.getItemCooldownManager().set(this, COOLDOWN / 2);
             this.discardWisp(stack, user);
             return TypedActionResult.success(stack, false);
@@ -159,7 +159,7 @@ public class WispCaptureItem extends ItemMediaHolder {
                 wisp = new ProjectileWisp(HexalEntities.PROJECTILE_WISP, world);
             }
             if (wisp != null){
-                if (world instanceof ServerWorld serverWorld) {
+                if (!world.isClient && world instanceof ServerWorld serverWorld) {
                     NbtCompound storedNbt = this.getWispData(stack, world);
                     NbtList posList = new NbtList();
                     posList.add(NbtDouble.of(spawnPos.x));
@@ -182,7 +182,7 @@ public class WispCaptureItem extends ItemMediaHolder {
                 }
                 nbt.remove(WISP_DATA_TAG);
                 world.spawnEntity(wisp);
-                if (world instanceof ServerWorld serverWorld) {
+                if (!world.isClient && world instanceof ServerWorld serverWorld) {
                     IXplatAbstractions.INSTANCE.sendPacketNear(user.getEyePos(), 128.0, serverWorld,
                             new MsgParticleLinesAck(CollectionsKt.listOf(user.getEyePos(), ((Entity) wisp).getPos().add(0.0, 0.05, 0.0)), wisp.colouriser()));
                     return true;
@@ -190,7 +190,7 @@ public class WispCaptureItem extends ItemMediaHolder {
             }
         } else {
             Oneironaut.boolLogger("Insufficient media to release wisp", debugMessages);
-            if (world instanceof ServerWorld serverWorld) {
+            if (!world.isClient && world instanceof ServerWorld serverWorld) {
                 serverWorld.playSoundFromEntity(null, user, HexSounds.FAIL_PATTERN,
                         SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
             }
@@ -206,7 +206,7 @@ public class WispCaptureItem extends ItemMediaHolder {
         data.remove(WISP_DATA_TAG);
         if (user != null){
             World world = user.world;
-            if (world instanceof ServerWorld serverWorld){
+            if (!world.isClient && world instanceof ServerWorld serverWorld){
                 world.playSoundFromEntity(null, user, HexSounds.ABACUS_SHAKE, SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
                 IXplatAbstractions.INSTANCE.sendPacketNear(user.getEyePos(), 128.0, serverWorld, new MsgCastParticleAck
                         (ParticleSpray.burst(user.getPos().add(0.0, 0.125, 0.0), 1.0, 64), colorizer));

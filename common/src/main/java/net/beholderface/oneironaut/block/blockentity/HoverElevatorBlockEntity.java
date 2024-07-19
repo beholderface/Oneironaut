@@ -2,11 +2,10 @@ package net.beholderface.oneironaut.block.blockentity;
 
 import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.common.lib.HexItems;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import at.petrak.hexcasting.common.misc.PlayerPositionRecorder;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
-import kotlin.Triple;
+import com.mojang.datafixers.util.Pair;
 import net.beholderface.oneironaut.MiscAPIKt;
 import net.beholderface.oneironaut.Oneironaut;
 import net.beholderface.oneironaut.block.HoverElevatorBlock;
@@ -14,15 +13,13 @@ import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.tag.TagKey;
@@ -39,7 +36,9 @@ import static net.beholderface.oneironaut.MiscAPIKt.vecProximity;
 
 public class HoverElevatorBlockEntity extends BlockEntity {
 
-    public static final Map<LivingEntity, Integer> HOVER_MAP = new HashMap<>();
+    public static final Map<LivingEntity, Integer> SERVER_HOVER_MAP = new HashMap<>();
+    public static final Map<LivingEntity, Integer> CLIENT_HOVER_MAP = new HashMap<>();
+    private static Pair<Long, Boolean> LAST_CALL;// = new Pair<>(0L, null);
     private static final DirectionProperty FACING = HoverElevatorBlock.FACING;
     public static final int color = new FrozenColorizer(HexItems.DYE_COLORIZERS.get(DyeColor.PURPLE).getDefaultStack(), Util.NIL_UUID).getColor(0f, Vec3d.ZERO);
 
@@ -85,19 +84,20 @@ public class HoverElevatorBlockEntity extends BlockEntity {
                 case Y -> 2;
                 case Z -> 4;
             };
+            Map<LivingEntity, Integer> relevantMap = !world.isClient ? SERVER_HOVER_MAP : CLIENT_HOVER_MAP;
             for (LivingEntity livingEntity : detectedEntities){
-                int found = HOVER_MAP.getOrDefault(livingEntity, 0);
-                HOVER_MAP.put(livingEntity, found | axialBit);
+                int found = relevantMap.getOrDefault(livingEntity, 0);
+                relevantMap.put(livingEntity, found | axialBit);
                 Vec3d entityPos = livingEntity.getPos().add(livingEntity.getBoundingBox().getXLength() / 2, 0, livingEntity.getBoundingBox().getZLength() / 2);
                 Vec3d entityVel = livingEntity.getVelocity();
-                if (world instanceof ClientWorld clientWorld){
+                if (world.isClient && world instanceof ClientWorld clientWorld){
                     clientWorld.addParticle(new ConjureParticleOptions(livingEntity instanceof PlayerEntity player ?
                                     IXplatAbstractions.INSTANCE.getColorizer(player).getColor(world.getTime(), player.getPos()) : color, true),
                             entityPos.x + (((rand.nextGaussian() * 2) - 1) / 5), entityPos.y + (((rand.nextGaussian() * 2) - 1) / 5) + (rand.nextBetween(0, (int) (livingEntity.getHeight() * 20f)) / 20f),
                             entityPos.z + (((rand.nextGaussian() * 2) - 1) / 5), entityVel.x, entityVel.y + 0.1, entityVel.z);
                 }
             }
-            if (world instanceof ClientWorld clientWorld && !pairCuboid.equals(defaultCuboid)){
+            if (world.isClient && world instanceof ClientWorld clientWorld && !pairCuboid.equals(defaultCuboid)){
                 Vec3d particleCenter = Vec3d.ofCenter(new Vec3i(pos.getX(), pos.getY(), pos.getZ())).add(dirVec3d.multiply(0.5));
                 Vec3d dirVelVec = dirVec3d.multiply(0.25);
                 if (rand.nextBetween(1, 10) <= 3){
@@ -157,14 +157,37 @@ public class HoverElevatorBlockEntity extends BlockEntity {
         return output;
     }
 
-    public static void processHover(){
+    public static void processHover(boolean isServer, long timestamp){
         double threshold = 0.75;
-        for (LivingEntity entity : HOVER_MAP.keySet()){
+        if (LAST_CALL != null){
+            if (!isServer && MinecraftClient.getInstance().world == null){
+                //Oneironaut.LOGGER.info("No client world present, deleting last hoverlift call information.");
+                LAST_CALL = null;
+                return;
+            }/* else if (isServer == LAST_CALL.getSecond()){
+                Oneironaut.LOGGER.info("Client/server issue processing hoverlift. Skipping.   " + isServer + " " + LAST_CALL.getSecond());
+                return;
+            }*/ else if (LAST_CALL.getFirst() >= timestamp){
+                if (timestamp != -1){
+                    //Oneironaut.LOGGER.info("Wrong hoverlift processing timestamp. Skipping.");
+                    return;
+                } else {
+                    LAST_CALL = new Pair<>(timestamp, isServer);
+                }
+            }
+        } else if (!isServer && MinecraftClient.getInstance().world == null) {
+            return;
+        } else {
+            LAST_CALL = new Pair<>(timestamp, isServer);
+        }
+        Map<LivingEntity, Integer> relevantMap = isServer ? SERVER_HOVER_MAP : CLIENT_HOVER_MAP;
+        for (LivingEntity entity : relevantMap.keySet()){
             Vec3d hoverVec = Vec3d.ZERO;
             Vec3d look = entity.getRotationVector();
-            int axesNum = HOVER_MAP.getOrDefault(entity, 0);
+            int axesNum = relevantMap.getOrDefault(entity, 0);
             int divisor = 15;
             boolean counterVerticalMomentum = true;
+            boolean up = (axesNum & 2) == 2;
             if (!entity.isSneaking()){
                 if ((axesNum & 1) == 1){
                     double eastScore = vecProximity(Direction.EAST, look);
@@ -173,7 +196,7 @@ public class HoverElevatorBlockEntity extends BlockEntity {
                         hoverVec = hoverVec.add(look.x * (1.0 / divisor) * (1 - Math.min(eastScore, westScore)), 0.0, 0.0);
                     }
                 }
-                if ((axesNum & 2) == 2){
+                if (up){
                     double upScore = vecProximity(Direction.UP, look);
                     double downScore = vecProximity(Direction.DOWN, look);
                     if ((upScore <= threshold || downScore <= threshold) && Math.abs(hoverVec.y) < Math.abs(look.y / divisor)){
@@ -190,14 +213,14 @@ public class HoverElevatorBlockEntity extends BlockEntity {
                 }
             }
             boolean lookingUp = vecProximity(Direction.UP, look) <= threshold;
-            if ((entity.world.getTime() % 10 == 0 || !entity.hasStatusEffect(StatusEffects.SLOW_FALLING)) && !lookingUp){
+            if ((entity.world.getTime() % 10 == 0 || !entity.hasStatusEffect(StatusEffects.SLOW_FALLING)) && !(lookingUp && up)){
                 entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, entity.isSneaking() ? 60 : 11, 0, true, false, true));
             }
             Vec3d velocity = entity.getVelocity();
             if (entity instanceof ServerPlayerEntity serverPlayerEntity){
                 velocity = PlayerPositionRecorder.getMotion(serverPlayerEntity);
             }
-            double antigravNum = lookingUp ? 0.08 : 0.01;
+            double antigravNum = lookingUp && up ? 0.08 : 0.01;
             boolean applyAntigrav = true;
             if (counterVerticalMomentum){
                 if (velocity.y < -0.0125){
@@ -212,6 +235,6 @@ public class HoverElevatorBlockEntity extends BlockEntity {
             hoverVec = hoverVec.add(new Vec3d(0.0, applyAntigrav ? antigravNum : 0.0, 0.0));
             entity.addVelocity(hoverVec.x, hoverVec.y, hoverVec.z);
         }
-        HOVER_MAP.clear();
+        relevantMap.clear();
     }
 }

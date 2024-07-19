@@ -23,6 +23,8 @@ import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ConcurrentModificationException;
+
 import static net.beholderface.oneironaut.MiscAPIKt.getItemTagKey;
 import static net.minecraft.server.command.CommandManager.literal;
 
@@ -61,7 +63,14 @@ public class Oneironaut {
             BottomlessMediaItem.time = server.getOverworld().getTime();
         });
 
-        TickEvent.SERVER_POST.register((server)->{HoverElevatorBlockEntity.processHover();});
+        LOGGER.info("Registering server-side hoverlift processor.");
+        TickEvent.SERVER_POST.register((server)->{
+            try {
+                HoverElevatorBlockEntity.processHover(true, server.getOverworld().getTime());
+            } catch (ConcurrentModificationException exception){
+                LOGGER.info("Oopside server-side hoverlift exception " + exception.getMessage());
+            }
+        });
 
         ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
         TagKey<Item> realStaffTag = getItemTagKey(new Identifier("hexcasting:staves"));

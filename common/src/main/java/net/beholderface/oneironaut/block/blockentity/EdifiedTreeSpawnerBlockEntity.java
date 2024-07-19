@@ -15,7 +15,7 @@ public class EdifiedTreeSpawnerBlockEntity extends BlockEntity {
         super(OneironautBlockRegistry.EDIFIED_TREE_SPAWNER_ENTITY.get(), pos, state);
     }
     public void tick(World world, BlockPos pos, BlockState state){
-        if (world instanceof ServerWorld serverWorld){
+        if (!world.isClient && world instanceof ServerWorld serverWorld){
             //world.setBlockState(pos, Blocks.OAK_SAPLING.getDefaultState());
             AkashicTreeGrower.INSTANCE.generate(serverWorld, serverWorld.getChunkManager().getChunkGenerator(), pos, state, world.random);
         }

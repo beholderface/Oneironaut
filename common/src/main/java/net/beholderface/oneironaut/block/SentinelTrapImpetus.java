@@ -43,20 +43,21 @@ public class SentinelTrapImpetus extends BlockAbstractImpetus {
             var usedStack = pPlayer.getStackInHand(pHand);
             var datumContainer = IXplatAbstractions.INSTANCE.findDataHolder(usedStack);
             if (datumContainer != null) {
-                if (world instanceof ServerWorld level) {
-                    var stored = datumContainer.readIota(level);
-                    if (stored instanceof EntityIota eieio) {
-                        var entity = eieio.getEntity();
-                        if (entity instanceof PlayerEntity player) {
-                            // phew, we got something
-                            tile.setPlayer(player.getGameProfile(), entity.getUuid());
-                            level.updateListeners(pPos, pState, pState, Block.NOTIFY_LISTENERS);
+                if (!world.isClient && world instanceof ServerWorld level)
+                    /*if (!world.isClient) */{
+                        var stored = datumContainer.readIota(level);
+                        if (stored instanceof EntityIota eieio) {
+                            var entity = eieio.getEntity();
+                            if (entity instanceof PlayerEntity player) {
+                                // phew, we got something
+                                tile.setPlayer(player.getGameProfile(), entity.getUuid());
+                                level.updateListeners(pPos, pState, pState, Block.NOTIFY_LISTENERS);
 
-                            world.playSound(pPlayer, pPos, HexSounds.IMPETUS_STOREDPLAYER_DING,
-                                    SoundCategory.BLOCKS, 1f, 1f);
+                                world.playSound(pPlayer, pPos, HexSounds.IMPETUS_STOREDPLAYER_DING,
+                                        SoundCategory.BLOCKS, 1f, 1f);
+                            }
                         }
                     }
-                }
                 return ActionResult.SUCCESS;
             }
         }
