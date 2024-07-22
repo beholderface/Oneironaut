@@ -10,14 +10,14 @@ import net.minecraft.util.DyeColor
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.explosion.Explosion
 
-class MishapBadCuboid() : Mishap() {
+class MishapBadCuboid(val stub : String) : Mishap() {
     override fun accentColor(ctx: CastingContext, errorCtx: Context): FrozenColorizer = dyeColor(DyeColor.PURPLE)
 
     override fun particleSpray(ctx: CastingContext) =
         ParticleSpray.burst(ctx.caster.pos, 1.0)
 
     override fun errorMessage(ctx: CastingContext, errorCtx: Context): Text =
-        error("oneironaut:mismatchcubes")
+        error("oneironaut:badcuboid.$stub")
 
     override fun execute(ctx: CastingContext, errorCtx: Context, stack: MutableList<Iota>) {
         ctx.world.createExplosion(null, ctx.caster.x, ctx.caster.y, ctx.caster.z, 0.25f, Explosion.DestructionType.NONE)
@@ -25,8 +25,8 @@ class MishapBadCuboid() : Mishap() {
 
     companion object {
         @JvmStatic
-        fun of(pos: BlockPos): MishapBadCuboid {
-            return MishapBadCuboid()
+        fun of(stub : String): MishapBadCuboid {
+            return MishapBadCuboid(stub)
         }
     }
 

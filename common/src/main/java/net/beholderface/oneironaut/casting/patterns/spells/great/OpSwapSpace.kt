@@ -28,6 +28,7 @@ import net.beholderface.oneironaut.casting.mishaps.MishapNoNoosphere
 import net.beholderface.oneironaut.getBoxCorners
 import net.beholderface.oneironaut.getDimIota
 import kotlin.math.abs
+import kotlin.math.pow
 
 class OpSwapSpace : SpellAction {
     override val argc = 3
@@ -63,10 +64,6 @@ class OpSwapSpace : SpellAction {
             Vec3d(originBox.minX, originBox.maxY, originBox.maxZ), Vec3d(originBox.minX, originBox.minY, originBox.maxZ),
             Vec3d(originBox.maxX, originBox.minY, originBox.maxZ), Vec3d(originBox.minX, originBox.maxY, originBox.minZ)
             )*/
-        val boxCorners = getBoxCorners(originBox)
-        boxCorners.iterator().forEachRemaining {
-            ctx.assertVecInRange(it)
-        }
 
         ctx.caster.server?.worlds?.forEach {
             if (it.registryKey.value.toString() == dimKey){
@@ -78,11 +75,18 @@ class OpSwapSpace : SpellAction {
         val originCuboidDimensions = Vec3i(abs(originCuboidCorner1.x - originCuboidCorner2.x) + 1,abs(originCuboidCorner1.y - originCuboidCorner2.y) + 1,abs(originCuboidCorner1.z - originCuboidCorner2.z) + 1)
         val destCuboidDimensions = Vec3i(abs(destCuboidCorner1.x - destCuboidCorner2.x) + 1,abs(destCuboidCorner1.y - destCuboidCorner2.y) + 1,abs(destCuboidCorner1.z - destCuboidCorner2.z) + 1)
         if (originCuboidDimensions != destCuboidDimensions){
-            throw MishapBadCuboid()
+            throw MishapBadCuboid("mismatch")
         }
-        //cost is equal to the volume of the box in (m^3 / 2) in dust, plus 5 charged
         val boxVolume = (originCuboidDimensions.x * originCuboidDimensions.y * originCuboidDimensions.z)
+        //cost is equal to the volume of the box in (m^3 / 2) in dust, plus 5 charged
         val cost = (boxVolume / 2.0) + 50
+        val boxCorners = getBoxCorners(originBox)
+        for (corner in boxCorners) {
+            ctx.assertVecInRange(corner)
+        }
+        if (boxVolume > 80.0.pow(3)){
+            throw MishapBadCuboid("toobig")
+        }
         //ctx.caster.sendMessage(Text.of(cost.toString()))
 
         if (!HexConfig.server().canTeleportInThisDimension(destWorldKey))
@@ -118,9 +122,9 @@ class OpSwapSpace : SpellAction {
             var destBE: BlockEntity?
             var destBEData : NbtCompound?
             //val flags = Block.SKIP_DROPS.and(Block.MOVED).and(Block.NOTIFY_ALL).and(Block.REDRAW_ON_MAIN_THREAD)
-            for (i in 0 .. dimensions.x - 1){
-                for (j in 0 .. dimensions.y - 1){
-                    for (k in 0 .. dimensions.z - 1){
+            for (i in 0 until dimensions.x){
+                for (j in 0 until dimensions.y){
+                    for (k in 0 until dimensions.z){
                         transferOffset = Vec3i(i, j, k)
                         originDimPos = originLowerCorner.add(transferOffset)
                         destDimPos = destLowerCorner.add(transferOffset)
