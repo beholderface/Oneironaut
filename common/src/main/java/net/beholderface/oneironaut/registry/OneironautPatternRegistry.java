@@ -9,6 +9,7 @@ import at.petrak.hexcasting.common.casting.operators.spells.OpMakePackagedSpell;
 import dev.architectury.registry.registries.RegistrySupplier;
 import kotlin.Triple;
 import net.beholderface.oneironaut.Oneironaut;
+import net.beholderface.oneironaut.OneironautConfig;
 import net.beholderface.oneironaut.casting.patterns.*;
 import net.beholderface.oneironaut.casting.patterns.rod.*;
 import net.beholderface.oneironaut.casting.patterns.spells.OpAdvanceAutomaton;
@@ -31,8 +32,10 @@ public class OneironautPatternRegistry {
     public static List<Triple<HexPattern, Identifier, Action>> PATTERNS = new ArrayList<>();
     public static List<Triple<HexPattern, Identifier, Action>> PER_WORLD_PATTERNS = new ArrayList<>();
     //operators/other actions
-    public static HexPattern GETDIM_1 = register(HexPattern.fromAngles("wqwqwqwqwqwaeqqe", HexDir.WEST), "getdim1", new OpGetDim(false, MediaConstants.DUST_UNIT / 100));
-    public static HexPattern GETDIM_2 = register(HexPattern.fromAngles("wqwqwqwqwqwaqeeq", HexDir.WEST), "getdim2", new OpGetDim(true, MediaConstants.DUST_UNIT / 10));
+    public static HexPattern GETDIM_SELF = register(HexPattern.fromAngles("wqwqwqwqwqwaeqqe", HexDir.WEST), "getdim1", new OpGetDim(false, MediaConstants.DUST_UNIT / 100));
+    public static HexPattern GETDIM_SENTINEL = register(HexPattern.fromAngles("wqwqwqwqwqwaqeeq", HexDir.WEST), "getdim2", new OpGetDim(true, MediaConstants.DUST_UNIT / 10));
+    public static HexPattern GETDIM_OVERWORLD = register(HexPattern.fromAngles("wqwqwqwqwqwawedewdwedew", HexDir.NORTH_EAST), "getdimoverworld", new OpSpecificDim(new Identifier("minecraft:overworld"), false));
+    public static HexPattern GETDIM_NETHER = register(HexPattern.fromAngles("wqwqwqwqwqwaqaaqaw", HexDir.NORTH_EAST), "getdimnether", new OpSpecificDim(new Identifier("minecraft:the_nether"), true));
     public static HexPattern ROD_LOOK = register(HexPattern.fromAngles("qwqqqwqawa", HexDir.SOUTH_EAST), "getrodlook", new OpGetInitialRodState(1));
     public static HexPattern ROD_POS = register(HexPattern.fromAngles("qwqqqwqawaa", HexDir.SOUTH_EAST), "getrodpos", new OpGetInitialRodState(2));
     public static HexPattern ROD_STAMP = register(HexPattern.fromAngles("qwqqqwqawaaw", HexDir.SOUTH_EAST), "getrodstamp", new OpGetInitialRodState(3));

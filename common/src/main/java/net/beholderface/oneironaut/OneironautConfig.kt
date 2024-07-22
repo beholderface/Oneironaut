@@ -17,6 +17,8 @@ object OneironautConfig {
             val swapSwapsBEs : Boolean
             val impulseRedirectsFireball : Boolean
             val infusionEternalChorus : Boolean
+            val allowOverworldReflection : Boolean
+            val allowNetherReflection : Boolean
 
             companion object {
                 const val DEFAULT_ALLOW_PLANESHIFT_OTHERS = false
@@ -25,6 +27,8 @@ object OneironautConfig {
                 const val DEFAULT_SWAP_BES = false
                 const val DEFAULT_REDIRECT_FIREBALL = true
                 const val DEFAULT_INFUSE_CHORUS = true
+                const val DEFAULT_OVERWORLD_REFLECTION = true
+                const val DEFAULT_NETHER_REFLECTION = true
             }
         }
 
@@ -61,6 +65,10 @@ object OneironautConfig {
             override val impulseRedirectsFireball: Boolean
                 get() = throw IllegalStateException("Attempted to access property of Dummy Config Object")
             override val infusionEternalChorus: Boolean
+                get() = throw IllegalStateException("Attempted to access property of Dummy Config Object")
+            override val allowOverworldReflection: Boolean
+                get() = throw IllegalStateException("Attempted to access property of Dummy Config Object")
+            override val allowNetherReflection: Boolean
                 get() = throw IllegalStateException("Attempted to access property of Dummy Config Object")
         }
 

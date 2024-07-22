@@ -9,7 +9,7 @@ import net.beholderface.oneironaut.casting.iotatypes.DimIota
 
 class OpGetDim (val sent: Boolean, val cost: Int) : ConstMediaAction{
     override val argc = 0
-    override var mediaCost = cost
+    override val mediaCost = cost
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         return if (!sent){
             val casterWorld : String = ctx.world.registryKey.value.toString()

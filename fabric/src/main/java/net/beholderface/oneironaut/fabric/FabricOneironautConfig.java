@@ -57,7 +57,6 @@ public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
         @ConfigEntry.Gui.CollapsibleObject
         private MiscConfig miscConfig = new MiscConfig();
 
-
         static class MiscConfig {
             int ideaLifetime = DEFAULT_IDEA_LIFETIME;
             boolean planeShiftOtherPlayers = DEFAULT_ALLOW_PLANESHIFT_OTHERS;
@@ -66,6 +65,8 @@ public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
             boolean swapSwapsBEs = DEFAULT_SWAP_BES;
             boolean impulseRedirectsFireball = DEFAULT_REDIRECT_FIREBALL;
             boolean infusionEternalChorus = DEFAULT_INFUSE_CHORUS;
+            boolean allowOverworldReflection = DEFAULT_OVERWORLD_REFLECTION;
+            boolean allowNetherReflection = DEFAULT_NETHER_REFLECTION;
         }
         @Override
         public boolean getPlaneShiftOtherPlayers() {
@@ -112,6 +113,16 @@ public class FabricOneironautConfig extends PartitioningSerializer.GlobalData {
         @Override
         public boolean getInfusionEternalChorus() {
             return miscConfig.infusionEternalChorus;
+        }
+
+        @Override
+        public boolean getAllowOverworldReflection() {
+            return miscConfig.allowOverworldReflection;
+        }
+
+        @Override
+        public boolean getAllowNetherReflection() {
+            return miscConfig.allowNetherReflection;
         }
 
         private static boolean isValidID(Object o) {
