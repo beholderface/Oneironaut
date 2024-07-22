@@ -10,6 +10,7 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
@@ -65,7 +66,12 @@ public class OvercastDamageEnchant extends Enchantment {
                 brainswept = IXplatAbstractions.INSTANCE.isBrainswept(mob);
             }
             if (!livingTarget.isInvulnerableTo(HexDamageSources.OVERCAST) && !livingTarget.isDead() && !brainswept){
-                livingTarget.setHealth(livingTarget.getHealth() - level);
+                float newHealth = livingTarget.getHealth() - (level / 2f);
+                if (newHealth > 0){
+                    livingTarget.setHealth(newHealth);
+                } else {
+                    livingTarget.kill();
+                }
                 AccessorWrappers.markHurt(livingTarget);
                 if (livingTarget.isAlive() && livingTarget.getHealth() <= 1f && target instanceof MobEntity mob){
                     boolean whitelisted = mob.getType().isIn(MiscAPIKt.getEntityTagKey(new Identifier(Oneironaut.MOD_ID, "render_flay_whitelist")));

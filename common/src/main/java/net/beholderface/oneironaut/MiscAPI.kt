@@ -335,6 +335,7 @@ fun MobEntity.unbrainsweep(){
         val newData = patient.villagerData.withLevel(0).withProfession(VillagerProfession.NITWIT)
         patient.villagerData = newData
     }
+    patient.dataTracker.allEntries?.get(0)?.isDirty = true
     val refreshNBT = patient.writeNbt(NbtCompound())
     patient.readNbt(refreshNBT)
 }

@@ -69,7 +69,7 @@ class OpDimTeleport : SpellAction {
             throw MishapLocationTooFarAway(coords, "bad_dimension")
         if (!target.canUsePortals() || target.type.isIn(HexTags.Entities.CANNOT_TELEPORT))
             throw MishapImmuneEntity(target)
-        if (target.type.toString() == "entity.minecraft.player" && target != ctx.caster as LivingEntity && !OneironautConfig.server.planeShiftOtherPlayers){
+        if (target.isPlayer && target != ctx.caster as LivingEntity && !OneironautConfig.server.planeShiftOtherPlayers){
             throw MishapImmuneEntity(target)
         }
 
