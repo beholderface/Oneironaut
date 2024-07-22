@@ -27,6 +27,7 @@ import net.beholderface.oneironaut.casting.mishaps.MishapBadCuboid
 import net.beholderface.oneironaut.casting.mishaps.MishapNoNoosphere
 import net.beholderface.oneironaut.getBoxCorners
 import net.beholderface.oneironaut.getDimIota
+import net.beholderface.oneironaut.longestAxisLength
 import kotlin.math.abs
 import kotlin.math.pow
 
@@ -84,7 +85,7 @@ class OpSwapSpace : SpellAction {
         for (corner in boxCorners) {
             ctx.assertVecInRange(corner)
         }
-        if (boxVolume > 80.0.pow(3)){
+        if (boxVolume > 80.0.pow(3) || originBox.longestAxisLength() > 256 || destBox.longestAxisLength() > 256){
             throw MishapBadCuboid("toobig")
         }
         //ctx.caster.sendMessage(Text.of(cost.toString()))

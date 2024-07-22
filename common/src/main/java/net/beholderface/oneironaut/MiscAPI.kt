@@ -32,6 +32,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Direction.Axis
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.registry.Registry
 import net.minecraft.village.VillagerProfession
@@ -338,4 +339,17 @@ fun MobEntity.unbrainsweep(){
     patient.dataTracker.allEntries?.get(0)?.isDirty = true
     val refreshNBT = patient.writeNbt(NbtCompound())
     patient.readNbt(refreshNBT)
+}
+
+fun Box.longestAxisLength() : Double{
+    val x = this.xLength
+    val y = this.yLength
+    val z = this.zLength
+    return if (x >= y && x >= z){
+        x
+    } else if (y >= x && y >= z){
+        y
+    } else {
+        z
+    }
 }
