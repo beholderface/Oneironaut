@@ -51,7 +51,7 @@ public class Oneironaut {
 
         //Registry.register(Registry.CHUNK_GENERATOR, new Identifier(MOD_ID, "noosphere"))
 
-        LOGGER.info(OneironautAbstractions.getConfigDirectory().toAbsolutePath().normalize().toString());
+        //LOGGER.info(OneironautAbstractions.getConfigDirectory().toAbsolutePath().normalize().toString());
         LifecycleEvent.SERVER_STARTED.register((startedserver) ->{
             IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState(startedserver);
             IdeaInscriptionManager.cleanMap(startedserver, ideaState);

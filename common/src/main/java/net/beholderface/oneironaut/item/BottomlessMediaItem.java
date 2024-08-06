@@ -44,6 +44,10 @@ public class BottomlessMediaItem extends ItemMediaHolder {
     private int logMedia(ItemStack stack){
         NbtCompound nbt = stack.getOrCreateNbt();
         UUID uuid = nbt.getUuid("uuid");
+        if (uuid == null){
+            Oneironaut.LOGGER.info("Inexhaustible phial stack NBT does not contain a UUID tag.");
+            return 0;
+        }
         long lastCheckIn = phialOwners.get(uuid).getSecond();
         int lastPhialCount = playerPhialList.get(phialOwners.get(uuid).getFirst()).getFirst().size();
         //NbtCompound currentData = playerPhialCounts.get(phialOwners.get(uuid).getFirst());
@@ -108,12 +112,19 @@ public class BottomlessMediaItem extends ItemMediaHolder {
 
     @Override
     public int getMedia(ItemStack stack) {
-        //Oneironaut.LOGGER.info(stack.getHolder());
+        if (stack == null){
+            Oneironaut.LOGGER.info("Inexhaustible Phial's getMedia method called with a null pointer.");
+            return 0;
+        }
         return logMedia(stack);
     }
 
     @Override
     public int getMaxMedia(ItemStack stack) {
+        if (stack == null){
+            Oneironaut.LOGGER.info("Inexhaustible Phial's getMedia method called with a null pointer.");
+            return 0;
+        }
         return logMedia(stack);
     }
 
