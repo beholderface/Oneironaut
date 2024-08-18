@@ -5,14 +5,13 @@ import at.petrak.hexcasting.api.spell.*
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapBadEntity
-import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
 import at.petrak.hexcasting.xplat.IXplatAbstractions
+import net.beholderface.oneironaut.item.MemoryFragmentItem
 import net.beholderface.oneironaut.unbrainsweep
-import net.minecraft.entity.ai.goal.GoalSelector
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.text.Text
-import net.minecraft.village.VillagerProfession
+import net.minecraft.util.Identifier
 
 class OpReviveFlayed : SpellAction {
     override val argc = 1
@@ -35,6 +34,14 @@ class OpReviveFlayed : SpellAction {
     private data class Spell(val patient : MobEntity) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
             patient.unbrainsweep()
+            if (patient is VillagerEntity){
+                val tracker = ctx.caster.advancementTracker
+                val loader = ctx.world.server.advancementLoader
+                val recyclingAdvancement = loader.get(Identifier.of("oneironaut", "unflay"))
+                if (!tracker.getProgress(recyclingAdvancement).isDone){
+                    tracker.grantCriterion(recyclingAdvancement, MemoryFragmentItem.CRITEREON_KEY)
+                }
+            }
         }
     }
 

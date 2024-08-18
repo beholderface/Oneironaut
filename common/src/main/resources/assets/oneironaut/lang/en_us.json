@@ -278,6 +278,8 @@
   "oneironaut.advancements.lore.science2.description": "Research into the properties of the Noosphere",
   "oneironaut.advancements.lore.science3": "Scientist's Memory #3",
   "oneironaut.advancements.lore.science3.description": "Research into the structure of pseudoamethyst",
+  "oneironaut.advancements.unflay": "Recycling!",
+  "oneironaut.advancements.unflay.description": "Surely you weren't going to just throw that away!",
 
   "this.is.a.comment.6": "Mishaps--------------------------------------------------------------------------------------------",
   "hexcasting.mishap.oneironaut:badcuboid.mismatch": "Supplied cuboids are dissimilar.",
