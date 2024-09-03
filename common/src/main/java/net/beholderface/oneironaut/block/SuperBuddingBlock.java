@@ -26,13 +26,13 @@ public class SuperBuddingBlock extends Block /*extends BuddingAmethystBlock*/ {
                 .hardness(3.5f));
     }
 
-    public static final int GROW_CHANCE = 15;
+    public static final int GROW_CHANCE = 3;
     private static final Direction[] DIRECTIONS = Direction.values();
 
     //shamelessly stolen from vanilla code
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (random.nextInt(GROW_CHANCE) <= 4) {
+        if (random.nextInt(GROW_CHANCE) == 0) {
             Direction direction = DIRECTIONS[random.nextInt(DIRECTIONS.length)];
             BlockPos blockPos = pos.offset(direction);
             BlockState blockState = world.getBlockState(blockPos);
