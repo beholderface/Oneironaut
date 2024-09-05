@@ -70,6 +70,7 @@ public class OvercastDamageEnchant extends Enchantment {
                 if (newHealth > 0){
                     livingTarget.setHealth(newHealth);
                 } else {
+                    //die, avaritia user, die!
                     livingTarget.kill();
                 }
                 AccessorWrappers.markHurt(livingTarget);
