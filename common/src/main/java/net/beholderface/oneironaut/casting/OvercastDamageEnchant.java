@@ -67,9 +67,8 @@ public class OvercastDamageEnchant extends Enchantment {
             }
             if (!livingTarget.isInvulnerableTo(HexDamageSources.OVERCAST) && !livingTarget.isDead() && !brainswept){
                 float newHealth = livingTarget.getHealth() - (level / 2f);
-                if (newHealth > 0){
-                    livingTarget.setHealth(newHealth);
-                } else {
+                livingTarget.setHealth(newHealth);
+                if (newHealth <= 0){
                     livingTarget.kill();
                 }
                 AccessorWrappers.markHurt(livingTarget);
