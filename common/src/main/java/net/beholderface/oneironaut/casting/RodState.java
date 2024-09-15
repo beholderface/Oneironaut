@@ -18,6 +18,7 @@ public class RodState {
         this.resetCooldown = 20;
         this.ownerID = player.getUuid();
         this.currentlyCasting = active;
+        this.castInProgress = false;
         this.storedIota = new NullIota();
     }
 
@@ -27,7 +28,10 @@ public class RodState {
     private int delay;
     private int resetCooldown;
     private final UUID ownerID;
+    //is a cast loop active?
     private boolean currentlyCasting;
+    //is a pattern list currently being processed?
+    private boolean castInProgress;
     private Iota storedIota;
 
     public long getTimestamp(){
@@ -89,5 +93,11 @@ public class RodState {
         }
         this.storedIota = newIota;
         return true;
+    }
+    public void setCastInProgress(boolean newValue){
+        this.castInProgress = newValue;
+    }
+    public boolean getCastingInProgress(){
+        return this.castInProgress;
     }
 }

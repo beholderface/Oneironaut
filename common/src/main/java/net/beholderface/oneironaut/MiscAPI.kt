@@ -12,6 +12,7 @@ import net.beholderface.oneironaut.recipe.OneironautRecipeTypes
 import net.beholderface.oneironaut.casting.iotatypes.DimIota
 import net.beholderface.oneironaut.registry.OneironautItemRegistry
 import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
+import net.beholderface.oneironaut.item.ReverberationRod
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -261,10 +262,9 @@ fun isPlayerEnlightened(player : ServerPlayerEntity) : Boolean {
 }
 
 fun isUsingRod(ctx : CastingContext) : Boolean {
-    if (ctx.source == CastingContext.CastSource.PACKAGED_HEX && ctx.caster.activeItem.item == OneironautItemRegistry.REVERBERATION_ROD.get().asItem()
-        //&& ctx.caster.getStackInHand(ctx.castingHand).equals(OneironautThingRegistry.REVERBERATION_ROD.get().asItem())
-        ){
-        return true
+    val state = ReverberationRod.getState(ctx.caster);
+    if (state != null){
+        return state.castingInProgress
     } else {
         return false
     }

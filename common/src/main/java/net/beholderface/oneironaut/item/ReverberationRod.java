@@ -65,7 +65,8 @@ public class ReverberationRod extends ItemPackagedHex  {
             var sPlayer = world.getPlayerByUuid(player.getUuid()).getServer().getPlayerManager().getPlayer(player.getUuid());
             assert sPlayer != null;
             assert stack.getNbt() != null;
-            ROD_MAP.put(player.getUuid(), new RodState(player, true));
+            RodState state = new RodState(player, true);
+            ROD_MAP.put(player.getUuid(), state);
             /*stack.getNbt().putLongArray("initialPos", HexUtils.serializeToNBT(sPlayer.getEyePos()).getLongArray());
             stack.getNbt().putLongArray("initialLook", HexUtils.serializeToNBT(sPlayer.getRotationVector()).getLongArray());
             stack.getNbt().putLong("initialTime", world.getTime());
@@ -88,8 +89,14 @@ public class ReverberationRod extends ItemPackagedHex  {
             } else {
                 usedHand = Hand.OFF_HAND;
             }
-            if(!castHex(stack, (ServerWorld) world, sPlayer, usedHand)){
-                sPlayer.stopUsingItem();
+            RodState state = ROD_MAP.get(sPlayer.getUuid());
+            state.setCastInProgress(true);
+            try {
+                if(!castHex(stack, (ServerWorld) world, sPlayer, usedHand)){
+                    sPlayer.stopUsingItem();
+                }
+            } finally {
+                state.setCastInProgress(false);
             }
         }
     }
