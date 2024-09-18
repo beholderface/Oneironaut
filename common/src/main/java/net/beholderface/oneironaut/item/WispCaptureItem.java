@@ -297,4 +297,9 @@ public class WispCaptureItem extends ItemMediaHolder {
             pTooltipComponents.add(Text.translatable("oneironaut.tooltip.wispcapturedevice.nowisp"));
         }
     }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return false;
+    }
 }

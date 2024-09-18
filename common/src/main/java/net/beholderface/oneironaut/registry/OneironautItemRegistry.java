@@ -33,8 +33,8 @@ public class OneironautItemRegistry {
 
     public static final ItemGroup ONEIRONAUT_GROUP = CreativeTabRegistry.create(Oneironaut.id("oneironaut"), () -> new ItemStack(OneironautItemRegistry.PSUEDOAMETHYST_SHARD.get()));
     private static final Item.Settings ONEIRONAUT_STACKABLE64 = new Item.Settings().group(ONEIRONAUT_GROUP).maxCount(64);
-    private static final Item.Settings ONEIRONAUT_STACKABLE16 = new Item.Settings().group(ONEIRONAUT_GROUP).maxCount(16);
-    private static final Item.Settings ONEIRONAUT_UNSTACKABLE = new Item.Settings().group(ONEIRONAUT_GROUP).maxCount(1);
+    private static final Item.Settings ONEIRONAUT_STACKABLE16 = ONEIRONAUT_STACKABLE64.maxCount(16);
+    private static final Item.Settings ONEIRONAUT_UNSTACKABLE = ONEIRONAUT_STACKABLE64.maxCount(1);
 
 
     public static final RegistrySupplier<ItemStolenMediaProvider> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new
@@ -51,6 +51,7 @@ public class OneironautItemRegistry {
     public static final RegistrySupplier<GeneralPigmentItem> PIGMENT_ECHO = ITEMS.register("pigment_echo", () -> new GeneralPigmentItem(ONEIRONAUT_STACKABLE64, GeneralPigmentItem.colors_echo));
     public static final RegistrySupplier<MemoryFragmentItem> MEMORY_FRAGMENT = ITEMS.register("memory_fragment", () -> new MemoryFragmentItem(ONEIRONAUT_UNSTACKABLE.rarity(Rarity.RARE)));
     public static final RegistrySupplier<WispCaptureItem> WISP_CAPTURE_ITEM = ITEMS.register("wisp_capture_device", ()-> new WispCaptureItem(ONEIRONAUT_UNSTACKABLE));
+    public static final RegistrySupplier<MindScalpelItem> MIND_SCALPEL = ITEMS.register("mind_scalpel", ()->new MindScalpelItem(ONEIRONAUT_UNSTACKABLE.rarity(Rarity.RARE)));
 
     public static final RegistrySupplier<BlockItem> PSUEDOAMETHYST_BLOCK_ITEM = ITEMS.register("pseudoamethyst_block", () -> new BlockItem(OneironautBlockRegistry.PSUEDOAMETHYST_BLOCK.get(), ONEIRONAUT_STACKABLE64.rarity(Rarity.COMMON)));
     public static final RegistrySupplier<BlockItem> SUPER_BUDDING_ITEM = ITEMS.register("super_budding", () -> new BlockItem(OneironautBlockRegistry.SUPER_BUDDING.get(), ONEIRONAUT_STACKABLE64));

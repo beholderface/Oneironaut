@@ -84,4 +84,9 @@ public class MemoryFragmentItem extends Item {
 
         return TypedActionResult.success(handStack);
     }
+
+    @Override
+    public boolean isDamageable(){
+        return false;
+    }
 }
