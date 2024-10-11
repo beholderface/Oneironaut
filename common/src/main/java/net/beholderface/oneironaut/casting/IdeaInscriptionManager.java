@@ -119,13 +119,13 @@ public class IdeaInscriptionManager extends PersistentState {
         return iota;
     }
 
-    public static Iota getIotaTimestamp(Object key, ServerWorld world){
+    public static double getIotaTimestamp(Object key, ServerWorld world){
         String keyString = key.toString();
         NbtCompound iotaNbt = getValidEntry(keyString, world);
         if (iotaNbt != null){
-            return new DoubleIota(iotaNbt.getLong("timestamp"));
+            return iotaNbt.getLong("timestamp");
         } else {
-            return new NullIota();
+            return -1;
         }
     }
     public static Iota getIotaWriter(Object key, UUID suspectID, ServerWorld world){

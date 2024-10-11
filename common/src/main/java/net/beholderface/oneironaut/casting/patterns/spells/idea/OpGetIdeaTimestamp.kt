@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.spell.ConstMediaAction
 import at.petrak.hexcasting.api.spell.casting.CastingContext
 import at.petrak.hexcasting.api.spell.getEntity
 import at.petrak.hexcasting.api.spell.getVec3
+import at.petrak.hexcasting.api.spell.iota.DoubleIota
 import at.petrak.hexcasting.api.spell.iota.EntityIota
 import at.petrak.hexcasting.api.spell.iota.GarbageIota
 import at.petrak.hexcasting.api.spell.iota.Iota
@@ -21,9 +22,9 @@ import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
 
 class OpGetIdeaTimestamp : ConstMediaAction {
     override val argc = 1
-    override val mediaCost = MediaConstants.DUST_UNIT / 10
+    override val mediaCost = 0
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
-        var output : Iota = GarbageIota()
+        var output : Double = -1.0
         val rawKeyIota = args[0]
         val keyEntity : Entity
         val keyPos : BlockPos
@@ -44,6 +45,6 @@ class OpGetIdeaTimestamp : ConstMediaAction {
         } else {
             throw MishapInvalidIota(rawKeyIota, 0, Text.translatable("oneironaut.mishap.invalidideakey"));
         }
-        return listOf(output)
+        return listOf(DoubleIota(output))
     }
 }

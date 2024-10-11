@@ -138,6 +138,7 @@ public class ReverberationRod extends ItemPackagedHex  {
             RodState state = ROD_MAP.get(user.getUuid());
             sPlayer.getItemCooldownManager().set(this, state.getResetCooldown());
             state.setCurrentlyCasting(false);
+            ROD_MAP.remove(user.getUuid());
             //Oneironaut.LOGGER.info("Stopped casting from rod.");
         }
     }

@@ -36,7 +36,7 @@
       "op_id": "oneironaut:readideatime",
       "anchor": "oneironaut:readideatime",
       "input": "key",
-      "output": "number | NULL",
+      "output": "number",
       "text": "oneironaut.page.idea_inscription.5"
     },
     {

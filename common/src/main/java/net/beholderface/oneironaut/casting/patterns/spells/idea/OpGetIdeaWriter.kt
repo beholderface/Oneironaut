@@ -23,7 +23,7 @@ import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
 
 class OpGetIdeaWriter : ConstMediaAction {
     override val argc = 2
-    override val mediaCost = MediaConstants.DUST_UNIT / 10
+    override val mediaCost = 0
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         var output : Iota = GarbageIota()
         val rawKeyIota = args[0]

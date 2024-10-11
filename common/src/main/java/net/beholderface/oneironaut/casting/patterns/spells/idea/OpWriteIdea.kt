@@ -26,7 +26,7 @@ import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
 
 class OpWriteIdea : ConstMediaAction {
     override val argc = 2
-    override val mediaCost = MediaConstants.DUST_UNIT
+    override val mediaCost = MediaConstants.DUST_UNIT / 4
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         val iotaToWrite = args[1]
         val truename = MishapOthersName.getTrueNameFromDatum(iotaToWrite, ctx.caster)

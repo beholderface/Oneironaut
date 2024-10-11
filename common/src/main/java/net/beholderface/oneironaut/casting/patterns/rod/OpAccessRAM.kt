@@ -11,12 +11,11 @@ import net.beholderface.oneironaut.casting.mishaps.MishapNoRod
 import net.beholderface.oneironaut.isUsingRod
 import net.beholderface.oneironaut.item.ReverberationRod
 
-class OpAccessRAM(storeInt : Int) : ConstMediaAction {
-    override val argc = storeInt
-    private final val store = storeInt == 1
+class OpAccessRAM(val store : Boolean) : ConstMediaAction {
+    override val argc = if (store) { 1 } else { 0 }
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         if (!isUsingRod(ctx)){
-            throw MishapNoRod()
+            throw MishapNoRod(false)
         }
         Oneironaut.boolLogger(ListIota.TYPE.toString(), false)
         val state = ReverberationRod.getState(ctx.caster)

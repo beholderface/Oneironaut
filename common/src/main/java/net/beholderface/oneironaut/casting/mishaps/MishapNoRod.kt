@@ -12,14 +12,17 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.explosion.Explosion
 
-class MishapNoRod() : Mishap() {
+class MishapNoRod(val remote : Boolean) : Mishap() {
     override fun accentColor(ctx: CastingContext, errorCtx: Context): FrozenColorizer = dyeColor(DyeColor.CYAN)
 
     override fun particleSpray(ctx: CastingContext) =
         ParticleSpray.burst(ctx.caster.pos, 1.0)
 
-    override fun errorMessage(ctx: CastingContext, errorCtx: Context): Text =
+    override fun errorMessage(ctx: CastingContext, errorCtx: Context): Text = if(remote){
+        error("oneironaut:norodremote")
+    } else {
         error("oneironaut:norod")
+    }
 
     override fun execute(ctx: CastingContext, errorCtx: Context, stack: MutableList<Iota>) {
         yeetHeldItem(ctx, Hand.MAIN_HAND)
@@ -29,8 +32,8 @@ class MishapNoRod() : Mishap() {
 
     companion object {
         @JvmStatic
-        fun of(): MishapNoRod {
-            return MishapNoRod()
+        fun of(remote : Boolean): MishapNoRod {
+            return MishapNoRod(remote)
         }
     }
 

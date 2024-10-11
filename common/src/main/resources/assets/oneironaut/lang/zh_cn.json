@@ -177,7 +177,7 @@
   "oneironaut.page.idea_inscription.2": "这种操作用途不少，但智识界的环境媒质处于常态的运动中，任何存入其中的 iota 终会消解，就好像往海洋中倒热水一样。似乎这种信息在变为无用的垃圾前能存在一小时。$(br2)$(l:greatwork/akashiclib)阿卡夏图书馆$(/l)的原理貌似与之类似，书架则相当于用来避免消解的阻隔层。",
   "oneironaut.page.idea_inscription.3": "接受一个有效键以及任意 iota，并将所给 iota 存入相应位置。消耗大约 1 个紫水晶粉。",
   "oneironaut.page.idea_inscription.4": "接受一个有效键，并返回相应 iota。消耗大约 1 个紫水晶粉。",
-  "oneironaut.page.idea_inscription.5": "接受一个有效键, 并返回刻印对应 iota 的时间，或是返回 Null。消耗极少量媒质。",
+  "oneironaut.page.idea_inscription.5": "接受一个有效键, 并返回刻印对应 iota 的时间，或是返回 -1。消耗极少量媒质。",
   "oneironaut.page.idea_inscription.6": "接受一个有效键和一个代表玩家的 iota，并检验对应 iota 是否由所给玩家刻印。消耗极少量媒质。",
   "oneironaut.page.particleburst.1": "接受两个向量和两个数，并由其触发一束粒子。消耗极少量媒质。",
   "oneironaut.page.particleburst.2": "第一个向量决定了粒子束的起始位置，第二个向量则决定其方向和速度。第一个数决定各位置向量分量附加多大的随机数，第二个数则以同种方式决定方向向量的随机性。",
