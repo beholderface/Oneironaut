@@ -24,7 +24,7 @@ object OneironautConfig {
                 const val DEFAULT_ALLOW_PLANESHIFT_OTHERS = false
                 const val DEFAULT_IDEA_LIFETIME = 20 * 60 * 60 //one hour
                 const val DEFAULT_SWAP_NOOSPHERE = true
-                const val DEFAULT_SWAP_BES = false
+                const val DEFAULT_SWAP_BES = true
                 const val DEFAULT_REDIRECT_FIREBALL = true
                 const val DEFAULT_INFUSE_CHORUS = true
                 const val DEFAULT_OVERWORLD_REFLECTION = true
