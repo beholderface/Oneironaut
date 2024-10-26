@@ -48,7 +48,7 @@ public class IdeaInscriptionManager extends PersistentState {
     }
 
     public static IdeaInscriptionManager getServerState(MinecraftServer server){
-        PersistentStateManager stateManager = server.getWorld(World.OVERWORLD).getPersistentStateManager();
+        PersistentStateManager stateManager = server.getOverworld().getPersistentStateManager();
         IdeaInscriptionManager ideas = stateManager.getOrCreate(IdeaInscriptionManager::createFromNbt, IdeaInscriptionManager::new, Oneironaut.MOD_ID);
         ideas.markDirty();
         return ideas;
