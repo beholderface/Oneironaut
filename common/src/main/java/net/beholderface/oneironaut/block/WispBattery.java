@@ -7,6 +7,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -87,5 +88,10 @@ public class WispBattery extends BlockWithEntity {
     //it doesn't actually, I just want redstone to point at it
     public boolean emitsRedstonePower(BlockState state) {
         return true;
+    }
+
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext pContext) {
+        return this.getDefaultState().with(REDSTONE_POWERED, pContext.getWorld().isReceivingRedstonePower(pContext.getBlockPos()));
     }
 }

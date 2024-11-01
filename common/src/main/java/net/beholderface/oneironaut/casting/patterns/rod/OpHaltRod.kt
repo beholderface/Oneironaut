@@ -21,7 +21,7 @@ class OpHaltRod(val reset : Int) : ConstMediaAction {
             state.stopCasting()
             //ctx.caster.stopUsingItem()
         } else {
-            throw MishapNoRod()
+            throw MishapNoRod(false)
         }
         return listOf()
     }

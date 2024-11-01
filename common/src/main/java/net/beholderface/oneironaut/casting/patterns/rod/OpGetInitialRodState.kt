@@ -32,7 +32,7 @@ class OpGetInitialRodState(val mode: Int) : ConstMediaAction {
 
         } else {
             //throw mishap
-            throw MishapNoRod()
+            throw MishapNoRod(false)
         }
         return listOf(NullIota())
     }

@@ -1,5 +1,7 @@
 package net.beholderface.oneironaut.casting.patterns.spells.great
 
+import at.petrak.hexcasting.api.block.circle.BlockCircleComponent
+import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.mod.HexConfig
 import at.petrak.hexcasting.api.spell.ParticleSpray
@@ -11,6 +13,9 @@ import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
+import at.petrak.hexcasting.common.blocks.circles.impetuses.BlockRightClickImpetus
+import at.petrak.hexcasting.common.lib.HexBlockEntities
+import at.petrak.hexcasting.common.lib.HexBlocks
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.beholderface.oneironaut.OneironautConfig
 import net.minecraft.block.BlockState
@@ -28,6 +33,7 @@ import net.beholderface.oneironaut.casting.mishaps.MishapNoNoosphere
 import net.beholderface.oneironaut.getBoxCorners
 import net.beholderface.oneironaut.getDimIota
 import net.beholderface.oneironaut.longestAxisLength
+import net.minecraft.block.Block
 import kotlin.math.abs
 import kotlin.math.pow
 
@@ -122,7 +128,10 @@ class OpSwapSpace : SpellAction {
             var originBEData : NbtCompound?
             var destBE: BlockEntity?
             var destBEData : NbtCompound?
-            //val flags = Block.SKIP_DROPS.and(Block.MOVED).and(Block.NOTIFY_ALL).and(Block.REDRAW_ON_MAIN_THREAD)
+            val flags = 3//0.and(Block.REDRAW_ON_MAIN_THREAD).and(Block.MOVED).and(Block.NOTIFY_LISTENERS).and(Block.FORCE_STATE)
+            val maxdepth = 0
+            val isCircle = ctx.spellCircle != null
+            var circleMovingSelf = false;
             for (i in 0 until dimensions.x){
                 for (j in 0 until dimensions.y){
                     for (k in 0 until dimensions.z){
@@ -138,32 +147,65 @@ class OpSwapSpace : SpellAction {
                         var newBE : BlockEntity?
                         val breakingAllowed = IXplatAbstractions.INSTANCE.isBreakingAllowed(originDim, originDimPos, originPointState, ctx.caster) &&
                                 IXplatAbstractions.INSTANCE.isBreakingAllowed(destDim, destDimPos, destPointState, ctx.caster)
-                        //val immuneTag = getBlockTagKey(Identifier(Oneironaut.MOD_ID, "hexbreakimmune"))
                         if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f)
                                     || ((originPointState.hasBlockEntity() || destPointState.hasBlockEntity()) && !OneironautConfig.server.swapSwapsBEs)
                                     || !breakingAllowed)){
+                            if (isCircle){
+                                if (ctx.spellCircle!!.impetusPos == originDimPos){
+                                    circleMovingSelf = true
+                                }
+                            }
                             if (destBE != null){
                                 originDim.removeBlockEntity(originDimPos)
-                                originDim.setBlockState(originDimPos, destBE.cachedState/*, flags*/)
+                                originDim.setBlockState(originDimPos, destBE.cachedState, flags, maxdepth)
                                 newBE = originDim.getBlockEntity(originDimPos)
                                 newBE?.readNbt(destBEData)
                                 newBE?.markDirty()
                             } else {
                                 originDim.removeBlockEntity(originDimPos)
-                                originDim.setBlockState(originDimPos, destPointState/*, flags*/)
+                                originDim.setBlockState(originDimPos, destPointState, flags, maxdepth)
                             }
                             if (originBE != null){
                                 destDim.removeBlockEntity(destDimPos)
-                                destDim.setBlockState(destDimPos, originBE.cachedState/*, flags*/)
+                                destDim.setBlockState(destDimPos, originBE.cachedState, flags, maxdepth)
                                 newBE = destDim.getBlockEntity(destDimPos)
                                 newBE?.readNbt(originBEData)
                                 newBE?.markDirty()
                             } else {
                                 destDim.removeBlockEntity(destDimPos)
-                                destDim.setBlockState(destDimPos, originPointState/*, flags*/)
+                                destDim.setBlockState(destDimPos, originPointState, flags, maxdepth)
                             }
                         }
                     }
+                }
+            }
+            for (i in 0 until dimensions.x){
+                for (j in 0 until dimensions.y){
+                    for (k in 0 until dimensions.z){
+                        transferOffset = Vec3i(i, j, k)
+                        originDimPos = originLowerCorner.add(transferOffset)
+                        destDimPos = destLowerCorner.add(transferOffset)
+                        originPointState = originDim.getBlockState(originDimPos)
+                        destPointState = destDim.getBlockState(destDimPos)
+                        originPointState.updateNeighbors(originDim, originDimPos, 3, 512)
+                        destPointState.updateNeighbors(destDim, destDimPos, 3, 512)
+                    }
+                }
+            }
+            if (circleMovingSelf){
+                val circle = ctx.spellCircle!!
+                val impetusPos = circle.impetusPos
+                val impetusBE = destDim.getBlockEntity(impetusPos)
+                if (impetusBE is BlockEntityAbstractImpetus){
+                    val originalCompound = impetusBE.createNbt()
+                    val freshCompound = originalCompound.copy()
+                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_ACTIVATOR)
+                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_COLORIZER)
+                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_NEXT_BLOCK)
+                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_FOUND_ALL)
+                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_TRACKED_BLOCKS)
+                    impetusBE.readNbt(freshCompound)
+                    destDim.setBlockState(impetusPos, destDim.getBlockState(impetusPos).with(BlockCircleComponent.ENERGIZED, false))
                 }
             }
             //ctx.caster.sendMessage(Text.of("Origin: ${originDim.registryKey.value.toString()}, ${originBox.toString()}"))

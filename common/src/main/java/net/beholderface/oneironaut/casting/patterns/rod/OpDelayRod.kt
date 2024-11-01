@@ -21,7 +21,7 @@ class OpDelayRod : ConstMediaAction {
             /*val state = */ReverberationRod.getState(ctx.caster).setDelay(delay)
             //ctx.caster.activeItem.nbt.putInt("delay", delay)
         } else {
-            throw MishapNoRod()
+            throw MishapNoRod(false)
         }
         return listOf()
     }
