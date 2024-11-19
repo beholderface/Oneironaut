@@ -60,6 +60,10 @@ public class OneironautBlockRegistry {
     public static final RegistrySupplier<Block> MEDIA_ICE = BLOCKS.register("media_ice", ()-> new Block(AbstractBlock.Settings.copy(Blocks.PACKED_ICE)
             .slipperiness(1.1f).mapColor(MapColor.PALE_PURPLE)
     ));
+    //produced by frost walker on thought slurry
+    public static final RegistrySupplier<Block> MEDIA_ICE_FROSTED = BLOCKS.register("media_ice_frosted", ()-> new FrostedMediaIceBlock(AbstractBlock.Settings.copy(Blocks.PACKED_ICE)
+            .slipperiness(1.08f).mapColor(MapColor.PALE_PURPLE).ticksRandomly().strength(0.5f).sounds(BlockSoundGroup.GLASS)
+    ));
     public static final RegistrySupplier<MediaGelBlock> MEDIA_GEL = BLOCKS.register("media_gel", ()-> new MediaGelBlock(AbstractBlock.Settings.copy(Blocks.SLIME_BLOCK)
             .velocityMultiplier(0.05f).jumpVelocityMultiplier(0.25f).mapColor(MapColor.PALE_PURPLE).sounds(BlockSoundGroup.SLIME).nonOpaque().hardness(Blocks.SOUL_SAND.getHardness())
     ));

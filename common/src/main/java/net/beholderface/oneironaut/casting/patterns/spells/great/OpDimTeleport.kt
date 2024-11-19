@@ -32,13 +32,18 @@ import net.minecraft.world.TeleportTarget
 import net.beholderface.oneironaut.OneironautConfig
 import net.beholderface.oneironaut.isSolid
 import net.beholderface.oneironaut.isUnsafe
+import java.util.HashMap
 //import net.oneironaut.registry.OneironautThingRegistry
 import kotlin.math.floor
+
+
 
 
 class OpDimTeleport : SpellAction {
     override val argc = 2
     override val isGreat = true
+
+
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>>? {
         val target = args.getLivingEntityButNotArmorStand(0, argc)
         ctx.assertEntityInRange(target)
@@ -91,13 +96,16 @@ class OpDimTeleport : SpellAction {
 
     private data class Spell(var target: LivingEntity, val origin: ServerWorld, val destination: ServerWorld, val coords: Vec3d, val noosphere: Boolean) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
+            if (target == ctx.caster){
+
+            }
             var x = coords.x
             var y = floor(coords.y)
             var z = coords.z
             val border = destination.worldBorder
             val compressionFactor = origin.dimension.coordinateScale / destination.dimension.coordinateScale
-            x = /*floor(*/x * compressionFactor//) + 0.5
-            z = /*floor(*/z * compressionFactor//) + 0.5
+            x *= compressionFactor
+            z *= compressionFactor
             var floorSpot : BlockPos = BlockPos(Vec3d.ZERO)
             var floorNeeded = false
             //make sure you don't end up under the nether or something

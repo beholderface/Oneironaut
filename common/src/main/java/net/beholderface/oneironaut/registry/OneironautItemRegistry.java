@@ -43,6 +43,7 @@ public class OneironautItemRegistry {
     public static final RegistrySupplier<ArchitecturyBucketItem> THOUGHT_SLURRY_BUCKET = ITEMS.register("thought_slurry_bucket", () -> new ArchitecturyBucketItem(OneironautMiscRegistry.THOUGHT_SLURRY, ONEIRONAUT_UNSTACKABLE));
     public static final RegistrySupplier<ReverberationRod> REVERBERATION_ROD = ITEMS.register("reverberation_rod", () -> new ReverberationRod(ONEIRONAUT_UNSTACKABLE));
     public static final RegistrySupplier<BottomlessMediaItem> BOTTOMLESS_MEDIA_ITEM = ITEMS.register("endless_phial", () -> new BottomlessMediaItem(ONEIRONAUT_UNSTACKABLE));
+    public static final RegistrySupplier<BottomlessCastingItem> BOTTOMLESS_CASTING_ITEM = ITEMS.register("bottomless_trinket", () -> new BottomlessCastingItem(ONEIRONAUT_UNSTACKABLE));
     public static final RegistrySupplier<ItemStaff> ECHO_STAFF = ITEMS.register("echo_staff", () -> new GeneralNoisyStaff(ONEIRONAUT_UNSTACKABLE, SoundEvents.BLOCK_SCULK_SENSOR_CLICKING, SoundEvents.BLOCK_SCULK_SHRIEKER_SHRIEK, null));
     public static final RegistrySupplier<ItemStaff> BEACON_STAFF = ITEMS.register("beacon_staff", () -> new GeneralNoisyStaff(ONEIRONAUT_UNSTACKABLE, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundEvents.BLOCK_BEACON_DEACTIVATE, null));
     public static final RegistrySupplier<ShovelItem> SPOON_STAFF = ITEMS.register("spoon_staff", () -> new ShovelItem(ToolMaterials.IRON, 1.5F, -3.0F, ONEIRONAUT_UNSTACKABLE.maxDamage(1024)));

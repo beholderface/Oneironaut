@@ -30,6 +30,7 @@
       "type": "patchouli:crafting",
       "recipe": "oneironaut:wisp_capture_device",
       "text": "oneironaut.page.wisp_lanterns.6"
-    }
+    },
+    "oneironaut.page.wisp_lanterns.7"
   ]
 }

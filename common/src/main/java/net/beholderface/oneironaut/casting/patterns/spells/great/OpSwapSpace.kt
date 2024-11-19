@@ -91,7 +91,7 @@ class OpSwapSpace : SpellAction {
         for (corner in boxCorners) {
             ctx.assertVecInRange(corner)
         }
-        if (boxVolume > 80.0.pow(3) || originBox.longestAxisLength() > 256 || destBox.longestAxisLength() > 256){
+        if (boxVolume > 80.0.pow(3) || originBox.longestAxisLength() > 384 || destBox.longestAxisLength() > 384){
             throw MishapBadCuboid("toobig")
         }
         //ctx.caster.sendMessage(Text.of(cost.toString()))
@@ -192,6 +192,7 @@ class OpSwapSpace : SpellAction {
                     }
                 }
             }
+            //without this the impetus gets stuck in an active state and can't be used again without breaking and replacing it
             if (circleMovingSelf){
                 val circle = ctx.spellCircle!!
                 val impetusPos = circle.impetusPos

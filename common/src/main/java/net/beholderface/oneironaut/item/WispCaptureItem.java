@@ -42,6 +42,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ram.talia.hexal.common.entities.BaseCastingWisp;
+import ram.talia.hexal.common.entities.BaseWisp;
 import ram.talia.hexal.common.entities.ProjectileWisp;
 import ram.talia.hexal.common.entities.TickingWisp;
 import ram.talia.hexal.common.lib.HexalEntities;
@@ -70,16 +71,33 @@ public class WispCaptureItem extends ItemMediaHolder {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
         NbtCompound data = stack.getOrCreateNbt();
-        if (!this.hasWisp(stack, null)){
+        //check for uninitialized item
+        if (!data.contains(TAG_MAX_MEDIA)){
+            //does uninitialized wranger already contain nonzero media? probably only going to happen for wranglers that existed before the new init method
+            if (this.getMedia(stack) > 0){
+                data.putInt(TAG_MAX_MEDIA, MediaConstants.DUST_UNIT * 640);
+                return TypedActionResult.success(stack, false);
+            } else {
+                BaseCastingWisp initWisp = this.wispRaycast(user);
+                if (initWisp != null){
+                    if (initWisp.owner().equals(user.getUuid())){
+                        int wispMedia = initWisp.getMedia();
+                        int roundedMax = (int) (Math.ceil((float) wispMedia / MediaConstants.DUST_UNIT) * MediaConstants.DUST_UNIT);
+                        data.putInt(TAG_MAX_MEDIA, roundedMax);
+                        if (this.getMedia(stack) < wispMedia - MediaConstants.SHARD_UNIT){
+                            this.setMedia(stack, wispMedia - MediaConstants.SHARD_UNIT);
+                        }
+                        initWisp.kill();
+                        return TypedActionResult.success(stack, true);
+                    }
+                }
+                return TypedActionResult.fail(stack);
+            }
+        } else if (!this.hasWisp(stack, null)){
             user.getItemCooldownManager().set(this, COOLDOWN);
-            //idk how to make it get the user's actual reach, but this will do well enough IMO
-            Vec3d rayVec = user.getRotationVector().multiply((user.isCreative() ? 5.2 : 4.5) * (user.getHeight() / 1.8 /*in case of pekhui or something*/));
-            Vec3d endPos = user.getEyePos().add(rayVec);
-            Box box = Box.from(user.getEyePos()).expand(rayVec.length() + 1);
-            Predicate<Entity> predicate = (entity)-> entity instanceof TickingWisp || entity instanceof ProjectileWisp;
-            EntityHitResult hit = ProjectileUtil.raycast(user, user.getEyePos(), endPos, box, predicate, 999999);
-            if (hit != null){
-                boolean captured = this.captureWisp(stack, (BaseCastingWisp) hit.getEntity(), user);
+            BaseCastingWisp wisp = this.wispRaycast(user);
+            if (wisp != null){
+                boolean captured = this.captureWisp(stack, wisp, user);
                 return captured ? TypedActionResult.success(stack, true) : TypedActionResult.fail(stack);
             } else {
                 Oneironaut.boolLogger("Raycast did not find anything." + world.isClient, debugMessages);
@@ -94,6 +112,20 @@ public class WispCaptureItem extends ItemMediaHolder {
             return released ? TypedActionResult.success(stack, true) : TypedActionResult.fail(stack);
         }
         return TypedActionResult.pass(stack);
+    }
+
+    @Nullable
+    private BaseCastingWisp wispRaycast(PlayerEntity user){
+        //idk how to make it get the user's actual reach, but this will do well enough IMO
+        Vec3d rayVec = user.getRotationVector().multiply((user.isCreative() ? 5.2 : 4.5) * (user.getHeight() / (user.isSneaking() ? 1.5 : 1.8) /*in case of pekhui or something*/));
+        Vec3d endPos = user.getEyePos().add(rayVec);
+        Box box = Box.from(user.getEyePos()).expand(rayVec.length() + 1);
+        Predicate<Entity> predicate = (entity)-> entity instanceof TickingWisp || entity instanceof ProjectileWisp;
+        EntityHitResult hit = ProjectileUtil.raycast(user, user.getEyePos(), endPos, box, predicate, 999999);
+        if (hit != null){
+            return (BaseCastingWisp) hit.getEntity();
+        }
+        return null;
     }
 
     @Override
@@ -249,11 +281,6 @@ public class WispCaptureItem extends ItemMediaHolder {
     }
 
     @Override
-    public int getMaxMedia(ItemStack stack) {
-        return MediaConstants.CRYSTAL_UNIT * 64;
-    }
-
-    @Override
     public boolean canProvideMedia(ItemStack stack) {
         return false;
     }
@@ -294,7 +321,11 @@ public class WispCaptureItem extends ItemMediaHolder {
                 pTooltipComponents.add(unstyled);
             }
         } else {
-            pTooltipComponents.add(Text.translatable("oneironaut.tooltip.wispcapturedevice.nowisp"));
+            if (stack.getOrCreateNbt().contains(TAG_MAX_MEDIA)){
+                pTooltipComponents.add(Text.translatable("oneironaut.tooltip.wispcapturedevice.nowisp"));
+            } else {
+                pTooltipComponents.add(Text.translatable("oneironaut.tooltip.wispcapturedevice.uninitialized"));
+            }
         }
     }
 

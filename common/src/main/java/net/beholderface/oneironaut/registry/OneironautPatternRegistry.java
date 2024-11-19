@@ -15,6 +15,7 @@ import net.beholderface.oneironaut.casting.patterns.rod.*;
 import net.beholderface.oneironaut.casting.patterns.spells.OpAdvanceAutomaton;
 import net.beholderface.oneironaut.casting.patterns.spells.OpCircle;
 import net.beholderface.oneironaut.casting.patterns.spells.OpSignItem;
+import net.beholderface.oneironaut.casting.patterns.spells.OpWriteBottomlessTrinket;
 import net.beholderface.oneironaut.casting.patterns.spells.great.*;
 import net.beholderface.oneironaut.casting.patterns.spells.idea.OpGetIdeaTimestamp;
 import net.beholderface.oneironaut.casting.patterns.spells.idea.OpGetIdeaWriter;
@@ -32,10 +33,11 @@ public class OneironautPatternRegistry {
     public static List<Triple<HexPattern, Identifier, Action>> PATTERNS = new ArrayList<>();
     public static List<Triple<HexPattern, Identifier, Action>> PER_WORLD_PATTERNS = new ArrayList<>();
     //operators/other actions
-    public static HexPattern GETDIM_SELF = register(HexPattern.fromAngles("wqwqwqwqwqwaeqqe", HexDir.WEST), "getdim1", new OpGetDim(false, MediaConstants.DUST_UNIT / 100));
-    public static HexPattern GETDIM_SENTINEL = register(HexPattern.fromAngles("wqwqwqwqwqwaqeeq", HexDir.WEST), "getdim2", new OpGetDim(true, MediaConstants.DUST_UNIT / 10));
+    public static HexPattern GETDIM_SELF = register(HexPattern.fromAngles("wqwqwqwqwqwaeqqe", HexDir.WEST), "getdim1", new OpGetDim(false));
+    public static HexPattern GETDIM_SENTINEL = register(HexPattern.fromAngles("wqwqwqwqwqwaqeeq", HexDir.WEST), "getdim2", new OpGetDim(true));
     public static HexPattern GETDIM_OVERWORLD = register(HexPattern.fromAngles("wqwqwqwqwqwawedewdwedew", HexDir.NORTH_EAST), "getdimoverworld", new OpSpecificDim(new Identifier("minecraft:overworld"), false, ()->{return OneironautConfig.getServer().getAllowOverworldReflection();}));
     public static HexPattern GETDIM_NETHER = register(HexPattern.fromAngles("wqwqwqwqwqwaqaaqaw", HexDir.NORTH_EAST), "getdimnether", new OpSpecificDim(new Identifier("minecraft:the_nether"), true, ()->{return OneironautConfig.getServer().getAllowNetherReflection();}));
+    public static HexPattern GET_DIMHEIGHT = register(HexPattern.fromAngles("awqqqwqwqwqwqwq", HexDir.NORTH_EAST), "getdimheight", new OpDimHeight());
     public static HexPattern ROD_LOOK = register(HexPattern.fromAngles("qwqqqwqawa", HexDir.SOUTH_EAST), "getrodlook", new OpGetInitialRodState(1));
     public static HexPattern ROD_POS = register(HexPattern.fromAngles("qwqqqwqawaa", HexDir.SOUTH_EAST), "getrodpos", new OpGetInitialRodState(2));
     public static HexPattern ROD_STAMP = register(HexPattern.fromAngles("qwqqqwqawaaw", HexDir.SOUTH_EAST), "getrodstamp", new OpGetInitialRodState(3));
@@ -43,6 +45,7 @@ public class OneironautPatternRegistry {
     public static HexPattern ROD_RAM_WRITE = register(HexPattern.fromAngles("eqqwqqqwaaw", HexDir.NORTH_WEST), "writerodram", new OpAccessRAM(true));
     public static HexPattern ROD_RAM_READ_REMOTE = register(HexPattern.fromAngles("qwaqawewewaqawewddw", HexDir.NORTH_EAST), "readrodramremote", new OpAccessRAMRemote(false));
     public static HexPattern ROD_RAM_WRITE_REMOTE = register(HexPattern.fromAngles("ewdedwqwqwdedwqwaaw", HexDir.NORTH_WEST), "writerodramremote", new OpAccessRAMRemote(true));
+
     public static HexPattern READ_IDEA = register(HexPattern.fromAngles("qwqwqwqwqwqqqwedewq", HexDir.WEST), "readidea", new OpReadIdea());
     public static HexPattern READ_IDEA_TIME = register(HexPattern.fromAngles("qwqwqwqwqwqqqeqaqeq", HexDir.WEST), "readideatime", new OpGetIdeaTimestamp());
     public static HexPattern COMPARE_IDEA_WRITER = register(HexPattern.fromAngles("qwqwqwqwqwqaeqedeqe", HexDir.WEST), "readideawriter", new OpGetIdeaWriter());
@@ -53,6 +56,7 @@ public class OneironautPatternRegistry {
     public static HexPattern HALT_ROD = register(HexPattern.fromAngles("aqdeeweeew", HexDir.SOUTH_WEST), "haltrod", new OpHaltRod(0));
     public static HexPattern RESET_ROD = register(HexPattern.fromAngles("deaqqwqqqw", HexDir.SOUTH_EAST), "resetrod", new OpHaltRod(1));
     public static HexPattern QUERY_ROD = register(HexPattern.fromAngles("qwqqqwqaeaqa", HexDir.SOUTH_EAST), "queryrod", new OpCheckForRod());
+    public static HexPattern ROD_LOOP_ACTIVE = register(HexPattern.fromAngles("qwqqqwqaqded", HexDir.SOUTH_EAST), "rodloopactive", new OpCheckForRodOther());
     public static HexPattern WRITE_IDEA = register(HexPattern.fromAngles("eweweweweweeewqaqwe", HexDir.EAST), "writeidea", new OpWriteIdea());
     public static HexPattern GET_SOULPRINT = register(HexPattern.fromAngles("qqaqwedee", HexDir.EAST), "getsoulprint", new OpGetSoulprint());
     public static HexPattern SIGN_ITEM = register(HexPattern.fromAngles("qqaqwedeea", HexDir.EAST), "signitem", new OpSignItem());
@@ -63,7 +67,8 @@ public class OneironautPatternRegistry {
     //public static HexPattern TRIGGER_AUTOMATON = regi(not actually, hexdoc regex, this is commented out)ster(HexPattern.fromAngles("eewewewdeqqq", HexDir.SOUTH_EAST), "triggerautomaton", new OpTriggerAutomaton());
 
     /*dang you hexdoc
-    public static HexPattern CRAFT_ROD = register(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST), "craftrod", new OpMakePackagedSpell<>((ItemPackagedHex) OneironautThingRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT*/
+    public static HexPattern CRAFT_ROD = register(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST), "craftrod", new OpMakePackagedSpell<>((ItemPackagedHex) OneironautThingRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT
+    public static HexPattern CRAFT_BOTTOMLESS_TRINKET = register(HexPattern.fromAngles("wwqeeeeewqqqqqewwaqeqwqeqqqeqwqeq", HexDir.EAST), "craftbottomlesstrinket", new OpWriteBottomlessTrinket()*/
     //public static HexPattern MUFFLE_WISP = dontdoithexdocilleatyourknees(HexPattern.fromAngles("aaqdwaaqaweewaqawee", HexDir.WEST), "mufflewisp", new OpSetWispVolume());
 
     //great spells
@@ -107,6 +112,11 @@ public class OneironautPatternRegistry {
             PatternRegistry.mapPattern(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST),
                     new Identifier(Oneironaut.MOD_ID, "craftrod"),
                     new OpMakePackagedSpell<>(OneironautItemRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT * 10));
+        });
+        itemDependentPatternRegisterers.put(OneironautItemRegistry.BOTTOMLESS_CASTING_ITEM, () -> {
+            PatternRegistry.mapPattern(HexPattern.fromAngles("wwqeeeeewqqqqqewwaqeqwqeqqqeqwqeq", HexDir.EAST),
+                    new Identifier(Oneironaut.MOD_ID, "craftbottomlesstrinket"),
+                    new OpWriteBottomlessTrinket());
         });
         /*itemDependentPatternRegisterers.put(OneironautItemRegistry.INSULATED_TRINKET, () -> {
             Pattern!Registry.map!Pattern(HexPattern!from!Angles("wwaqqqqqeaeaqdadqaeqqeaeq", HexDir.EAST),
