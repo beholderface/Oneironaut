@@ -31,7 +31,7 @@ import java.util.List;
 public abstract class CubeLoreGrantMixin {
     @ModifyVariable(method = "finishUsing", at = @At(value = "STORE", ordinal = 0))
     private ArrayList<Identifier> addMemoryFragmentNames(ArrayList<Identifier> array){
-        array.addAll(MemoryFragmentItem.NAMES);
+        //array.addAll(MemoryFragmentItem.NAMES);
         array.add(Oneironaut.id("lore/root"));
         return array;
     }

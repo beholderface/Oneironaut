@@ -118,7 +118,7 @@ public class OneironautClient {
                 try {
                     HoverElevatorBlockEntity.processHover(false, client.world != null ? client.world.getTime() : -1L);
                 } catch (ConcurrentModificationException exception){
-                    Oneironaut.LOGGER.info("Oopside client-side hoverlift exception " + exception.getMessage());
+                    Oneironaut.LOGGER.error("Oopsie client-side hoverlift exception " + exception.getMessage());
                 }
             });
             ClientLifecycleEvent.CLIENT_STARTED.register((client)->{

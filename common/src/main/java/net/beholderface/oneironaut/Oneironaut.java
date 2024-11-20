@@ -68,7 +68,7 @@ public class Oneironaut {
             try {
                 HoverElevatorBlockEntity.processHover(true, server.getOverworld().getTime());
             } catch (ConcurrentModificationException exception){
-                LOGGER.info("Oopside server-side hoverlift exception " + exception.getMessage());
+                LOGGER.error("Oopsie server-side hoverlift exception " + exception.getMessage());
             }
         });
 

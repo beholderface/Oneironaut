@@ -1,6 +1,5 @@
 package net.beholderface.oneironaut.item;
 
-import at.petrak.hexcasting.common.items.ItemLoreFragment;
 import at.petrak.hexcasting.common.lib.HexSounds;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.PlayerAdvancementTracker;
@@ -22,13 +21,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static at.petrak.hexcasting.api.HexAPI.modLoc;
-
 public class MemoryFragmentItem extends Item {
-    public MemoryFragmentItem(Settings settings) {
+
+    public final List<Identifier> names;
+
+    public MemoryFragmentItem(Settings settings, List<Identifier> advancementNames) {
         super(settings);
+        this.names = advancementNames;
     }
-    public static final List<Identifier> NAMES = List.of(new Identifier[]{
+
+    public static final List<Identifier> NAMES_TOWER = List.of(new Identifier[]{
             new Identifier(Oneironaut.MOD_ID, "lore/treatise1"),
             new Identifier(Oneironaut.MOD_ID, "lore/treatise2"),
             new Identifier(Oneironaut.MOD_ID, "lore/treatise3"),
@@ -55,7 +57,7 @@ public class MemoryFragmentItem extends Item {
             tracker.grantCriterion(rootAdvancement, CRITEREON_KEY);
         }
         Advancement unfoundLore = null;
-        var shuffled = new ArrayList<>(NAMES);
+        var shuffled = new ArrayList<>(this.names);
         Collections.shuffle(shuffled);
         for (var advID : shuffled) {
             var adv = splayer.world.getServer().getAdvancementLoader().get(advID);

@@ -158,11 +158,13 @@ public class HoverElevatorBlockEntity extends BlockEntity {
     }
 
     public static void processHover(boolean isServer, long timestamp){
+        Map<LivingEntity, Integer> relevantMap = isServer ? SERVER_HOVER_MAP : CLIENT_HOVER_MAP;
         double threshold = 0.75;
         if (LAST_CALL != null){
             if (!isServer && MinecraftClient.getInstance().world == null){
                 //Oneironaut.LOGGER.info("No client world present, deleting last hoverlift call information.");
                 LAST_CALL = null;
+                relevantMap.clear();
                 return;
             }/* else if (isServer == LAST_CALL.getSecond()){
                 Oneironaut.LOGGER.info("Client/server issue processing hoverlift. Skipping.   " + isServer + " " + LAST_CALL.getSecond());
@@ -170,17 +172,18 @@ public class HoverElevatorBlockEntity extends BlockEntity {
             }*/ else if (LAST_CALL.getFirst() >= timestamp){
                 if (timestamp != -1){
                     //Oneironaut.LOGGER.info("Wrong hoverlift processing timestamp. Skipping.");
+                    relevantMap.clear();
                     return;
                 } else {
                     LAST_CALL = new Pair<>(timestamp, isServer);
                 }
             }
         } else if (!isServer && MinecraftClient.getInstance().world == null) {
+            relevantMap.clear();
             return;
         } else {
             LAST_CALL = new Pair<>(timestamp, isServer);
         }
-        Map<LivingEntity, Integer> relevantMap = isServer ? SERVER_HOVER_MAP : CLIENT_HOVER_MAP;
         for (LivingEntity entity : relevantMap.keySet()){
             Vec3d hoverVec = Vec3d.ZERO;
             Vec3d look = entity.getRotationVector();
