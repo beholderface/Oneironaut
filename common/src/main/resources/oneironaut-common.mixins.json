@@ -2,7 +2,7 @@
   "required": true,
   "package": "net.beholderface.oneironaut.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "oneironaut.mixins.refmap.json",
+  "refmap": "oneironaut-common-1.19.2-common-refmap.json",
   "minVersion": "0.8",
   "client": [
   ],
