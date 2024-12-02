@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.mixin;
+package net.beholderface.oneironaut.fabric.mixin;
 
 import at.petrak.hexcasting.api.spell.casting.sideeffects.OperatorSideEffect;
 import at.petrak.hexcasting.common.items.ItemStaff;
@@ -20,7 +20,7 @@ import java.util.List;
 @Mixin(value = ItemStaff.class)
 public abstract class OneResetSoundMixin {
 
-    @WrapOperation(method = "use", at = @At(value="INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;playSound(Lnet/minecraft/sound/SoundEvent;FF)V", remap = false), remap = false)
+    @WrapOperation(method = "use", at = @At(value="INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;playSound(Lnet/minecraft/sound/SoundEvent;FF)V", remap = true), remap = true)
     private void dontSoundIfNoisyStaff(PlayerEntity instance, SoundEvent sound, float volume, float pitch, Operation<Void> original, @Local PlayerEntity player, @Local Hand hand){
         if (!(player.getStackInHand(hand).getItem() instanceof GeneralNoisyStaff)){
             original.call(instance, sound, volume, pitch);

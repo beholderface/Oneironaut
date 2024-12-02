@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.mixin;
+package net.beholderface.oneironaut.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.entity.LivingEntity;
@@ -17,7 +17,7 @@ public abstract class GlowAmbitEffectGlowMixin {
 
     @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
 
-    @ModifyReturnValue(method = "isGlowing()Z", at = @At(value = "RETURN", remap = true), remap = false)
+    @ModifyReturnValue(method = "isGlowing()Z", at = @At(value = "RETURN", remap = true), remap = true)
     public boolean makeSpecialGlowingWork(boolean original){
         if (!original){
             if (this.hasStatusEffect(OneironautMiscRegistry.NOT_MISSING.get())){

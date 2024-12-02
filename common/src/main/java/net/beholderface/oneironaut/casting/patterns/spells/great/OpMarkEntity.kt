@@ -37,11 +37,11 @@ class OpMarkEntity() : SpellAction {
 
     private class Spell(val target : LivingEntity, val levelToApply : Int) : RenderedSpell{
         override fun cast(ctx: CastingContext) {
-            ctx.caster.sendMessage(Text.literal("For the time being, this spell effectively just applies Glowing, due to mixin trouble. Sorry."), true)
-            val glowInstance = StatusEffectInstance(StatusEffects.GLOWING, 1200)
+            //ctx.caster.sendMessage(Text.literal("For the time being, this spell effectively just applies Glowing, due to mixin trouble. Sorry."), true)
+            //val glowInstance = StatusEffectInstance(StatusEffects.GLOWING, 1200)
             val markInstance = StatusEffectInstance(markerEffect, 1200, levelToApply)
             target.addStatusEffect(markInstance)
-            target.addStatusEffect(glowInstance)
+            //target.addStatusEffect(glowInstance)
         }
 
     }

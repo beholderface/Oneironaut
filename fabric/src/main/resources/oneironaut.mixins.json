@@ -8,7 +8,12 @@
   "server": [
   ],
   "mixins": [
-    "BottomlessMediaPriorityMixin"
+    "BottomlessMediaPriorityMixin",
+    "SlurryFrostWalkerMixin",
+    "EternalChorusMixin",
+    "GlowAmbitEffectAmbitMixin",
+    "GlowAmbitEffectGlowMixin",
+    "OneResetSoundMixin"
   ],
   "injectors": {
     "defaultRequire": 1

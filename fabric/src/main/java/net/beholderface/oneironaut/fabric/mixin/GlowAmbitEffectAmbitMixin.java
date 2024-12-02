@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.mixin;
+package net.beholderface.oneironaut.fabric.mixin;
 
 import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -18,7 +18,7 @@ public abstract class GlowAmbitEffectAmbitMixin {
     @Unique
     private final CastingContext oneironaut$ctx = (CastingContext) (Object) this;
 
-    @ModifyReturnValue(method = "isEntityInRange(Lnet/minecraft/entity/Entity;)Z", at = @At("RETURN"))
+    @ModifyReturnValue(method = "isEntityInRange(Lnet/minecraft/entity/Entity;)Z", at = @At(value = "RETURN", remap = false), remap = true)
     public boolean makeSpecialAmbitWork(boolean original, @Local Entity entity){
         if (!original){
             //not sure if the dimension check is strictly necessary, but it can't hurt

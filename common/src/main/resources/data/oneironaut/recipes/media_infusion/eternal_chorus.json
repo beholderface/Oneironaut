@@ -7,7 +7,8 @@
   "resultType": {
     "name": "minecraft:chorus_flower",
     "properties": {
-      "age": "0"
+      "age": "0",
+      "eternal": "true"
     }
   },
   "mediaCost": 100000

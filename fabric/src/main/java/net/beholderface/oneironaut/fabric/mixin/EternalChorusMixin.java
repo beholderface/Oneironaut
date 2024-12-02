@@ -1,4 +1,4 @@
-package net.beholderface.oneironaut.mixin;
+package net.beholderface.oneironaut.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
