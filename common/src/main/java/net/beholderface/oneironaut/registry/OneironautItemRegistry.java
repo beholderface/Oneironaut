@@ -29,8 +29,8 @@ public class OneironautItemRegistry {
 
     public static final ItemGroup ONEIRONAUT_GROUP = CreativeTabRegistry.create(Oneironaut.id("oneironaut"), () -> new ItemStack(OneironautItemRegistry.PSUEDOAMETHYST_SHARD.get()));
     private static final Item.Settings ONEIRONAUT_STACKABLE64 = new Item.Settings().group(ONEIRONAUT_GROUP).maxCount(64);
-    private static final Item.Settings ONEIRONAUT_STACKABLE16 = ONEIRONAUT_STACKABLE64.maxCount(16);
-    private static final Item.Settings ONEIRONAUT_UNSTACKABLE = ONEIRONAUT_STACKABLE64.maxCount(1);
+    private static final Item.Settings ONEIRONAUT_STACKABLE16 = new Item.Settings().group(ONEIRONAUT_GROUP).maxCount(16);
+    private static final Item.Settings ONEIRONAUT_UNSTACKABLE = new Item.Settings().group(ONEIRONAUT_GROUP).maxCount(1);
 
 
     public static final RegistrySupplier<ItemStolenMediaProvider> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new
