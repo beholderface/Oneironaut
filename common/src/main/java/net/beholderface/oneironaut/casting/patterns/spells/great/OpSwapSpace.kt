@@ -13,27 +13,19 @@ import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
-import at.petrak.hexcasting.common.blocks.circles.impetuses.BlockRightClickImpetus
-import at.petrak.hexcasting.common.lib.HexBlockEntities
-import at.petrak.hexcasting.common.lib.HexBlocks
 import at.petrak.hexcasting.xplat.IXplatAbstractions
-import net.beholderface.oneironaut.OneironautConfig
+import net.beholderface.oneironaut.*
+import net.beholderface.oneironaut.casting.mishaps.MishapBadCuboid
+import net.beholderface.oneironaut.casting.mishaps.MishapNoNoosphere
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
-import net.beholderface.oneironaut.casting.mishaps.MishapBadCuboid
-import net.beholderface.oneironaut.casting.mishaps.MishapNoNoosphere
-import net.beholderface.oneironaut.getBoxCorners
-import net.beholderface.oneironaut.getDimIota
-import net.beholderface.oneironaut.longestAxisLength
-import net.minecraft.block.Block
 import kotlin.math.abs
 import kotlin.math.pow
 
@@ -131,7 +123,19 @@ class OpSwapSpace : SpellAction {
             val flags = 3//0.and(Block.REDRAW_ON_MAIN_THREAD).and(Block.MOVED).and(Block.NOTIFY_LISTENERS).and(Block.FORCE_STATE)
             val maxdepth = 0
             val isCircle = ctx.spellCircle != null
-            var circleMovingSelf = false;
+            val circleBE : BlockEntityAbstractImpetus?
+            var circleMovingSelf = false
+            if (isCircle){
+                val circle = ctx.spellCircle!!
+                val impPos = circle.impetusPos
+                circleBE = originDim.getBlockEntity(impPos) as BlockEntityAbstractImpetus
+                val impVec = Vec3d(impPos.x + 0.0, impPos.y + 0.0, impPos.y + 0.0)
+                circleMovingSelf = originBox.tolerantContains(impVec.x, impVec.y, impVec.z)
+                //Oneironaut.LOGGER.info("Spell circle is casting spatial interchange, $circleMovingSelf, $impVec, $originBox")
+            } else {
+                circleBE = null
+            }
+            var newImpetusPos : BlockPos? = null
             for (i in 0 until dimensions.x){
                 for (j in 0 until dimensions.y){
                     for (k in 0 until dimensions.z){
@@ -150,10 +154,8 @@ class OpSwapSpace : SpellAction {
                         if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f)
                                     || ((originPointState.hasBlockEntity() || destPointState.hasBlockEntity()) && !OneironautConfig.server.swapSwapsBEs)
                                     || !breakingAllowed)){
-                            if (isCircle){
-                                if (ctx.spellCircle!!.impetusPos == originDimPos){
-                                    circleMovingSelf = true
-                                }
+                            if (isCircle && originBE == circleBE){
+                                newImpetusPos = destDimPos
                             }
                             if (destBE != null){
                                 originDim.removeBlockEntity(originDimPos)
@@ -195,8 +197,9 @@ class OpSwapSpace : SpellAction {
             //without this the impetus gets stuck in an active state and can't be used again without breaking and replacing it
             if (circleMovingSelf){
                 val circle = ctx.spellCircle!!
-                val impetusPos = circle.impetusPos
+                val impetusPos = newImpetusPos
                 val impetusBE = destDim.getBlockEntity(impetusPos)
+                Oneironaut.LOGGER.info("Spell circle at $impetusPos interchanging itself, attempting to reset activation state.")
                 if (impetusBE is BlockEntityAbstractImpetus){
                     val originalCompound = impetusBE.createNbt()
                     val freshCompound = originalCompound.copy()
@@ -214,4 +217,8 @@ class OpSwapSpace : SpellAction {
             //ctx.caster.sendMessage((Text.of(Box(originCorner1, originCorner2).toString())))
         }
     }
+}
+
+fun Box.tolerantContains(x: Double, y: Double, z: Double): Boolean {
+    return x >= this.minX && x <= this.maxX && y >= this.minY && y <= this.maxY && z >= this.minZ && z <= this.maxZ
 }
