@@ -15,6 +15,7 @@ import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.beholderface.oneironaut.*
+//import net.beholderface.oneironaut.*
 import net.beholderface.oneironaut.casting.mishaps.MishapBadCuboid
 import net.beholderface.oneironaut.casting.mishaps.MishapNoNoosphere
 import net.minecraft.block.BlockState
@@ -123,19 +124,6 @@ class OpSwapSpace : SpellAction {
             val flags = 3//0.and(Block.REDRAW_ON_MAIN_THREAD).and(Block.MOVED).and(Block.NOTIFY_LISTENERS).and(Block.FORCE_STATE)
             val maxdepth = 0
             val isCircle = ctx.spellCircle != null
-            val circleBE : BlockEntityAbstractImpetus?
-            var circleMovingSelf = false
-            if (isCircle){
-                val circle = ctx.spellCircle!!
-                val impPos = circle.impetusPos
-                circleBE = originDim.getBlockEntity(impPos) as BlockEntityAbstractImpetus
-                val impVec = Vec3d(impPos.x + 0.0, impPos.y + 0.0, impPos.y + 0.0)
-                circleMovingSelf = originBox.tolerantContains(impVec.x, impVec.y, impVec.z)
-                //Oneironaut.LOGGER.info("Spell circle is casting spatial interchange, $circleMovingSelf, $impVec, $originBox")
-            } else {
-                circleBE = null
-            }
-            var newImpetusPos : BlockPos? = null
             for (i in 0 until dimensions.x){
                 for (j in 0 until dimensions.y){
                     for (k in 0 until dimensions.z){
@@ -145,21 +133,21 @@ class OpSwapSpace : SpellAction {
                         originPointState = originDim.getBlockState(originDimPos)
                         destPointState = destDim.getBlockState(destDimPos)
                         originBE = originDim.getBlockEntity(originDimPos)
-                        originBEData = originBE?.createNbt()
                         destBE = destDim.getBlockEntity(destDimPos)
-                        destBEData = destBE?.createNbt()
                         var newBE : BlockEntity?
                         val breakingAllowed = IXplatAbstractions.INSTANCE.isBreakingAllowed(originDim, originDimPos, originPointState, ctx.caster) &&
                                 IXplatAbstractions.INSTANCE.isBreakingAllowed(destDim, destDimPos, destPointState, ctx.caster)
                         if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f)
                                     || ((originPointState.hasBlockEntity() || destPointState.hasBlockEntity()) && !OneironautConfig.server.swapSwapsBEs)
                                     || !breakingAllowed)){
-                            if (isCircle && originBE == circleBE){
-                                newImpetusPos = destDimPos
-                            }
                             if (destBE != null){
+                                var state = destBE.cachedState
+                                if (destBE is BlockEntityAbstractImpetus){
+                                    state = resetImpetus(state, destBE)
+                                }
+                                destBEData = destBE.createNbt()
                                 originDim.removeBlockEntity(originDimPos)
-                                originDim.setBlockState(originDimPos, destBE.cachedState, flags, maxdepth)
+                                originDim.setBlockState(originDimPos, state, flags, maxdepth)
                                 newBE = originDim.getBlockEntity(originDimPos)
                                 newBE?.readNbt(destBEData)
                                 newBE?.markDirty()
@@ -168,8 +156,13 @@ class OpSwapSpace : SpellAction {
                                 originDim.setBlockState(originDimPos, destPointState, flags, maxdepth)
                             }
                             if (originBE != null){
+                                var state = originBE.cachedState
+                                if (originBE is BlockEntityAbstractImpetus){
+                                    state = resetImpetus(state, originBE)
+                                }
+                                originBEData = originBE.createNbt()
                                 destDim.removeBlockEntity(destDimPos)
-                                destDim.setBlockState(destDimPos, originBE.cachedState, flags, maxdepth)
+                                destDim.setBlockState(destDimPos, state, flags, maxdepth)
                                 newBE = destDim.getBlockEntity(destDimPos)
                                 newBE?.readNbt(originBEData)
                                 newBE?.markDirty()
@@ -195,7 +188,7 @@ class OpSwapSpace : SpellAction {
                 }
             }
             //without this the impetus gets stuck in an active state and can't be used again without breaking and replacing it
-            if (circleMovingSelf){
+            /*if (circleMovingSelf){
                 val circle = ctx.spellCircle!!
                 val impetusPos = newImpetusPos
                 val impetusBE = destDim.getBlockEntity(impetusPos)
@@ -211,7 +204,7 @@ class OpSwapSpace : SpellAction {
                     impetusBE.readNbt(freshCompound)
                     destDim.setBlockState(impetusPos, destDim.getBlockState(impetusPos).with(BlockCircleComponent.ENERGIZED, false))
                 }
-            }
+            }*/
             //ctx.caster.sendMessage(Text.of("Origin: ${originDim.registryKey.value.toString()}, ${originBox.toString()}"))
             //ctx.caster.sendMessage(Text.of("Destination: ${destDim.registryKey.value.toString()}, ${destBox.toString()}"))
             //ctx.caster.sendMessage((Text.of(Box(originCorner1, originCorner2).toString())))
@@ -221,4 +214,17 @@ class OpSwapSpace : SpellAction {
 
 fun Box.tolerantContains(x: Double, y: Double, z: Double): Boolean {
     return x >= this.minX && x <= this.maxX && y >= this.minY && y <= this.maxY && z >= this.minZ && z <= this.maxZ
+}
+
+private fun resetImpetus(state : BlockState, impetus : BlockEntityAbstractImpetus) : BlockState {
+    val originalCompound = impetus.createNbt()
+    val freshCompound = originalCompound.copy()
+    freshCompound.remove(BlockEntityAbstractImpetus.TAG_ACTIVATOR)
+    freshCompound.remove(BlockEntityAbstractImpetus.TAG_COLORIZER)
+    freshCompound.remove(BlockEntityAbstractImpetus.TAG_NEXT_BLOCK)
+    freshCompound.remove(BlockEntityAbstractImpetus.TAG_FOUND_ALL)
+    freshCompound.remove(BlockEntityAbstractImpetus.TAG_TRACKED_BLOCKS)
+    impetus.readNbt(freshCompound)
+    impetus.markDirty()
+    return state.with(BlockCircleComponent.ENERGIZED, false)
 }

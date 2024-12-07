@@ -1,6 +1,8 @@
 package net.beholderface.oneironaut.casting;
 
+import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.api.misc.HexDamageSources;
+import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.ktxt.AccessorWrappers;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.beholderface.oneironaut.network.ParticleBurstPacket;
@@ -11,23 +13,29 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.beholderface.oneironaut.MiscAPIKt;
 import net.beholderface.oneironaut.Oneironaut;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class OvercastDamageEnchant extends Enchantment {
     private static final Map<LivingEntity, Long> cooldownMap = new HashMap<>();
+    private static final FrozenColorizer playerlessColor = new FrozenColorizer(HexItems.DYE_COLORIZERS.get(DyeColor.PURPLE).getDefaultStack(), Util.NIL_UUID);
     public OvercastDamageEnchant() {
         super(Rarity.RARE, EnchantmentTarget.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
@@ -70,8 +78,8 @@ public class OvercastDamageEnchant extends Enchantment {
         return 5;
     }
 
-    public static void applyMindDamage(LivingEntity user, Entity target, int level, boolean autospare){
-        World world = user.world;
+    public static void applyMindDamage(@Nullable LivingEntity user, @NotNull Entity target, int level, boolean autospare){
+        World world = target.world;
         long currentTime = world.getTime();
         long lastTime = cooldownMap.getOrDefault(user, 0L);
         if (target instanceof LivingEntity livingTarget && (lastTime + 12) < currentTime && !world.isClient){
@@ -81,7 +89,8 @@ public class OvercastDamageEnchant extends Enchantment {
             if (target instanceof MobEntity mob){
                 brainswept = IXplatAbstractions.INSTANCE.isBrainswept(mob);
             }
-            if (!livingTarget.isInvulnerableTo(HexDamageSources.OVERCAST) && !livingTarget.isDead() && !brainswept){
+            boolean creative = target instanceof PlayerEntity player && (player.isSpectator() || player.isCreative());
+            if (!livingTarget.isInvulnerableTo(HexDamageSources.OVERCAST) && !livingTarget.isDead() && !brainswept && !creative){
                 float oldHealth = livingTarget.getHealth();
                 float newHealth = oldHealth - (level / 2f);
                 if (newHealth > 0){
@@ -90,6 +99,7 @@ public class OvercastDamageEnchant extends Enchantment {
                     livingTarget.setHealth(0.1f);
                 } else {
                     //die, avaritia user, die!
+                    livingTarget.damage(HexDamageSources.OVERCAST, Float.MAX_VALUE);
                     livingTarget.kill();
                 }
                 AccessorWrappers.markHurt(livingTarget);
@@ -104,14 +114,20 @@ public class OvercastDamageEnchant extends Enchantment {
                             IXplatAbstractions.INSTANCE.sendPacketNear(target.getPos(), 128.0, (ServerWorld) mob.world, new ParticleBurstPacket(
                                     target.getPos(), new Vec3d(0.0, 0.1, 0.0), 0.1, 0.025,
                                     IXplatAbstractions.INSTANCE.getColorizer(player), 64, false));
-                            //Vec3d soundPos = mob.getPos();
                             world.playSoundFromEntity(null, mob, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                        } else {
+                            IXplatAbstractions.INSTANCE.sendPacketNear(target.getPos(), 128.0, (ServerWorld) mob.world, new ParticleBurstPacket(
+                                    target.getPos(), new Vec3d(0.0, 0.1, 0.0), 0.1, 0.025,
+                                    playerlessColor, 64, false));
+                            world.playSoundFromEntity(null, mob, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.BLOCKS, 0.5f, 1.0f);
                         }
                     }
                 }
             }
             //Mishap.Companion.trulyHurt(livingTarget, HexDamageSources.OVERCAST, level);
-            cooldownMap.put(user, currentTime);
+            if (user != null){
+                cooldownMap.put(user, currentTime);
+            }
         }
     }
 }
