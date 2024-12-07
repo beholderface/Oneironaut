@@ -27,6 +27,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
+import java.lang.Exception
 import kotlin.math.abs
 import kotlin.math.pow
 
@@ -131,13 +132,31 @@ class OpSwapSpace : SpellAction {
                         originDimPos = originLowerCorner.add(transferOffset)
                         destDimPos = destLowerCorner.add(transferOffset)
                         originPointState = originDim.getBlockState(originDimPos)
+                        if (originPointState.block is BlockCircleComponent){
+                            try {
+                                val attemptedState = originPointState.with(BlockCircleComponent.ENERGIZED, false)
+                                assert(attemptedState != null)
+                                originPointState = attemptedState
+                            } catch (e : Exception){
+                                //no-op
+                            }
+                        }
                         destPointState = destDim.getBlockState(destDimPos)
+                        if (destPointState.block is BlockCircleComponent){
+                            try {
+                                val attemptedState = destPointState.with(BlockCircleComponent.ENERGIZED, false)
+                                assert(attemptedState != null)
+                                destPointState = attemptedState
+                            } catch (e : Exception){
+                                //no-op
+                            }
+                        }
                         originBE = originDim.getBlockEntity(originDimPos)
                         destBE = destDim.getBlockEntity(destDimPos)
                         var newBE : BlockEntity?
                         val breakingAllowed = IXplatAbstractions.INSTANCE.isBreakingAllowed(originDim, originDimPos, originPointState, ctx.caster) &&
                                 IXplatAbstractions.INSTANCE.isBreakingAllowed(destDim, destDimPos, destPointState, ctx.caster)
-                        if (!((originPointState.block.hardness == -1f || destPointState.block.hardness == -1f)
+                        if (!((originPointState!!.block.hardness == -1f || destPointState!!.block.hardness == -1f)
                                     || ((originPointState.hasBlockEntity() || destPointState.hasBlockEntity()) && !OneironautConfig.server.swapSwapsBEs)
                                     || !breakingAllowed)){
                             if (destBE != null){
