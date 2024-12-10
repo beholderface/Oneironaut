@@ -74,4 +74,8 @@ public class BottomlessCastingItem extends ItemPackagedHex {
 
         NBTHelper.putList(stack, TAG_PROGRAM, patsTag);
     }
+
+    public int cooldown(){
+        return 5;
+    }
 }

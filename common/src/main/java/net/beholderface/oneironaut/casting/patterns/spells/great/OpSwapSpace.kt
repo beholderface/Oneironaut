@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.block.circle.BlockCircleComponent
 import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.mod.HexConfig
+import at.petrak.hexcasting.api.mod.HexTags
 import at.petrak.hexcasting.api.spell.ParticleSpray
 import at.petrak.hexcasting.api.spell.RenderedSpell
 import at.petrak.hexcasting.api.spell.SpellAction
@@ -18,15 +19,18 @@ import net.beholderface.oneironaut.*
 //import net.beholderface.oneironaut.*
 import net.beholderface.oneironaut.casting.mishaps.MishapBadCuboid
 import net.beholderface.oneironaut.casting.mishaps.MishapNoNoosphere
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.Entity
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.world.ChunkTicketType
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
-import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vec3i
+import net.minecraft.util.Identifier
+import net.minecraft.util.math.*
+import net.minecraft.world.TeleportTarget
+import net.minecraft.world.chunk.ChunkStatus
 import java.lang.Exception
 import kotlin.math.abs
 import kotlin.math.pow
@@ -113,6 +117,24 @@ class OpSwapSpace : SpellAction {
         override fun cast(ctx: CastingContext) {
             val originLowerCorner = BlockPos(originBox.minX, originBox.minY, originBox.minZ)
             val destLowerCorner = BlockPos(destBox.minX, destBox.minY, destBox.minZ)
+            val originEntities = originDim.getOtherEntities(null, originBox) {
+                (!it.isLiving || it.type.isIn(getEntityTagKey(Identifier.of("oneironaut","living_interchange_whitelist")!!))) && it.canUsePortals() && !it.type.isIn(HexTags.Entities.CANNOT_TELEPORT)
+            }
+            val originEntityMap = HashMap<Entity, Vec3d>()
+            /*for (entity in originEntities){
+                originEntityMap[entity] = originBox.minCorner().relativize(entity.pos)
+            }*/
+
+            destDim.chunkManager.getChunk((destBox.center.x / 16).toInt(),
+                (destBox.center.z / 16).toInt(), ChunkStatus.FULL, true)
+            val destEntities = destDim.getOtherEntities(null, destBox) {
+                (!it.isLiving || it.type.isIn(getEntityTagKey(Identifier.of("oneironaut","living_interchange_whitelist")!!))) && it.canUsePortals() && !it.type.isIn(HexTags.Entities.CANNOT_TELEPORT)
+            }
+            //destDim.loadEntities(destEntities.stream())
+            val destEntityMap = HashMap<Entity, Vec3d>()
+            /*for (entity in destEntities){
+                destEntityMap[entity] = destBox.minCorner().relativize(entity.pos)
+            }*/
             var transferOffset: Vec3i?
             var originDimPos: BlockPos?
             var destDimPos: BlockPos?
@@ -206,6 +228,16 @@ class OpSwapSpace : SpellAction {
                     }
                 }
             }
+            for (pair in originEntityMap){
+                val entity = pair.key
+                val offset = pair.value
+                FabricDimensions.teleport(entity, destDim, TeleportTarget(destBox.minCorner().add(offset), entity.velocity, entity.headYaw, entity.pitch))
+            }
+            for (pair in destEntityMap){
+                val entity = pair.key
+                val offset = pair.value
+                FabricDimensions.teleport(entity, originDim, TeleportTarget(originBox.minCorner().add(offset), entity.velocity, entity.headYaw, entity.pitch))
+            }
             //without this the impetus gets stuck in an active state and can't be used again without breaking and replacing it
             /*if (circleMovingSelf){
                 val circle = ctx.spellCircle!!
@@ -233,6 +265,12 @@ class OpSwapSpace : SpellAction {
 
 fun Box.tolerantContains(x: Double, y: Double, z: Double): Boolean {
     return x >= this.minX && x <= this.maxX && y >= this.minY && y <= this.maxY && z >= this.minZ && z <= this.maxZ
+}
+fun Box.minCorner(): Vec3d {
+    return Vec3d(this.minX, this.minY, this.minZ)
+}
+fun Box.maxCorner(): Vec3d {
+    return Vec3d(this.maxX, this.maxY, this.maxZ)
 }
 
 private fun resetImpetus(state : BlockState, impetus : BlockEntityAbstractImpetus) : BlockState {

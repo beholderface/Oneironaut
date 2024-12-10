@@ -50,6 +50,8 @@ public class BottomlessMediaItem extends ItemMediaHolder {
         }
         long lastCheckIn = phialOwners.get(uuid).getSecond();
         int lastPhialCount = playerPhialList.get(phialOwners.get(uuid).getFirst()).getFirst().size();
+        //dashing your hopes against the rocks
+        int base = lastPhialCount <= 36 ? 6 : 12;
         //NbtCompound currentData = playerPhialCounts.get(phialOwners.get(uuid).getFirst());
         int media = 1;
         if (time != lastCheckIn){
@@ -59,7 +61,7 @@ public class BottomlessMediaItem extends ItemMediaHolder {
             if (lastPhialCount == 1){
                 media = MediaConstants.DUST_UNIT / 10;
             } else {
-                media = (int) (((arbitraryLog(6.0, lastPhialCount) + 0.75) / lastPhialCount) * (MediaConstants.DUST_UNIT / 10));
+                media = (int) (((arbitraryLog(base, lastPhialCount) + 0.75) / lastPhialCount) * (MediaConstants.DUST_UNIT / 10));
             }
         }
         //int media = foundItems > 0 ? (int) (((arbitraryLog(6.0, foundItems) + 0.75) / foundItems) * (MediaConstants.DUST_UNIT / 10)) : 0;

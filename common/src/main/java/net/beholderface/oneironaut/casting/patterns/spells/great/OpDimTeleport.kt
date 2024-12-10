@@ -158,10 +158,10 @@ class OpDimTeleport : SpellAction {
             if (origin == destination){
                 ctx.caster.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.samedim"));
             } else {
-                if (target.type.toString() == "entity.minecraft.player"){
+                target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
+                if (target is ServerPlayerEntity){
                     (target as ServerPlayerEntity).teleport(destination, x, y, z, target.yaw, target.pitch)
                     //FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), Vec3d.ZERO, target.yaw, target.pitch))
-                    target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                     if (noosphere){
                         target.addStatusEffect(StatusEffectInstance(StatusEffects.NAUSEA, 200))
                         target.addStatusEffect(StatusEffectInstance(StatusEffects.BLINDNESS, 100))
@@ -171,17 +171,7 @@ class OpDimTeleport : SpellAction {
                         BlockConjured.setColor(destination, floorSpot, colorizer)
                     }
                 } else {
-                    target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
-                    if (Platform.isForge()){
-                        val destString = destination.registryKey.value.toString()
-                        val command = "execute in $destString as ${target.uuid.toString()} run tp $x $y $z"
-                        val executor = target.server?.commandManager
-                        executor?.executeWithPrefix(target.server?.commandSource?.withSilent(), command)
-                    } else {
-                        //I have absolutely no idea if this makes any difference whatsoever compared to the command method
-                        FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
-                    }
-
+                    FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
                     if (floorNeeded){
                         destination.setBlockState((floorSpot), HexBlocks.CONJURED_BLOCK.defaultState)
                         BlockConjured.setColor(destination, floorSpot, colorizer)
