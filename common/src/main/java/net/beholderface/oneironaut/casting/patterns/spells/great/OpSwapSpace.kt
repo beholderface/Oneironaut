@@ -19,6 +19,7 @@ import net.beholderface.oneironaut.*
 //import net.beholderface.oneironaut.*
 import net.beholderface.oneironaut.casting.mishaps.MishapBadCuboid
 import net.beholderface.oneironaut.casting.mishaps.MishapNoNoosphere
+import net.beholderface.oneironaut.item.BottomlessMediaItem
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -82,9 +83,14 @@ class OpSwapSpace : SpellAction {
         if (originCuboidDimensions != destCuboidDimensions){
             throw MishapBadCuboid("mismatch")
         }
-        val boxVolume = (originCuboidDimensions.x * originCuboidDimensions.y * originCuboidDimensions.z)
-        //cost is equal to the volume of the box in (m^3 / 2) in dust, plus 5 charged
-        val cost = (boxVolume / 2.0) + 50
+        val boxVolume = (originCuboidDimensions.x * originCuboidDimensions.y * originCuboidDimensions.z).coerceAtLeast(1)
+        //cost is logarithmic until passing 1001 total blocks swapped, at which point it starts increasing linearly.
+        //https://www.desmos.com/calculator/ydbg8zhmyp
+        val cost : Double = if (boxVolume <= 1001){
+            BottomlessMediaItem.arbitraryLog(1.036, boxVolume.toDouble())
+        } else {
+            boxVolume.toDouble() / 5 //yes all these values are magic numbers but I can't be arsed right now
+        }
         val boxCorners = getBoxCorners(originBox)
         for (corner in boxCorners) {
             ctx.assertVecInRange(corner)
@@ -117,24 +123,18 @@ class OpSwapSpace : SpellAction {
         override fun cast(ctx: CastingContext) {
             val originLowerCorner = BlockPos(originBox.minX, originBox.minY, originBox.minZ)
             val destLowerCorner = BlockPos(destBox.minX, destBox.minY, destBox.minZ)
-            val originEntities = originDim.getOtherEntities(null, originBox) {
+            /*val originEntities = originDim.getOtherEntities(null, originBox) {
                 (!it.isLiving || it.type.isIn(getEntityTagKey(Identifier.of("oneironaut","living_interchange_whitelist")!!))) && it.canUsePortals() && !it.type.isIn(HexTags.Entities.CANNOT_TELEPORT)
             }
             val originEntityMap = HashMap<Entity, Vec3d>()
-            /*for (entity in originEntities){
-                originEntityMap[entity] = originBox.minCorner().relativize(entity.pos)
-            }*/
 
             destDim.chunkManager.getChunk((destBox.center.x / 16).toInt(),
                 (destBox.center.z / 16).toInt(), ChunkStatus.FULL, true)
             val destEntities = destDim.getOtherEntities(null, destBox) {
                 (!it.isLiving || it.type.isIn(getEntityTagKey(Identifier.of("oneironaut","living_interchange_whitelist")!!))) && it.canUsePortals() && !it.type.isIn(HexTags.Entities.CANNOT_TELEPORT)
             }
-            //destDim.loadEntities(destEntities.stream())
-            val destEntityMap = HashMap<Entity, Vec3d>()
-            /*for (entity in destEntities){
-                destEntityMap[entity] = destBox.minCorner().relativize(entity.pos)
-            }*/
+            val destEntityMap = HashMap<Entity, Vec3d>()*/
+
             var transferOffset: Vec3i?
             var originDimPos: BlockPos?
             var destDimPos: BlockPos?
@@ -228,7 +228,8 @@ class OpSwapSpace : SpellAction {
                     }
                 }
             }
-            for (pair in originEntityMap){
+            //this stuff is commented out because I can't figure out how to get the spell to load entities on the other side of the transfer
+            /*for (pair in originEntityMap){
                 val entity = pair.key
                 val offset = pair.value
                 FabricDimensions.teleport(entity, destDim, TeleportTarget(destBox.minCorner().add(offset), entity.velocity, entity.headYaw, entity.pitch))
@@ -237,25 +238,8 @@ class OpSwapSpace : SpellAction {
                 val entity = pair.key
                 val offset = pair.value
                 FabricDimensions.teleport(entity, originDim, TeleportTarget(originBox.minCorner().add(offset), entity.velocity, entity.headYaw, entity.pitch))
-            }
-            //without this the impetus gets stuck in an active state and can't be used again without breaking and replacing it
-            /*if (circleMovingSelf){
-                val circle = ctx.spellCircle!!
-                val impetusPos = newImpetusPos
-                val impetusBE = destDim.getBlockEntity(impetusPos)
-                Oneironaut.LOGGER.info("Spell circle at $impetusPos interchanging itself, attempting to reset activation state.")
-                if (impetusBE is BlockEntityAbstractImpetus){
-                    val originalCompound = impetusBE.createNbt()
-                    val freshCompound = originalCompound.copy()
-                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_ACTIVATOR)
-                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_COLORIZER)
-                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_NEXT_BLOCK)
-                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_FOUND_ALL)
-                    freshCompound.remove(BlockEntityAbstractImpetus.TAG_TRACKED_BLOCKS)
-                    impetusBE.readNbt(freshCompound)
-                    destDim.setBlockState(impetusPos, destDim.getBlockState(impetusPos).with(BlockCircleComponent.ENERGIZED, false))
-                }
             }*/
+
             //ctx.caster.sendMessage(Text.of("Origin: ${originDim.registryKey.value.toString()}, ${originBox.toString()}"))
             //ctx.caster.sendMessage(Text.of("Destination: ${destDim.registryKey.value.toString()}, ${destBox.toString()}"))
             //ctx.caster.sendMessage((Text.of(Box(originCorner1, originCorner2).toString())))

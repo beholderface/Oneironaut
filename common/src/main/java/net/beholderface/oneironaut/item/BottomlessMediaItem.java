@@ -33,7 +33,7 @@ public class BottomlessMediaItem extends ItemMediaHolder {
         //do nothing
     }
 
-    private static double arbitraryLog(double base, double num){
+    public static double arbitraryLog(double base, double num){
         return Math.log(num) / Math.log(base);
     }
 

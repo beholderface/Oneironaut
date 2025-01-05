@@ -9,6 +9,7 @@ import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.TickEvent;
 import net.beholderface.oneironaut.block.blockentity.HoverElevatorBlockEntity;
+import net.beholderface.oneironaut.casting.DepartureEntry;
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager;
 import net.beholderface.oneironaut.item.BottomlessMediaItem;
 import net.beholderface.oneironaut.recipe.OneironautRecipeSerializer;
@@ -70,6 +71,7 @@ public class Oneironaut {
             } catch (ConcurrentModificationException exception){
                 LOGGER.error("Oopsie server-side hoverlift exception " + exception.getMessage());
             }
+            DepartureEntry.clearMap();
         });
 
         ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();

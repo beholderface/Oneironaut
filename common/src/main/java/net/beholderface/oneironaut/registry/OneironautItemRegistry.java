@@ -50,6 +50,7 @@ public class OneironautItemRegistry {
     public static final RegistrySupplier<MemoryFragmentItem> MEMORY_FRAGMENT = ITEMS.register("memory_fragment", () -> new MemoryFragmentItem(ONEIRONAUT_UNSTACKABLE.rarity(Rarity.RARE), MemoryFragmentItem.NAMES_TOWER));
     public static final RegistrySupplier<WispCaptureItem> WISP_CAPTURE_ITEM = ITEMS.register("wisp_capture_device", ()-> new WispCaptureItem(ONEIRONAUT_UNSTACKABLE));
     public static final RegistrySupplier<MindScalpelItem> MIND_SCALPEL = ITEMS.register("mind_scalpel", ()->new MindScalpelItem(ONEIRONAUT_UNSTACKABLE.rarity(Rarity.RARE)));
+    public static final RegistrySupplier<Item> RENDER_THORNS = ITEMS.register("rending_thorns", ()->new RenderThorns(ONEIRONAUT_STACKABLE64.rarity(Rarity.UNCOMMON)));
 
     public static final RegistrySupplier<BlockItem> PSUEDOAMETHYST_BLOCK_ITEM = ITEMS.register("pseudoamethyst_block", () -> new BlockItem(OneironautBlockRegistry.PSUEDOAMETHYST_BLOCK.get(), ONEIRONAUT_STACKABLE64.rarity(Rarity.COMMON)));
     public static final RegistrySupplier<BlockItem> SUPER_BUDDING_ITEM = ITEMS.register("super_budding", () -> new BlockItem(OneironautBlockRegistry.SUPER_BUDDING.get(), ONEIRONAUT_STACKABLE64));
@@ -73,7 +74,8 @@ public class OneironautItemRegistry {
     public static final RegistrySupplier<BlockItem> PSEUDOAMETHYST_BUD_MEDIUM_ITEM = ITEMS.register("pseudoamethyst_bud_medium", ()->new BlockItem(OneironautBlockRegistry.PSEUDOAMETHYST_BUD_MEDIUM.get(), ONEIRONAUT_STACKABLE64));
     public static final RegistrySupplier<BlockItem> PSEUDOAMETHYST_BUD_LARGE_ITEM = ITEMS.register("pseudoamethyst_bud_large", ()->new BlockItem(OneironautBlockRegistry.PSEUDOAMETHYST_BUD_LARGE.get(), ONEIRONAUT_STACKABLE64));
     public static final RegistrySupplier<BlockItem> PSEUDOAMETHYST_CLUSTER_ITEM = ITEMS.register("pseudoamethyst_cluster", ()->new BlockItem(OneironautBlockRegistry.PSEUDOAMETHYST_CLUSTER.get(), ONEIRONAUT_STACKABLE64));
-    public static final RegistrySupplier<AliasedBlockItem> RENDER_FRUIT = ITEMS.register("monkfruit", ()->{
-        return new AliasedBlockItem(OneironautBlockRegistry.RENDER_BUSH.get(), ((ONEIRONAUT_STACKABLE64).food(FoodComponents.SWEET_BERRIES)));
+    public static final FoodComponent MONKFRUIT_FOOD = (new FoodComponent.Builder()).hunger(4).saturationModifier(0.6F).snack().alwaysEdible().build();
+    public static final RegistrySupplier<MonkfruitItem> RENDER_FRUIT = ITEMS.register("monkfruit", ()->{
+        return new MonkfruitItem(OneironautBlockRegistry.RENDER_BUSH.get(), ((ONEIRONAUT_STACKABLE64).food(MONKFRUIT_FOOD)));
     });
 }

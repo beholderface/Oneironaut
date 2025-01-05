@@ -9,11 +9,13 @@
   ],
   "mixins": [
     "BottomlessMediaPriorityMixin",
-    "SlurryFrostWalkerMixin",
+    "EdifyBushMixinGrower",
+    "EdifyBushMixinSpell",
     "EternalChorusMixin",
     "GlowAmbitEffectAmbitMixin",
     "GlowAmbitEffectGlowMixin",
-    "OneResetSoundMixin"
+    "OneResetSoundMixin",
+    "SlurryFrostWalkerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

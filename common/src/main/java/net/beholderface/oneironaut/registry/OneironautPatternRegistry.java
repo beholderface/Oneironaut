@@ -38,6 +38,7 @@ public class OneironautPatternRegistry {
     public static HexPattern GETDIM_OVERWORLD = register(HexPattern.fromAngles("wqwqwqwqwqwawedewdwedew", HexDir.NORTH_EAST), "getdimoverworld", new OpSpecificDim(new Identifier("minecraft:overworld"), false, ()->{return OneironautConfig.getServer().getAllowOverworldReflection();}));
     public static HexPattern GETDIM_NETHER = register(HexPattern.fromAngles("wqwqwqwqwqwaqaaqaw", HexDir.NORTH_EAST), "getdimnether", new OpSpecificDim(new Identifier("minecraft:the_nether"), true, ()->{return OneironautConfig.getServer().getAllowNetherReflection();}));
     public static HexPattern GET_DIMHEIGHT = register(HexPattern.fromAngles("awqqqwqwqwqwqwq", HexDir.NORTH_EAST), "getdimheight", new OpDimHeight());
+    public static HexPattern GET_DIMSCALE = register(HexPattern.fromAngles("wawawqwqwqwqwqw", HexDir.NORTH_WEST), "getdimscale", new OpDimScale());
     public static HexPattern ROD_LOOK = register(HexPattern.fromAngles("qwqqqwqawa", HexDir.SOUTH_EAST), "getrodlook", new OpGetInitialRodState(1));
     public static HexPattern ROD_POS = register(HexPattern.fromAngles("qwqqqwqawaa", HexDir.SOUTH_EAST), "getrodpos", new OpGetInitialRodState(2));
     public static HexPattern ROD_STAMP = register(HexPattern.fromAngles("qwqqqwqawaaw", HexDir.SOUTH_EAST), "getrodstamp", new OpGetInitialRodState(3));

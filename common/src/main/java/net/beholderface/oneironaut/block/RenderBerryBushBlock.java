@@ -1,6 +1,7 @@
 package net.beholderface.oneironaut.block;
 
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.beholderface.oneironaut.MiscAPIKt;
 import net.beholderface.oneironaut.casting.OvercastDamageEnchant;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.beholderface.oneironaut.registry.OneironautItemRegistry;
@@ -23,6 +24,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -47,7 +49,7 @@ public class RenderBerryBushBlock extends PlantBlock implements Fertilizable {
         builder.add(THOUGHTS);
     }
 
-    public static final IntProperty AGE;
+    public static IntProperty AGE = SweetBerryBushBlock.AGE;
     public static final IntProperty THOUGHTS;
     private static final VoxelShape SMALL_SHAPE;
     private static final VoxelShape LARGE_SHAPE;
@@ -86,18 +88,10 @@ public class RenderBerryBushBlock extends PlantBlock implements Fertilizable {
         //very small chance to grow from just slurry
         boolean foundSlurry = false;
         //same cuboid as if the block below it was farmland getting hydrated
-        for (BlockState state2 : world.getStatesInBox(new Box(pos).expand(4, 0, 4)).toList()){
-            if (state2.getBlock() == OneironautBlockRegistry.THOUGHT_SLURRY_BLOCK.get()){
+        for (BlockState state2 : world.getStatesInBox(new Box(pos).expand(4, 2, 4)).toList()){
+            if (state2.isIn(MiscAPIKt.getBlockTagKey(Identifier.of("oneironaut","growsmonkfruit")))){
                 foundSlurry = true;
                 break;
-            }
-        }
-        if (!foundSlurry){
-            for (BlockState state2 : world.getStatesInBox(new Box(pos.down()).expand(4, 0, 4)).toList()){
-                if (state2.getBlock() == OneironautBlockRegistry.THOUGHT_SLURRY_BLOCK.get()){
-                    foundSlurry = true;
-                    break;
-                }
             }
         }
         int chance = Integer.MAX_VALUE;
@@ -146,7 +140,7 @@ public class RenderBerryBushBlock extends PlantBlock implements Fertilizable {
         //the bush's tendrils coil in response to thought
         if (!brainswept){
             target.damage(DamageSource.SWEET_BERRY_BUSH, target.isPlayer() ? 0.001f : 0f);
-            OvercastDamageEnchant.applyMindDamage(null, target, 1, false);
+            OvercastDamageEnchant.applyMindDamage(null, target, 2, false);
             //did that damage flay the target?
             if (target instanceof MobEntity mob){
                 brainswept = IXplatAbstractions.INSTANCE.isBrainswept(mob);
@@ -171,13 +165,25 @@ public class RenderBerryBushBlock extends PlantBlock implements Fertilizable {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        ItemStack clickStack = player.getStackInHand(hand);
         int age = state.get(AGE);
-        boolean bl = age == 3;
+        boolean fullGrown = age == 3;
+        int dropCount = 1 + world.random.nextInt(2);
         if (age > 1) {
-            int j = 1 + world.random.nextInt(2);
-            dropStack(world, pos, new ItemStack(OneironautItemRegistry.RENDER_FRUIT.get(), j + (bl ? 1 : 0)));
+            if (world.random.nextInt(3) == 3){
+                OvercastDamageEnchant.applyMindDamage(null, player, 1, false);
+            }
+            boolean sheared = false;
+            if (fullGrown && clickStack.getItem() == Items.SHEARS){
+                dropStack(world, pos, new ItemStack(OneironautItemRegistry.RENDER_THORNS.get(), dropCount));
+                clickStack.damage(1, player, (playerx) ->
+                    playerx.sendToolBreakStatus(hand));
+                sheared = true;
+            } else {
+                dropStack(world, pos, new ItemStack(OneironautItemRegistry.RENDER_FRUIT.get(), dropCount + (fullGrown ? 1 : 0)));
+            }
             world.playSound(null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
-            BlockState blockState = state.with(AGE, 1).with(THOUGHTS, 0);
+            BlockState blockState = state.with(AGE, sheared ? 0 : 1).with(THOUGHTS, 0);
             world.setBlockState(pos, blockState, 2);
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockState));
             return ActionResult.success(world.isClient);

@@ -1,5 +1,6 @@
 package net.beholderface.oneironaut.block.blockentity;
 
+import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -9,20 +10,19 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
-import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
-
-import static java.lang.Math.*;
-import static net.beholderface.oneironaut.MiscAPIKt.stringToWorld;
-import static net.beholderface.oneironaut.MiscAPIKt.playerUUIDtoServerPlayer;
-import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.lang.Math.*;
+import static net.beholderface.oneironaut.MiscAPIKt.playerUUIDtoServerPlayer;
 
 public class NoosphereGateEntity extends BlockEntity {
     public static Map<RegistryKey<World>, Map<BlockPos, Vec3d>> gateLocationMap = new HashMap<>();
@@ -68,10 +68,15 @@ public class NoosphereGateEntity extends BlockEntity {
                     double compressionFactor;
                     if (noosphere != null){
                         if (noosphere == origin){
-                            ServerWorld homeDim = stringToWorld(player.getSpawnPointDimension().getValue().toString(), player);
+                            ServerWorld homeDim = server.getWorld(player.getSpawnPointDimension());
+                            boolean antiSoftlock = false;
+                            if (homeDim == null || homeDim == noosphere){
+                                homeDim = server.getOverworld();
+                                antiSoftlock = true;
+                            }
                             compressionFactor = 1 / homeDim.getDimension().coordinateScale();
                             BlockPos spawnpoint = player.getSpawnPointPosition();
-                            if (spawnpoint == null){
+                            if (spawnpoint == null || antiSoftlock){
                                 spawnpoint = homeDim.getSpawnPos();
                                 //Oneironaut.LOGGER.info("Spawnpoint was null, using world spawn");
                             }

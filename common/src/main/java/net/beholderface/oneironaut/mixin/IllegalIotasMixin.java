@@ -2,7 +2,6 @@ package net.beholderface.oneironaut.mixin;
 
 import at.petrak.hexcasting.api.spell.iota.GarbageIota;
 import at.petrak.hexcasting.api.spell.iota.Iota;
-import net.beholderface.oneironaut.Oneironaut;
 import net.beholderface.oneironaut.casting.iotatypes.DimIota;
 import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota;
 import org.spongepowered.asm.mixin.Mixin;

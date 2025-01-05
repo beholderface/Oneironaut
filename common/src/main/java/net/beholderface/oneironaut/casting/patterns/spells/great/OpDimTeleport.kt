@@ -16,6 +16,7 @@ import at.petrak.hexcasting.common.blocks.BlockConjured
 import at.petrak.hexcasting.common.lib.HexBlocks
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import dev.architectury.platform.Platform
+import net.beholderface.oneironaut.Oneironaut
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
@@ -30,6 +31,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.TeleportTarget
 import net.beholderface.oneironaut.OneironautConfig
+import net.beholderface.oneironaut.casting.DepartureEntry
 import net.beholderface.oneironaut.isSolid
 import net.beholderface.oneironaut.isUnsafe
 import java.util.HashMap
@@ -43,8 +45,7 @@ class OpDimTeleport : SpellAction {
     override val argc = 2
     override val isGreat = true
 
-
-    override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>>? {
+    override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
         val target = args.getLivingEntityButNotArmorStand(0, argc)
         ctx.assertEntityInRange(target)
         val origin = ctx.world
@@ -78,6 +79,22 @@ class OpDimTeleport : SpellAction {
             throw MishapImmuneEntity(target)
         }
 
+        var departure = false
+        if (target == ctx.caster){
+            val entry = DepartureEntry.getEntry(ctx, world)
+            if (entry != null){
+                if (entry.isWithinCylinder(target.pos)){
+                    departure = true
+                }
+            }
+        }
+
+        val cost = if(departure){
+            5 * MediaConstants.DUST_UNIT
+        } else {
+            20 * MediaConstants.CRYSTAL_UNIT
+        }
+
         return if (origin == world && !noosphere){
             Triple(
                 Spell(target, origin, world, coords, false),
@@ -88,7 +105,7 @@ class OpDimTeleport : SpellAction {
         } else {
             Triple(
                 Spell(target, origin, world, coords, noosphere),
-                20 * MediaConstants.CRYSTAL_UNIT,
+                cost,
                 listOf(ParticleSpray.cloud(target.pos, 2.0))
             )
         }
@@ -96,9 +113,6 @@ class OpDimTeleport : SpellAction {
 
     private data class Spell(var target: LivingEntity, val origin: ServerWorld, val destination: ServerWorld, val coords: Vec3d, val noosphere: Boolean) : RenderedSpell {
         override fun cast(ctx: CastingContext) {
-            if (target == ctx.caster){
-
-            }
             var x = coords.x
             var y = floor(coords.y)
             var z = coords.z
@@ -106,6 +120,27 @@ class OpDimTeleport : SpellAction {
             val compressionFactor = origin.dimension.coordinateScale / destination.dimension.coordinateScale
             x *= compressionFactor
             z *= compressionFactor
+            var isFlying = false
+            if (target is ServerPlayerEntity){
+                val playerTarget = target as ServerPlayerEntity
+                isFlying = playerTarget.abilities.flying
+                if (target == ctx.caster){
+                    DepartureEntry(ctx, origin)
+                    val entry = DepartureEntry.getEntry(ctx, destination)
+                    if (entry != null){
+                        if (entry.isWithinCylinder(Vec3d(x, 0.0, z))){
+                            //Oneironaut.LOGGER.info("Found an existing departure, teleporting there.")
+                            val entryOrigin = entry.originPos
+                            playerTarget.teleport(destination, entryOrigin.x, entryOrigin.y, entryOrigin.z, target.yaw, target.pitch)
+                            playerTarget.abilities.flying = isFlying
+                            playerTarget.sendAbilitiesUpdate()
+                            return
+                        }
+                    }
+                    //Oneironaut.LOGGER.info("No existing departure found, behaving as normal.")
+                }
+                playerTarget.sendAbilitiesUpdate()
+            }
             var floorSpot : BlockPos = BlockPos(Vec3d.ZERO)
             var floorNeeded = false
             //make sure you don't end up under the nether or something
@@ -125,14 +160,16 @@ class OpDimTeleport : SpellAction {
             }
             //actually put you on the floor if possible
             var scanPoint = BlockPos(Vec3d(x, y+1, z))
-            while(!isSolid(destination, scanPoint)){
-                //ctx.caster.sendMessage(Text.of(destination.getBlockState(scanPoint).block.toString()))
-                scanPoint = BlockPos(Vec3d(x, scanPoint.y.toDouble() - 1, z))
-                //check for void
-                if (scanPoint.y < destination.bottomY || isUnsafe(destination, scanPoint, false)){
-                    //ctx.caster.sendMessage(Text.of("scanpoint: ${scanPoint.y}, bottomY: ${destination.bottomY}, safety: ${isUnsafe(destination, scanPoint)}"))
-                    scanPoint = BlockPos(Vec3d(x, y+1, z))
-                    break
+            if (!isFlying){
+                while(!isSolid(destination, scanPoint)){
+                    //ctx.caster.sendMessage(Text.of(destination.getBlockState(scanPoint).block.toString()))
+                    scanPoint = BlockPos(Vec3d(x, scanPoint.y.toDouble() - 1, z))
+                    //check for void
+                    if (scanPoint.y < destination.bottomY || isUnsafe(destination, scanPoint, false)){
+                        //ctx.caster.sendMessage(Text.of("scanpoint: ${scanPoint.y}, bottomY: ${destination.bottomY}, safety: ${isUnsafe(destination, scanPoint)}"))
+                        scanPoint = BlockPos(Vec3d(x, y+1, z))
+                        break
+                    }
                 }
             }
             //try to avoid putting your head in solid rock or something
@@ -158,24 +195,30 @@ class OpDimTeleport : SpellAction {
             if (origin == destination){
                 ctx.caster.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.samedim"));
             } else {
-                target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                 if (target is ServerPlayerEntity){
-                    (target as ServerPlayerEntity).teleport(destination, x, y, z, target.yaw, target.pitch)
+                    val playerTarget = target as ServerPlayerEntity
+                    playerTarget.teleport(destination, x, y, z, target.yaw, target.pitch)
+                    playerTarget.abilities.flying = isFlying
+                    playerTarget.sendAbilitiesUpdate()
+
                     //FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), Vec3d.ZERO, target.yaw, target.pitch))
                     if (noosphere){
                         target.addStatusEffect(StatusEffectInstance(StatusEffects.NAUSEA, 200))
                         target.addStatusEffect(StatusEffectInstance(StatusEffects.BLINDNESS, 100))
                     }
-                    if (floorNeeded){
+                    if (floorNeeded && !isFlying){
                         destination.setBlockState((floorSpot), HexBlocks.CONJURED_BLOCK.defaultState)
                         BlockConjured.setColor(destination, floorSpot, colorizer)
                     }
                 } else {
                     FabricDimensions.teleport(target, destination, TeleportTarget(Vec3d(x, y, z), target.velocity, target.yaw, target.pitch))
-                    if (floorNeeded){
+                    if (floorNeeded && !isFlying){
                         destination.setBlockState((floorSpot), HexBlocks.CONJURED_BLOCK.defaultState)
                         BlockConjured.setColor(destination, floorSpot, colorizer)
                     }
+                }
+                if (!isFlying){
+                    target.addStatusEffect(StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200))
                 }
             }
         }
