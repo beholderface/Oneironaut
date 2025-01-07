@@ -6,10 +6,9 @@ import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import net.beholderface.oneironaut.components.BoolComponent;
 import net.minecraft.util.Identifier;
-import net.beholderface.oneironaut.components.DoubleComponent;
 import ram.talia.hexal.common.entities.WanderingWisp;
 
-public final class OneironautComponents implements EntityComponentInitializer/*, ItemComponentInitializer*/ {
+public final class OneironautComponents implements EntityComponentInitializer {
     public static final ComponentKey<BoolComponent> WISP_DECORATIVE = ComponentRegistry.getOrCreate(new Identifier("oneironaut", "wisp_decorative"), BoolComponent.class);
 
     @Override

@@ -48,7 +48,7 @@ public class MonkfruitItem extends AliasedBlockItem {
                 for (ItemStack battery : mediaHolders){
                     MediaHolderItem type = (MediaHolderItem) battery.getItem();
                     double inserted = overallReleased / quantity;
-                    type.insertMedia(battery, (int) (inserted * MediaConstants.DUST_UNIT), false);
+                    type.insertMedia(battery, (long) (inserted * MediaConstants.DUST_UNIT), false);
                 }
             }
         }

@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
+import at.petrak.hexcasting.api.pigment.FrozenPigment
 import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.beholderface.oneironaut.network.UnBrainsweepPacket
@@ -357,4 +358,6 @@ fun Box.longestAxisLength() : Double{
     }
 }
 
-fun IXplatAbstractions.
+fun FrozenPigment.rawColor(time : Float, pos : Vec3d){
+    this.colorProvider.getColor(time, pos)
+}

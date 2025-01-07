@@ -1,7 +1,6 @@
 package net.beholderface.oneironaut.casting;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
-import at.petrak.hexcasting.api.misc.HexDamageSources;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.ktxt.AccessorWrappers;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
@@ -35,7 +34,7 @@ import java.util.Map;
 
 public class OvercastDamageEnchant extends Enchantment {
     private static final Map<LivingEntity, Long> cooldownMap = new HashMap<>();
-    private static final FrozenColorizer playerlessColor = new FrozenColorizer(HexItems.DYE_COLORIZERS.get(DyeColor.PURPLE).getDefaultStack(), Util.NIL_UUID);
+    private static final FrozenPigment playerlessColor = FrozenPigment.DEFAULT.get();//new FrozenColorizer(HexItems.DYE_COLORIZERS.get(DyeColor.PURPLE).getDefaultStack(), Util.NIL_UUID);
     public OvercastDamageEnchant() {
         super(Rarity.RARE, EnchantmentTarget.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
@@ -79,7 +78,7 @@ public class OvercastDamageEnchant extends Enchantment {
     }
 
     public static void applyMindDamage(@Nullable LivingEntity user, @NotNull Entity target, int level, boolean autospare){
-        World world = target.world;
+        World world = target.getWorld();
         long currentTime = world.getTime();
         long lastTime = cooldownMap.getOrDefault(user, 0L);
         if (target instanceof LivingEntity livingTarget && (lastTime + 12) < currentTime && !world.isClient){
@@ -111,12 +110,12 @@ public class OvercastDamageEnchant extends Enchantment {
                         //Brainsweeping.brainsweep(mob);
                         IXplatAbstractions.INSTANCE.brainsweep(mob);
                         if (user instanceof ServerPlayerEntity player){
-                            IXplatAbstractions.INSTANCE.sendPacketNear(target.getPos(), 128.0, (ServerWorld) mob.world, new ParticleBurstPacket(
+                            IXplatAbstractions.INSTANCE.sendPacketNear(target.getPos(), 128.0, (ServerWorld) mob.getWorld(), new ParticleBurstPacket(
                                     target.getPos(), new Vec3d(0.0, 0.1, 0.0), 0.1, 0.025,
-                                    IXplatAbstractions.INSTANCE.getColorizer(player), 64, false));
+                                    IXplatAbstractions.INSTANCE.getPigment(player), 64, false));
                             world.playSoundFromEntity(null, mob, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYERS, 1.0f, 1.0f);
                         } else {
-                            IXplatAbstractions.INSTANCE.sendPacketNear(target.getPos(), 128.0, (ServerWorld) mob.world, new ParticleBurstPacket(
+                            IXplatAbstractions.INSTANCE.sendPacketNear(target.getPos(), 128.0, (ServerWorld) mob.getWorld(), new ParticleBurstPacket(
                                     target.getPos(), new Vec3d(0.0, 0.1, 0.0), 0.1, 0.025,
                                     playerlessColor, 64, false));
                             world.playSoundFromEntity(null, mob, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.BLOCKS, 0.5f, 1.0f);

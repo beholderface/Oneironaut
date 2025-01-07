@@ -1,6 +1,6 @@
 package net.beholderface.oneironaut.block.blockentity;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.common.misc.PlayerPositionRecorder;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
@@ -20,9 +20,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -40,7 +40,7 @@ public class HoverElevatorBlockEntity extends BlockEntity {
     public static final Map<LivingEntity, Integer> CLIENT_HOVER_MAP = new HashMap<>();
     private static Pair<Long, Boolean> LAST_CALL;// = new Pair<>(0L, null);
     private static final DirectionProperty FACING = HoverElevatorBlock.FACING;
-    public static final int color = new FrozenColorizer(HexItems.DYE_COLORIZERS.get(DyeColor.PURPLE).getDefaultStack(), Util.NIL_UUID).getColor(0f, Vec3d.ZERO);
+    public static final int color = new FrozenPigment(HexItems.DYE_PIGMENTS.get(DyeColor.PURPLE).getDefaultStack(), Util.NIL_UUID).getColorProvider().getColor(0f, Vec3d.ZERO);
 
     private Box pairCuboid = null;
     private int level = 0;
@@ -92,7 +92,7 @@ public class HoverElevatorBlockEntity extends BlockEntity {
                 Vec3d entityVel = livingEntity.getVelocity();
                 if (world.isClient && world instanceof ClientWorld clientWorld){
                     clientWorld.addParticle(new ConjureParticleOptions(livingEntity instanceof PlayerEntity player ?
-                                    IXplatAbstractions.INSTANCE.getColorizer(player).getColor(world.getTime(), player.getPos()) : color, true),
+                                    IXplatAbstractions.INSTANCE.getPigment(player).getColorProvider().getColor(world.getTime(), player.getPos()) : color),
                             entityPos.x + (((rand.nextGaussian() * 2) - 1) / 5), entityPos.y + (((rand.nextGaussian() * 2) - 1) / 5) + (rand.nextBetween(0, (int) (livingEntity.getHeight() * 20f)) / 20f),
                             entityPos.z + (((rand.nextGaussian() * 2) - 1) / 5), entityVel.x, entityVel.y + 0.1, entityVel.z);
                 }
@@ -101,7 +101,7 @@ public class HoverElevatorBlockEntity extends BlockEntity {
                 Vec3d particleCenter = Vec3d.ofCenter(new Vec3i(pos.getX(), pos.getY(), pos.getZ())).add(dirVec3d.multiply(0.5));
                 Vec3d dirVelVec = dirVec3d.multiply(0.25);
                 if (rand.nextBetween(1, 10) <= 3){
-                    clientWorld.addParticle(new ConjureParticleOptions(color, true),
+                    clientWorld.addParticle(new ConjureParticleOptions(color),
                             particleCenter.x + (((rand.nextGaussian() * 2) - 1) / 7), particleCenter.y + (((rand.nextGaussian() * 2) - 1) / 7),
                             particleCenter.z + (((rand.nextGaussian() * 2) - 1) / 7), dirVelVec.x, dirVelVec.y, dirVelVec.z);
                 }
@@ -216,7 +216,7 @@ public class HoverElevatorBlockEntity extends BlockEntity {
                 }
             }
             boolean lookingUp = vecProximity(Direction.UP, look) <= threshold;
-            if ((entity.world.getTime() % 10 == 0 || !entity.hasStatusEffect(StatusEffects.SLOW_FALLING)) && !(lookingUp && up)){
+            if ((entity.getWorld().getTime() % 10 == 0 || !entity.hasStatusEffect(StatusEffects.SLOW_FALLING)) && !(lookingUp && up)){
                 entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, entity.isSneaking() ? 60 : 11, 0, true, false, true));
             }
             Vec3d velocity = entity.getVelocity();

@@ -15,7 +15,6 @@ import net.beholderface.oneironaut.registry.OneironautItemRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -72,7 +71,7 @@ public class OneironautClient {
                 output = OFF;
             }
             if (cachedPlayer.currentScreenHandler.getCursorStack() == stack ||
-                    (lastShiftingHoverTick + 1 >= cachedPlayer.world.getTime() && lastHoveredShifting == stack)){
+                    (lastShiftingHoverTick + 1 >= cachedPlayer.getWorld().getTime() && lastHoveredShifting == stack)){
                 output = OFF;
             }
         }

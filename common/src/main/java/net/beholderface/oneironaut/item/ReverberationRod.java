@@ -1,9 +1,8 @@
 package net.beholderface.oneironaut.item;
 
-import at.petrak.hexcasting.api.spell.casting.CastingContext;
-import at.petrak.hexcasting.api.spell.casting.CastingHarness;
-import at.petrak.hexcasting.api.spell.casting.ResolvedPatternType;
-import at.petrak.hexcasting.api.spell.iota.Iota;
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
+import at.petrak.hexcasting.api.casting.eval.ResolvedPatternType;
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
 import net.beholderface.oneironaut.Oneironaut;
 import net.beholderface.oneironaut.casting.RodState;
@@ -111,7 +110,7 @@ public class ReverberationRod extends ItemPackagedHex  {
             if (delay < 0){
                 state.setDelay(0);
             }
-            var ctx = new CastingContext(sPlayer, usedHand, CastingContext.CastSource.PACKAGED_HEX);
+            var ctx = new CastingEnvironment(sPlayer, usedHand, CastingEnvironment.CastSource.PACKAGED_HEX);
             var harness = new CastingHarness(ctx);
             var info = harness.executeIotas(instrs, sPlayer.getWorld());
             if (info.getResolutionType().equals(ResolvedPatternType.ERRORED)){

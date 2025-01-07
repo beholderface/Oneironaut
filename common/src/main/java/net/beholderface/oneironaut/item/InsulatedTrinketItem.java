@@ -19,6 +19,11 @@ public class InsulatedTrinketItem extends ItemPackagedHex {
     }
 
     @Override
+    public int cooldown() {
+        return 5;
+    }
+
+    @Override
     public boolean canDrawMediaFromInventory(ItemStack stack) {
         return false;
     }

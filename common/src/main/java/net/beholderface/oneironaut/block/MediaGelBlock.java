@@ -1,6 +1,6 @@
 package net.beholderface.oneironaut.block;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.block.Block;
@@ -51,7 +51,7 @@ public class MediaGelBlock extends TransparentBlock {
         return 0.2F;
     }
 
-    private static final FrozenColorizer purpleColorizer = new FrozenColorizer(HexItems.DYE_COLORIZERS.get(DyeColor.PURPLE).getDefaultStack(), new UUID(0, 0));
+    private static final FrozenPigment purpleColorizer = new FrozenPigment(HexItems.DYE_PIGMENTS.get(DyeColor.PURPLE).getDefaultStack(), new UUID(0, 0));
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         /*double d = Math.abs(entity.getVelocity().y);

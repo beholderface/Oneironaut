@@ -24,7 +24,7 @@ public class MiscAPIJ {
         public static boolean addDepartureEntry(LivingEntity user){
             if (departureData.containsKey(user)){
                 Map<ServerWorld, Pair<Vec3d, Long>> data = departureData.get(user);
-                data.put((ServerWorld) user.world, new Pair<>(user.getPos(), user.world.getTime()));
+                data.put((ServerWorld) user.getWorld(), new Pair<>(user.getPos(), user.getWorld().getTime()));
                 return true;
             } else {
                 return false;

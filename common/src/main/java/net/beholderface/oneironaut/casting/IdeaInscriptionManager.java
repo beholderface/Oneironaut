@@ -1,6 +1,9 @@
 package net.beholderface.oneironaut.casting;
 
-import at.petrak.hexcasting.api.spell.iota.*;
+import at.petrak.hexcasting.api.casting.iota.BooleanIota;
+import at.petrak.hexcasting.api.casting.iota.GarbageIota;
+import at.petrak.hexcasting.api.casting.iota.Iota;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
@@ -91,7 +94,7 @@ public class IdeaInscriptionManager extends PersistentState {
         if (!(iota.getType().equals(GarbageIota.TYPE))){
             NbtCompound iotaNbt = new NbtCompound();
             iotaNbt.putLong("timestamp", world.getTime());
-            iotaNbt.put("iota", HexIotaTypes.serialize(iota));
+            iotaNbt.put("iota", IotaType.serialize(iota));
             iotaNbt.putUuid("writer", player.getUuid());
             iotaMap.put(key.toString(), iotaNbt);
         } else {
@@ -113,7 +116,7 @@ public class IdeaInscriptionManager extends PersistentState {
         NbtCompound iotaNbt = getValidEntry(keyString, world);
         if (iotaNbt != null){
             if ((iotaNbt.getLong("timestamp") + lifetime) >= world.getTime()){
-                iota = HexIotaTypes.deserialize(iotaNbt.getCompound("iota"), world);
+                iota = IotaType.deserialize(iotaNbt.getCompound("iota"), world);
             }
         }
         return iota;

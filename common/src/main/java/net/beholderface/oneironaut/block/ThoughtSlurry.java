@@ -11,19 +11,17 @@ import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.StateManager;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-import net.beholderface.oneironaut.Oneironaut;
-import net.minecraft.util.registry.Registry;
-import net.beholderface.oneironaut.registry.OneironautItemRegistry;
-import net.beholderface.oneironaut.registry.OneironautMiscRegistry;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -50,7 +48,7 @@ public class ThoughtSlurry extends FlowableFluid {
     //public static FlowableFluid THOUGHT_SLURRY_FLOWING;
 
     public static final TagKey<Fluid> TAG =
-            TagKey.of(Registry.FLUID_KEY, ThoughtSlurry.ID);
+            TagKey.of(RegistryKeys.FLUID, ThoughtSlurry.ID);
 
     @Override
     public Fluid getFlowing() {
@@ -78,7 +76,7 @@ public class ThoughtSlurry extends FlowableFluid {
 
 
     @Override
-    protected boolean isInfinite() {
+    protected boolean isInfinite(World world) {
         return true;
     }
 

@@ -1,14 +1,9 @@
 package net.beholderface.oneironaut.item;
 
 import at.petrak.hexcasting.common.items.ItemStaff;
-import at.petrak.hexcasting.common.network.MsgOpenSpellGuiAck;
-import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;

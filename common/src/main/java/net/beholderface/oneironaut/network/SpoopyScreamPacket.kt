@@ -1,14 +1,14 @@
 package net.beholderface.oneironaut.network
 
-import at.petrak.hexcasting.common.network.IMessage
+import at.petrak.hexcasting.common.msgs.IMessage
 import io.netty.buffer.ByteBuf
 import net.beholderface.oneironaut.Oneironaut
 import net.minecraft.client.MinecraftClient
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 class SpoopyScreamPacket(val sound : SoundEvent, val pitch : Float) : IMessage {
     override fun serialize(buf: PacketByteBuf) {
@@ -27,7 +27,7 @@ class SpoopyScreamPacket(val sound : SoundEvent, val pitch : Float) : IMessage {
         @JvmStatic
         fun deserialise(buffer: ByteBuf): SpoopyScreamPacket {
             val buf = PacketByteBuf(buffer)
-            val sound = Registry.SOUND_EVENT.get(buf.readIdentifier())
+            val sound = Registries.SOUND_EVENT.get(buf.readIdentifier())
 
             return SpoopyScreamPacket(sound!!, buf.readFloat())
         }

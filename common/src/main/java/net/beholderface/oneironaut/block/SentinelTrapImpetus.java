@@ -1,7 +1,7 @@
 package net.beholderface.oneironaut.block;
 
 import at.petrak.hexcasting.api.block.circle.BlockAbstractImpetus;
-import at.petrak.hexcasting.api.spell.iota.EntityIota;
+import at.petrak.hexcasting.api.casting.iota.EntityIota;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.beholderface.oneironaut.block.blockentity.SentinelTrapImpetusEntity;
 import net.minecraft.block.Block;
@@ -53,7 +53,7 @@ public class SentinelTrapImpetus extends BlockAbstractImpetus {
                                 tile.setPlayer(player.getGameProfile(), entity.getUuid());
                                 level.updateListeners(pPos, pState, pState, Block.NOTIFY_LISTENERS);
 
-                                world.playSound(pPlayer, pPos, HexSounds.IMPETUS_STOREDPLAYER_DING,
+                                world.playSound(pPlayer, pPos, HexSounds.IMPETUS_REDSTONE_DING,
                                         SoundCategory.BLOCKS, 1f, 1f);
                             }
                         }

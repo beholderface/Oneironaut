@@ -10,13 +10,13 @@ import java.util.Set;
 
 //stolen because I copied this whole thing from gloop
 public class ItemStolenMediaProvider extends Item {
-    protected int mediaAmt;
+    protected long mediaAmt;
     private boolean grabFromInventory;
     private int priority;
 
     public static final Set<ItemStolenMediaProvider> allStolenMediaItems = new HashSet<>();
 
-    public ItemStolenMediaProvider(Item.Settings settings, int mediaAmt, boolean grabFromInventory, int priority){
+    public ItemStolenMediaProvider(Item.Settings settings, long mediaAmt, boolean grabFromInventory, int priority){
         super(settings);
         this.mediaAmt = mediaAmt;
         this.grabFromInventory = grabFromInventory;
@@ -28,7 +28,7 @@ public class ItemStolenMediaProvider extends Item {
         this(settings, mediaAmt, true, ADMediaHolder.CHARGED_AMETHYST_PRIORITY);
     }
 
-    public ItemStolenMediaProvider(Item.Settings settings, int mediaAmt, int priority){
+    public ItemStolenMediaProvider(Item.Settings settings, long mediaAmt, int priority){
         this(settings, mediaAmt, true, priority);
     }
 
@@ -36,7 +36,7 @@ public class ItemStolenMediaProvider extends Item {
         return grabFromInventory;
     }
 
-    public int getMediaAmount(){
+    public long getMediaAmount(){
         return mediaAmt;
     }
 
@@ -44,15 +44,15 @@ public class ItemStolenMediaProvider extends Item {
         return priority;
     }
 
-    public int getMedia(ItemStack stack){
+    public long getMedia(ItemStack stack){
         return mediaAmt * stack.getCount();
     }
 
-    public int getMaxMedia(ItemStack stack){
+    public long getMaxMedia(ItemStack stack){
         return mediaAmt * stack.getMaxCount();
     }
 
-    public void setMedia(ItemStack stack, int media){
+    public void setMedia(ItemStack stack, long media){
         // no
     }
 
@@ -68,19 +68,19 @@ public class ItemStolenMediaProvider extends Item {
         return false;
     }
 
-    public int withdrawMedia(ItemStack stack, int cost, boolean simulate) {
-        int mediaHere = getMedia(stack);
+    public long withdrawMedia(ItemStack stack, long cost, boolean simulate) {
+        long mediaHere = getMedia(stack);
         if (cost < 0) {
             cost = mediaHere;
         }
-        int realCost = Math.min(cost, mediaHere);
+        long realCost = Math.min(cost, mediaHere);
         if (!simulate) {
             stack.decrement((int) Math.ceil(realCost / (double)mediaAmt));
         }
         return realCost;
     }
 
-    public int insertMedia(ItemStack stack, int amount, boolean simulate) {
+    public long insertMedia(ItemStack stack, int amount, boolean simulate) {
         return 0; // no don't do that
     }
 
@@ -98,17 +98,17 @@ public class ItemStolenMediaProvider extends Item {
         }
 
         @Override
-        public int getMedia() {
+        public long getMedia() {
             return providerItem.getMedia(innerStack);
         }
 
         @Override
-        public int getMaxMedia() {
+        public long getMaxMedia() {
             return getMedia();
         }
 
         @Override
-        public void setMedia(int media) {
+        public void setMedia(long media) {
             providerItem.setMedia(innerStack, media);
         }
 
@@ -133,7 +133,7 @@ public class ItemStolenMediaProvider extends Item {
         }
 
         @Override
-        public int withdrawMedia(int cost, boolean simulate) {
+        public long withdrawMedia(long cost, boolean simulate) {
             return providerItem.withdrawMedia(innerStack, cost, simulate);
         }
     }

@@ -1,20 +1,22 @@
 package net.beholderface.oneironaut.block.blockentity;
 
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
+import net.beholderface.oneironaut.MiscAPIKt;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 
@@ -42,7 +44,7 @@ public class NoosphereGateEntity extends BlockEntity {
                 if (player.getBoundingBox().intersects(new Box(pos))){
                     //possiblePassenger.sendMessage(Text.of("teleporting"));
                     ServerWorld noosphere = null;
-                    ServerWorld origin = player.getWorld();
+                    ServerWorld origin = (ServerWorld) player.getWorld();
                     ServerWorld current = origin;
                     //Oneironaut.LOGGER.info("Current: " + current.getRegistryKey().getValue().toString());
                     if (!(current.getRegistryKey().getValue().toString().equals("oneironaut:noosphere"))){
@@ -84,7 +86,7 @@ public class NoosphereGateEntity extends BlockEntity {
                         } else {
                             //iterate to find the ground
                             double altitude = 321;
-                            while (noosphere.getBlockState(new BlockPos(pos.getX(), altitude, pos.getZ())).isAir()){
+                            while (noosphere.getBlockState(new BlockPos(pos.getX(), (int) altitude, pos.getZ())).isAir()){
                                 altitude -= 1;
                                 //don't go into the void
                                 if (altitude < -64){
@@ -106,18 +108,19 @@ public class NoosphereGateEntity extends BlockEntity {
                             } else if (destPos.z < border.getBoundNorth()){
                                 destPos = new Vec3d(destPos.x, destPos.y, (border.getBoundNorth() + 2));
                             }
-                            if (noosphere.getBlockState(new BlockPos(destPos).down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get())){
+                            Vec3i destPosI = MiscAPIKt.toVec3i(destPos);
+                            if (noosphere.getBlockState(new BlockPos(destPosI).down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get())){
                                 //Oneironaut.LOGGER.info("found a portal at the destination OwO " + new BlockPos(destPos).down().toString());
-                                if (!(noosphere.getBlockState(new BlockPos(destPos).east().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
+                                if (!(noosphere.getBlockState(new BlockPos(destPosI).east().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
                                     //Oneironaut.LOGGER.info("found a portal at the east OwO " + new BlockPos(destPos).down().east().toString());
                                     destPos = destPos.add(1, 0, 0);
-                                } else if (!(noosphere.getBlockState(new BlockPos(destPos).west().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
+                                } else if (!(noosphere.getBlockState(new BlockPos(destPosI).west().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
                                     //Oneironaut.LOGGER.info("found a portal at the west OwO " + new BlockPos(destPos).down().west().toString());
                                     destPos = destPos.add(-1, 0, 0);
-                                } else if (!(noosphere.getBlockState(new BlockPos(destPos).south().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
+                                } else if (!(noosphere.getBlockState(new BlockPos(destPosI).south().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
                                     //Oneironaut.LOGGER.info("found a portal at the south OwO " + new BlockPos(destPos).down().south().toString());
                                     destPos = destPos.add(0, 0, 1);
-                                } else if (!(noosphere.getBlockState(new BlockPos(destPos).north().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
+                                } else if (!(noosphere.getBlockState(new BlockPos(destPosI).north().down()).getBlock().equals(OneironautBlockRegistry.NOOSPHERE_GATE.get()))){
                                     //Oneironaut.LOGGER.info("found a portal at the north OwO " + new BlockPos(destPos).down().north().toString());
                                     destPos = destPos.add(0, 0, -1);
                                 }
@@ -171,7 +174,7 @@ public class NoosphereGateEntity extends BlockEntity {
                     double particleVelY = (signum(particlePosY - doublePos.y) * speedMultiplier) * rand.nextDouble();
                     double particleVelZ = (signum(particlePosZ - doublePos.z) * speedMultiplier) * rand.nextDouble();
                     world.addParticle(
-                            new ConjureParticleOptions(0x6a31d2, true),
+                            new ConjureParticleOptions(0x6a31d2),
                             particlePosX, particlePosY, particlePosZ,
                             particleVelX, particleVelY, particleVelZ
                     );
@@ -183,7 +186,7 @@ public class NoosphereGateEntity extends BlockEntity {
                     double particleVelY = (signum(particlePosY - doublePos.y) * speedMultiplier)/* * rand.nextDouble()*/;
                     double particleVelZ = (signum(particlePosZ - doublePos.z) * speedMultiplier)/* * rand.nextDouble()*/;
                     world.addParticle(
-                            new ConjureParticleOptions(0x6a31d2, true),
+                            new ConjureParticleOptions(0x6a31d2),
                             particlePosX, particlePosY, particlePosZ,
                             particleVelX * -1, particleVelY * -1, particleVelZ * -1
                     );

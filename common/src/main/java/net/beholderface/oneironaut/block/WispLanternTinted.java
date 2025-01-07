@@ -1,6 +1,7 @@
 package net.beholderface.oneironaut.block;
 
 import at.petrak.hexcasting.api.misc.FrozenColorizer;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.beholderface.oneironaut.block.blockentity.WispLanternEntityTinted;
 import net.minecraft.block.BlockRenderType;
@@ -44,7 +45,7 @@ public class WispLanternTinted extends BlockWithEntity/* implements ISplatoonabl
         return VoxelShapes.union(glass, lid);
     }
 
-    public void splatPigmentOntoBlock(World world, BlockPos pos, FrozenColorizer pigment){
+    public void splatPigmentOntoBlock(World world, BlockPos pos, FrozenPigment pigment){
         WispLanternEntityTinted be = (WispLanternEntityTinted) (world.getBlockEntity(pos));
         assert be != null;
         be.setColor(pigment.item(), world.getPlayerByUuid(pigment.owner()));
@@ -55,7 +56,7 @@ public class WispLanternTinted extends BlockWithEntity/* implements ISplatoonabl
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit){
         //int color = state.get(COLOR);
         ItemStack item = player.getStackInHand(hand);
-        if (IXplatAbstractions.INSTANCE.isColorizer(item)){
+        if (IXplatAbstractions.INSTANCE.isPigment(item)){
             WispLanternEntityTinted be = (WispLanternEntityTinted) world.getBlockEntity(pos);
             assert be != null;
             be.setColor(item, player);

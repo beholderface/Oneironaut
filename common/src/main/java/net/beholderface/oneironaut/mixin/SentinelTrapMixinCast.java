@@ -1,9 +1,7 @@
 package net.beholderface.oneironaut.mixin;
 
-import at.petrak.hexcasting.api.spell.casting.CastingContext;
-import at.petrak.hexcasting.api.spell.casting.CastingHarness;
-import at.petrak.hexcasting.api.spell.casting.SpellCircleContext;
-import at.petrak.hexcasting.api.spell.iota.EntityIota;
+import at.petrak.hexcasting.api.casting.eval.SpellCircleContext;
+import at.petrak.hexcasting.api.casting.iota.EntityIota;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.beholderface.oneironaut.block.blockentity.SentinelTrapImpetusEntity;

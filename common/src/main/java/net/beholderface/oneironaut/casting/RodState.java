@@ -1,8 +1,8 @@
 package net.beholderface.oneironaut.casting;
 
-import at.petrak.hexcasting.api.spell.iota.Iota;
-import at.petrak.hexcasting.api.spell.iota.ListIota;
-import at.petrak.hexcasting.api.spell.iota.NullIota;
+import at.petrak.hexcasting.api.casting.iota.Iota;
+import at.petrak.hexcasting.api.casting.iota.ListIota;
+import at.petrak.hexcasting.api.casting.iota.NullIota;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 public class RodState {
 
     public RodState(Entity player, boolean active){
-        this.timestamp = player.world.getTime();
+        this.timestamp = player.getWorld().getTime();
         this.initialLook = player.getRotationVector();
         this.initialPos = player.getEyePos();
         this.delay = 0;

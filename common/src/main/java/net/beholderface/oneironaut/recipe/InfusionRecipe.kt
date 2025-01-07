@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.RecipeType
+import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.world.World
 import net.minecraft.util.JsonHelper
 
@@ -22,11 +23,11 @@ data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredi
 
     fun matches(blockIn : BlockState): Boolean = this.blockIn.test(blockIn)
 
-    override fun craft(inventory: Inventory?): ItemStack = ItemStack.EMPTY
+    override fun craft(inventory: Inventory, registryManager : DynamicRegistryManager): ItemStack = ItemStack.EMPTY
 
     override fun fits(width: Int, height: Int) = false
 
-    override fun getOutput() : ItemStack = ItemStack.EMPTY.copy()
+    override fun getOutput(registryManager : DynamicRegistryManager) : ItemStack = ItemStack.EMPTY.copy()
 
     override fun getId() = identifier
 

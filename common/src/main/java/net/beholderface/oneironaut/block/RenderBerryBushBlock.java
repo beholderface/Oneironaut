@@ -33,6 +33,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class RenderBerryBushBlock extends PlantBlock implements Fertilizable {
     private static final VoxelShape LARGE_SHAPE;
 
     @Override
-    public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
         return false;
     }
 

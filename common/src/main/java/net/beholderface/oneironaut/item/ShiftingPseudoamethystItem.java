@@ -22,7 +22,7 @@ public class ShiftingPseudoamethystItem extends Item {
 
     @Override
     public void onItemEntityDestroyed(ItemEntity entity) {
-        World world = entity.world;
+        World world = entity.getWorld();
         if (!world.isClient && world instanceof ServerWorld serverWorld){
             float pitch = 0.75f + (world.random.nextFloat() / 2);
             IXplatAbstractions.INSTANCE.sendPacketNear(entity.getPos(), 16.0, serverWorld, new SpoopyScreamPacket(SoundEvents.ENTITY_FOX_SCREECH, pitch));

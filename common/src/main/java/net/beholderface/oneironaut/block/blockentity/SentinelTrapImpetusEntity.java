@@ -11,11 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
-import net.beholderface.oneironaut.registry.OneironautItemRegistry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -37,10 +36,10 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
         super(OneironautBlockRegistry.SENTINEL_TRAP_ENTITY.get(), pos, state);
     }
 
-    @Override
+    /*@Override
     public boolean activatorAlwaysInRange() {
         return true;
-    }
+    }*/
 
     protected @Nullable
     GameProfile getPlayerName() {

@@ -1,13 +1,12 @@
 package net.beholderface.oneironaut.block.blockentity;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.api.misc.MediaConstants;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.api.utils.MediaHelper;
-import at.petrak.hexcasting.common.items.colorizer.ItemDyeColorizer;
+import at.petrak.hexcasting.common.items.pigment.ItemDyePigment;
 import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 import kotlin.collections.CollectionsKt;
-import net.beholderface.oneironaut.Oneironaut;
 import net.beholderface.oneironaut.block.WispBattery;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.BlockState;
@@ -30,8 +29,8 @@ import ram.talia.hexal.common.entities.WanderingWisp;
 import java.util.ArrayList;
 
 public class WispBatteryEntity extends BlockEntity implements SidedInventory {
-    public static final int CAPACITY = MediaConstants.DUST_UNIT * 6400;
-    private int media = 0;
+    public static final long CAPACITY = MediaConstants.DUST_UNIT * 6400;
+    private long media = 0;
     public WispBatteryEntity(BlockPos pos, BlockState state){
         super(OneironautBlockRegistry.WISP_BATTERY_ENTITY.get(), pos, state);
     }
@@ -39,8 +38,8 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
     public static int[] getColors(Random random){
         ArrayList<Integer> colors = new ArrayList<>();
         for (int i = 0; i < 32; i++){
-            for (ItemDyeColorizer color : HexItems.DYE_COLORIZERS.values()){
-                colors.add(FunUtilsKt.nextColour((new FrozenColorizer(new ItemStack(color), Util.NIL_UUID)), random));
+            for (ItemDyePigment color : HexItems.DYE_PIGMENTS.values()){
+                colors.add(FunUtilsKt.nextColour((new FrozenPigment(new ItemStack(color), Util.NIL_UUID)), random));
             }
         }
         return CollectionsKt.toIntArray(colors);
@@ -61,12 +60,12 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
                 );
             } else {
                 if (world.getTime() % 80 == 0 && world.getEntitiesByClass(WanderingWisp.class, Box.of(Vec3d.ofCenter(pos), 64.0, 64.0, 64.0), (idfk)-> true).size() < 20){
-                    int wispSpawnCost = MediaConstants.CRYSTAL_UNIT * 2;
+                    long wispSpawnCost = MediaConstants.CRYSTAL_UNIT * 2;
                     if (this.media >= wispSpawnCost || this.media < 0){
                         WanderingWisp wisp = new WanderingWisp(world, Vec3d.ofCenter(pos, 1));
-                        wisp.setColouriser(new FrozenColorizer(
-                                new ItemStack(CollectionsKt.elementAt(HexItems.DYE_COLORIZERS.values(),
-                                        world.random.nextInt(HexItems.DYE_COLORIZERS.size()))),
+                        wisp.setColouriser(new FrozenPigment(
+                                new ItemStack(CollectionsKt.elementAt(HexItems.DYE_PIGMENTS.values(),
+                                        world.random.nextInt(HexItems.DYE_PIGMENTS.size()))),
                                 Util.NIL_UUID
                         ));
                         world.spawnEntity(wisp);
@@ -87,14 +86,14 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
         return SLOTS;
     }
 
-    public int remainingMediaCapacity() {
+    public long remainingMediaCapacity() {
         if (this.media < 0) {
             return 0;
         }
         return Math.max(0, CAPACITY - this.media);
     }
 
-    public int extractMediaFromItem(ItemStack stack, boolean simulate) {
+    public long extractMediaFromItem(ItemStack stack, boolean simulate) {
         if (this.media < 0) {
             return 0;
         }
@@ -183,7 +182,7 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
 
     }
 
-    public int getMedia() {
+    public long getMedia() {
         return this.media;
     }
 
@@ -194,7 +193,7 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
     @Override
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-        nbt.putInt("media", this.media);
+        nbt.putLong("media", this.media);
     }
 
     @Override

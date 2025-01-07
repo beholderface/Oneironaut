@@ -31,7 +31,7 @@ public class OneironautCC implements ItemComponentInitializer, EntityComponentIn
                     stolenMediaProvider::getMediaAmount, stolenMediaProvider.getPriority(), stack
             ){
                 @Override
-                public int withdrawMedia(int cost, boolean simulate) {
+                public long withdrawMedia(long cost, boolean simulate) {
                     ItemStolenMediaProvider thisItem = (ItemStolenMediaProvider)(stack.getItem());
                     if(thisItem.shouldUseOwnWithdrawLogic(stack)){
                         return thisItem.withdrawMedia(stack, cost, simulate);

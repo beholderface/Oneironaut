@@ -1,29 +1,18 @@
 package net.beholderface.oneironaut.casting;
 
-import at.petrak.hexcasting.api.item.MediaHolderItem;
-import at.petrak.hexcasting.api.misc.HexDamageSources;
+import at.petrak.hexcasting.api.casting.mishaps.Mishap;
 import at.petrak.hexcasting.api.misc.MediaConstants;
-import at.petrak.hexcasting.api.spell.casting.CastingContext;
-import at.petrak.hexcasting.api.spell.casting.CastingHarness;
-import at.petrak.hexcasting.api.spell.mishaps.Mishap;
-import at.petrak.hexcasting.common.items.magic.ItemMediaHolder;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.beholderface.oneironaut.item.BottomlessMediaItem;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
-import net.beholderface.oneironaut.item.BottomlessMediaItem;
-
-import java.sql.Array;
 
 public class DetectionResistEffect extends StatusEffect {
     public DetectionResistEffect() {
@@ -37,11 +26,11 @@ public class DetectionResistEffect extends StatusEffect {
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier){
         long time = entity.getWorld().getTime();
-        if (!(entity.world.isClient)){
+        if (!(entity.getWorld().isClient)){
             ItemStack mainStack = entity.getMainHandStack();
             ItemStack offStack = entity.getOffHandStack();
             if ((time % 5) == 0){
-                ((ServerWorld)entity.world).playSoundFromEntity(
+                ((ServerWorld) entity.getWorld()).playSoundFromEntity(
                         null, entity, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, entity.getSoundCategory(), 1.5f, 1f);
             }
             if (entity.isPlayer()){

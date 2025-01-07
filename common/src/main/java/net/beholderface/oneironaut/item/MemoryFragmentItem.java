@@ -52,7 +52,7 @@ public class MemoryFragmentItem extends Item {
             return TypedActionResult.success(handStack);
         }
         PlayerAdvancementTracker tracker = splayer.getAdvancementTracker();
-        Advancement rootAdvancement = splayer.world.getServer().getAdvancementLoader().get(new Identifier(Oneironaut.MOD_ID, "lore/root"));
+        Advancement rootAdvancement = splayer.getWorld().getServer().getAdvancementLoader().get(new Identifier(Oneironaut.MOD_ID, "lore/root"));
         if (!tracker.getProgress(rootAdvancement).isDone()){
             tracker.grantCriterion(rootAdvancement, CRITEREON_KEY);
         }
@@ -60,7 +60,7 @@ public class MemoryFragmentItem extends Item {
         var shuffled = new ArrayList<>(this.names);
         Collections.shuffle(shuffled);
         for (var advID : shuffled) {
-            var adv = splayer.world.getServer().getAdvancementLoader().get(advID);
+            var adv = splayer.getWorld().getServer().getAdvancementLoader().get(advID);
             if (adv == null) {
                 continue; // uh oh
             }

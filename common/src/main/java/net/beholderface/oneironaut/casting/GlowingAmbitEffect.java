@@ -25,12 +25,12 @@ public class GlowingAmbitEffect extends StatusEffect {
     public void applyUpdateEffect(LivingEntity entity, int amplifier){
         long time = entity.getWorld().getTime();
         Random rand = entity.getWorld().random;
-        if (!(entity.world.isClient) && !(entity.hasStatusEffect(OneironautMiscRegistry.DETECTION_RESISTANCE.get()))){
+        if (!(entity.getWorld().isClient) && !(entity.hasStatusEffect(OneironautMiscRegistry.DETECTION_RESISTANCE.get()))){
             final int dissonance = Math.min(amplifier, 5);
             final int defaultInterval = 20;
             int thisInterval = (int) Math.min(Math.floor(Math.abs(rand.nextGaussian() - 0.5) * 6 * dissonance), defaultInterval - 1);
             if (time % (defaultInterval - thisInterval) == 0) {
-                ((ServerWorld)entity.world).playSoundFromEntity(
+                ((ServerWorld) entity.getWorld()).playSoundFromEntity(
                         null, entity, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, entity.getSoundCategory(),
                         (float)(2 + (((rand.nextGaussian() - 0.5) * dissonance) / 3)), (1 - (rand.nextFloat() * (dissonance / 3f))));
             }
