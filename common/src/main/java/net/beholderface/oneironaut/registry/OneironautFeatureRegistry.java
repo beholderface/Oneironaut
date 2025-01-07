@@ -5,24 +5,19 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.beholderface.oneironaut.Oneironaut;
 import net.beholderface.oneironaut.feature.*;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.PlacedFeature;
-import net.beholderface.oneironaut.Oneironaut;
-import net.beholderface.oneironaut.feature.*;
-import ram.talia.hexal.common.lib.HexalEntities;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +25,9 @@ import java.util.function.Predicate;
 
 public class OneironautFeatureRegistry {
 
-    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FEATURE_KEY);
-    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIG_FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.CONFIGURED_FEATURE_KEY);
-    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.PLACED_FEATURE_KEY);
+    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, RegistryKeys.FEATURE);
+    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIG_FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, RegistryKeys.CONFIGURED_FEATURE);
+    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Oneironaut.MOD_ID, RegistryKeys.PLACED_FEATURE);
     public static void init(){
         FEATURES.register();
         CONFIG_FEATURES.register();
@@ -40,7 +35,7 @@ public class OneironautFeatureRegistry {
 
         if (Platform.isFabric()){
             Predicate<BiomeSelectionContext> noosphereSeaHopefully = BiomeSelectors.vanilla().negate();
-            Optional<RegistryKey<Biome>> noosphere_sea_preliminary = BuiltinRegistries.BIOME.getKey(BuiltinRegistries.BIOME.get(new Identifier("oneironaut:noosphere_sea")));
+            Optional<RegistryKey<Biome>> noosphere_sea_preliminary = Registries.BIOME_SOURCE.getKey(Registries.BIOME_SOURCE.get(new Identifier("oneironaut:noosphere_sea")));
             RegistryKey<Biome> noosphere_sea;
             if (noosphere_sea_preliminary.isPresent()){
                 noosphere_sea = noosphere_sea_preliminary.get();

@@ -55,8 +55,8 @@ dependencies {
     modImplementation "com.jamieswhiteshirt:reach-entity-attributes:${entityReachVersion}"
     include "com.jamieswhiteshirt:reach-entity-attributes:${entityReachVersion}"
 
-    modImplementation "io.github.tropheusj:serialization-hooks:${serializationHooksVersion}"
-    include "io.github.tropheusj:serialization-hooks:${serializationHooksVersion}"
+    //modImplementation "io.github.tropheusj:serialization-hooks:${serializationHooksVersion}"
+    //include "io.github.tropheusj:serialization-hooks:${serializationHooksVersion}"
 
     modImplementation "dev.emi:trinkets:${trinketsVersion}"
 
@@ -65,7 +65,7 @@ dependencies {
 
     /*modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
     modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"*/
-    modImplementation(include("com.github.llamalad7.mixinextras:mixinextras-fabric:${mixinExtrasVersion}"))
+    //modImplementation(include("com.github.llamalad7.mixinextras:mixinextras-fabric:${mixinExtrasVersion}"))
 }
 
 processResources {

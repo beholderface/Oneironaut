@@ -1,6 +1,6 @@
 package net.beholderface.oneironaut.network
 
-import at.petrak.hexcasting.common.network.IMessage
+import at.petrak.hexcasting.common.msgs.IMessage
 import io.netty.buffer.ByteBuf
 import net.beholderface.oneironaut.Oneironaut
 import net.beholderface.oneironaut.unbrainsweep

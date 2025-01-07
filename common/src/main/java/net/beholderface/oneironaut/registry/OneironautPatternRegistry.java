@@ -1,11 +1,15 @@
 package net.beholderface.oneironaut.registry;
 
-import at.petrak.hexcasting.api.PatternRegistry;
+import at.petrak.hexcasting.api.HexAPI;
+import at.petrak.hexcasting.api.casting.ActionRegistryEntry;
+import at.petrak.hexcasting.api.casting.castables.Action;
+import at.petrak.hexcasting.api.casting.math.HexAngle;
+import at.petrak.hexcasting.api.casting.math.HexDir;
+import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.api.misc.MediaConstants;
-import at.petrak.hexcasting.api.spell.Action;
-import at.petrak.hexcasting.api.spell.math.HexDir;
-import at.petrak.hexcasting.api.spell.math.HexPattern;
-import at.petrak.hexcasting.common.casting.operators.spells.OpMakePackagedSpell;
+import at.petrak.hexcasting.common.casting.actions.spells.OpMakePackagedSpell;
+import at.petrak.hexcasting.common.lib.HexRegistries;
+import at.petrak.hexcasting.common.lib.hex.HexActions;
 import dev.architectury.registry.registries.RegistrySupplier;
 import kotlin.Triple;
 import net.beholderface.oneironaut.Oneironaut;
@@ -22,6 +26,7 @@ import net.beholderface.oneironaut.casting.patterns.spells.idea.OpGetIdeaWriter;
 import net.beholderface.oneironaut.casting.patterns.spells.idea.OpReadIdea;
 import net.beholderface.oneironaut.casting.patterns.spells.idea.OpWriteIdea;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -92,15 +97,15 @@ public class OneironautPatternRegistry {
     public static void init() {
         try {
             for (Triple<HexPattern, Identifier, Action> patternTriple : PATTERNS) {
-                PatternRegistry.mapPattern(patternTriple.getFirst(), patternTriple.getSecond(), patternTriple.getThird());
+                Registry.register(HexActions.REGISTRY, patternTriple.getSecond(), new ActionRegistryEntry(patternTriple.getFirst(), patternTriple.getThird()));
             }
             for (Triple<HexPattern, Identifier, Action> patternTriple : PER_WORLD_PATTERNS) {
-                PatternRegistry.mapPattern(patternTriple.getFirst(), patternTriple.getSecond(), patternTriple.getThird(), true);
+                Registry.register(HexActions.REGISTRY, patternTriple.getSecond(), new ActionRegistryEntry(patternTriple.getFirst(), patternTriple.getThird()));
             }
             /*for (Triple<String[][], Identifier, ICellSpell> cellTriple : CELL_PATTERNS){
                 CellSpellManager.registerCellSpell(cellTriple.getFirst(), cellTriple.getSecond(), cellTriple.getThird());
             }*/
-        } catch (PatternRegistry.RegisterPatternException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }        registerItemDependentPatterns();
 
@@ -110,20 +115,12 @@ public class OneironautPatternRegistry {
 
     static {
         itemDependentPatternRegisterers.put(OneironautItemRegistry.REVERBERATION_ROD, () -> {
-            PatternRegistry.mapPattern(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST),
-                    new Identifier(Oneironaut.MOD_ID, "craftrod"),
-                    new OpMakePackagedSpell<>(OneironautItemRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT * 10));
-        });
+            Registry.register(HexActions.REGISTRY, new Identifier(Oneironaut.MOD_ID, "craftrod"),
+                    new ActionRegistryEntry(HexPattern.fromAngles("eqqqqqawweqqqqqawweqqqqqawwdeqewwwwweqeeeqewwwwweqe", HexDir.EAST),
+                            new OpMakePackagedSpell<>(OneironautItemRegistry.REVERBERATION_ROD.get(), MediaConstants.CRYSTAL_UNIT * 10)));});
         itemDependentPatternRegisterers.put(OneironautItemRegistry.BOTTOMLESS_CASTING_ITEM, () -> {
-            PatternRegistry.mapPattern(HexPattern.fromAngles("wwqeeeeewqqqqqewwaqeqwqeqqqeqwqeq", HexDir.EAST),
-                    new Identifier(Oneironaut.MOD_ID, "craftbottomlesstrinket"),
-                    new OpWriteBottomlessTrinket());
-        });
-        /*itemDependentPatternRegisterers.put(OneironautItemRegistry.INSULATED_TRINKET, () -> {
-            Pattern!Registry.map!Pattern(HexPattern!from!Angles("wwaqqqqqeaeaqdadqaeqqeaeq", HexDir.EAST),
-                    new Identifier(Oneironaut.MOD_ID, "craftinsulatedtrinket"),
-                    new OpMakePackagedSpell<>(OneironautItemRegistry.INSULATED_TRINKET.get(), MediaConstants.SHARD_UNIT * 10));
-        });*/
+            Registry.register(HexActions.REGISTRY, new Identifier(Oneironaut.MOD_ID, "craftbottomlesstrinket"),
+                    new ActionRegistryEntry(HexPattern.fromAngles("wwqeeeeewqqqqqewwaqeqwqeqqqeqwqeq", HexDir.EAST), new OpWriteBottomlessTrinket()));});
     }
 
     private static void registerItemDependentPatterns(){
@@ -131,7 +128,7 @@ public class OneironautPatternRegistry {
             entry.getKey().listen(item -> {
                 try{
                     entry.getValue().register();
-                } catch (PatternRegistry.RegisterPatternException exn) {
+                } catch (Exception exn) {
                     exn.printStackTrace();
                 }
             });

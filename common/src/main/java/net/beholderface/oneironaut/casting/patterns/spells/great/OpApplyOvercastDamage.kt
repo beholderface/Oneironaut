@@ -1,12 +1,12 @@
 package net.beholderface.oneironaut.casting.patterns.spells.great
 
+import at.petrak.hexcasting.api.casting.ParticleSpray
+import at.petrak.hexcasting.api.casting.RenderedSpell
+import at.petrak.hexcasting.api.casting.castables.SpellAction
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.casting.getEntity
+import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
-import at.petrak.hexcasting.api.spell.ParticleSpray
-import at.petrak.hexcasting.api.spell.RenderedSpell
-import at.petrak.hexcasting.api.spell.SpellAction
-import at.petrak.hexcasting.api.spell.casting.CastingContext
-import at.petrak.hexcasting.api.spell.getEntity
-import at.petrak.hexcasting.api.spell.iota.Iota
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
@@ -18,13 +18,12 @@ import net.minecraft.item.ItemStack
 import net.beholderface.oneironaut.network.ItemUpdatePacket
 import net.beholderface.oneironaut.casting.mishaps.MishapMissingEnchant
 import net.beholderface.oneironaut.registry.OneironautMiscRegistry
-import ram.talia.hexal.api.getItemEntityOrItemFrame
+//import ram.talia.hexal.api.getItemEntityOrItemFrame
 import kotlin.math.pow
 
 class OpApplyOvercastDamage : SpellAction {
     override val argc = 1
-    override val isGreat = true
-    override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
+    override fun execute(args: List<Iota>, ctx: CastingEnvironment): Triple<RenderedSpell, Int, List<ParticleSpray>> {
         val holder = args.getEntity(0, argc)
         val target = args.getItemEntityOrItemFrame(0, argc)
         ctx.assertEntityInRange(holder)
@@ -63,7 +62,7 @@ class OpApplyOvercastDamage : SpellAction {
     }
 
     private data class Spell(val stack : ItemStack, val level : Int, val book : Boolean, val existingEnchantments : Map<Enchantment, Int>, val holder : Entity) : RenderedSpell{
-        override fun cast(ctx: CastingContext) {
+        override fun cast(ctx: CastingEnvironment) {
             val overcastdamage = OneironautMiscRegistry.OVERCAST_DAMAGE_ENCHANT.get()
             val enchantsToKeep = HashMap<Enchantment, Int>()
             existingEnchantments.map {

@@ -1,10 +1,10 @@
 package net.beholderface.oneironaut
 
 import at.petrak.hexcasting.api.HexAPI
-import at.petrak.hexcasting.api.spell.casting.CastingContext
-import at.petrak.hexcasting.api.spell.iota.Iota
-import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
-import at.petrak.hexcasting.api.spell.mishaps.MishapNotEnoughArgs
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
 import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.beholderface.oneironaut.network.UnBrainsweepPacket
@@ -23,19 +23,17 @@ import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.item.Item
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.recipe.RecipeManager
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Property
-import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
-import net.minecraft.util.math.Direction
+import net.minecraft.util.math.*
 import net.minecraft.util.math.Direction.Axis
-import net.minecraft.util.math.Vec3d
-import net.minecraft.util.registry.Registry
 import net.minecraft.village.VillagerProfession
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
@@ -75,15 +73,15 @@ fun List<Iota>.getSoulprint(idx: Int, argc: Int = 0) : UUID {
 
 fun getBlockTagKey(id : Identifier?) : TagKey<Block>?{
     if (id != null){
-        return TagKey.of(Registry.BLOCK_KEY, id)
+        return TagKey.of(RegistryKeys.BLOCK, id)
     }
     return null
 }
 fun getEntityTagKey(id : Identifier) : TagKey<EntityType<*>>{
-    return TagKey.of(Registry.ENTITY_TYPE_KEY, id)
+    return TagKey.of(RegistryKeys.ENTITY_TYPE, id)
 }
-fun getItemTagKey(id : Identifier) : TagKey<Item>{
-    return TagKey.of(Registry.ITEM_KEY, id)
+fun getItemTagKey(id : Identifier) : TagKey<Item> {
+    return TagKey.of(RegistryKeys.ITEM, id)
 }
 
 
@@ -195,7 +193,7 @@ fun isUnsafe(world: ServerWorld, pos: BlockPos, up: Boolean) : Boolean{
 fun isSolid(world: ServerWorld, pos: BlockPos) : Boolean{
     var output = false
     val state = world.getBlockState(pos)
-    if (state.fluidState.isEmpty && !state.isAir && !state.block.canMobSpawnInside()){
+    if (state.fluidState.isEmpty && !state.isAir && !state.block.canMobSpawnInside(state)){
         output = true
     } else if (state.block.defaultState.properties.contains(Properties.WATERLOGGED) && !state.isAir){
         if (state.block.defaultState.get(Properties.WATERLOGGED) == true){
@@ -216,12 +214,16 @@ fun stringToWorld(key : String, player : ServerPlayerEntity) : ServerWorld{
             output = it
         }
     }
-    return output
+    return output as ServerWorld
 }
 
 fun playerUUIDtoServerPlayer(uuid: UUID, server: MinecraftServer): ServerPlayerEntity? {
     //val server = player.server
     return server.playerManager?.getPlayer(uuid)
+}
+
+fun Vec3d.toVec3i() : Vec3i {
+    return Vec3i(this.x.toInt(), this.y.toInt(), this.z.toInt())
 }
 
 fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, state : BlockState, replacable : Array<Block>, fillPortion : Double) : Int{
@@ -237,8 +239,8 @@ fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, s
             offset = Vec3d(x.toDouble(), 0.0, y.toDouble())
             current = corner.add(offset)
             if (world.random.nextBetween(0, 999) / 10.0 <= fillPortion * 100)
-            if (current.distanceTo(realCenter) <= radius && replacable.contains(world.getBlockState(BlockPos(current)).block)){
-                world.setBlockState(BlockPos(current), state, 0b10)
+            if (current.distanceTo(realCenter) <= radius && replacable.contains(world.getBlockState(BlockPos(current.toVec3i())).block)){
+                world.setBlockState(BlockPos(current.toVec3i()), state, 0b10)
                 placed++
             }
         }
@@ -261,7 +263,7 @@ fun isPlayerEnlightened(player : ServerPlayerEntity) : Boolean {
     return enlightened;
 }
 
-fun isUsingRod(ctx : CastingContext) : Boolean {
+fun isUsingRod(ctx : CastingEnvironment) : Boolean {
     val state = ReverberationRod.getState(ctx.caster);
     if (state != null){
         return state.castingInProgress
@@ -272,7 +274,7 @@ fun isUsingRod(ctx : CastingContext) : Boolean {
 
 fun getPositionsInCuboid(corner1 : BlockPos, corner2 : BlockPos, pointsToExclude : List<BlockPos>) : List<BlockPos>{
     val cuboid = Box(corner1, corner2)
-    val lowerCorner = BlockPos(cuboid.minX, cuboid.minY, cuboid.minZ)
+    val lowerCorner = BlockPos(cuboid.minX.toInt(), cuboid.minY.toInt(), cuboid.minZ.toInt())
     val outputList : MutableList<BlockPos> = mutableListOf()
     var currentPos : BlockPos
     for (i in 0 .. cuboid.xLength.toInt()){
@@ -318,6 +320,7 @@ fun vecProximity(a: Direction, b: Vec3d): Double {
 }
 
 fun MobEntity.unbrainsweep(){
+    assert(false)
     val patient = this
     if (!patient.world.isClient){
         //Oneironaut.LOGGER.info("Attempting to unbrainsweep ${this.name} client-side")
@@ -336,7 +339,7 @@ fun MobEntity.unbrainsweep(){
         val newData = patient.villagerData.withLevel(0).withProfession(VillagerProfession.NITWIT)
         patient.villagerData = newData
     }
-    patient.dataTracker.allEntries?.get(0)?.isDirty = true
+    //patient.dataTracker.allEntries?.get(0)?.isDirty = true
     val refreshNBT = patient.writeNbt(NbtCompound())
     patient.readNbt(refreshNBT)
 }
@@ -353,3 +356,5 @@ fun Box.longestAxisLength() : Double{
         z
     }
 }
+
+fun IXplatAbstractions.

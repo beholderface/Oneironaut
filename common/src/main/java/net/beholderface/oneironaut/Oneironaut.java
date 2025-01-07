@@ -3,7 +3,6 @@ package net.beholderface.oneironaut;
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.event.CompoundEventResult;
-import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
@@ -17,10 +16,10 @@ import net.beholderface.oneironaut.recipe.OneironautRecipeTypes;
 import net.beholderface.oneironaut.registry.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,8 +46,8 @@ public class Oneironaut {
         OneironautIotaTypeRegistry.init();
         OneironautPatternRegistry.init();
         //Registry.register(Registry.RECIPE_SERIALIZER, OneironautRecipeSerializer.)
-        OneironautRecipeSerializer.registerSerializers(OneironautRecipeTypes.Companion.bind(Registry.RECIPE_SERIALIZER));
-        OneironautRecipeTypes.registerTypes(OneironautRecipeTypes.Companion.bind(Registry.RECIPE_TYPE));
+        OneironautRecipeSerializer.registerSerializers(OneironautRecipeTypes.Companion.bind(Registries.RECIPE_SERIALIZER));
+        OneironautRecipeTypes.registerTypes(OneironautRecipeTypes.Companion.bind(Registries.RECIPE_TYPE));
 
         //Registry.register(Registry.CHUNK_GENERATOR, new Identifier(MOD_ID, "noosphere"))
 
@@ -81,7 +80,7 @@ public class Oneironaut {
             ItemStack heldStack = player.getStackInHand(hand);
             if (heldStack.isIn(fakeStaffTag) && !(heldStack.getItem() instanceof ItemStaff)){
                 if (heldStack.isIn(realStaffTag)){
-                    fakeStaffStack.use(player.world, player, hand);
+                    fakeStaffStack.use(player.getWorld(), player, hand);
                     player.swingHand(hand);
                 } else {
                     LOGGER.info(player.getName().getString() + " has right-clicked an item tagged as a datapacked staff, but that item does not have the normal staff tag, which is necessary for the datapack staff functionality to work.");
@@ -89,26 +88,6 @@ public class Oneironaut {
             }
             return CompoundEventResult.pass();
         });
-
-        CommandRegistrationEvent.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("clearinscribedideas")
-                .requires(source -> source.hasPermissionLevel(3))
-                .executes(context -> {
-                    IdeaInscriptionManager.eraseIota("everything");
-                    context.getSource().sendFeedback(Text.translatable("text.oneironaut.clearIdeasResponse"), true);
-                    return 1;
-                })
-        )));
-
-        CommandRegistrationEvent.EVENT.register(((dispatcher, registryAccess, environment) -> dispatcher.register(literal("queryoneironautconfig")
-                .requires(source -> source.hasPermissionLevel(2))
-                .executes(context -> {
-                    boolean planeshift = OneironautConfig.getServer().getPlaneShiftOtherPlayers();
-                    int lifetime = OneironautConfig.getServer().getIdeaLifetime();
-                    context.getSource().sendFeedback(Text.of("Idea Inscription lifetime: " + (double)lifetime / 20.0 + " seconds\n" +
-                            "Permission to use Noetic Gateway on other players: " + planeshift), false);
-                    return 1;
-                })
-        )));
         //IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState()
     }
 

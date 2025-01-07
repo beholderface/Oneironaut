@@ -1,6 +1,6 @@
 package net.beholderface.oneironaut.block.blockentity;
 
-import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus;
+import at.petrak.hexcasting.api.casting.circles.BlockEntityAbstractImpetus;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
@@ -13,7 +13,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.*;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.beholderface.oneironaut.registry.OneironautItemRegistry;

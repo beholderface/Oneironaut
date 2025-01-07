@@ -1,8 +1,8 @@
 package net.beholderface.oneironaut.casting.iotatypes;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
-import at.petrak.hexcasting.api.spell.iota.Iota;
-import at.petrak.hexcasting.api.spell.iota.IotaType;
+import at.petrak.hexcasting.api.casting.iota.Iota;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 
-public class SoulprintIota extends Iota{
+public class SoulprintIota extends Iota {
     public SoulprintIota(@NotNull Pair<UUID, String> payload){
         super(OneironautIotaTypeRegistry.UUID, payload);
     }
@@ -65,9 +65,9 @@ public class SoulprintIota extends Iota{
             var name = ctag.getString("entity_name");
             var uuid = ctag.getUuid("iota_uuid");
             Text original = Text.translatable("hexcasting.iota.oneironaut:uuid.label", name);
-            ItemStack soulglimmerStack = HexItems.UUID_COLORIZER.getDefaultStack();
-            FrozenColorizer soulglimmercolor = new FrozenColorizer(soulglimmerStack, uuid);
-            Style coloredStyle = original.getStyle().withColor(IXplatAbstractions.INSTANCE.getRawColor(soulglimmercolor, BottomlessMediaItem.time, Vec3d.ZERO));
+            ItemStack soulglimmerStack = HexItems.UUID_PIGMENT.getDefaultStack();
+            FrozenPigment soulglimmercolor = new FrozenPigment(soulglimmerStack, uuid);
+            Style coloredStyle = original.getStyle().withColor(IXplatAbstractions.INSTANCE.getColorProvider(soulglimmercolor).getColor(BottomlessMediaItem.time, Vec3d.ZERO));
             return original.copy().setStyle(coloredStyle);
         }
         @Override

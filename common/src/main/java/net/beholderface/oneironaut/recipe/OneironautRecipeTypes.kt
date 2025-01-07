@@ -6,8 +6,8 @@ import net.minecraft.util.Identifier
 import net.beholderface.oneironaut.Oneironaut.MOD_ID
 import net.beholderface.oneironaut.Oneironaut.id
 import java.util.function.BiConsumer
-import net.minecraft.util.registry.Registry;
 import net.beholderface.oneironaut.Oneironaut
+import net.minecraft.registry.Registry
 
 class OneironautRecipeTypes {
     companion object {
