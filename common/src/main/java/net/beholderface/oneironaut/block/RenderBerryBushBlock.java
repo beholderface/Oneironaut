@@ -140,7 +140,8 @@ public class RenderBerryBushBlock extends PlantBlock implements Fertilizable {
         }
         //the bush's tendrils coil in response to thought
         if (!brainswept){
-            target.damage(DamageSource.SWEET_BERRY_BUSH, target.isPlayer() ? 0.001f : 0f);
+            DamageSource berryDamage = target.getDamageSources().sweetBerryBush();
+            target.damage(berryDamage, target.isPlayer() ? 0.001f : 0f);
             OvercastDamageEnchant.applyMindDamage(null, target, 2, false);
             //did that damage flay the target?
             if (target instanceof MobEntity mob){

@@ -19,7 +19,6 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import ram.talia.hexal.common.entities.WanderingWisp;
 
 import static net.beholderface.oneironaut.block.blockentity.WispBatteryEntity.getColors;
 

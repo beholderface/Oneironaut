@@ -1,9 +1,9 @@
 package net.beholderface.oneironaut.block.blockentity;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.api.misc.MediaConstants;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.api.utils.MediaHelper;
-import at.petrak.hexcasting.common.items.colorizer.ItemDyeColorizer;
+import at.petrak.hexcasting.common.items.pigment.ItemDyePigment;
 import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
@@ -42,8 +42,8 @@ public class WispBatteryEntityFake extends BlockEntity {
     public static int[] getColors(Random random){
         ArrayList<Integer> colors = new ArrayList<>();
         for (int i = 0; i < 32; i++){
-            for (ItemDyeColorizer color : HexItems.DYE_COLORIZERS.values()){
-                colors.add(FunUtilsKt.nextColour((new FrozenColorizer(new ItemStack(color), Util.NIL_UUID)), random));
+            for (ItemDyePigment color : HexItems.DYE_PIGMENTS.values()){
+                colors.add(FunUtilsKt.nextColour((new FrozenPigment(new ItemStack(color), Util.NIL_UUID)), random));
             }
         }
         return CollectionsKt.toIntArray(colors);
@@ -56,7 +56,7 @@ public class WispBatteryEntityFake extends BlockEntity {
                 Vec3d doublePos = new Vec3d(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5);
                 int[] colors = getColors(world.random);
                 world.addParticle(
-                        new ConjureParticleOptions(colors[world.random.nextInt(colors.length)], true),
+                        new ConjureParticleOptions(colors[world.random.nextInt(colors.length)]),
                         doublePos.x, doublePos.y, doublePos.z,
                         0.0125 * (world.random.nextDouble() - 0.5),
                         0.0125 * (world.random.nextDouble() - 0.5),
@@ -65,9 +65,9 @@ public class WispBatteryEntityFake extends BlockEntity {
             } else {
                 if (world.getTime() % 80 == 0 && world.getEntitiesByClass(WanderingWisp.class, Box.of(Vec3d.ofCenter(pos), 64.0, 64.0, 64.0), (idfk)-> true).size() < 20){
                     WanderingWisp wisp = new WanderingWisp(world, Vec3d.ofCenter(pos, 1));
-                    wisp.setColouriser(new FrozenColorizer(
-                            new ItemStack(CollectionsKt.elementAt(HexItems.DYE_COLORIZERS.values(),
-                                    world.random.nextInt(HexItems.DYE_COLORIZERS.size()))),
+                    wisp.setColouriser(new FrozenPigment(
+                            new ItemStack(CollectionsKt.elementAt(HexItems.DYE_PIGMENTS.values(),
+                                    world.random.nextInt(HexItems.DYE_PIGMENTS.size()))),
                             Util.NIL_UUID
                     ));
                     ComponentKey<BoolComponent> decorative = OneironautComponents.WISP_DECORATIVE;

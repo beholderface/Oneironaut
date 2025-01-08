@@ -1,17 +1,17 @@
 package net.beholderface.oneironaut.casting.patterns.spells.idea
 
+import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.casting.getEntity
+import at.petrak.hexcasting.api.casting.getPlayer
+import at.petrak.hexcasting.api.casting.getVec3
+import at.petrak.hexcasting.api.casting.iota.EntityIota
+import at.petrak.hexcasting.api.casting.iota.GarbageIota
+import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.iota.Vec3Iota
+import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
+import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.misc.MediaConstants
-import at.petrak.hexcasting.api.spell.ConstMediaAction
-import at.petrak.hexcasting.api.spell.casting.CastingContext
-import at.petrak.hexcasting.api.spell.getEntity
-import at.petrak.hexcasting.api.spell.getPlayer
-import at.petrak.hexcasting.api.spell.getVec3
-import at.petrak.hexcasting.api.spell.iota.EntityIota
-import at.petrak.hexcasting.api.spell.iota.GarbageIota
-import at.petrak.hexcasting.api.spell.iota.Iota
-import at.petrak.hexcasting.api.spell.iota.Vec3Iota
-import at.petrak.hexcasting.api.spell.mishaps.MishapBadEntity
-import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.text.Text
@@ -20,11 +20,12 @@ import net.beholderface.oneironaut.casting.IdeaInscriptionManager
 import net.beholderface.oneironaut.getSoulprint
 import net.beholderface.oneironaut.registry.OneironautIotaTypeRegistry
 import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
+import net.beholderface.oneironaut.toVec3i
 
 class OpGetIdeaWriter : ConstMediaAction {
     override val argc = 2
-    override val mediaCost = 0
-    override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
+    override val mediaCost = 0L
+    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
         var output : Iota = GarbageIota()
         val rawKeyIota = args[0]
         val suspect = if (args[1].type == OneironautIotaTypeRegistry.UUID){
@@ -43,7 +44,7 @@ class OpGetIdeaWriter : ConstMediaAction {
                 throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.badentitykey"))
             }
         } else if (rawKeyIota.type == Vec3Iota.TYPE){
-            keyPos = BlockPos(args.getVec3(0, argc))
+            keyPos = BlockPos(args.getVec3(0, argc).toVec3i())
             output = IdeaInscriptionManager.getIotaWriter(keyPos, suspect, ctx.world)
         } else if (rawKeyIota.type == SoulprintIota.TYPE){
             val keySoulprint = args.getSoulprint(0, argc).toString() + "soul"

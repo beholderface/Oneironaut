@@ -2,12 +2,12 @@ package net.beholderface.oneironaut.feature;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
@@ -25,7 +25,7 @@ public class BlockBlob extends Feature<BlockBlobConfig> {
         Random rand = context.getRandom();
         BlockBlobConfig config = context.getConfig();
         Identifier mainID = config.mainBlockID();
-        BlockState mainState = Registry.BLOCK.get(mainID).getDefaultState();
+        BlockState mainState = Registries.BLOCK.get(mainID).getDefaultState();
         int rarity = config.rarity();
         int size = config.size();
         double squish = 1.0 / config.squish();
@@ -41,13 +41,13 @@ public class BlockBlob extends Feature<BlockBlobConfig> {
                     //immerse it a bit
                     origin = scanPos.add(0, -rand.nextBetweenExclusive(0, immersion), 0);
                     //Oneironaut.LOGGER.info("Attempting to place a blob at " + origin.toShortString());
-                    Vec3i cuboidDimensions = new Vec3i((size * 2) + 1, ((size * 2) + 1) * squish, (size * 2) + 1);
-                    BlockPos cuboidOrigin = origin.add(-size, -(size * squish), -size);
+                    Vec3i cuboidDimensions = new Vec3i((size * 2) + 1, (int) (((size * 2) + 1) * squish), (size * 2) + 1);
+                    BlockPos cuboidOrigin = origin.add(-size, (int) -(size * squish), -size);
                     for (int i = 0; i < cuboidDimensions.getX(); i++){
                         for (int j = 0; j < cuboidDimensions.getY(); j++){
                             for (int k = 0; k < cuboidDimensions.getZ(); k++){
                                 Vec3i offset = new Vec3i(i, j, k);
-                                Vec3i deSquishedOffset = new Vec3i(i, j / squish, k);
+                                Vec3i deSquishedOffset = new Vec3i(i, (int) (j / squish), k);
                                 BlockPos target = cuboidOrigin.add(offset);
                                 BlockPos deSquishedTarget = cuboidOrigin.add(deSquishedOffset);
                                 if (deSquishedTarget.getManhattanDistance(origin) < rand.nextBetweenExclusive(0, (cuboidDimensions.getX() + cuboidDimensions.getZ() + cuboidDimensions.getZ()) / falloff)){

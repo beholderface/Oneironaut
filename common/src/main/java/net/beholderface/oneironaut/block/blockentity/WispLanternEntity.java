@@ -1,6 +1,6 @@
 package net.beholderface.oneironaut.block.blockentity;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
@@ -11,8 +11,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -30,13 +30,13 @@ public class WispLanternEntity extends BlockEntity {
         super(OneironautBlockRegistry.WISP_LANTERN_ENTITY.get(), pos, state);
     }
 
-    private FrozenColorizer color = FrozenColorizer.DEFAULT.get();
+    private FrozenPigment color = FrozenPigment.DEFAULT.get();
 
     public void setColor(ItemStack item, PlayerEntity player){
         if (item.getItem() != Items.BARRIER){
-            color = new FrozenColorizer(new ItemStack(item.getRegistryEntry()), player.getUuid());
+            color = new FrozenPigment(new ItemStack(item.getRegistryEntry()), player.getUuid());
         } else {
-            color = IXplatAbstractions.INSTANCE.getColorizer(player);
+            color = IXplatAbstractions.INSTANCE.getPigment(player);
         }
 
     }
@@ -49,7 +49,7 @@ public class WispLanternEntity extends BlockEntity {
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
-        color = FrozenColorizer.fromNBT(nbt.getCompound("color"));
+        color = FrozenPigment.fromNBT(nbt.getCompound("color"));
     }
 
     @Nullable
@@ -69,7 +69,7 @@ public class WispLanternEntity extends BlockEntity {
             Vec3d jarCenter = new Vec3d(pos.getX() + 0.5, pos.getY() + 0.2, pos.getZ() + 0.5);
             //render a wisp-like thing
             world.addParticle(
-                    new ConjureParticleOptions(color.getColor(rand.nextInt(), jarCenter), true),
+                    new ConjureParticleOptions(color.getColorProvider().getColor(rand.nextInt(), jarCenter)),
                     jarCenter.x + ((rand.nextGaussian() - 0.5) / 50),
                     jarCenter.y,
                     jarCenter.z + ((rand.nextGaussian() - 0.5) / 50),

@@ -1,19 +1,19 @@
 package net.beholderface.oneironaut.casting.patterns.spells.great
 
 import at.petrak.hexcasting.api.block.circle.BlockCircleComponent
-import at.petrak.hexcasting.api.block.circle.BlockEntityAbstractImpetus
+import at.petrak.hexcasting.api.casting.ParticleSpray
+import at.petrak.hexcasting.api.casting.RenderedSpell
+import at.petrak.hexcasting.api.casting.castables.SpellAction
+import at.petrak.hexcasting.api.casting.circles.BlockEntityAbstractImpetus
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.casting.getList
+import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.iota.Vec3Iota
+import at.petrak.hexcasting.api.casting.mishaps.MishapBadLocation
+import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.mod.HexConfig
 import at.petrak.hexcasting.api.mod.HexTags
-import at.petrak.hexcasting.api.spell.ParticleSpray
-import at.petrak.hexcasting.api.spell.RenderedSpell
-import at.petrak.hexcasting.api.spell.SpellAction
-import at.petrak.hexcasting.api.spell.casting.CastingContext
-import at.petrak.hexcasting.api.spell.getList
-import at.petrak.hexcasting.api.spell.iota.Iota
-import at.petrak.hexcasting.api.spell.iota.Vec3Iota
-import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidIota
-import at.petrak.hexcasting.api.spell.mishaps.MishapLocationTooFarAway
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.beholderface.oneironaut.*
 //import net.beholderface.oneironaut.*
@@ -38,8 +38,7 @@ import kotlin.math.pow
 
 class OpSwapSpace : SpellAction {
     override val argc = 3
-    override val isGreat = true
-    override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
+    override fun execute(args: List<Iota>, ctx: CastingEnvironment): SpellAction.Result {
         val destination = args.getDimIota(2, argc)
         val dimKey = destination.dimString
         var destWorld = ctx.world
@@ -59,10 +58,10 @@ class OpSwapSpace : SpellAction {
             throw MishapInvalidIota(args[1], 1, Text.translatable("oneironaut.mishap.twovectorsplease"))
         }
 
-        val originCuboidCorner1 = BlockPos((originWorldCuboid.getAt(0) as Vec3Iota).vec3)
-        val originCuboidCorner2 = BlockPos((originWorldCuboid.getAt(1) as Vec3Iota).vec3)
-        val destCuboidCorner1 = BlockPos((destWorldCuboid.getAt(0) as Vec3Iota).vec3)
-        val destCuboidCorner2 = BlockPos((destWorldCuboid.getAt(1) as Vec3Iota).vec3)
+        val originCuboidCorner1 = BlockPos((originWorldCuboid.getAt(0) as Vec3Iota).vec3.toVec3i())
+        val originCuboidCorner2 = BlockPos((originWorldCuboid.getAt(1) as Vec3Iota).vec3.toVec3i())
+        val destCuboidCorner1 = BlockPos((destWorldCuboid.getAt(0) as Vec3Iota).vec3.toVec3i())
+        val destCuboidCorner2 = BlockPos((destWorldCuboid.getAt(1) as Vec3Iota).vec3.toVec3i())
         val originBox = Box(BlockPos(originCuboidCorner1), BlockPos(originCuboidCorner2))
         val destBox = Box(BlockPos(destCuboidCorner1), BlockPos(destCuboidCorner2))
         /*val boxCorners = arrayOf(Vec3d(originBox.minX, originBox.minY, originBox.minZ), Vec3d(originBox.maxX, originBox.minY, originBox.minZ),
@@ -71,7 +70,7 @@ class OpSwapSpace : SpellAction {
             Vec3d(originBox.maxX, originBox.minY, originBox.maxZ), Vec3d(originBox.minX, originBox.maxY, originBox.minZ)
             )*/
 
-        ctx.caster.server?.worlds?.forEach {
+        ctx.world.server.worlds?.forEach {
             if (it.registryKey.value.toString() == dimKey){
                 destWorld = it
                 destWorldKey = it.registryKey
@@ -101,9 +100,9 @@ class OpSwapSpace : SpellAction {
         //ctx.caster.sendMessage(Text.of(cost.toString()))
 
         if (!HexConfig.server().canTeleportInThisDimension(destWorldKey))
-            throw MishapLocationTooFarAway(Vec3d.ZERO, "bad_dimension")
+            throw MishapBadLocation(Vec3d.ZERO, "bad_dimension")
         if (!HexConfig.server().canTeleportInThisDimension(originWorldKey))
-            throw MishapLocationTooFarAway(Vec3d.ZERO, "bad_dimension")
+            throw MishapBadLocation(Vec3d.ZERO, "bad_dimension")
 
         //require that one end of the transfer be the noosphere if config is set to require that
         if (!(destWorldKey.value.toString() == "oneironaut:noosphere" || originWorldKey.value.toString() == "oneironaut:noosphere")
@@ -111,18 +110,18 @@ class OpSwapSpace : SpellAction {
             throw MishapNoNoosphere()
         }
 
-        return Triple(
+        return SpellAction.Result(
             Spell(originWorld, originBox, destWorld, destBox, originCuboidDimensions, boxVolume),
-            (cost.toInt()) * MediaConstants.DUST_UNIT,
-            listOf(ParticleSpray.cloud(ctx.caster.pos, 2.0))
+            (cost.toLong()) * MediaConstants.DUST_UNIT,
+            listOf(ParticleSpray.cloud(ctx.mishapSprayPos(), 2.0))
         )
     }
     private data class Spell(val originDim : ServerWorld, val originBox : Box,
                              val destDim : ServerWorld, val destBox : Box,
                              val dimensions : Vec3i, val volume : Int) : RenderedSpell {
-        override fun cast(ctx: CastingContext) {
-            val originLowerCorner = BlockPos(originBox.minX, originBox.minY, originBox.minZ)
-            val destLowerCorner = BlockPos(destBox.minX, destBox.minY, destBox.minZ)
+        override fun cast(ctx: CastingEnvironment) {
+            val originLowerCorner = BlockPos(originBox.minX.toInt(), originBox.minY.toInt(), originBox.minZ.toInt())
+            val destLowerCorner = BlockPos(destBox.minX.toInt(), destBox.minY.toInt(), destBox.minZ.toInt())
             /*val originEntities = originDim.getOtherEntities(null, originBox) {
                 (!it.isLiving || it.type.isIn(getEntityTagKey(Identifier.of("oneironaut","living_interchange_whitelist")!!))) && it.canUsePortals() && !it.type.isIn(HexTags.Entities.CANNOT_TELEPORT)
             }
@@ -146,7 +145,6 @@ class OpSwapSpace : SpellAction {
             var destBEData : NbtCompound?
             val flags = 3//0.and(Block.REDRAW_ON_MAIN_THREAD).and(Block.MOVED).and(Block.NOTIFY_LISTENERS).and(Block.FORCE_STATE)
             val maxdepth = 0
-            val isCircle = ctx.spellCircle != null
             for (i in 0 until dimensions.x){
                 for (j in 0 until dimensions.y){
                     for (k in 0 until dimensions.z){
@@ -260,11 +258,9 @@ fun Box.maxCorner(): Vec3d {
 private fun resetImpetus(state : BlockState, impetus : BlockEntityAbstractImpetus) : BlockState {
     val originalCompound = impetus.createNbt()
     val freshCompound = originalCompound.copy()
-    freshCompound.remove(BlockEntityAbstractImpetus.TAG_ACTIVATOR)
-    freshCompound.remove(BlockEntityAbstractImpetus.TAG_COLORIZER)
-    freshCompound.remove(BlockEntityAbstractImpetus.TAG_NEXT_BLOCK)
-    freshCompound.remove(BlockEntityAbstractImpetus.TAG_FOUND_ALL)
-    freshCompound.remove(BlockEntityAbstractImpetus.TAG_TRACKED_BLOCKS)
+    freshCompound.remove(BlockEntityAbstractImpetus.TAG_ERROR_DISPLAY)
+    freshCompound.remove(BlockEntityAbstractImpetus.TAG_ERROR_MSG)
+    freshCompound.remove(BlockEntityAbstractImpetus.TAG_EXECUTION_STATE)
     impetus.readNbt(freshCompound)
     impetus.markDirty()
     return state.with(BlockCircleComponent.ENERGIZED, false)

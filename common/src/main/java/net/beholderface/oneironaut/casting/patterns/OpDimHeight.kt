@@ -1,17 +1,23 @@
 package net.beholderface.oneironaut.casting.patterns
 
-import at.petrak.hexcasting.api.spell.ConstMediaAction
-import at.petrak.hexcasting.api.spell.casting.CastingContext
-import at.petrak.hexcasting.api.spell.iota.DoubleIota
-import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.casting.iota.DoubleIota
+import at.petrak.hexcasting.api.casting.iota.Iota
 import net.beholderface.oneironaut.getDimIota
 import net.beholderface.oneironaut.stringToWorld
+import java.lang.AssertionError
 
 class OpDimHeight : ConstMediaAction {
     override val argc = 1
-    override val mediaCost = 0
-    override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
-        val dim = stringToWorld(args.getDimIota(0, argc).dimString, ctx.caster)
-        return listOf(DoubleIota(dim.bottomY.toDouble()), DoubleIota(dim.topY.toDouble() - 1))
+    override val mediaCost = 0L
+    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+        val dimString = args.getDimIota(0, argc).dimString
+        val dim = stringToWorld(dimString, ctx.world.server)
+        if (dim != null) {
+            return listOf(DoubleIota(dim.bottomY.toDouble()), DoubleIota(dim.topY.toDouble() - 1))
+        } else {
+            throw AssertionError("could not find dimension corresponding to $dimString")
+        }
     }
 }

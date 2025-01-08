@@ -1,20 +1,15 @@
 package net.beholderface.oneironaut.item;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
+import at.petrak.hexcasting.api.casting.ParticleSpray;
 import at.petrak.hexcasting.api.misc.MediaConstants;
-import at.petrak.hexcasting.api.spell.ParticleSpray;
-import at.petrak.hexcasting.api.utils.MediaHelper;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import at.petrak.hexcasting.common.items.magic.ItemMediaHolder;
 import at.petrak.hexcasting.common.lib.HexSounds;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import at.petrak.hexcasting.common.network.MsgCastParticleAck;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
-import com.mojang.datafixers.util.Either;
 import kotlin.collections.CollectionsKt;
 import net.beholderface.oneironaut.Oneironaut;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,24 +20,23 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtDouble;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ram.talia.hexal.common.entities.BaseCastingWisp;
-import ram.talia.hexal.common.entities.BaseWisp;
 import ram.talia.hexal.common.entities.ProjectileWisp;
 import ram.talia.hexal.common.entities.TickingWisp;
 import ram.talia.hexal.common.lib.HexalEntities;
@@ -75,7 +69,7 @@ public class WispCaptureItem extends ItemMediaHolder {
         if (!data.contains(TAG_MAX_MEDIA)){
             //does uninitialized wranger already contain nonzero media? probably only going to happen for wranglers that existed before the new init method
             if (this.getMedia(stack) > 0){
-                data.putInt(TAG_MAX_MEDIA, MediaConstants.DUST_UNIT * 640);
+                data.putLong(TAG_MAX_MEDIA, MediaConstants.DUST_UNIT * 640);
                 return TypedActionResult.success(stack, false);
             } else {
                 BaseCastingWisp initWisp = this.wispRaycast(user);
@@ -149,9 +143,9 @@ public class WispCaptureItem extends ItemMediaHolder {
     }
 
     private boolean captureWisp(ItemStack stack, BaseCastingWisp wisp, @NotNull PlayerEntity user){
-        World world = user.world;
+        World world = user.getWorld();
         NbtCompound stackNbt = stack.getOrCreateNbt();
-        int cost = MediaConstants.SHARD_UNIT;
+        long cost = MediaConstants.SHARD_UNIT;
         if (wisp.getCaster() != user){
             cost = (int) Math.ceil(wisp.getMedia() * 1.5);
         }
@@ -179,7 +173,7 @@ public class WispCaptureItem extends ItemMediaHolder {
     }
     private boolean releaseWisp(ItemStack stack, Vec3d spawnPos, @NotNull PlayerEntity user){
         NbtCompound nbt = stack.getOrCreateNbt();
-        World world = user.world;
+        World world = user.getWorld();
         if (this.getMedia(stack) >= MediaConstants.SHARD_UNIT || user.isCreative()) {
             Oneironaut.boolLogger("Releasing contained wisp", debugMessages);
             this.deductMedia(stack, MediaConstants.SHARD_UNIT, user);
@@ -223,7 +217,7 @@ public class WispCaptureItem extends ItemMediaHolder {
         } else {
             Oneironaut.boolLogger("Insufficient media to release wisp", debugMessages);
             if (!world.isClient && world instanceof ServerWorld serverWorld) {
-                serverWorld.playSoundFromEntity(null, user, HexSounds.FAIL_PATTERN,
+                serverWorld.playSoundFromEntity(null, user, HexSounds.CAST_FAILURE,
                         SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
             }
         }
@@ -233,11 +227,11 @@ public class WispCaptureItem extends ItemMediaHolder {
         NbtCompound data = stack.getOrCreateNbt();
         NbtCompound formerWispData = this.getWispData(stack, null);
         assert formerWispData != null;
-        FrozenColorizer colorizer = FrozenColorizer.fromNBT(formerWispData.getCompound("colouriser"));
+        FrozenPigment colorizer = FrozenPigment.fromNBT(formerWispData.getCompound("colouriser"));
         //int media = formerWispData.getInt("media");
         data.remove(WISP_DATA_TAG);
         if (user != null){
-            World world = user.world;
+            World world = user.getWorld();
             if (!world.isClient && world instanceof ServerWorld serverWorld){
                 world.playSoundFromEntity(null, user, HexSounds.ABACUS_SHAKE, SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
                 IXplatAbstractions.INSTANCE.sendPacketNear(user.getEyePos(), 128.0, serverWorld, new MsgCastParticleAck
@@ -270,7 +264,7 @@ public class WispCaptureItem extends ItemMediaHolder {
         return null;
     }
 
-    private void deductMedia(ItemStack stack, int amount, PlayerEntity player){
+    private void deductMedia(ItemStack stack, long amount, PlayerEntity player){
         if (!player.isCreative()){
             this.setMedia(stack, this.getMedia(stack) - amount);
         }
@@ -314,7 +308,7 @@ public class WispCaptureItem extends ItemMediaHolder {
             Text unstyled = Text.translatable("oneironaut.tooltip.wispcapturedevice.haswisp", (media / MediaConstants.DUST_UNIT), hashString);
             if (world != null){
                 Style coloredStyle = unstyled.getStyle().withColor(
-                        FrozenColorizer.fromNBT(wispData.getCompound("colouriser")).getColor(world.getTime(), Vec3d.ZERO)
+                        FrozenPigment.fromNBT(wispData.getCompound("colouriser")).getColorProvider().getColor(world.getTime(), Vec3d.ZERO)
                 );
                 pTooltipComponents.add(unstyled.copy().setStyle(coloredStyle));
             } else {

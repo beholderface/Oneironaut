@@ -11,12 +11,12 @@ import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.beholderface.oneironaut.network.UnBrainsweepPacket
 import net.beholderface.oneironaut.recipe.OneironautRecipeTypes
 import net.beholderface.oneironaut.casting.iotatypes.DimIota
-import net.beholderface.oneironaut.registry.OneironautItemRegistry
 import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
 import net.beholderface.oneironaut.item.ReverberationRod
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.GoalSelector
 import net.minecraft.entity.mob.MobEntity
@@ -24,7 +24,6 @@ import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.item.Item
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.recipe.RecipeManager
-import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.server.MinecraftServer
@@ -34,7 +33,6 @@ import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Property
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.*
-import net.minecraft.util.math.Direction.Axis
 import net.minecraft.village.VillagerProfession
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
@@ -208,14 +206,14 @@ fun isSolid(world: ServerWorld, pos: BlockPos) : Boolean{
     return output
 }
 
-fun stringToWorld(key : String, player : ServerPlayerEntity) : ServerWorld{
-    var output = player.getWorld()
-    player.server?.worlds?.forEach {
+fun stringToWorld(key : String, server : MinecraftServer) : ServerWorld?{
+    var output : ServerWorld? = null
+    server.worlds?.forEach {
         if (it.registryKey.value.toString() == key){
             output = it
         }
     }
-    return output as ServerWorld
+    return output
 }
 
 fun playerUUIDtoServerPlayer(uuid: UUID, server: MinecraftServer): ServerPlayerEntity? {
@@ -265,7 +263,7 @@ fun isPlayerEnlightened(player : ServerPlayerEntity) : Boolean {
 }
 
 fun isUsingRod(ctx : CastingEnvironment) : Boolean {
-    val state = ReverberationRod.getState(ctx.caster);
+    val state = ReverberationRod.getState(ctx.castingEntity);
     if (state != null){
         return state.castingInProgress
     } else {

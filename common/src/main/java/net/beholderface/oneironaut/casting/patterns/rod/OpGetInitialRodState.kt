@@ -1,23 +1,27 @@
 package net.beholderface.oneironaut.casting.patterns.rod
 
-import at.petrak.hexcasting.api.spell.ConstMediaAction
-import at.petrak.hexcasting.api.spell.iota.Iota
-import at.petrak.hexcasting.api.spell.casting.CastingContext
-import at.petrak.hexcasting.api.spell.iota.DoubleIota
-import at.petrak.hexcasting.api.spell.iota.NullIota
-import at.petrak.hexcasting.api.spell.iota.Vec3Iota
+import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.casting.iota.DoubleIota
+import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.iota.NullIota
+import at.petrak.hexcasting.api.casting.iota.Vec3Iota
+import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster
 import at.petrak.hexcasting.api.utils.*
 import net.beholderface.oneironaut.casting.mishaps.MishapNoRod
+import net.beholderface.oneironaut.isUsingRod
 import net.beholderface.oneironaut.item.ReverberationRod
 import net.beholderface.oneironaut.registry.OneironautItemRegistry
 
 class OpGetInitialRodState(val mode: Int) : ConstMediaAction {
     override val argc = 0
 
-    override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
-        val rod = OneironautItemRegistry.REVERBERATION_ROD.get()
-        if (ctx.caster.activeItem.item == rod.asItem() && ctx.source == CastingContext.CastSource.PACKAGED_HEX){
-            val rodStack  = ctx.caster.activeItem
+    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+        if (ctx.castingEntity == null){
+            throw MishapBadCaster()
+        }
+        if (isUsingRod(ctx)){
+            val rodStack  = ctx.castingEntity!!.activeItem
             val rodNbt = rodStack.nbt
             val state = ReverberationRod.getState(ctx.caster)
             if (rodNbt != null){

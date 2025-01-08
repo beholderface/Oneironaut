@@ -28,7 +28,7 @@ public class MindScalpelItem extends Item {
         ItemCooldownManager cooldownManager = user.getItemCooldownManager();
         if (!cooldownManager.isCoolingDown(this)){
             OvercastDamageEnchant.applyMindDamage(user, target, 2, true);
-            target.damage(DamageSource.player(user), 0);
+            target.damage(target.getDamageSources().playerAttack(user), 0);
             user.swingHand(hand);
             cooldownManager.set(this, 15);
             user.incrementStat(Stats.USED.getOrCreateStat(this));

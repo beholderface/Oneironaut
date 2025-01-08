@@ -1,6 +1,6 @@
 package net.beholderface.oneironaut.mixin;
 
-import at.petrak.hexcasting.api.spell.casting.CastingContext;
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Final;
@@ -17,7 +17,7 @@ public class EraseSoulprintSignatureMixin {
     private ItemStack stack;
 
     @Inject(method = "cast", at = @At(value = "TAIL", remap = false), remap = false)
-    public void eraseSignature(CastingContext ctx, CallbackInfo ci){
+    public void eraseSignature(CastingEnvironment ctx, CallbackInfo ci){
         NbtCompound nbt = stack.getOrCreateNbt();
         if (nbt.containsUuid("soulprint_signature")){
             nbt.remove("soulprint_signature");

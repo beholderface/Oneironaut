@@ -1,6 +1,6 @@
 package net.beholderface.oneironaut.mixin;
 
-import at.petrak.hexcasting.api.spell.casting.CastingContext;
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
@@ -31,12 +31,12 @@ public abstract class ImpulseRedirectFireballMixin {
     private Entity target;
 
     @Unique
-    private static final Identifier immuneTag = new Identifier(Oneironaut.MOD_ID, "impulse_redirect_blacklist");
+    private static final Identifier oneironaut$immuneTag = new Identifier(Oneironaut.MOD_ID, "impulse_redirect_blacklist");
     @Unique
-    private static final boolean redirectionEnabled = OneironautConfig.getServer().getImpulseRedirectsFireball();
+    private static final boolean oneironaut$redirectionEnabled = OneironautConfig.getServer().getImpulseRedirectsFireball();
     @Inject(method = "cast", at = @At(value = "RETURN", remap = false), remap = false)
-    public void redirectFireball(CastingContext ctx, CallbackInfo ci/*, @Local(ordinal = 0) Entity target*/){
-        if (target instanceof ExplosiveProjectileEntity explosive && redirectionEnabled){
+    public void redirectFireball(CastingEnvironment ctx, CallbackInfo ci/*, @Local(ordinal = 0) Entity target*/){
+        if (target instanceof ExplosiveProjectileEntity explosive && oneironaut$redirectionEnabled){
             /*TrackedData<Float> POWER_X = DataTracker.registerData(ExplosiveProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
             TrackedData<Float> POWER_Y = DataTracker.registerData(ExplosiveProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
             TrackedData<Float> POWER_Z = DataTracker.registerData(ExplosiveProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);*/
@@ -47,7 +47,7 @@ public abstract class ImpulseRedirectFireballMixin {
                     immune = true;
                 }
             }
-            if (target.getType().isIn(MiscAPIKt.getEntityTagKey(immuneTag))){
+            if (target.getType().isIn(MiscAPIKt.getEntityTagKey(oneironaut$immuneTag))){
                 immune = true;
             }
             double deltaDelta = immune ? 0 : 1;

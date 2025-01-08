@@ -8,13 +8,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
@@ -41,7 +41,7 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
         int num = config.size();
         Identifier blockID = config.blockID();
 
-        BlockState state = Registry.BLOCK.get(blockID).getDefaultState();
+        BlockState state = Registries.BLOCK.get(blockID).getDefaultState();
         if (state == null){
             throw new IllegalStateException(blockID + " could not be parsed to a valid block identifier!");
         }

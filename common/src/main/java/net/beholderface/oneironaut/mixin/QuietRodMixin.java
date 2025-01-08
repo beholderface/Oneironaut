@@ -1,8 +1,9 @@
 package net.beholderface.oneironaut.mixin;
 
-import at.petrak.hexcasting.api.spell.casting.CastingContext;
-import at.petrak.hexcasting.api.spell.casting.CastingHarness;
-import at.petrak.hexcasting.api.spell.casting.sideeffects.OperatorSideEffect;
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
+import at.petrak.hexcasting.api.casting.eval.sideeffects.OperatorSideEffect;
+import at.petrak.hexcasting.api.casting.eval.vm.CastingImage;
+import at.petrak.hexcasting.api.casting.eval.vm.CastingVM;
 import at.petrak.hexcasting.common.lib.hex.HexEvalSounds;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -23,14 +24,14 @@ import static net.beholderface.oneironaut.MiscAPIKt.isUsingRod;
 
 
 @SuppressWarnings("ConstantConditions")
-@Mixin(value = CastingHarness.class, priority = 1002/*gotta make sure to overwrite the hexal mixin here*/)
+@Mixin(value = CastingVM.class, priority = 1002/*gotta make sure to overwrite the hexal mixin here*/)
 public abstract class QuietRodMixin {
     @Unique
-    private final CastingHarness oneironaut$harness = (CastingHarness) (Object) this;
+    private final CastingVM oneironaut$harness = (CastingVM) (Object) this;
 
     @WrapOperation(method = "updateWithPattern", at = @At(value="INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", remap = false), remap = false)
     private boolean lessSparklyRod(List<OperatorSideEffect> sideEffects, Object o, Operation<Boolean> original){
-        CastingContext ctx = oneironaut$harness.getCtx();
+        CastingEnvironment ctx = oneironaut$harness.getEnv();
         if (o instanceof OperatorSideEffect.Particles particles && isUsingRod(ctx)){
             RodState state = ReverberationRod.getState(ctx.getCaster());
             if (!(((ctx.getCaster().getWorld().getTime() - state.getTimestamp()) % 30.0) == 0)){
@@ -43,7 +44,7 @@ public abstract class QuietRodMixin {
     @ModifyVariable(method = "executeIotas",
     at = @At(value = "STORE"))
     private SoundEvent quieterRod(SoundEvent event) {
-        CastingContext ctx = oneironaut$harness.getCtx();
+        CastingEnvironment ctx = oneironaut$harness.getEnv();
         if (isUsingRod(ctx)) {
             RodState state = ReverberationRod.getState(ctx.getCaster());
             ServerPlayerEntity caster = ctx.getCaster();

@@ -1,5 +1,6 @@
 package net.beholderface.oneironaut.block;
 
+import at.petrak.hexcasting.common.lib.HexBlocks;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -36,7 +37,7 @@ public class FrostedMediaIceBlock extends FrostedIceBlock {
                 world.removeBlock(pos, false);
                 return;
             }
-            Material material = world.getBlockState(pos.down()).getMaterial();
+            BlockState material = world.getBlockState(pos.down());
             if (material.blocksMovement() || material.isLiquid()) {
                 world.setBlockState(pos, OneironautBlockRegistry.THOUGHT_SLURRY_BLOCK.get().getDefaultState());
             }

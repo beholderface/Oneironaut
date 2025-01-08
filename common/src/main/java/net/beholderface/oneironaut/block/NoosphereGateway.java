@@ -35,10 +35,5 @@ public class NoosphereGateway extends BlockWithEntity{
         return (_world, _pos, _state, _be) -> ((NoosphereGateEntity)_be).tick(_world, _pos, _state);
     }
 
-    @Override
-    public PistonBehavior getPistonBehavior(BlockState pState) {
-        return PistonBehavior.BLOCK;
-    }
-
 }
 

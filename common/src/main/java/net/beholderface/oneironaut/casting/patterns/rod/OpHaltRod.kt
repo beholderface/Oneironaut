@@ -1,16 +1,16 @@
 package net.beholderface.oneironaut.casting.patterns.rod
 
-import at.petrak.hexcasting.api.spell.ConstMediaAction
-import at.petrak.hexcasting.api.spell.casting.CastingContext
-import at.petrak.hexcasting.api.spell.getPositiveInt
-import at.petrak.hexcasting.api.spell.iota.Iota
+import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.casting.getPositiveInt
+import at.petrak.hexcasting.api.casting.iota.Iota
 import net.beholderface.oneironaut.casting.mishaps.MishapNoRod
 import net.beholderface.oneironaut.isUsingRod
 import net.beholderface.oneironaut.item.ReverberationRod
 
 class OpHaltRod(val reset : Int) : ConstMediaAction {
     override val argc = reset
-    override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
+    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
         //val rod = OneironautItemRegistry.REVERBERATION_ROD.get()
         if (isUsingRod(ctx)){
             val state = ReverberationRod.getState(ctx.caster)

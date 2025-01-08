@@ -49,8 +49,8 @@ public class WispBattery extends BlockWithEntity {
 
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        int media = ((WispBatteryEntity)world.getBlockEntity(pos)).getMedia();
-        int capacity = WispBatteryEntity.CAPACITY;
+        long media = ((WispBatteryEntity)world.getBlockEntity(pos)).getMedia();
+        long capacity = WispBatteryEntity.CAPACITY;
         if (media < 0){
             return (int) ((world.getTime() / 2) % 15);
         } else {

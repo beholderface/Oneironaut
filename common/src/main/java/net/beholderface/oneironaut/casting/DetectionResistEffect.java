@@ -1,10 +1,15 @@
 package net.beholderface.oneironaut.casting;
 
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
+import at.petrak.hexcasting.api.casting.eval.env.StaffCastEnv;
+import at.petrak.hexcasting.api.casting.eval.vm.CastingVM;
 import at.petrak.hexcasting.api.casting.mishaps.Mishap;
 import at.petrak.hexcasting.api.misc.MediaConstants;
+import at.petrak.hexcasting.common.lib.HexDamageTypes;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.beholderface.oneironaut.item.BottomlessMediaItem;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.mob.MobEntity;
@@ -36,22 +41,23 @@ public class DetectionResistEffect extends StatusEffect {
             if (entity.isPlayer()){
                 if ((time % 20) == 0){
                     ServerPlayerEntity player = (ServerPlayerEntity) entity;
-                    CastingContext ctx = new CastingContext(player, Hand.MAIN_HAND, CastingContext.CastSource.STAFF);
-                    CastingHarness harness = new CastingHarness(ctx);
-                    int deficit = harness.withdrawMedia(MediaConstants.DUST_UNIT / 10, false);
+                    CastingEnvironment ctx = new StaffCastEnv(player, Hand.MAIN_HAND);
+                    //CastingVM harness = CastingVM.empty(ctx);
+                    long deficit = ctx.extractMedia(MediaConstants.DUST_UNIT / 10, false);
                     if (deficit > 0 && (time % 40) == 0){
                         //entity.damage(HexDamageSources.OVERCAST, 1f);
-                        Mishap.Companion.trulyHurt(entity, HexDamageSources.OVERCAST, 1f);
+
+                        Mishap.Companion.trulyHurt(entity, entity.getDamageSources().create(HexDamageTypes.OVERCAST), 1f);
                     }
                 }
             } else if (entity instanceof MobEntity){
                 if (mainStack.getItem() instanceof BottomlessMediaItem || offStack.getItem() instanceof BottomlessMediaItem || IXplatAbstractions.INSTANCE.isBrainswept((MobEntity) entity)){
                     //do nothing, they are immune
                 } else if ((time % 40) == 0) {
-                    Mishap.Companion.trulyHurt(entity, HexDamageSources.OVERCAST, 1f);
+                    Mishap.Companion.trulyHurt(entity, entity.getDamageSources().create(HexDamageTypes.OVERCAST), 1f);
                 }
             } else if ((time % 40) == 0){
-                Mishap.Companion.trulyHurt(entity, HexDamageSources.OVERCAST, 1f);
+                Mishap.Companion.trulyHurt(entity, entity.getDamageSources().create(HexDamageTypes.OVERCAST), 1f);
             }
         }
     }

@@ -52,7 +52,7 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
                 Vec3d doublePos = new Vec3d(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5);
                 int[] colors = getColors(world.random);
                 world.addParticle(
-                        new ConjureParticleOptions(colors[world.random.nextInt(colors.length)], true),
+                        new ConjureParticleOptions(colors[world.random.nextInt(colors.length)]),
                         doublePos.x, doublePos.y, doublePos.z,
                         0.0125 * (world.random.nextDouble() - 0.5),
                         0.0125 * (world.random.nextDouble() - 0.5),

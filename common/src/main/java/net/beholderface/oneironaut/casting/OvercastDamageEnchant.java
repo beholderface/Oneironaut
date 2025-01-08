@@ -1,6 +1,7 @@
 package net.beholderface.oneironaut.casting;
 
 import at.petrak.hexcasting.api.pigment.FrozenPigment;
+import at.petrak.hexcasting.common.lib.HexDamageTypes;
 import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.ktxt.AccessorWrappers;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
@@ -11,6 +12,7 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
@@ -89,7 +91,8 @@ public class OvercastDamageEnchant extends Enchantment {
                 brainswept = IXplatAbstractions.INSTANCE.isBrainswept(mob);
             }
             boolean creative = target instanceof PlayerEntity player && (player.isSpectator() || player.isCreative());
-            if (!livingTarget.isInvulnerableTo(HexDamageSources.OVERCAST) && !livingTarget.isDead() && !brainswept && !creative){
+            DamageSource overcastSource = livingTarget.getDamageSources().create(HexDamageTypes.OVERCAST);
+            if (!livingTarget.isInvulnerableTo(overcastSource) && !livingTarget.isDead() && !brainswept && !creative){
                 float oldHealth = livingTarget.getHealth();
                 float newHealth = oldHealth - (level / 2f);
                 if (newHealth > 0){
@@ -98,7 +101,7 @@ public class OvercastDamageEnchant extends Enchantment {
                     livingTarget.setHealth(0.1f);
                 } else {
                     //die, avaritia user, die!
-                    livingTarget.damage(HexDamageSources.OVERCAST, Float.MAX_VALUE);
+                    livingTarget.damage(overcastSource, Float.MAX_VALUE);
                     livingTarget.kill();
                 }
                 AccessorWrappers.markHurt(livingTarget);
@@ -108,7 +111,7 @@ public class OvercastDamageEnchant extends Enchantment {
                     //if it has more than 100 max health, it's probably a boss, and I'm not letting people get flayed dragons
                     if ((mob.getMaxHealth() <= 100.0f || whitelisted) /* but I am letting people get flayed wardens :) */ && !blacklisted){
                         //Brainsweeping.brainsweep(mob);
-                        IXplatAbstractions.INSTANCE.brainsweep(mob);
+                        IXplatAbstractions.INSTANCE.setBrainsweepAddlData(mob);
                         if (user instanceof ServerPlayerEntity player){
                             IXplatAbstractions.INSTANCE.sendPacketNear(target.getPos(), 128.0, (ServerWorld) mob.getWorld(), new ParticleBurstPacket(
                                     target.getPos(), new Vec3d(0.0, 0.1, 0.0), 0.1, 0.025,

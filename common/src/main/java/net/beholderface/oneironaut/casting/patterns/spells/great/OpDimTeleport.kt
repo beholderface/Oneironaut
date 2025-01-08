@@ -43,7 +43,7 @@ import kotlin.math.floor
 class OpDimTeleport : SpellAction {
     override val argc = 2
 
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): Triple<RenderedSpell, Int, List<ParticleSpray>> {
+    override fun execute(args: List<Iota>, ctx: CastingEnvironment): SpellAction.Result {
         if (ctx.castingEntity == null){
             throw MishapBadCaster()
         }
@@ -97,14 +97,14 @@ class OpDimTeleport : SpellAction {
         }
 
         return if (origin == world && !noosphere){
-            Triple(
+            SpellAction.Result(
                 Spell(target, origin, world, coords, false),
                 //don't consume amethyst if trying to teleport to the same dimension you're already in
                 0,
                 listOf(ParticleSpray.cloud(target.pos, 2.0))
             )
         } else {
-            Triple(
+            SpellAction.Result(
                 Spell(target, origin, world, coords, noosphere),
                 cost,
                 listOf(ParticleSpray.cloud(target.pos, 2.0))

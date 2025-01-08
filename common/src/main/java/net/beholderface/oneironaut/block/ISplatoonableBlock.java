@@ -1,6 +1,5 @@
 package net.beholderface.oneironaut.block;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;

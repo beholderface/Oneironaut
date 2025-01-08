@@ -1,7 +1,7 @@
 package net.beholderface.oneironaut.mixin;
 
-import at.petrak.hexcasting.api.spell.casting.CastingContext;
-import at.petrak.hexcasting.common.casting.operators.OpEntityRaycast;
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
+import at.petrak.hexcasting.common.casting.actions.raycast.OpEntityRaycast;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.beholderface.oneironaut.Oneironaut;
@@ -24,7 +24,7 @@ public abstract class EntityRaycastImmunityMixin {
     @ModifyVariable(method = "execute", at = @At(value = "STORE", remap = false), remap = false)
     private EntityHitResult nullIfBlocker(
             EntityHitResult value,
-            @Local CastingContext ctx,
+            @Local CastingEnvironment ctx,
             @Local(ordinal = 0) Vec3d origin,
             @Local(ordinal = 1) Vec3d look,
             @Local(ordinal = 2) Vec3d end){
@@ -33,7 +33,7 @@ public abstract class EntityRaycastImmunityMixin {
             Vec3d step = look.multiply(1.0 / stepResolution);
             Identifier blockerTag = new Identifier(Oneironaut.MOD_ID, "blocksraycast");
             for(int i = 0; i < origin.distanceTo(value.getPos()) * stepResolution; i++){
-                if (ctx.getWorld().getBlockState(new BlockPos(origin.add(step.multiply(i)))).isIn(MiscAPIKt.getBlockTagKey(blockerTag))){
+                if (ctx.getWorld().getBlockState(new BlockPos(MiscAPIKt.toVec3i(origin.add(step.multiply(i))))).isIn(MiscAPIKt.getBlockTagKey(blockerTag))){
                     return null;
                 }
             }

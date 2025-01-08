@@ -2,6 +2,8 @@ package net.beholderface.oneironaut.item;
 
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
 import at.petrak.hexcasting.api.casting.eval.ResolvedPatternType;
+import at.petrak.hexcasting.api.casting.eval.env.PackagedItemCastEnv;
+import at.petrak.hexcasting.api.casting.eval.vm.CastingVM;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
 import net.beholderface.oneironaut.Oneironaut;
@@ -39,6 +41,11 @@ public class ReverberationRod extends ItemPackagedHex  {
     @Override
     public boolean breakAfterDepletion() {
         return false;
+    }
+
+    @Override
+    public int cooldown() {
+        return 1;
     }
 
     @Override
@@ -102,6 +109,7 @@ public class ReverberationRod extends ItemPackagedHex  {
 
     private boolean castHex(ItemStack stack, ServerWorld world, ServerPlayerEntity sPlayer, Hand usedHand){
         List<Iota> instrs = getHex(stack, world);
+        assert instrs != null;
         //assert stack.getNbt() != null;
         //int delay = stack.getNbt().getInt("delay");
         RodState state = ROD_MAP.get(sPlayer.getUuid());
@@ -110,9 +118,9 @@ public class ReverberationRod extends ItemPackagedHex  {
             if (delay < 0){
                 state.setDelay(0);
             }
-            var ctx = new CastingEnvironment(sPlayer, usedHand, CastingEnvironment.CastSource.PACKAGED_HEX);
-            var harness = new CastingHarness(ctx);
-            var info = harness.executeIotas(instrs, sPlayer.getWorld());
+            var ctx = new PackagedItemCastEnv(sPlayer, usedHand);
+            var harness = CastingVM.empty(ctx);
+            var info = harness.queueExecuteAndWrapIotas(instrs, ctx.getWorld());
             if (info.getResolutionType().equals(ResolvedPatternType.ERRORED)){
                 /*sPlayer.stopUsingItem();
                 sPlayer.getItemCooldownManager().set(this, 20);*/

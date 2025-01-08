@@ -59,7 +59,7 @@ public abstract class SentinelTrapMixinSummon {
                         }
                         if (foundPlayer != null ){
                             be.setTargetPlayer(ctx.getCaster().getUuid());
-                            be.activateSpellCircle(foundPlayer);
+                            be.startExecution(foundPlayer);
                             Oneironaut.LOGGER.info(ctx.getCaster().getName().getString()+" has activated "+foundPlayer.getName().getString()+"'s trap card!");
                         }
                     } else {

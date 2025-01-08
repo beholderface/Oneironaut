@@ -5,11 +5,11 @@ import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
@@ -38,18 +38,17 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
         Identifier mainID = config.mainBlockID();
         Identifier coreID = config.secondaryBlockID();
 
-        BlockState mainstate = Registry.BLOCK.get(mainID).getDefaultState();
+        BlockState mainstate = Registries.BLOCK.get(mainID).getDefaultState();
         if (mainstate == null){
             throw new IllegalStateException(mainID + " could not be parsed to a valid block identifier!");
         }
-        BlockState corestate = Registry.BLOCK.get(coreID).getDefaultState();
+        BlockState corestate = Registries.BLOCK.get(coreID).getDefaultState();
         if (corestate == null){
             throw new IllegalStateException(mainID + " could not be parsed to a valid block identifier!");
         }
 
         //Vec3i randOffset = new Vec3i((rand.nextInt(10) - 5), 0, (rand.nextInt(10) - 5));
-        BlockPos chunkCenter = new BlockPos((Math.floor(origin.getX() / 16) * 16) + 8, origin.getY(), (Math.floor(origin.getZ() / 16) * 16) + 8);
-        BlockPos scanPos = chunkCenter;
+        BlockPos scanPos = new BlockPos((int) ((Math.floor(origin.getX() / 16.0) * 16) + 8), origin.getY(), (int) ((Math.floor(origin.getZ() / 16.0) * 16) + 8));
         int roll = rand.nextInt(1000);
         if (roll == 250){
             for (int y = origin.getY(); y < 32; y++){
@@ -88,9 +87,9 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
                     Iterator<Vec3i> jaggedOffsets = Arrays.stream(new Vec3i[]{
                             new Vec3i(-4, 0, 1), new Vec3i(-4, 0, -2), new Vec3i(-4, 1, -2),
                             new Vec3i(-4, 0, -2), new Vec3i(-3, 0, -3), new Vec3i(-2, 0, -3),
-                            new Vec3i(-2.00, 1.00, -3.00), new Vec3i(-2.00, 0.00, -4.00), new Vec3i(1.00, 0.00, -4.00),
-                            new Vec3i(3.00, 0.00, -3.00), new Vec3i(4.00, 0.00, -1.00), new Vec3i(4.00, 0.00, 1.00),
-                            new Vec3i(2.00, 0.00, 3.00), new Vec3i(0.00, 0.00, 4.00), new Vec3i(-2.00, 0.00, 4.00),
+                            new Vec3i(-2, 1, -3), new Vec3i(-2, 0, -4), new Vec3i(1, 0, -4),
+                            new Vec3i(3, 0, -3), new Vec3i(4, 0, -1), new Vec3i(4, 0, 1),
+                            new Vec3i(2, 0, 3), new Vec3i(0, 0, 4), new Vec3i(-2, 0, 4),
                     }).iterator();
                     placedMainBlock += 15;
                     while (jaggedOffsets.hasNext()){

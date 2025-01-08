@@ -21,7 +21,7 @@ public class RenderThorns extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         OvercastDamageEnchant.applyMindDamage(null, user, 2, false);
-        user.damage(DamageSource.SWEET_BERRY_BUSH, user.isPlayer() ? 0.001f : 0f);
+        user.damage(user.getDamageSources().sweetBerryBush(), user.isPlayer() ? 0.001f : 0f);
         user.getItemCooldownManager().set(this, 10);
         if (user instanceof ServerPlayerEntity serverPlayer){
             PlayerAdvancementTracker tracker = serverPlayer.getAdvancementTracker();

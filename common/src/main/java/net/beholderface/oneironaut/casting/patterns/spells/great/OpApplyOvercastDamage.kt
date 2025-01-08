@@ -23,7 +23,7 @@ import kotlin.math.pow
 
 class OpApplyOvercastDamage : SpellAction {
     override val argc = 1
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): Triple<RenderedSpell, Int, List<ParticleSpray>> {
+    override fun execute(args: List<Iota>, ctx: CastingEnvironment): SpellAction.Result {
         val holder = args.getEntity(0, argc)
         val target = args.getItemEntityOrItemFrame(0, argc)
         ctx.assertEntityInRange(holder)
@@ -40,9 +40,9 @@ class OpApplyOvercastDamage : SpellAction {
             } else {
                 throw MishapMissingEnchant(stack, Enchantments.SHARPNESS)
             }
-            return Triple(
+            return SpellAction.Result(
                 Spell(stack, level, true, stackEnchants, holder),
-                (level.toDouble().pow(2) * MediaConstants.CRYSTAL_UNIT * 15).toInt(),
+                (level.toDouble().pow(2) * MediaConstants.CRYSTAL_UNIT * 15).toLong(),
                 listOf(ParticleSpray.cloud(holder.pos, 2.0))
             )
 
@@ -53,9 +53,9 @@ class OpApplyOvercastDamage : SpellAction {
             } else {
                 throw MishapMissingEnchant(stack, Enchantments.SHARPNESS)
             }
-            return Triple(
+            return SpellAction.Result(
                 Spell(stack, level, false, stackEnchants, holder),
-                (level.toDouble().pow(2) * MediaConstants.CRYSTAL_UNIT * 10).toInt(),
+                (level.toDouble().pow(2) * MediaConstants.CRYSTAL_UNIT * 10).toLong(),
                 listOf(ParticleSpray.cloud(holder.pos, 2.0))
             )
         }

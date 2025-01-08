@@ -41,7 +41,7 @@ public class BottomlessMediaItem extends ItemMediaHolder {
     private static final Map<UUID, Pair<Entity, Long>> phialOwners = new HashMap<>();
     public static long time;
 
-    private int logMedia(ItemStack stack){
+    private long logMedia(ItemStack stack){
         NbtCompound nbt = stack.getOrCreateNbt();
         UUID uuid = nbt.getUuid("uuid");
         if (uuid == null){
@@ -53,7 +53,7 @@ public class BottomlessMediaItem extends ItemMediaHolder {
         //dashing your hopes against the rocks
         int base = lastPhialCount <= 36 ? 6 : 12;
         //NbtCompound currentData = playerPhialCounts.get(phialOwners.get(uuid).getFirst());
-        int media = 1;
+        long media = 1;
         if (time != lastCheckIn){
             //Oneironaut.LOGGER.info("Stale phial use detected");
             return media;
@@ -113,7 +113,7 @@ public class BottomlessMediaItem extends ItemMediaHolder {
     }
 
     @Override
-    public int getMedia(ItemStack stack) {
+    public long getMedia(ItemStack stack) {
         if (stack == null){
             Oneironaut.LOGGER.info("Inexhaustible Phial's getMedia method called with a null pointer.");
             return 0;
@@ -126,7 +126,7 @@ public class BottomlessMediaItem extends ItemMediaHolder {
     }
 
     @Override
-    public int getMaxMedia(ItemStack stack) {
+    public long getMaxMedia(ItemStack stack) {
         if (stack == null){
             Oneironaut.LOGGER.info("Inexhaustible Phial's getMedia method called with a null pointer.");
             return 0;
@@ -135,7 +135,7 @@ public class BottomlessMediaItem extends ItemMediaHolder {
     }
 
     @Override
-    public void setMedia(ItemStack stack, int media) {
+    public void setMedia(ItemStack stack, long media) {
         //stack.setCount(media / PSEUDOSHARD_UNIT);
     }
 
