@@ -1,6 +1,5 @@
 package net.beholderface.oneironaut.fabric.mixin;
 
-import at.petrak.hexcasting.api.spell.casting.sideeffects.OperatorSideEffect;
 import at.petrak.hexcasting.common.items.ItemStaff;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

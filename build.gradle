@@ -52,6 +52,12 @@ allprojects {
     group = project.mavenGroup
 
     repositories {
+
+        flatDir {
+            name="localModLibs"
+            dir 'libs'
+        }
+
         maven { url 'https://jitpack.io' }
         maven {
             url "https://squiddev.cc/maven/"

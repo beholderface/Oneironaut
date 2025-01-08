@@ -89,10 +89,10 @@ public class OneironautClient {
     public static void init() {
 
         if (Platform.isFabric()){
-            ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
+            /*ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
                 registry.register(new Identifier("oneironaut:block/thought_slurry"));
                 registry.register(new Identifier("oneironaut:block/thought_slurry_flowing"));
-            });
+            });*/
 
             FluidRenderHandlerRegistry.INSTANCE.register(ThoughtSlurry.STILL_FLUID, ThoughtSlurry.FLOWING_FLUID, new SimpleFluidRenderHandler(
                     new Identifier("oneironaut:block/thought_slurry"),

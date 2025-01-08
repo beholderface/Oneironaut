@@ -149,7 +149,7 @@ public class OneironautPatternRegistry {
 
     @FunctionalInterface
     public static interface UncheckedPatternRegister{
-        public void register() throws PatternRegistry.RegisterPatternException;
+        public void register();
     }
 
     /*private static String[][] registerCellSpell(String[][] pattern, String name, ICellSpell spell){

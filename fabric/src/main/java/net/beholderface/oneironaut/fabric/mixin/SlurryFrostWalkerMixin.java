@@ -30,7 +30,7 @@ public class SlurryFrostWalkerMixin {
         }
         if (world.getBlockState(pos).getBlock() == OneironautBlockRegistry.THOUGHT_SLURRY_BLOCK.get()){
             boolean output = world.setBlockState(pos, oneironaut$frozenSlurryState);
-            world.createAndScheduleBlockTick(pos, oneironaut$frozenSlurry, MathHelper.nextInt(world.getRandom(), 60, 120));
+            world.scheduleBlockTick(pos, oneironaut$frozenSlurry, MathHelper.nextInt(world.getRandom(), 60, 120));
             return output;
         }
         return original.call(world, pos, state);

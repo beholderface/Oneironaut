@@ -37,6 +37,7 @@ dependencies {
     //modCompileOnly "maven.modrinth:wnboi:${wnboiVersion}"
     //modImplementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixinExtrasVersion}"))
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-api:$cca_version"
+    modImplementation "localModLibs:hexal-fabric-${minecraftVersion}-${hexalVersion}"
 }
 
 publishing {

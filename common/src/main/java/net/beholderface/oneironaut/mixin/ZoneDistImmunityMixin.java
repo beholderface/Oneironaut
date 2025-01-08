@@ -10,12 +10,11 @@ import net.minecraft.entity.LivingEntity;
 import net.beholderface.oneironaut.registry.OneironautMiscRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import ram.talia.hexal.common.casting.actions.OpGetEntitiesByDyn;
 
 import java.util.Collection;
 
 //TIL that I can target multiple classes with one mixin class
-@Mixin(value = {OpGetEntitiesBy.class, OpGetEntitiesByDyn.class})
+@Mixin(value = {OpGetEntitiesBy.class/*, OpGetEntitiesByDyn.class*/})
 public abstract class ZoneDistImmunityMixin {
     /*@Redirect(method="execute", at = @At(value = "INVOKE", target = "Ljava/util/Collection;add(Ljava/lang/Object;)Z", remap = false), remap = false)
     private boolean nullImmune(Collection<Iota> instance, Object o){

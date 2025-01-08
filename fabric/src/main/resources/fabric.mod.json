@@ -25,19 +25,15 @@
       "net.beholderface.oneironaut.fabric.OneironautCC"
     ]
   },
-  "mixins": [
-    "oneironaut-common.mixins.json",
-    "oneironaut.mixins.json"
-  ],
   "accessWidener": "oneironaut.accesswidener",
   "depends": {
-    "minecraft": "1.19.2",
+    "minecraft": "1.20.1",
     "fabricloader": ">=0.14.21",
     "fabric-api": "*",
     "fabric-language-kotlin": ">=1.9.0+kotlin.1.8.0",
     "architectury": ">=6.5.85",
-    "hexcasting": ">=0.10.3",
-    "hexal": ">=0.2.18"
+    "hexcasting": ">=0.11.2-pre-702",
+    "hexal": ">=0.3.0-3-skyevg-unofficial"
   },
   "custom": {
     "cardinal-components": [

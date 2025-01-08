@@ -35,12 +35,8 @@ public class OneironautFeatureRegistry {
 
         if (Platform.isFabric()){
             Predicate<BiomeSelectionContext> noosphereSeaHopefully = BiomeSelectors.vanilla().negate();
-            Optional<RegistryKey<Biome>> noosphere_sea_preliminary = Registries.BIOME_SOURCE.getKey(Registries.BIOME_SOURCE.get(new Identifier("oneironaut:noosphere_sea")));
-            RegistryKey<Biome> noosphere_sea;
-            if (noosphere_sea_preliminary.isPresent()){
-                noosphere_sea = noosphere_sea_preliminary.get();
-                noosphereSeaHopefully =  BiomeSelectors.includeByKey(noosphere_sea);
-            }
+            RegistryKey<Biome> noosphere_sea = RegistryKey.of(RegistryKeys.BIOME, new Identifier("oneironaut:noosphere_sea"));
+            noosphereSeaHopefully =  BiomeSelectors.includeByKey(noosphere_sea);
             BiomeModifications.addFeature(
                     noosphereSeaHopefully,
                     GenerationStep.Feature.RAW_GENERATION,

@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -34,7 +35,7 @@ public abstract class OpBreakBlockImmunityMixin {
 public abstract class OpBreakBlockImmunityMixin {
     @ModifyReturnValue(method = "isBreakingAllowed", at = @At(value = "RETURN", remap = false), remap = false)
     public boolean dontBreakIfImmune(boolean original, @Local PlayerEntity player,
-                                     @Local World world, @Local BlockPos pos, @Local BlockState state){
+                                     @Local ServerWorld world, @Local BlockPos pos, @Local BlockState state){
         if (!original){
             return false;
         } else {

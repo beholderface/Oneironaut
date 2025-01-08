@@ -1,6 +1,5 @@
 package net.beholderface.oneironaut.block;
 
-import at.petrak.hexcasting.api.misc.FrozenColorizer;
 import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.beholderface.oneironaut.block.blockentity.WispLanternEntityTinted;

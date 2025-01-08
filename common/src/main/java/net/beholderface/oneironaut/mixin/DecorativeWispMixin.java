@@ -13,7 +13,7 @@ import ram.talia.hexal.common.entities.WanderingWisp;
 
 @Mixin(WanderingWisp.class)
 public class DecorativeWispMixin {
-    @Unique
+    /*@Unique
     WanderingWisp wisp = (WanderingWisp) (Object) this;
 
     @Inject(method = "getMedia()I", at = @At(value = "HEAD", remap = false), cancellable = true, remap = false)
@@ -25,5 +25,5 @@ public class DecorativeWispMixin {
             //approximately net-zero media from consuming it rather than just eating a shard for no media
             cir.setReturnValue(MediaConstants.SHARD_UNIT);
         }
-    }
+    }*/
 }

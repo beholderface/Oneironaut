@@ -63,7 +63,7 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
                     long wispSpawnCost = MediaConstants.CRYSTAL_UNIT * 2;
                     if (this.media >= wispSpawnCost || this.media < 0){
                         WanderingWisp wisp = new WanderingWisp(world, Vec3d.ofCenter(pos, 1));
-                        wisp.setColouriser(new FrozenPigment(
+                        wisp.setPigment(new FrozenPigment(
                                 new ItemStack(CollectionsKt.elementAt(HexItems.DYE_PIGMENTS.values(),
                                         world.random.nextInt(HexItems.DYE_PIGMENTS.size()))),
                                 Util.NIL_UUID

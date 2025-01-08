@@ -23,15 +23,15 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("ConstantConditions")
-@Mixin(targets = "at.petrak.hexcasting.common.casting.operators.spells.sentinel.OpCreateSentinel$Spell")
+//@Mixin(targets = "at.petrak.hexcasting.common.casting.operators.spells.sentinel.OpCreateSentinel$Spell")
 public abstract class SentinelTrapMixinSummon {
     @Final
-    @Shadow private Vec3d target;
+    //@Shadow private Vec3d target;
 
     @Unique
     private final Map<RegistryKey<World>, Map<BlockPos, Vec3d>> oneironaut$trapMap = SentinelTrapImpetusEntity.trapLocationMap;
 
-    @Inject(method = "cast", at = @At("HEAD"), remap = false)
+    /*@Inject(method = "cast", at = @At("HEAD"), remap = false)
     public void triggerTrap(CastingEnvironment ctx, CallbackInfo ci){
         //Oneironaut.LOGGER.info("you've activated my trap card!");
         World world = ctx.getWorld();
@@ -71,5 +71,5 @@ public abstract class SentinelTrapMixinSummon {
                 trapPosMap.remove(key);
             }
         }
-    }
+    }*/
 }

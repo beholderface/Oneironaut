@@ -29,7 +29,7 @@ public abstract class QuietRodMixin {
     @Unique
     private final CastingVM oneironaut$harness = (CastingVM) (Object) this;
 
-    @WrapOperation(method = "updateWithPattern", at = @At(value="INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", remap = false), remap = false)
+    /*@WrapOperation(method = "updateWithPattern", at = @At(value="INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", remap = false), remap = false)
     private boolean lessSparklyRod(List<OperatorSideEffect> sideEffects, Object o, Operation<Boolean> original){
         CastingEnvironment ctx = oneironaut$harness.getEnv();
         if (o instanceof OperatorSideEffect.Particles particles && isUsingRod(ctx)){
@@ -63,5 +63,5 @@ public abstract class QuietRodMixin {
         } else {
             return event;
         }
-    }
+    }*/
 }

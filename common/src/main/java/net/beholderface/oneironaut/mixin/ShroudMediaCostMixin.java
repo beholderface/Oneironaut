@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public abstract class ShroudMediaCostMixin {
 
     private final CastingVM harness = (CastingVM) (Object) this;
-    @ModifyVariable(method = "withdrawMedia", at = @At(value = "STORE"), remap = false)
+    /*@ModifyVariable(method = "withdrawMedia", at = @At(value = "STORE"), remap = false)
     private ItemStack fakeStaffIfShrouded(ItemStack stack){
         CastingEnvironment ctx = harness.getEnv();
         if (ctx instanceof StaffCastEnv && ctx.getCastingEntity() != null &&
@@ -28,5 +28,5 @@ public abstract class ShroudMediaCostMixin {
         } else {
             return stack;
         }
-    }
+    }*/
 }

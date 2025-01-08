@@ -29,7 +29,7 @@ public abstract class MiscWispMixin
     @Unique
     private static final Map<RegistryKey<World>, Map<BlockPos, Vec3d>> gateMap = NoosphereGateEntity.gateLocationMap;
 
-    @WrapOperation(method = "deductMedia",
+    /*@WrapOperation(method = "deductMedia",
             at = @At(value = "INVOKE",
                     target="Lram/talia/hexal/common/entities/BaseCastingWisp;getNormalCostPerTick()I",
                     remap = false),
@@ -51,7 +51,7 @@ public abstract class MiscWispMixin
             return 0;
         }
         return original.call(wisp);
-    }
+    }*/
 
     @Unique
     private static boolean oneironaut$free(BaseCastingWisp wisp){

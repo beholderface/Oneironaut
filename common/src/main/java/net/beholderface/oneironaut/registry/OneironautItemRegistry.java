@@ -13,8 +13,8 @@ import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.registry.Registry;
 
 public class OneironautItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Oneironaut.MOD_ID, RegistryKeys.ITEM);
@@ -30,10 +30,10 @@ public class OneironautItemRegistry {
         ITEMS.register();
     }
 
-    public static final ItemGroup ONEIRONAUT_GROUP = CreativeTabRegistry.create(Oneironaut.id("oneironaut"), () -> new ItemStack(OneironautItemRegistry.PSUEDOAMETHYST_SHARD.get()));
-    private static final Item.Settings ONEIRONAUT_STACKABLE64 = new Item.Settings().group(ONEIRONAUT_GROUP).maxCount(64);
-    private static final Item.Settings ONEIRONAUT_STACKABLE16 = new Item.Settings().group(ONEIRONAUT_GROUP).maxCount(16);
-    private static final Item.Settings ONEIRONAUT_UNSTACKABLE = new Item.Settings().group(ONEIRONAUT_GROUP).maxCount(1);
+    public static final ItemGroup ONEIRONAUT_GROUP = CreativeTabRegistry.create(Text.of("oneironaut:oneironaut"), () -> new ItemStack(OneironautItemRegistry.PSUEDOAMETHYST_SHARD.get()));
+    private static final Item.Settings ONEIRONAUT_STACKABLE64 = new Item.Settings()/*.group(ONEIRONAUT_GROUP)*/.maxCount(64);
+    private static final Item.Settings ONEIRONAUT_STACKABLE16 = new Item.Settings()/*.group(ONEIRONAUT_GROUP)*/.maxCount(16);
+    private static final Item.Settings ONEIRONAUT_UNSTACKABLE = new Item.Settings()/*.group(ONEIRONAUT_GROUP)*/.maxCount(1);
 
 
     public static final RegistrySupplier<ItemStolenMediaProvider> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new

@@ -42,7 +42,7 @@ public class Oneironaut {
         OneironautMiscRegistry.init();
         OneironautBlockRegistry.init();
         OneironautItemRegistry.init();
-        OneironautFeatureRegistry.init();
+        //OneironautFeatureRegistry.init();
         OneironautIotaTypeRegistry.init();
         OneironautPatternRegistry.init();
         //Registry.register(Registry.RECIPE_SERIALIZER, OneironautRecipeSerializer.)

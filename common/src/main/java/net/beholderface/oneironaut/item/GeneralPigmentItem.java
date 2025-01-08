@@ -21,12 +21,7 @@ public class GeneralPigmentItem extends Item implements PigmentItem {
     }
 
     @Override
-    public int color(ItemStack stack, UUID owner, float time, Vec3d position) {
-        return ADPigment.morphBetweenColors(this.colors, new Vec3d(0.1, 0.1, 0.1), time / 20 / 20, position);
-    }
-
-    @Override
     public ColorProvider provideColor(ItemStack stack, UUID owner) {
-        return uhhh error;
+        return new FrozenPigment(stack, owner).getColorProvider();
     }
 }

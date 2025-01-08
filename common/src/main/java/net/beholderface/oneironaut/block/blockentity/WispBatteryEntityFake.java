@@ -65,7 +65,7 @@ public class WispBatteryEntityFake extends BlockEntity {
             } else {
                 if (world.getTime() % 80 == 0 && world.getEntitiesByClass(WanderingWisp.class, Box.of(Vec3d.ofCenter(pos), 64.0, 64.0, 64.0), (idfk)-> true).size() < 20){
                     WanderingWisp wisp = new WanderingWisp(world, Vec3d.ofCenter(pos, 1));
-                    wisp.setColouriser(new FrozenPigment(
+                    wisp.setPigment(new FrozenPigment(
                             new ItemStack(CollectionsKt.elementAt(HexItems.DYE_PIGMENTS.values(),
                                     world.random.nextInt(HexItems.DYE_PIGMENTS.size()))),
                             Util.NIL_UUID

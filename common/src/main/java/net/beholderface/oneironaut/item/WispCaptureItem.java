@@ -6,6 +6,7 @@ import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import at.petrak.hexcasting.common.items.magic.ItemMediaHolder;
 import at.petrak.hexcasting.common.lib.HexSounds;
+import at.petrak.hexcasting.common.msgs.MsgCastParticleS2C;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import kotlin.collections.CollectionsKt;
 import net.beholderface.oneironaut.Oneironaut;
@@ -20,6 +21,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtDouble;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Style;
@@ -75,7 +77,7 @@ public class WispCaptureItem extends ItemMediaHolder {
                 BaseCastingWisp initWisp = this.wispRaycast(user);
                 if (initWisp != null){
                     if (initWisp.owner().equals(user.getUuid())){
-                        int wispMedia = initWisp.getMedia();
+                        long wispMedia = initWisp.getMedia();
                         int roundedMax = (int) (Math.ceil((float) wispMedia / MediaConstants.DUST_UNIT) * MediaConstants.DUST_UNIT);
                         data.putInt(TAG_MAX_MEDIA, roundedMax);
                         if (this.getMedia(stack) < wispMedia - MediaConstants.SHARD_UNIT){
@@ -157,8 +159,8 @@ public class WispCaptureItem extends ItemMediaHolder {
                 ((Entity) wisp).kill();
                 Oneironaut.boolLogger("Captured wisp for " + cost / MediaConstants.DUST_UNIT + " dust", debugMessages);
                 IXplatAbstractions.INSTANCE.sendPacketNear(user.getEyePos(), 128.0, (ServerWorld) world,
-                        new MsgParticleLinesAck(CollectionsKt.listOf(user.getEyePos(), ((Entity) wisp).getPos().add(0.0, 0.05, 0.0)), wisp.colouriser()));
-                world.playSoundFromEntity(null, user, HexSounds.CAST_HERMES, SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
+                        new MsgParticleLinesAck(CollectionsKt.listOf(user.getEyePos(), ((Entity) wisp).getPos().add(0.0, 0.05, 0.0)), wisp.pigment()));
+                world.playSoundFromEntity(null, user, RegistryEntry.of(HexSounds.CAST_HERMES), SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
                 if (wisp instanceof TickingWisp tickingWisp){
                     stackNbt.putString(WISP_TYPE_TAG, "ticking");
                 } else if (wisp instanceof ProjectileWisp projectileWisp){
@@ -166,7 +168,7 @@ public class WispCaptureItem extends ItemMediaHolder {
                 }
                 return true;
             } else {
-                world.playSoundFromEntity(null, user, HexSounds.FAIL_PATTERN, SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
+                world.playSoundFromEntity(null, user, RegistryEntry.of(HexSounds.CAST_FAILURE), SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
             }
         }
         return false;
@@ -192,7 +194,7 @@ public class WispCaptureItem extends ItemMediaHolder {
                     posList.add(NbtDouble.of(spawnPos.y));
                     posList.add(NbtDouble.of(spawnPos.z));
                     NBTHelper.putList(storedNbt, "Pos", posList);
-                    serverWorld.playSoundFromEntity(null, user, HexSounds.CAST_HERMES,
+                    serverWorld.playSoundFromEntity(null, user, RegistryEntry.of(HexSounds.CAST_HERMES),
                             SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
                     if (wisp instanceof ProjectileWisp projectileWisp){
                         double speed = projectileWisp.getVelocity().length();
@@ -210,14 +212,14 @@ public class WispCaptureItem extends ItemMediaHolder {
                 world.spawnEntity(wisp);
                 if (!world.isClient && world instanceof ServerWorld serverWorld) {
                     IXplatAbstractions.INSTANCE.sendPacketNear(user.getEyePos(), 128.0, serverWorld,
-                            new MsgParticleLinesAck(CollectionsKt.listOf(user.getEyePos(), ((Entity) wisp).getPos().add(0.0, 0.05, 0.0)), wisp.colouriser()));
+                            new MsgParticleLinesAck(CollectionsKt.listOf(user.getEyePos(), ((Entity) wisp).getPos().add(0.0, 0.05, 0.0)), wisp.pigment()));
                     return true;
                 }
             }
         } else {
             Oneironaut.boolLogger("Insufficient media to release wisp", debugMessages);
             if (!world.isClient && world instanceof ServerWorld serverWorld) {
-                serverWorld.playSoundFromEntity(null, user, HexSounds.CAST_FAILURE,
+                serverWorld.playSoundFromEntity(null, user, RegistryEntry.of(HexSounds.CAST_FAILURE),
                         SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
             }
         }
@@ -233,8 +235,8 @@ public class WispCaptureItem extends ItemMediaHolder {
         if (user != null){
             World world = user.getWorld();
             if (!world.isClient && world instanceof ServerWorld serverWorld){
-                world.playSoundFromEntity(null, user, HexSounds.ABACUS_SHAKE, SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
-                IXplatAbstractions.INSTANCE.sendPacketNear(user.getEyePos(), 128.0, serverWorld, new MsgCastParticleAck
+                world.playSoundFromEntity(null, user, RegistryEntry.of(HexSounds.ABACUS_SHAKE), SoundCategory.PLAYERS, 1f, 1f, world.random.nextLong());
+                IXplatAbstractions.INSTANCE.sendPacketNear(user.getEyePos(), 128.0, serverWorld, new MsgCastParticleS2C
                         (ParticleSpray.burst(user.getPos().add(0.0, 0.125, 0.0), 1.0, 64), colorizer));
             }
         }

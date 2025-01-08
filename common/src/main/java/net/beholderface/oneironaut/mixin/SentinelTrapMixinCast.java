@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SentinelTrapMixinCast {
 
     private CastingVM harness = (CastingVM) (Object) this;
-    @Inject(method = "<init>(Ljava/util/List;Lat/petrak/hexcasting/api/spell/iota/Iota;ILjava/util/List;ZLat/petrak/hexcasting/api/spell/casting/CastingContext;Lat/petrak/hexcasting/api/misc/FrozenColorizer;)V",
+    /*@Inject(method = "<init>(Ljava/util/List;Lat/petrak/hexcasting/api/spell/iota/Iota;ILjava/util/List;ZLat/petrak/hexcasting/api/spell/casting/CastingContext;Lat/petrak/hexcasting/api/misc/FrozenColorizer;)V",
             at = @At(value = "TAIL",
             ordinal = 0), remap = false)
     public void addTargetPlayer(CallbackInfo ci){
@@ -32,5 +32,5 @@ public abstract class SentinelTrapMixinCast {
                 harness.getImage().getStack().add(new EntityIota(trap.getTargetPlayer()));
             }
         }
-    }
+    }*/
 }

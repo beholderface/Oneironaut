@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack
 import net.beholderface.oneironaut.network.ItemUpdatePacket
 import net.beholderface.oneironaut.casting.mishaps.MishapMissingEnchant
 import net.beholderface.oneironaut.registry.OneironautMiscRegistry
+import ram.talia.hexal.api.getItemEntityOrItemFrame
 //import ram.talia.hexal.api.getItemEntityOrItemFrame
 import kotlin.math.pow
 
