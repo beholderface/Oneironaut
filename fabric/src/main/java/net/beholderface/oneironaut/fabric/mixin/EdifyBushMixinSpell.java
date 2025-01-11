@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(OpEdifySapling.class)
 public class EdifyBushMixinSpell {
-    /*@WrapOperation(method = "execute", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/tag/TagKey;)Z", remap = true), remap = false)
+    @WrapOperation(method = "execute", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z", remap = true), remap = false)
     public boolean allowBush(BlockState state, TagKey<Block> tagKey, Operation<Boolean> original){
         if (state.getBlock() == Blocks.SWEET_BERRY_BUSH){
             SharedMixinData.edifyingBush = true;
             return true;
         }
         return original.call(state, tagKey);
-    }*/
+    }
 }

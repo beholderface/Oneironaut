@@ -15,20 +15,6 @@ import net.beholderface.oneironaut.Oneironaut;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/*@Mixin(targets = "at.petrak.hexcasting.common.casting.operators.spells.OpBreakBlock$Spell")
-public abstract class OpBreakBlockImmunityMixin {
-    @WrapOperation(method = "cast", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/server/world/ServerWorld;breakBlock(Lnet/minecraft/util/math/BlockPos;ZLnet/minecraft/entity/Entity;)Z",
-            remap = true), remap = false)
-    private boolean dontBreakIfImmune(ServerWorld world, BlockPos pos, boolean b, Entity entity, Operation<Boolean> original){
-        BlockState state = world.getBlockState(pos);
-        if (state.isIn(MiscAPIKt.getBlockTagKey(new Identifier(Oneironaut.MOD_ID, "hexbreakimmune")))){
-            return false;
-        } else {
-            return original.call(world, pos, b, entity);
-        }
-    }
-}*/
 
 //this should have a significantly wider-reaching effect
 @Mixin(FabricXplatImpl.class)

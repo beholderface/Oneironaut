@@ -1,9 +1,16 @@
 package net.beholderface.oneironaut.block.blockentity;
 
+import at.petrak.hexcasting.api.block.circle.BlockCircleComponent;
 import at.petrak.hexcasting.api.casting.circles.BlockEntityAbstractImpetus;
+import at.petrak.hexcasting.api.casting.circles.CircleExecutionState;
+import at.petrak.hexcasting.api.casting.circles.ICircleComponent;
+import at.petrak.hexcasting.api.casting.eval.vm.CastingImage;
+import at.petrak.hexcasting.api.casting.iota.EntityIota;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
+import kotlin.collections.CollectionsKt;
+import net.beholderface.oneironaut.Oneironaut;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +19,10 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -95,6 +105,7 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
     }
 
     public void setTargetPlayer(UUID player) {
+        Oneironaut.LOGGER.info("Setting impetus target player");
         this.targetPlayer = player;
         this.markDirty();
     }
@@ -173,4 +184,13 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
         }
     }
 
+    @Override
+    public void startExecution(@Nullable ServerPlayerEntity player) {
+        super.startExecution(player);
+        if (this.executionState != null && this.getTargetPlayer() != null){
+            CastingImage oldImage = this.executionState.currentImage;
+            this.executionState.currentImage = oldImage.copy(CollectionsKt.listOf(new EntityIota(this.getTargetPlayer())), 0, CollectionsKt.emptyList(), false, 0L, new NbtCompound());
+            this.executionState.save();
+        }
+    }
 }

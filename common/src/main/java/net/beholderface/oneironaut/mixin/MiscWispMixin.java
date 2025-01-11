@@ -29,12 +29,12 @@ public abstract class MiscWispMixin
     @Unique
     private static final Map<RegistryKey<World>, Map<BlockPos, Vec3d>> gateMap = NoosphereGateEntity.gateLocationMap;
 
-    /*@WrapOperation(method = "deductMedia",
+    @WrapOperation(method = "deductMedia",
             at = @At(value = "INVOKE",
-                    target="Lram/talia/hexal/common/entities/BaseCastingWisp;getNormalCostPerTick()I",
+                    target="Lram/talia/hexal/common/entities/BaseCastingWisp;getNormalCostPerTick()J",
                     remap = false),
             remap = false)
-    public int freeIfNoosphereNormal(BaseCastingWisp wisp, Operation<Integer> original){
+    public long freeIfNoosphereNormal(BaseCastingWisp wisp, Operation<Long> original){
         if (oneironaut$free(wisp)){
             return 0;
         }
@@ -43,15 +43,15 @@ public abstract class MiscWispMixin
 
     @WrapOperation(method = "deductMedia",
             at = @At(value = "INVOKE",
-                    target="Lram/talia/hexal/common/entities/BaseCastingWisp;getUntriggeredCostPerTick()I",
+                    target="Lram/talia/hexal/common/entities/BaseCastingWisp;getUntriggeredCostPerTick()J",
                     remap = false),
             remap = false)
-    public int freeIfNoosphereSleepy(BaseCastingWisp wisp, Operation<Integer> original){
+    public long freeIfNoosphereSleepy(BaseCastingWisp wisp, Operation<Long> original){
         if (oneironaut$free(wisp)){
             return 0;
         }
         return original.call(wisp);
-    }*/
+    }
 
     @Unique
     private static boolean oneironaut$free(BaseCastingWisp wisp){
@@ -82,23 +82,4 @@ public abstract class MiscWispMixin
         }
         return foundGate;
     }
-
-    //the code for modifying wisp volume here doesn't actually work because you can't set SoundInstance volume after construction
-    /*@WrapOperation(method = "playCastSoundClient", at = @At(value = "INVOKE",
-            target = "Lram/talia/hexal/common/lib/HexalSounds$SoundEntry;playAt(Lnet/minecraft/world/World;Lnet/minecraft/util/math/Vec3d;FFZ)V",
-            remap = true))
-    public void playVolumeModified(HexalSounds.SoundEntry instance, World world, Vec3d pos, float volume, float pitch, boolean fade, Operation<Void> original,
-                                   //@Local WispCastingSoundInstance sound
-                                   ){
-        ComponentKey<DoubleComponent> volumeComponent = DoubleComponent.VOLUME;
-        Optional<DoubleComponent> maybeVolume = volumeComponent.maybeGet(oneironaut$wisp);
-        double multiplier = 1.0;
-        if (maybeVolume.isPresent()){
-            multiplier = maybeVolume.get().getValue();
-            Oneironaut.LOGGER.info("component found, with value " + multiplier);
-        } else {
-            Oneironaut.LOGGER.info("no component found, using default multiplier of" + multiplier);
-        }
-        instance.playAt(world, pos, (0.3f * (float)multiplier), pitch, fade);
-    }*/
 }

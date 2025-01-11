@@ -41,12 +41,9 @@ public class DetectionResistEffect extends StatusEffect {
             if (entity.isPlayer()){
                 if ((time % 20) == 0){
                     ServerPlayerEntity player = (ServerPlayerEntity) entity;
-                    CastingEnvironment ctx = new StaffCastEnv(player, Hand.MAIN_HAND);
-                    //CastingVM harness = CastingVM.empty(ctx);
+                    CastingEnvironment ctx = new ForcedMediaCostEnv(player, Hand.MAIN_HAND);
                     long deficit = ctx.extractMedia(MediaConstants.DUST_UNIT / 10, false);
                     if (deficit > 0 && (time % 40) == 0){
-                        //entity.damage(HexDamageSources.OVERCAST, 1f);
-
                         Mishap.Companion.trulyHurt(entity, entity.getDamageSources().create(HexDamageTypes.OVERCAST), 1f);
                     }
                 }

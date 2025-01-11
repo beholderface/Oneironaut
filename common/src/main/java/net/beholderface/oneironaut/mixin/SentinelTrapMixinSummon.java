@@ -23,17 +23,16 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("ConstantConditions")
-//@Mixin(targets = "at.petrak.hexcasting.common.casting.operators.spells.sentinel.OpCreateSentinel$Spell")
+@Mixin(targets = "at.petrak.hexcasting.common.casting.actions.spells.sentinel.OpCreateSentinel$Spell")
 public abstract class SentinelTrapMixinSummon {
     @Final
-    //@Shadow private Vec3d target;
+    @Shadow private Vec3d target;
 
     @Unique
     private final Map<RegistryKey<World>, Map<BlockPos, Vec3d>> oneironaut$trapMap = SentinelTrapImpetusEntity.trapLocationMap;
 
-    /*@Inject(method = "cast", at = @At("HEAD"), remap = false)
+    @Inject(method = "cast(Lat/petrak/hexcasting/api/casting/eval/CastingEnvironment;)V", at = @At("HEAD"), remap = false)
     public void triggerTrap(CastingEnvironment ctx, CallbackInfo ci){
-        //Oneironaut.LOGGER.info("you've activated my trap card!");
         World world = ctx.getWorld();
         RegistryKey<World> worldKey = world.getRegistryKey();
         if (oneironaut$trapMap.containsKey(worldKey)){
@@ -45,7 +44,7 @@ public abstract class SentinelTrapMixinSummon {
                 currentEntry = entryIterator.next();
                 if (target.isInRange(currentEntry.getValue(), 8.0)){
                     BlockPos pos = currentEntry.getKey();
-                    if (world.getBlockState(pos).getBlock().getDefaultState().equals(OneironautBlockRegistry.SENTINEL_TRAP.get().getDefaultState())){
+                    if (world.getBlockState(pos).getBlock() == OneironautBlockRegistry.SENTINEL_TRAP.get()){
                         SentinelTrapImpetusEntity be = (SentinelTrapImpetusEntity) world.getBlockEntity(pos);
                         Iterator<ServerPlayerEntity> playerEntityIterator = world.getServer().getPlayerManager().getPlayerList().iterator();
                         ServerPlayerEntity currentPlayer = null;
@@ -60,7 +59,7 @@ public abstract class SentinelTrapMixinSummon {
                         if (foundPlayer != null ){
                             be.setTargetPlayer(ctx.getCaster().getUuid());
                             be.startExecution(foundPlayer);
-                            Oneironaut.LOGGER.info(ctx.getCaster().getName().getString()+" has activated "+foundPlayer.getName().getString()+"'s trap card!");
+                            //Oneironaut.LOGGER.info(ctx.getCaster().getName().getString()+" has activated "+foundPlayer.getName().getString()+"'s trap card!");
                         }
                     } else {
                         expiredKeys.add(currentEntry.getKey());
@@ -71,5 +70,5 @@ public abstract class SentinelTrapMixinSummon {
                 trapPosMap.remove(key);
             }
         }
-    }*/
+    }
 }

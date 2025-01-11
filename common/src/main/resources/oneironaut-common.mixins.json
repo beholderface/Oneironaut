@@ -8,6 +8,17 @@
   "server": [
   ],
   "mixins": [
+    "BlockRaycastImmunityMixin",
+    "CubeLoreGrantMixin",
+    "DecorativeWispMixin",
+    "EntityRaycastImmunityMixin",
+    "EraseSoulprintSignatureMixin",
+    "IllegalIotasMixin",
+    "ImpulseRedirectFireballMixin",
+    "MiscWispMixin",
+    "OpBreakBlockImmunityMixin",
+    "SentinelTrapMixinSummon",
+    "ZoneDistImmunityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

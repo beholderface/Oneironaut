@@ -25,6 +25,10 @@
       "net.beholderface.oneironaut.fabric.OneironautCC"
     ]
   },
+  "mixins": [
+    "oneironaut-common.mixins.json",
+    "oneironaut.mixins.json"
+  ],
   "accessWidener": "oneironaut.accesswidener",
   "depends": {
     "minecraft": "1.20.1",
