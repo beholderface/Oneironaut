@@ -3,7 +3,6 @@ package net.beholderface.oneironaut;
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.event.CompoundEventResult;
-import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.TickEvent;
@@ -18,7 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.text.Text;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +25,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ConcurrentModificationException;
 
 import static net.beholderface.oneironaut.MiscAPIKt.getItemTagKey;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.beholderface.oneironaut.MiscAPIKt.stringToWorld;
 
 /**
  * This is effectively the loading entrypoint for most of your code, at least
@@ -35,6 +34,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class Oneironaut {
     public static final String MOD_ID = "oneironaut";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    private static ServerWorld noosphere = null;
 
 
     public static void init() {
@@ -53,6 +53,7 @@ public class Oneironaut {
 
         //LOGGER.info(OneironautAbstractions.getConfigDirectory().toAbsolutePath().normalize().toString());
         LifecycleEvent.SERVER_STARTED.register((startedserver) ->{
+            noosphere = stringToWorld("oneironaut:noosphere", startedserver);
             IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState(startedserver);
             IdeaInscriptionManager.cleanMap(startedserver, ideaState);
             ideaState.markDirty();
@@ -103,5 +104,11 @@ public class Oneironaut {
      */
     public static Identifier id(String string) {
         return new Identifier(MOD_ID, string);
+    }
+    public static ServerWorld getNoosphere(){
+        if (noosphere == null){
+            throw new IllegalStateException("getNoosphere method called before server start");
+        }
+        return noosphere;
     }
 }

@@ -6,6 +6,12 @@ import at.petrak.hexcasting.api.utils.HexUtils;
 import net.beholderface.oneironaut.registry.OneironautIotaTypeRegistry;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.*;
@@ -37,6 +43,12 @@ public class DimIota extends Iota {
 
     public String getDimString(){
         return this.payload.toString();
+    }
+    public RegistryKey<World> getWorldKey(){
+        return RegistryKey.of(RegistryKeys.WORLD, new Identifier(this.payload.toString()));
+    }
+    public ServerWorld toWorld(MinecraftServer server){
+        return server.getWorld(this.getWorldKey());
     }
 
     public @NotNull NbtElement serialize() {

@@ -23,7 +23,6 @@ import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
-import net.beholderface.oneironaut.casting.iotatypes.DimIota
 import net.minecraft.block.Blocks
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
@@ -47,26 +46,14 @@ class OpDimTeleport : SpellAction {
         env.assertEntityInRange(target)
         val origin = env.world
         val coords = target.pos
-        var world = env.world
-        var worldKey = world.registryKey
         var noosphere = false
-        val destination : DimIota
-        if (args[1] is NullIota){
+        val destination = if (args[1] is NullIota){
             noosphere = true;
-            destination =
-                DimIota("oneironaut:noosphere")
+            Oneironaut.getNoosphere()
         } else {
-            destination = args.getDimIota(1, argc)
+            args.getDimIota(1, argc).toWorld(env.world.server)
         }
-        val dimKey = destination.dimString
-        //val dimKey = destination.serialize().downcast(NbtCompound.TYPE).getString("dim_key")
-        //iterate over all the worlds to find the desired one
-        target.server?.worlds?.forEach {
-            if (it.registryKey.value.toString() == dimKey){
-                world = it;
-                worldKey = it.registryKey
-            }
-        }
+        val worldKey = destination.registryKey
         //do not do the bad thing
         if (!HexConfig.server().canTeleportInThisDimension(worldKey))
             throw MishapLocationInWrongDimension(worldKey.value)
@@ -78,7 +65,7 @@ class OpDimTeleport : SpellAction {
 
         var departure = false
         if (target == env.caster){
-            val entry = DepartureEntry.getEntry(env, world)
+            val entry = DepartureEntry.getEntry(env, destination)
             if (entry != null){
                 if (entry.isWithinCylinder(target.pos)){
                     departure = true
@@ -92,16 +79,16 @@ class OpDimTeleport : SpellAction {
             20 * MediaConstants.CRYSTAL_UNIT
         }
 
-        return if (origin == world && !noosphere){
+        return if (origin == destination && !noosphere){
             SpellAction.Result(
-                Spell(target, origin, world, coords, false),
+                Spell(target, origin, destination, coords, false),
                 //don't consume amethyst if trying to teleport to the same dimension you're already in
                 0,
                 listOf(ParticleSpray.cloud(target.pos, 2.0))
             )
         } else {
             SpellAction.Result(
-                Spell(target, origin, world, coords, noosphere),
+                Spell(target, origin, destination, coords, noosphere),
                 cost,
                 listOf(ParticleSpray.cloud(target.pos, 2.0))
             )

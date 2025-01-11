@@ -22,9 +22,11 @@ import net.beholderface.oneironaut.item.BottomlessMediaItem
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryKey
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.*
+import net.minecraft.world.World
 import java.lang.Exception
 import kotlin.math.abs
 import kotlin.math.pow
@@ -32,10 +34,8 @@ import kotlin.math.pow
 class OpSwapSpace : SpellAction {
     override val argc = 3
     override fun execute(args: List<Iota>, env: CastingEnvironment): SpellAction.Result {
-        val destination = args.getDimIota(2, argc)
-        val dimKey = destination.dimString
-        var destWorld = env.world
-        var destWorldKey = destWorld.registryKey
+        val destWorld = args.getDimIota(2, argc).toWorld(env.world.server)
+        val destWorldKey = destWorld.registryKey
         val originWorld = env.world
         val originWorldKey = originWorld.registryKey
         val originWorldCuboid = args.getList(0, argc)
@@ -57,18 +57,6 @@ class OpSwapSpace : SpellAction {
         val destCuboidCorner2 = BlockPos((destWorldCuboid.getAt(1) as Vec3Iota).vec3.toVec3i())
         val originBox = Box(BlockPos(originCuboidCorner1), BlockPos(originCuboidCorner2))
         val destBox = Box(BlockPos(destCuboidCorner1), BlockPos(destCuboidCorner2))
-        /*val boxCorners = arrayOf(Vec3d(originBox.minX, originBox.minY, originBox.minZ), Vec3d(originBox.maxX, originBox.minY, originBox.minZ),
-            Vec3d(originBox.maxX, originBox.maxY, originBox.minZ), Vec3d(originBox.maxX, originBox.maxY, originBox.maxZ),
-            Vec3d(originBox.minX, originBox.maxY, originBox.maxZ), Vec3d(originBox.minX, originBox.minY, originBox.maxZ),
-            Vec3d(originBox.maxX, originBox.minY, originBox.maxZ), Vec3d(originBox.minX, originBox.maxY, originBox.minZ)
-            )*/
-
-        env.world.server.worlds?.forEach {
-            if (it.registryKey.value.toString() == dimKey){
-                destWorld = it
-                destWorldKey = it.registryKey
-            }
-        }
 
         val originCuboidDimensions = Vec3i(abs(originCuboidCorner1.x - originCuboidCorner2.x) + 1,abs(originCuboidCorner1.y - originCuboidCorner2.y) + 1,abs(originCuboidCorner1.z - originCuboidCorner2.z) + 1)
         val destCuboidDimensions = Vec3i(abs(destCuboidCorner1.x - destCuboidCorner2.x) + 1,abs(destCuboidCorner1.y - destCuboidCorner2.y) + 1,abs(destCuboidCorner1.z - destCuboidCorner2.z) + 1)
@@ -97,7 +85,7 @@ class OpSwapSpace : SpellAction {
             throw MishapBadLocation(Vec3d.ZERO, "bad_dimension")
 
         //require that one end of the transfer be the noosphere if config is set to require that
-        if (!(destWorldKey.value.toString() == "oneironaut:noosphere" || originWorldKey.value.toString() == "oneironaut:noosphere")
+        if (!(destWorld == Oneironaut.getNoosphere() || originWorld == Oneironaut.getNoosphere())
             && OneironautConfig.server.swapRequiresNoosphere){
             throw MishapNoNoosphere()
         }
@@ -232,10 +220,6 @@ class OpSwapSpace : SpellAction {
 
         }
     }
-}
-
-fun Box.tolerantContains(x: Double, y: Double, z: Double): Boolean {
-    return x >= this.minX && x <= this.maxX && y >= this.minY && y <= this.maxY && z >= this.minZ && z <= this.maxZ
 }
 fun Box.minCorner(): Vec3d {
     return Vec3d(this.minX, this.minY, this.minZ)
