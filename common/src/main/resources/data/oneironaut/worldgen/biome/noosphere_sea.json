@@ -9,19 +9,29 @@
     "particle": {
       "probability": 0.0025,
       "options": {
-        "type": "hexcasting:conjure_light_particle",
+        "type": "hexcasting:conjure_particle",
         "color": 8204458
       }
     }
   },
   "features": [
+    [
+      "oneironaut:volcano_basic_placed",
+      "oneironaut:noosphere_sea_island_small_placed",
+      "oneironaut:noosphere_sea_island_medium_placed",
+      "oneironaut:noosphere_sea_island_large_placed"
+    ],
+    [],
+    [
+      "oneironaut:sage_iceberg",
+      "oneironaut:media_slime_blob"
+    ],
     [],
     [],
     [],
-    [],
-    [],
-    [],
-    [],
+    [
+      "oneironaut:pseudoamethyst_vein_placed"
+    ],
     [],
     [],
     [],

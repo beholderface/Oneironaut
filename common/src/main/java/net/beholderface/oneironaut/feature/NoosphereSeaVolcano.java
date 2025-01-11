@@ -49,8 +49,8 @@ public class NoosphereSeaVolcano extends Feature<NoosphereSeaVolcanoConfig> {
 
         //Vec3i randOffset = new Vec3i((rand.nextInt(10) - 5), 0, (rand.nextInt(10) - 5));
         BlockPos scanPos = new BlockPos((int) ((Math.floor(origin.getX() / 16.0) * 16) + 8), origin.getY(), (int) ((Math.floor(origin.getZ() / 16.0) * 16) + 8));
-        int roll = rand.nextInt(1000);
-        if (roll == 250){
+        //int roll = rand.nextInt(1000);
+        if (true){
             for (int y = origin.getY(); y < 32; y++){
                 scanPos = scanPos.up();
                 if ((world.getFluidState(scanPos).getFluid().equals(ThoughtSlurry.STILL_FLUID) && world.getBlockState(scanPos.up()).isAir())){

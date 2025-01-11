@@ -47,7 +47,7 @@ public class NoosphereSeaIsland extends Feature<NoosphereSeaIslandConfig> {
         }
         Vec3i randOffset = new Vec3i((rand.nextInt(10) - 5), 0, (rand.nextInt(10) - 5));
         BlockPos scanPos = origin.add(randOffset);
-        if (rand.nextInt((int) Math.pow(num, 1.75)) == num){
+        if (true){
             for (int y = origin.getY(); y < 32; y++){
                 scanPos = scanPos.up();
                 if ((world.getFluidState(scanPos).getFluid().equals(ThoughtSlurry.STILL_FLUID) && world.getBlockState(scanPos.up()).isAir())){

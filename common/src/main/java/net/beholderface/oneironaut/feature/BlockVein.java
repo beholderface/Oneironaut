@@ -31,7 +31,6 @@ public class BlockVein extends Feature<BlockVeinConfig> {
         BlockState veinState = Registries.BLOCK.get(veinID).getDefaultState();
         Identifier carvedID = config.carvedBlockID();
         Block carvedBlock = Registries.BLOCK.get(carvedID);
-        int roll = rand.nextBetweenExclusive(0, 11);
 
         if (/*roll == 8*/ true){
             //Vec3i randOffset = new Vec3i((rand.nextInt(10) - 5), 0, (rand.nextInt(10) - 5));
@@ -69,6 +68,7 @@ public class BlockVein extends Feature<BlockVeinConfig> {
                     world.setBlockState(new BlockPos(carve3i), veinState, 0b10);
                 }
                 carvePoint = carvePoint.add(direction);
+                carve3i = MiscAPIKt.toVec3i(carvePoint);
             }
             //Oneironaut.LOGGER.info("Allegedly generated a vein at " + origin.getX() +", "+ origin.getZ());
             return true;

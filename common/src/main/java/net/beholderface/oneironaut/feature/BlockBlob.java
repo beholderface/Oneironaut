@@ -26,13 +26,11 @@ public class BlockBlob extends Feature<BlockBlobConfig> {
         BlockBlobConfig config = context.getConfig();
         Identifier mainID = config.mainBlockID();
         BlockState mainState = Registries.BLOCK.get(mainID).getDefaultState();
-        int rarity = config.rarity();
         int size = config.size();
         double squish = 1.0 / config.squish();
         int falloff = config.falloff();
-        int roll = rand.nextBetweenExclusive(0, rarity + 1);
         int immersion = config.immersion();
-        if (roll == rarity){
+        if (true){
             Vec3i randOffset = new Vec3i((rand.nextInt(10) - 5), 0, (rand.nextInt(10) - 5));
             BlockPos scanPos = origin.add(randOffset);
             for (int y = origin.getY(); y < 32; y++){
