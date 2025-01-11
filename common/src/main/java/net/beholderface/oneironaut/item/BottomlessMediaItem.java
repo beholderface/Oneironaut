@@ -115,7 +115,7 @@ public class BottomlessMediaItem extends ItemMediaHolder {
     @Override
     public long getMedia(ItemStack stack) {
         if (stack == null){
-            Oneironaut.LOGGER.info("Inexhaustible Phial's getMedia method called with a null pointer.");
+            //Oneironaut.LOGGER.info("Inexhaustible Phial's getMedia method called with a null pointer.");
             return 0;
         }
         try {

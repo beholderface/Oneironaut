@@ -10,8 +10,7 @@
       "probability": 0.0025,
       "options": {
         "type": "hexcasting:conjure_light_particle",
-        "color": 8204458,
-        "isLight": true
+        "color": 8204458
       }
     }
   },

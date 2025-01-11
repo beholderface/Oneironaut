@@ -4,10 +4,12 @@
     "type": "block",
     "block": "oneironaut:pseudoamethyst_block"
   },
+  "cost": 1000000,
+  "entityIn": {
+    "type": "villager",
+    "minLevel": 5
+  },
   "result": {
     "name": "oneironaut:super_budding"
-  },
-  "villagerIn": {
-    "minLevel": 5
   }
 }

@@ -4,15 +4,22 @@ import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.api.pigment.FrozenPigment;
+import at.petrak.hexcasting.api.utils.MediaHelper;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class BottomlessCastingItem extends ItemPackagedHex {
@@ -42,7 +49,7 @@ public class BottomlessCastingItem extends ItemPackagedHex {
 
     @Override
     public long getMaxMedia(ItemStack stack) {
-        return Integer.MAX_VALUE;
+        return Long.MAX_VALUE;
     }
 
     @Override
@@ -82,5 +89,31 @@ public class BottomlessCastingItem extends ItemPackagedHex {
 
     public int cooldown(){
         return 5;
+    }
+
+    //why are these private in ItemMediaHolder anyway?
+    public static final DecimalFormat DUST_AMOUNT = new DecimalFormat("###,###.##");
+    public static final DecimalFormat PERCENTAGE = new DecimalFormat("####");
+
+
+    @Override
+    public void appendTooltip(ItemStack pStack, @Nullable World pLevel, List<Text> pTooltipComponents,
+                              TooltipContext pIsAdvanced) {
+            long media = MediaConstants.DUST_UNIT / 10;
+
+            TextColor color = TextColor.fromRgb(MediaHelper.mediaBarColor(media, Long.MAX_VALUE));
+
+            MutableText mediamount = Text.literal(DUST_AMOUNT.format(media / (float) MediaConstants.DUST_UNIT));
+            MutableText percentFull = Text.literal(PERCENTAGE.format(0) + "%");
+            //infinity!
+            MutableText maxCapacity = Text.of("∞").copy();
+
+            mediamount.styled(style -> style.withColor(HEX_COLOR));
+            maxCapacity.styled(style -> style.withColor(HEX_COLOR));
+            percentFull.styled(style -> style.withColor(color));
+
+            pTooltipComponents.add(
+                    Text.translatable("hexcasting.tooltip.media_amount.advanced",
+                            mediamount, maxCapacity, percentFull));
     }
 }

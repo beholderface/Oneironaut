@@ -38,7 +38,7 @@ public class SentinelSensorEntity extends BlockEntity {
             boolean great = false;
             for (ServerPlayerEntity player : players){
                 currentSentinel = IXplatAbstractions.INSTANCE.getSentinel(player);
-                if (currentSentinel.dimension().equals(worldKey) && currentSentinel.position().isInRange(posCenter, 16.0)){
+                if (currentSentinel != null && currentSentinel.dimension().equals(worldKey) && currentSentinel.position().isInRange(posCenter, 16.0)){
                     prospectiveOutput = (int) Math.abs(currentSentinel.position().subtract(posCenter).length() - 15);
                     if (prospectiveOutput > output){
                         output = prospectiveOutput;

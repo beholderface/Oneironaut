@@ -40,8 +40,8 @@ public class OneironautPatternRegistry {
     //operators/other actions
     public static HexPattern GETDIM_SELF = register(HexPattern.fromAngles("wqwqwqwqwqwaeqqe", HexDir.WEST), "getdim1", new OpGetDim(false));
     public static HexPattern GETDIM_SENTINEL = register(HexPattern.fromAngles("wqwqwqwqwqwaqeeq", HexDir.WEST), "getdim2", new OpGetDim(true));
-    public static HexPattern GETDIM_OVERWORLD = register(HexPattern.fromAngles("wqwqwqwqwqwawedewdwedew", HexDir.NORTH_EAST), "getdimoverworld", new OpSpecificDim(new Identifier("minecraft:overworld"), false, ()->{return OneironautConfig.getServer().getAllowOverworldReflection();}));
-    public static HexPattern GETDIM_NETHER = register(HexPattern.fromAngles("wqwqwqwqwqwaqaaqaw", HexDir.NORTH_EAST), "getdimnether", new OpSpecificDim(new Identifier("minecraft:the_nether"), true, ()->{return OneironautConfig.getServer().getAllowNetherReflection();}));
+    public static HexPattern GETDIM_OVERWORLD = register(HexPattern.fromAngles("wqwqwqwqwqwawedewdwedew", HexDir.NORTH_EAST), "getdim/overworld", new OpSpecificDim(new Identifier("minecraft:overworld"), false, ()->{return OneironautConfig.getServer().getAllowOverworldReflection();}));
+    public static HexPattern GETDIM_NETHER = register(HexPattern.fromAngles("wqwqwqwqwqwaqaaqaw", HexDir.NORTH_EAST), "getdim/nether", new OpSpecificDim(new Identifier("minecraft:the_nether"), true, ()->{return OneironautConfig.getServer().getAllowNetherReflection();}));
     public static HexPattern GET_DIMHEIGHT = register(HexPattern.fromAngles("awqqqwqwqwqwqwq", HexDir.NORTH_EAST), "getdimheight", new OpDimHeight());
     public static HexPattern GET_DIMSCALE = register(HexPattern.fromAngles("wawawqwqwqwqwqw", HexDir.NORTH_WEST), "getdimscale", new OpDimScale());
     public static HexPattern ROD_LOOK = register(HexPattern.fromAngles("qwqqqwqawa", HexDir.SOUTH_EAST), "getrodlook", new OpGetInitialRodState(1));

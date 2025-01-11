@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "oneironaut:dimteleport",
+    "oneironaut:infusemedia",
+    "oneironaut:swapspace",
+    "oneironaut:resistdetection",
+    "oneironaut:applynotmissing",
+    "oneironaut:applymindrender",
+    "oneironaut:reviveflayed"
+  ]
+}

@@ -18,6 +18,7 @@ import net.minecraft.util.Rarity;
 
 public class OneironautItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Oneironaut.MOD_ID, RegistryKeys.ITEM);
+    public static final DeferredRegister<ItemGroup> TABS = DeferredRegister.create(Oneironaut.MOD_ID, RegistryKeys.ITEM_GROUP);
     /*public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_KEY);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, Registry.FLUID_KEY);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Oneironaut.MOD_ID, Registry.BLOCK_ENTITY_TYPE_KEY);
@@ -28,12 +29,16 @@ public class OneironautItemRegistry {
 
     public static void init() {
         ITEMS.register();
+        TABS.register();
     }
 
-    public static final ItemGroup ONEIRONAUT_GROUP = CreativeTabRegistry.create(Text.of("oneironaut:oneironaut"), () -> new ItemStack(OneironautItemRegistry.PSUEDOAMETHYST_SHARD.get()));
-    private static final Item.Settings ONEIRONAUT_STACKABLE64 = new Item.Settings()/*.group(ONEIRONAUT_GROUP)*/.maxCount(64);
-    private static final Item.Settings ONEIRONAUT_STACKABLE16 = new Item.Settings()/*.group(ONEIRONAUT_GROUP)*/.maxCount(16);
-    private static final Item.Settings ONEIRONAUT_UNSTACKABLE = new Item.Settings()/*.group(ONEIRONAUT_GROUP)*/.maxCount(1);
+    //public static final ItemGroup ONEIRONAUT_GROUP = CreativeTabRegistry.create(Text.of("oneironaut:oneironaut"), () -> new ItemStack(OneironautItemRegistry.PSUEDOAMETHYST_SHARD.get()));
+    public static final RegistrySupplier<ItemGroup> ONEIRONAUT_GROUP = TABS.register("oneironaut", ()->CreativeTabRegistry.create(
+            Text.translatable("itemGroup.oneironaut.oneironaut"), ()->OneironautItemRegistry.PSUEDOAMETHYST_SHARD.get().getDefaultStack()));
+
+    private static final Item.Settings ONEIRONAUT_STACKABLE64 = new Item.Settings().maxCount(64).arch$tab(ONEIRONAUT_GROUP);
+    private static final Item.Settings ONEIRONAUT_STACKABLE16 = new Item.Settings().maxCount(16).arch$tab(ONEIRONAUT_GROUP);
+    private static final Item.Settings ONEIRONAUT_UNSTACKABLE = new Item.Settings().maxCount(1).arch$tab(ONEIRONAUT_GROUP);
 
 
     public static final RegistrySupplier<ItemStolenMediaProvider> PSUEDOAMETHYST_SHARD = ITEMS.register("pseudoamethyst_shard", () -> new

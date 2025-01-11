@@ -28,16 +28,16 @@
     },
     {
       "type": "hexcasting:pattern",
-      "op_id": "oneironaut:getdimoverworld",
-      "anchor": "oneironaut:getdimoverworld",
+      "op_id": "oneironaut:getdim/overworld",
+      "anchor": "oneironaut:getdim/overworld",
       "input": "",
       "output": "Imprint",
       "text": "oneironaut.page.dim_iotas.4"
     },
     {
       "type": "hexcasting:pattern",
-      "op_id": "oneironaut:getdimnether",
-      "anchor": "oneironaut:getdimnether",
+      "op_id": "oneironaut:getdim/nether",
+      "anchor": "oneironaut:getdim/nether",
       "input": "",
       "output": "Imprint",
       "text": "oneironaut.page.dim_iotas.5"
