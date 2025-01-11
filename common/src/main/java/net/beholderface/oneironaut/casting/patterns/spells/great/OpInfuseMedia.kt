@@ -17,17 +17,18 @@ import net.beholderface.oneironaut.toVec3i
 class OpInfuseMedia : SpellAction {
     override val argc = 1
     override fun execute(args: List<Iota>, env: CastingEnvironment): SpellAction.Result {
-        val target = args.getVec3(0, argc)
-        env.assertVecInRange(target)
-        val targetType = env.world.getBlockState(BlockPos(target.toVec3i()))
+        val target = args.getVec3(0, argc).toVec3i()
+        val targetv3d = args.getVec3(0, argc)
+        env.assertVecInRange(targetv3d)
+        val targetType = env.world.getBlockState(BlockPos(target))
         val (result, cost, advancement) = getInfuseResult(targetType, env.world)
         if (result == Blocks.BARRIER.defaultState){
-            throw MishapUninfusable.of(BlockPos(target.toVec3i())/*, "media"*/)
+            throw MishapUninfusable.of(BlockPos(target)/*, "media"*/)
         }
         return SpellAction.Result(
-            Spell(BlockPos(target.toVec3i()), result, cost, advancement),
+            Spell(BlockPos(target), result, cost, advancement),
             cost * MediaConstants.DUST_UNIT,
-            listOf(ParticleSpray.cloud(target, 2.0))
+            listOf(ParticleSpray.cloud(targetv3d, 2.0))
         )
     }
     private data class Spell(val target: BlockPos, var result: BlockState, val cost: Int, val advancement : String?) : RenderedSpell {

@@ -40,6 +40,7 @@ import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
 import java.util.*
 import kotlin.math.absoluteValue
+import kotlin.math.floor
 
 fun List<Iota>.getDimIota(idx: Int, argc: Int = 0): DimIota {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
@@ -108,7 +109,7 @@ fun getInfuseResult(targetState: BlockState, world: World) : Triple<BlockState, 
         val recipe = infusionRecipes.find { it.matches(targetState) }
         if (recipe != null){
             Oneironaut.boolLogger(
-                "found a matching recipe",
+                "found a matching recipe, ${recipe.blockIn} to ${recipe.blockOut.block.name.string}",
                 debugMessages
             )
             /*val advancement = recipe.advancement
@@ -219,7 +220,7 @@ fun playerUUIDtoServerPlayer(uuid: UUID, server: MinecraftServer): ServerPlayerE
 }
 
 fun Vec3d.toVec3i() : Vec3i {
-    return Vec3i(this.x.toInt(), this.y.toInt(), this.z.toInt())
+    return Vec3i(floor(this.x).toInt(), floor(this.y).toInt(), floor(this.z).toInt())
 }
 
 fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, state : BlockState, replacable : Array<Block>, fillPortion : Double) : Int{
