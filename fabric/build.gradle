@@ -55,8 +55,8 @@ dependencies {
     //modImplementation "com.jamieswhiteshirt:reach-entity-attributes:${entityReachVersion}"
     //include "com.jamieswhiteshirt:reach-entity-attributes:${entityReachVersion}"
 
-    //modImplementation "io.github.tropheusj:serialization-hooks:${serializationHooksVersion}"
-    //include "io.github.tropheusj:serialization-hooks:${serializationHooksVersion}"
+    modImplementation "localModLibs:serialization-hooks:${serializationHooksVersion}"
+    include "localModLibs:serialization-hooks:${serializationHooksVersion}"
 
     modImplementation "dev.emi:trinkets:${trinketsVersion}"
 
@@ -68,6 +68,7 @@ dependencies {
     }
 
     modImplementation "localModLibs:hexal-fabric-${minecraftVersion}-${hexalVersion}"
+    modImplementation "localModLibs:moreiotas-fabric-${minecraftVersion}-${moreiotasVersion}"
     //modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"
     /*modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
     */

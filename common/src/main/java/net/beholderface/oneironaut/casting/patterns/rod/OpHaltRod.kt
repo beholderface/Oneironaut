@@ -4,21 +4,20 @@ import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.getPositiveInt
 import at.petrak.hexcasting.api.casting.iota.Iota
+import net.beholderface.oneironaut.casting.ReverbRodCastEnv
 import net.beholderface.oneironaut.casting.mishaps.MishapNoRod
 import net.beholderface.oneironaut.isUsingRod
 import net.beholderface.oneironaut.item.ReverberationRod
 
 class OpHaltRod(val reset : Int) : ConstMediaAction {
     override val argc = reset
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
-        //val rod = OneironautItemRegistry.REVERBERATION_ROD.get()
-        if (isUsingRod(ctx)){
-            val state = ReverberationRod.getState(ctx.caster)
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+        if (env is ReverbRodCastEnv){
             if(reset == 1){
                 val delay = args.getPositiveInt(0, argc)
-                state.setResetCooldown(delay.coerceAtLeast(1).coerceAtMost(100))
+                env.setResetCooldown(delay.coerceAtLeast(1).coerceAtMost(100))
             }
-            state.stopCasting()
+            env.stopCasting()
             //ctx.caster.stopUsingItem()
         } else {
             throw MishapNoRod(false)

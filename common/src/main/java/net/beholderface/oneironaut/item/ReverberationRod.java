@@ -1,19 +1,20 @@
 package net.beholderface.oneironaut.item;
 
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
 import at.petrak.hexcasting.api.casting.eval.ResolvedPatternType;
-import at.petrak.hexcasting.api.casting.eval.env.PackagedItemCastEnv;
 import at.petrak.hexcasting.api.casting.eval.vm.CastingVM;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
+import at.petrak.hexcasting.common.lib.hex.HexEvalSounds;
 import net.beholderface.oneironaut.Oneironaut;
-import net.beholderface.oneironaut.casting.RodState;
+import net.beholderface.oneironaut.casting.ReverbRodCastEnv;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stat;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
@@ -21,8 +22,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
-import net.beholderface.oneironaut.Oneironaut;
-import net.beholderface.oneironaut.casting.RodState;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +31,7 @@ import java.util.UUID;
 public class ReverberationRod extends ItemPackagedHex  {
 
     public static final Identifier CASTING_PREDICATE = new Identifier(Oneironaut.MOD_ID, "is_casting");
-    //public static final Map<UUID, Integer> DELAY_MAP = new HashMap<>();
-    private static final Map<UUID, RodState> ROD_MAP = new HashMap<>();
+    private static final Map<UUID, ReverbRodCastEnv> ROD_ENV_MAP = new HashMap<>();
     public ReverberationRod(Settings settings){
         super(settings);
     }
@@ -67,18 +65,8 @@ public class ReverberationRod extends ItemPackagedHex  {
         }
         Stat<?> stat = Stats.USED.getOrCreateStat(this);
         player.incrementStat(stat);
-        if (!world.isClient){
-            var sPlayer = world.getPlayerByUuid(player.getUuid()).getServer().getPlayerManager().getPlayer(player.getUuid());
-            assert sPlayer != null;
-            assert stack.getNbt() != null;
-            RodState state = new RodState(player, true);
-            ROD_MAP.put(player.getUuid(), state);
-            /*stack.getNbt().putLongArray("initialPos", HexUtils.serializeToNBT(sPlayer.getEyePos()).getLongArray());
-            stack.getNbt().putLongArray("initialLook", HexUtils.serializeToNBT(sPlayer.getRotationVector()).getLongArray());
-            stack.getNbt().putLong("initialTime", world.getTime());
-            stack.getNbt().putInt("delay", 0);
-            stack.getNbt().putInt("resetDelay", 20);*/
-            //DELAY_MAP.put(player.getUuid(), 0);
+        if (!world.isClient && player instanceof ServerPlayerEntity serverPlayer){
+            ROD_ENV_MAP.put(serverPlayer.getUuid(), new ReverbRodCastEnv(serverPlayer, usedHand, true));
         }
         player.setCurrentHand(usedHand);
         //cast immediately on use rather than waiting for the next tick
@@ -95,14 +83,14 @@ public class ReverberationRod extends ItemPackagedHex  {
             } else {
                 usedHand = Hand.OFF_HAND;
             }
-            RodState state = ROD_MAP.get(sPlayer.getUuid());
-            state.setCastInProgress(true);
+            ReverbRodCastEnv env = ROD_ENV_MAP.get(sPlayer.getUuid());
+            env.setCastInProgress(true);
             try {
                 if(!castHex(stack, (ServerWorld) world, sPlayer, usedHand)){
                     sPlayer.stopUsingItem();
                 }
             } finally {
-                state.setCastInProgress(false);
+                env.setCastInProgress(false);
             }
         }
     }
@@ -110,28 +98,33 @@ public class ReverberationRod extends ItemPackagedHex  {
     private boolean castHex(ItemStack stack, ServerWorld world, ServerPlayerEntity sPlayer, Hand usedHand){
         List<Iota> instrs = getHex(stack, world);
         assert instrs != null;
-        //assert stack.getNbt() != null;
-        //int delay = stack.getNbt().getInt("delay");
-        RodState state = ROD_MAP.get(sPlayer.getUuid());
-        int delay = state.getDelay();
+        ReverbRodCastEnv env = ROD_ENV_MAP.get(sPlayer.getUuid());
+        int delay = env.getDelay();
         if (delay <= 0){
             if (delay < 0){
-                state.setDelay(0);
+                env.setDelay(0);
             }
-            var ctx = new PackagedItemCastEnv(sPlayer, usedHand);
+            var ctx = ROD_ENV_MAP.get(sPlayer.getUuid());
             var harness = CastingVM.empty(ctx);
             var info = harness.queueExecuteAndWrapIotas(instrs, ctx.getWorld());
+            var sound = ctx.getSound().sound();
+            if (sound != null) {
+                var soundPos = sPlayer.getPos();
+                if (world.getTime() >= ctx.lastSoundTimestamp + 30 || ctx.getSound() == HexEvalSounds.MISHAP){
+                    sPlayer.getWorld().playSound(null, soundPos.x, soundPos.y, soundPos.z, sound, SoundCategory.PLAYERS, 1f, 1f);
+                    ctx.updateLastSoundtimestamp();
+                } else {
+                    sPlayer.getWorld().playSound(null, soundPos.x, soundPos.y, soundPos.z, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME,
+                            SoundCategory.PLAYERS, 1f, 1f);
+                }
+            }
             if (info.getResolutionType().equals(ResolvedPatternType.ERRORED)){
-                /*sPlayer.stopUsingItem();
-                sPlayer.getItemCooldownManager().set(this, 20);*/
-                state.setResetCooldown(20);
+                env.setResetCooldown(20);
                 return false;
             }
-            return state.getCurrentlyCasting();
+            return env.getCurrentlyCasting();
         } else {
-            state.adjustDelay(-1);
-            //DELAY_MAP.put(sPlayer.getUuid(), delay - 1);
-            //stack.getNbt().putInt("delay", delay - 1);
+            env.adjustDelay(-1);
         }
         return true;
     }
@@ -142,16 +135,16 @@ public class ReverberationRod extends ItemPackagedHex  {
             ServerPlayerEntity sPlayer = (ServerPlayerEntity) user;//world.getPlayerByUuid(user.getUuid()).getServer().getPlayerManager().getPlayer(user.getUuid());
             //assert sPlayer != null;
             //assert stack.getNbt() != null;
-            RodState state = ROD_MAP.get(user.getUuid());
-            sPlayer.getItemCooldownManager().set(this, state.getResetCooldown());
-            state.setCurrentlyCasting(false);
-            ROD_MAP.remove(user.getUuid());
+            ReverbRodCastEnv env = ROD_ENV_MAP.get(user.getUuid());
+            sPlayer.getItemCooldownManager().set(this, env.getResetCooldown());
+            env.setCurrentlyCasting(false);
+            ROD_ENV_MAP.remove(user.getUuid());
             //Oneironaut.LOGGER.info("Stopped casting from rod.");
         }
     }
 
-    public static RodState getState(Entity user){
-        return ROD_MAP.getOrDefault(user.getUuid(), null);
+    public static ReverbRodCastEnv getEnv(Entity user){
+        return ROD_ENV_MAP.getOrDefault(user.getUuid(), null);
     }
 
     @Override

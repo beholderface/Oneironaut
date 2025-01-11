@@ -7,28 +7,24 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.casting.iota.Vec3Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster
-import at.petrak.hexcasting.api.utils.*
+import net.beholderface.oneironaut.casting.ReverbRodCastEnv
 import net.beholderface.oneironaut.casting.mishaps.MishapNoRod
 import net.beholderface.oneironaut.isUsingRod
 import net.beholderface.oneironaut.item.ReverberationRod
-import net.beholderface.oneironaut.registry.OneironautItemRegistry
 
 class OpGetInitialRodState(val mode: Int) : ConstMediaAction {
     override val argc = 0
 
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
-        if (ctx.castingEntity == null){
-            throw MishapBadCaster()
-        }
-        if (isUsingRod(ctx)){
-            val rodStack  = ctx.castingEntity!!.activeItem
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+        if (env is ReverbRodCastEnv){
+            //I don't remember why I included these lines but idc
+            val rodStack  = env.castingEntity!!.activeItem
             val rodNbt = rodStack.nbt
-            val state = ReverberationRod.getState(ctx.caster)
             if (rodNbt != null){
                 when(mode){
-                    1 -> return listOf(Vec3Iota(state.initialLook))
-                    2 -> return listOf(Vec3Iota(state.initialPos))
-                    3 -> return listOf(DoubleIota(state.timestamp.toDouble()))
+                    1 -> return listOf(Vec3Iota(env.initialLook))
+                    2 -> return listOf(Vec3Iota(env.initialPos))
+                    3 -> return listOf(DoubleIota(env.timestamp.toDouble()))
                 }
             } else {
                 return listOf(NullIota())

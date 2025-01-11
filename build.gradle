@@ -31,7 +31,6 @@ subprojects {
         modImplementation "net.fabricmc:fabric-loader:${project.fabricLoaderVersion}"
         modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabricApiVersion}"
         modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabricKotlinVersion}"
-        //modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
         annotationProcessor "org.ow2.asm:asm:${project.asmVersion}"
         annotationProcessor "org.ow2.asm:asm-analysis:${project.asmVersion}"
         annotationProcessor "org.ow2.asm:asm-commons:${project.asmVersion}"

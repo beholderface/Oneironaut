@@ -5,30 +5,27 @@ import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.ListIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
-import net.minecraft.text.Text
-import net.beholderface.oneironaut.Oneironaut
+import net.beholderface.oneironaut.casting.ReverbRodCastEnv
 import net.beholderface.oneironaut.casting.mishaps.MishapNoRod
-import net.beholderface.oneironaut.isUsingRod
-import net.beholderface.oneironaut.item.ReverberationRod
+import net.minecraft.text.Text
 
 class OpAccessRAM(val store : Boolean) : ConstMediaAction {
     override val argc = if (store) { 1 } else { 0 }
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
-        if (!isUsingRod(ctx)){
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+        if (env !is ReverbRodCastEnv){
             throw MishapNoRod(false)
-        }
-        Oneironaut.boolLogger(ListIota.TYPE.toString(), false)
-        val state = ReverberationRod.getState(ctx.caster)
-        if (store){
-            val iotaToStore = args[0]
-            if (iotaToStore.type.equals(ListIota.TYPE) || iotaToStore.type.toString().contains("DictionaryIota", true)){
-                throw MishapInvalidIota(iotaToStore, 0, Text.translatable("oneironaut.mishap.nolistsallowed"))
-            }
-            //not going to check for truenames because it's not like this is persistent storage or anything
-            state.setStoredIota(iotaToStore)
-            return listOf()
         } else {
-            return listOf(state.storedIota)
+            return if (store){
+                val iotaToStore = args[0]
+                if (iotaToStore.type.equals(ListIota.TYPE) || iotaToStore.type.toString().contains("DictionaryIota", true)){
+                    throw MishapInvalidIota(iotaToStore, 0, Text.translatable("oneironaut.mishap.nolistsallowed"))
+                }
+                //not going to check for truenames because it's not like this is persistent storage or anything
+                env.setStoredIota(iotaToStore)
+                listOf()
+            } else {
+                listOf(env.storedIota)
+            }
         }
     }
 }

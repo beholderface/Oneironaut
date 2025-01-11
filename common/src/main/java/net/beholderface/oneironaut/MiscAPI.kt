@@ -8,6 +8,7 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
 import at.petrak.hexcasting.api.pigment.FrozenPigment
 import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
 import at.petrak.hexcasting.xplat.IXplatAbstractions
+import net.beholderface.oneironaut.casting.ReverbRodCastEnv
 import net.beholderface.oneironaut.network.UnBrainsweepPacket
 import net.beholderface.oneironaut.recipe.OneironautRecipeTypes
 import net.beholderface.oneironaut.casting.iotatypes.DimIota
@@ -16,7 +17,6 @@ import net.beholderface.oneironaut.item.ReverberationRod
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.GoalSelector
 import net.minecraft.entity.mob.MobEntity
@@ -253,22 +253,16 @@ fun genCircle(world : StructureWorldAccess, center : BlockPos, diameter : Int, s
 fun isPlayerEnlightened(player : ServerPlayerEntity) : Boolean {
     val adv = player.server?.advancementLoader?.get(HexAPI.modLoc("enlightenment"))
     val advs = player.advancementTracker
-    val enlightened : Boolean
-    if (advs.getProgress(adv) != null){
-        enlightened = advs.getProgress(adv).isDone
+    val enlightened : Boolean = if (advs.getProgress(adv) != null){
+        advs.getProgress(adv).isDone
     } else {
-        enlightened = false
+        false
     }
     return enlightened;
 }
 
-fun isUsingRod(ctx : CastingEnvironment) : Boolean {
-    val state = ReverberationRod.getState(ctx.castingEntity);
-    if (state != null){
-        return state.castingInProgress
-    } else {
-        return false
-    }
+fun isUsingRod(env : CastingEnvironment) : Boolean {
+    return env is ReverbRodCastEnv
 }
 
 fun getPositionsInCuboid(corner1 : BlockPos, corner2 : BlockPos, pointsToExclude : List<BlockPos>) : List<BlockPos>{

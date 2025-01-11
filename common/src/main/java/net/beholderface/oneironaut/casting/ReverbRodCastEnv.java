@@ -1,38 +1,62 @@
 package net.beholderface.oneironaut.casting;
 
+import at.petrak.hexcasting.api.casting.ParticleSpray;
+import at.petrak.hexcasting.api.casting.eval.CastResult;
+import at.petrak.hexcasting.api.casting.eval.env.PackagedItemCastEnv;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.ListIota;
 import at.petrak.hexcasting.api.casting.iota.NullIota;
-import net.minecraft.entity.Entity;
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
+import at.petrak.hexcasting.common.lib.hex.HexEvalSounds;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.UUID;
 
-public class RodState {
-
-    public RodState(Entity player, boolean active){
-        this.timestamp = player.getWorld().getTime();
-        this.initialLook = player.getRotationVector();
-        this.initialPos = player.getEyePos();
+public class ReverbRodCastEnv extends PackagedItemCastEnv {
+    public ReverbRodCastEnv(ServerPlayerEntity caster, Hand castingHand, boolean active) {
+        super(caster, castingHand);
+        this.timestamp = caster.getWorld().getTime();
+        this.initialLook = caster.getRotationVector();
+        this.initialPos = caster.getEyePos();
         this.delay = 0;
         this.resetCooldown = 20;
-        this.ownerID = player.getUuid();
         this.currentlyCasting = active;
         this.castInProgress = false;
         this.storedIota = new NullIota();
     }
-
     private final long timestamp;
     private final Vec3d initialLook;
     private final Vec3d initialPos;
     private int delay;
     private int resetCooldown;
-    private final UUID ownerID;
-    //is a cast loop active?
     private boolean currentlyCasting;
     //is a pattern list currently being processed?
     private boolean castInProgress;
     private Iota storedIota;
+    public long lastSoundTimestamp = 0;
+    @Override
+    public void postExecution(CastResult result) {
+        super.postExecution(result);
+        if (result.getSound().priority() >= HexEvalSounds.SPELL.priority()){
+            this.sound = this.sound.greaterOf(result.getSound());
+        }
+    }
+
+    @Override
+    public void produceParticles(ParticleSpray particles, FrozenPigment pigment) {
+        if ((!this.caster.getBoundingBox().contains(particles.component1())) || this.world.getTime() % 30 == 0){
+            particles.sprayParticles(this.world, pigment);
+        }
+    }
+
+    public long getLastSoundTimestamp(){
+        return this.lastSoundTimestamp;
+    }
+    public void updateLastSoundtimestamp(){
+        this.lastSoundTimestamp = this.world.getTime();
+    }
 
     public long getTimestamp(){
         return this.timestamp;
@@ -67,11 +91,6 @@ public class RodState {
         this.resetCooldown = boundedCooldown;
         return boundedCooldown - cooldown;
     }
-
-    public UUID getOwnerID(){
-        return this.ownerID;
-    }
-
     public boolean getCurrentlyCasting() {
         return currentlyCasting;
     }
