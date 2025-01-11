@@ -8,7 +8,7 @@ import net.beholderface.oneironaut.isUsingRod
 
 class OpCheckForRod : ConstMediaAction {
     override val argc = 0
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
-        return isUsingRod(ctx).asActionResult
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+        return isUsingRod(env).asActionResult
     }
 }

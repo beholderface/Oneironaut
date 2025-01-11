@@ -19,9 +19,9 @@ import net.minecraft.util.Identifier
 
 class OpReviveFlayed : SpellAction {
     override val argc = 1
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): SpellAction.Result {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): SpellAction.Result {
         val patient = args.getLivingEntityButNotArmorStand(0, argc)
-        ctx.assertEntityInRange(patient)
+        env.assertEntityInRange(patient)
         if (patient is MobEntity && IXplatAbstractions.INSTANCE.isBrainswept(patient)){
             val cost = if (patient is VillagerEntity) {
                 MediaConstants.CRYSTAL_UNIT * 16
@@ -35,11 +35,11 @@ class OpReviveFlayed : SpellAction {
     }
 
     private data class Spell(val patient : MobEntity) : RenderedSpell {
-        override fun cast(ctx: CastingEnvironment) {
+        override fun cast(env: CastingEnvironment) {
             patient.unbrainsweep()
-            if (patient is VillagerEntity && ctx.castingEntity != null && ctx.castingEntity is ServerPlayerEntity){
-                val tracker = ctx.caster!!.advancementTracker
-                val loader = ctx.world.server.advancementLoader
+            if (patient is VillagerEntity && env.castingEntity != null && env.castingEntity is ServerPlayerEntity){
+                val tracker = (env.castingEntity as ServerPlayerEntity).advancementTracker
+                val loader = env.world.server.advancementLoader
                 val recyclingAdvancement = loader.get(Identifier.of("oneironaut", "unflay"))
                 if (!tracker.getProgress(recyclingAdvancement).isDone){
                     tracker.grantCriterion(recyclingAdvancement, MemoryFragmentItem.CRITEREON_KEY)

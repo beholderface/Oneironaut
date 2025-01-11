@@ -32,8 +32,8 @@ public abstract class SentinelTrapMixinSummon {
     private final Map<RegistryKey<World>, Map<BlockPos, Vec3d>> oneironaut$trapMap = SentinelTrapImpetusEntity.trapLocationMap;
 
     @Inject(method = "cast(Lat/petrak/hexcasting/api/casting/eval/CastingEnvironment;)V", at = @At("HEAD"), remap = false)
-    public void triggerTrap(CastingEnvironment ctx, CallbackInfo ci){
-        World world = ctx.getWorld();
+    public void triggerTrap(CastingEnvironment env, CallbackInfo ci){
+        World world = env.getWorld();
         RegistryKey<World> worldKey = world.getRegistryKey();
         if (oneironaut$trapMap.containsKey(worldKey)){
             Map<BlockPos, Vec3d> trapPosMap = oneironaut$trapMap.get(worldKey);
@@ -57,7 +57,7 @@ public abstract class SentinelTrapMixinSummon {
                             }
                         }
                         if (foundPlayer != null ){
-                            be.setTargetPlayer(ctx.getCaster().getUuid());
+                            be.setTargetPlayer(env.getCaster().getUuid());
                             be.startExecution(foundPlayer);
                         }
                     } else {

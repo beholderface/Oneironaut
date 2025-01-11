@@ -29,11 +29,11 @@ import java.util.List;
 @Mixin(value = {OpBlockRaycast.class, OpBlockAxisRaycast.class})
 public abstract class BlockRaycastImmunityMixin {
     @ModifyReturnValue(method = "execute", at = @At(value = "RETURN", remap = false), remap = false)
-    private List<Iota> nullIfImmune(List<Iota> original, @Local CastingEnvironment ctx, @Local BlockHitResult hit){
+    private List<Iota> nullIfImmune(List<Iota> original, @Local CastingEnvironment env, @Local BlockHitResult hit){
         if (original.get(0) instanceof Vec3Iota vec3){
             BlockPos pos = hit.getBlockPos();
             //BlockPos pos = new BlockPos(vec3.getVec3());
-            if (ctx.getWorld().getBlockState(pos).isIn(MiscAPIKt.getBlockTagKey(new Identifier(Oneironaut.MOD_ID, "blocksraycast")))){
+            if (env.getWorld().getBlockState(pos).isIn(MiscAPIKt.getBlockTagKey(new Identifier(Oneironaut.MOD_ID, "blocksraycast")))){
                 return CollectionsKt.listOf(new NullIota());
             }
         }

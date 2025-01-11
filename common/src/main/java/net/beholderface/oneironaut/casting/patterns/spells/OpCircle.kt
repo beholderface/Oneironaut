@@ -20,9 +20,9 @@ class OpCircle : SpellAction {
         return SpellAction.Result(Spell(quantity), cost, listOf(ParticleSpray.cloud(ctx.mishapSprayPos(), 2.0)))
     }
     private data class Spell(val quantity : Int) : RenderedSpell {
-        override fun cast(ctx: CastingEnvironment){
-            if (ctx.castingEntity != null && ctx.castingEntity is ServerPlayerEntity){
-                val caster = ctx.castingEntity as ServerPlayerEntity
+        override fun cast(env: CastingEnvironment){
+            if (env.castingEntity != null && env.castingEntity is ServerPlayerEntity){
+                val caster = env.castingEntity as ServerPlayerEntity
                 caster.giveItemStack(ItemStack(OneironautItemRegistry.CIRCLE_ITEM.get(), quantity))
             }
         }

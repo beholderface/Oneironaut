@@ -10,15 +10,14 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
-import net.beholderface.oneironaut.registry.OneironautItemRegistry
 import net.beholderface.oneironaut.registry.OneironautMiscRegistry
 import kotlin.math.floor
 
 class OpResistDetection : SpellAction {
     override val argc = 2
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): SpellAction.Result {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): SpellAction.Result {
         val target = args.getLivingEntityButNotArmorStand(0, argc)
-        ctx.assertEntityInRange(target)
+        env.assertEntityInRange(target)
         val duration = args.getPositiveDouble(1, argc)
         val cost = duration * MediaConstants.DUST_UNIT * 2
 
@@ -30,9 +29,9 @@ class OpResistDetection : SpellAction {
     }
 
     private data class Spell(val target: LivingEntity, val duration : Int) : RenderedSpell {
-        override fun cast(ctx: CastingEnvironment) {
+        override fun cast(env: CastingEnvironment) {
             if (duration > 0){
-                target.addStatusEffect(StatusEffectInstance(OneironautMiscRegistry.DETECTION_RESISTANCE.get(), duration), ctx.caster)
+                target.addStatusEffect(StatusEffectInstance(OneironautMiscRegistry.DETECTION_RESISTANCE.get(), duration), env.caster)
             }
         }
     }

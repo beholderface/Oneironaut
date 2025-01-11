@@ -10,8 +10,6 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
-import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.text.Text
 import net.beholderface.oneironaut.registry.OneironautMiscRegistry
 import kotlin.math.max
 
@@ -19,9 +17,9 @@ private val markerEffect: StatusEffect = OneironautMiscRegistry.NOT_MISSING.get(
 
 class OpMarkEntity() : SpellAction {
     override val argc = 1
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): SpellAction.Result {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): SpellAction.Result {
         val target = args.getLivingEntityButNotArmorStand(0, argc)
-        ctx.assertEntityInRange(target)
+        env.assertEntityInRange(target)
         val existingLevel = if (target.hasStatusEffect(markerEffect)) {
             max(target.getStatusEffect(markerEffect)!!.amplifier, 128)
         } else {
@@ -35,7 +33,7 @@ class OpMarkEntity() : SpellAction {
     }
 
     private class Spell(val target : LivingEntity, val levelToApply : Int) : RenderedSpell{
-        override fun cast(ctx: CastingEnvironment) {
+        override fun cast(env: CastingEnvironment) {
             //ctx.caster.sendMessage(Text.literal("For the time being, this spell effectively just applies Glowing, due to mixin trouble. Sorry."), true)
             //val glowInstance = StatusEffectInstance(StatusEffects.GLOWING, 1200)
             val markInstance = StatusEffectInstance(markerEffect, 1200, levelToApply)

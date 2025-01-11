@@ -13,7 +13,7 @@ class OpSpecificDim(val dim : Identifier, val great : Boolean, val config : Supp
 
     override val argc = 0
     override val mediaCost = MediaConstants.DUST_UNIT / 10
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         if (!config.get()){
             throw MishapDisallowedSpell()
         }

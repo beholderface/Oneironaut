@@ -12,13 +12,13 @@ import net.minecraft.server.network.ServerPlayerEntity
 class OpGetDim (val sent: Boolean) : ConstMediaAction {
     override val argc = 0
     override val mediaCost = if (sent) { MediaConstants.DUST_UNIT / 10 } else { 0 }
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         return if (!sent){
-            val casterWorld : String = ctx.world.registryKey.value.toString()
+            val casterWorld : String = env.world.registryKey.value.toString()
             listOf(DimIota(casterWorld))
         } else {
-            if (ctx.castingEntity is ServerPlayerEntity){
-                val sentinel = IXplatAbstractions.INSTANCE.getSentinel(ctx.caster)
+            if (env.castingEntity is ServerPlayerEntity){
+                val sentinel = IXplatAbstractions.INSTANCE.getSentinel(env.caster)
                 if (sentinel != null)
                     listOf(DimIota(sentinel.dimension.value.toString()))
             }

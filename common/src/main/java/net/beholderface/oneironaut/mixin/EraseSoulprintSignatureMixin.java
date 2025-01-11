@@ -17,7 +17,7 @@ public class EraseSoulprintSignatureMixin {
     private ItemStack stack;
 
     @Inject(method = "cast(Lat/petrak/hexcasting/api/casting/eval/CastingEnvironment;)V", at = @At(value = "TAIL", remap = false), remap = false)
-    public void eraseSignature(CastingEnvironment ctx, CallbackInfo ci){
+    public void eraseSignature(CastingEnvironment env, CallbackInfo ci){
         NbtCompound nbt = stack.getOrCreateNbt();
         if (nbt.containsUuid("soulprint_signature")){
             nbt.remove("soulprint_signature");

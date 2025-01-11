@@ -21,25 +21,25 @@ public class DepartureEntry {
     public final long timestamp;
 
 
-    public DepartureEntry(CastingEnvironment ctx, ServerWorld world){
-        Entity caster = ctx.getCastingEntity();
+    public DepartureEntry(CastingEnvironment env, ServerWorld world){
+        Entity caster = env.getCastingEntity();
         assert caster != null;
         this.originPos = caster.getPos();
         this.originDim = world;
         this.timestamp = world.getServer().getOverworld().getTime();
-        Map<ServerWorld, DepartureEntry> list = departureMap.get(ctx);
+        Map<ServerWorld, DepartureEntry> list = departureMap.get(env);
         if (list == null){
             Map<ServerWorld, DepartureEntry> newList = new HashMap<>();
             newList.put(world, this);
-            departureMap.put(ctx, newList);
+            departureMap.put(env, newList);
         } else {
             list.put(world, this);
         }
     }
 
     @Nullable
-    public static DepartureEntry getEntry(@NotNull CastingEnvironment ctx, ServerWorld queried, boolean allowExpired){
-        var relevantMap = departureMap.get(ctx);
+    public static DepartureEntry getEntry(@NotNull CastingEnvironment env, ServerWorld queried, boolean allowExpired){
+        var relevantMap = departureMap.get(env);
         if (relevantMap != null){
             DepartureEntry entry = relevantMap.get(queried);
             if (entry != null && (!entry.isExpired() || allowExpired)){
@@ -49,14 +49,14 @@ public class DepartureEntry {
         return null;
     }
     @Nullable
-    public static DepartureEntry getEntry(@NotNull CastingEnvironment ctx, ServerWorld queried){
-        return getEntry(ctx, queried, false);
+    public static DepartureEntry getEntry(@NotNull CastingEnvironment env, ServerWorld queried){
+        return getEntry(env, queried, false);
     }
 
     public static void clearMap(){
         //not sure if the loop is actually needed, considering garbage collection, but just in case
-        for (CastingEnvironment ctx : departureMap.keySet()){
-            departureMap.get(ctx).clear();
+        for (CastingEnvironment env : departureMap.keySet()){
+            departureMap.get(env).clear();
         }
         departureMap.clear();
     }

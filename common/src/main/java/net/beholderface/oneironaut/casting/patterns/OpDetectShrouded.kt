@@ -17,13 +17,13 @@ import net.beholderface.oneironaut.registry.OneironautMiscRegistry
 class OpDetectShrouded : ConstMediaAction {
     override val argc = 2
     override val mediaCost = MediaConstants.DUST_UNIT / 10;
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getVec3(0, argc)
-        ctx.assertVecInRange(target)
+        env.assertVecInRange(target)
         val radius = args.getPositiveDouble(1, argc)
         val box = Box(target.add(Vec3d(-radius, -radius, -radius)), target.add(Vec3d(radius, radius, radius)))
-        val entities = ctx.world.getOtherEntities(null, box) {
-            isShroudedAndReachable(it, ctx) && it.squaredDistanceTo(target) <= (radius * radius)}.sortedBy { it.squaredDistanceTo(target) }
+        val entities = env.world.getOtherEntities(null, box) {
+            isShroudedAndReachable(it, env) && it.squaredDistanceTo(target) <= (radius * radius)}.sortedBy { it.squaredDistanceTo(target) }
         val directions = mutableSetOf<Vec3d>()
         for (element in entities){
             directions.add(element.pos.subtract(target).normalize())

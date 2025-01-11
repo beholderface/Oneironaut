@@ -39,7 +39,7 @@ public abstract class ImpulseRedirectFireballMixin {
     @Unique
     private static final boolean oneironaut$redirectionEnabled = OneironautConfig.getServer().getImpulseRedirectsFireball();
     @Inject(method = "cast(Lat/petrak/hexcasting/api/casting/eval/CastingEnvironment;)V", at = @At(value = "RETURN", remap = false), remap = false)
-    public void redirectFireball(CastingEnvironment ctx, CallbackInfo ci/*, @Local(ordinal = 0) Entity target*/){
+    public void redirectFireball(CastingEnvironment env, CallbackInfo ci/*, @Local(ordinal = 0) Entity target*/){
         if (target instanceof ExplosiveProjectileEntity explosive && oneironaut$redirectionEnabled){
             TrackedData<Float> POWER_X = DataTracker.registerData(ExplosiveProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
             TrackedData<Float> POWER_Y = DataTracker.registerData(ExplosiveProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
@@ -68,13 +68,13 @@ public abstract class ImpulseRedirectFireballMixin {
             explosive.powerZ = explosive.powerZ + deltaZ;
             Vec3d newPower = new Vec3d(explosive.powerX, explosive.powerY, explosive.powerZ);
             if (!immune){
-                explosive.setOwner(ctx.getCaster());
+                explosive.setOwner(env.getCaster());
             }
             tracker.set(POWER_X, (float) (explosive.powerX + deltaX));
             tracker.set(POWER_Y, (float) (explosive.powerX + deltaY));
             tracker.set(POWER_Z, (float) (explosive.powerX + deltaZ));
             if (!newPower.equals(oldPower)){
-                IXplatAbstractions.INSTANCE.sendPacketNear(explosive.getPos(), 128, ctx.getWorld(), new FireballUpdatePacket(newPower, explosive));
+                IXplatAbstractions.INSTANCE.sendPacketNear(explosive.getPos(), 128, env.getWorld(), new FireballUpdatePacket(newPower, explosive));
             }
         }
     }

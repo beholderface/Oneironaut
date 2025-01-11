@@ -24,7 +24,7 @@ public abstract class EntityRaycastImmunityMixin {
     @ModifyVariable(method = "execute", at = @At(value = "STORE", remap = false), remap = false)
     private EntityHitResult nullIfBlocker(
             EntityHitResult value,
-            @Local CastingEnvironment ctx,
+            @Local CastingEnvironment env,
             @Local(ordinal = 0) Vec3d origin,
             @Local(ordinal = 1) Vec3d look,
             @Local(ordinal = 2) Vec3d end){
@@ -33,7 +33,7 @@ public abstract class EntityRaycastImmunityMixin {
             Vec3d step = look.multiply(1.0 / stepResolution);
             Identifier blockerTag = new Identifier(Oneironaut.MOD_ID, "blocksraycast");
             for(int i = 0; i < origin.distanceTo(value.getPos()) * stepResolution; i++){
-                if (ctx.getWorld().getBlockState(new BlockPos(MiscAPIKt.toVec3i(origin.add(step.multiply(i))))).isIn(MiscAPIKt.getBlockTagKey(blockerTag))){
+                if (env.getWorld().getBlockState(new BlockPos(MiscAPIKt.toVec3i(origin.add(step.multiply(i))))).isIn(MiscAPIKt.getBlockTagKey(blockerTag))){
                     return null;
                 }
             }

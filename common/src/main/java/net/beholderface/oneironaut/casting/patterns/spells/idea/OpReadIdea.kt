@@ -27,31 +27,31 @@ import net.beholderface.oneironaut.toVec3i
 class OpReadIdea : ConstMediaAction {
     override val argc = 1
     override val mediaCost = MediaConstants.DUST_UNIT / 8
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         var output : Iota = GarbageIota()
         val rawKeyIota = args[0]
         val keyEntity : Entity
         val keyPos : BlockPos
         if (rawKeyIota.type == EntityIota.TYPE){
             keyEntity = args.getEntity(0, argc)
-            ctx.assertEntityInRange(keyEntity)
+            env.assertEntityInRange(keyEntity)
             if (keyEntity.type.equals(EntityType.VILLAGER)){
                 if (IXplatAbstractions.INSTANCE.isBrainswept(keyEntity as VillagerEntity)){
-                    output = IdeaInscriptionManager.readIota(keyEntity.uuid, ctx.world)
+                    output = IdeaInscriptionManager.readIota(keyEntity.uuid, env.world)
                 }
             } else if (keyEntity.isPlayer){
                 if (isPlayerEnlightened(keyEntity as ServerPlayerEntity)){
-                    output = IdeaInscriptionManager.readIota(keyEntity.uuid, ctx.world)
+                    output = IdeaInscriptionManager.readIota(keyEntity.uuid, env.world)
                 }
             } else {
                 throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.badentitykey"))
             }
         } else if (rawKeyIota.type == Vec3Iota.TYPE){
             keyPos = BlockPos(args.getVec3(0, argc).toVec3i())
-            output = IdeaInscriptionManager.readIota(keyPos, ctx.world)
+            output = IdeaInscriptionManager.readIota(keyPos, env.world)
         } else if (rawKeyIota.type == SoulprintIota.TYPE){
             val keySoulprint = args.getSoulprint(0, argc).toString() + "soul"
-            output = IdeaInscriptionManager.readIota(keySoulprint, ctx.world)
+            output = IdeaInscriptionManager.readIota(keySoulprint, env.world)
         } else {
             throw MishapInvalidIota(rawKeyIota, 0, Text.translatable("oneironaut.mishap.invalidideakey"));
         }

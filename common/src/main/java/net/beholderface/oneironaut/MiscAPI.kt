@@ -24,6 +24,8 @@ import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.item.Item
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.recipe.RecipeManager
+import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.server.MinecraftServer
@@ -207,13 +209,8 @@ fun isSolid(world: ServerWorld, pos: BlockPos) : Boolean{
 }
 
 fun stringToWorld(key : String, server : MinecraftServer) : ServerWorld?{
-    var output : ServerWorld? = null
-    server.worlds?.forEach {
-        if (it.registryKey.value.toString() == key){
-            output = it
-        }
-    }
-    return output
+    val regKey = RegistryKey.of(RegistryKeys.WORLD, Identifier(key))
+    return server.getWorld(regKey)
 }
 
 fun playerUUIDtoServerPlayer(uuid: UUID, server: MinecraftServer): ServerPlayerEntity? {

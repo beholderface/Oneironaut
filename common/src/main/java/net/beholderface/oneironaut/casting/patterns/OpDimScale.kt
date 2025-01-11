@@ -10,8 +10,8 @@ import net.beholderface.oneironaut.stringToWorld
 class OpDimScale : ConstMediaAction {
     override val argc = 1
     override val mediaCost = 0L
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
-        val dim = stringToWorld(args.getDimIota(0, argc).dimString, ctx.world.server)
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+        val dim = stringToWorld(args.getDimIota(0, argc).dimString, env.world.server)
         assert(dim != null)
         assert(dim!!.dimension != null)
         return listOf(DoubleIota(dim.dimension.coordinateScale))

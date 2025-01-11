@@ -28,9 +28,9 @@ import net.beholderface.oneironaut.toVec3i
 class OpWriteIdea : ConstMediaAction {
     override val argc = 2
     override val mediaCost = MediaConstants.DUST_UNIT / 4
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val iotaToWrite = args[1]
-        val truename = MishapOthersName.getTrueNameFromDatum(iotaToWrite, ctx.caster)
+        val truename = MishapOthersName.getTrueNameFromDatum(iotaToWrite, env.caster)
         if (truename != null){
             //if (!(truename.equals(ctx.caster)) || (truename.equals(ctx.caster) && !(ctx.source.equals(CastingContext.CastSource.STAFF))))
             throw MishapOthersName(truename)
@@ -38,19 +38,19 @@ class OpWriteIdea : ConstMediaAction {
         val rawKeyIota = args[0]
         val keyEntity : Entity
         val keyPos : BlockPos
-        val ideaState = IdeaInscriptionManager.getServerState(ctx.world.server)
+        val ideaState = IdeaInscriptionManager.getServerState(env.world.server)
         if (rawKeyIota.type == EntityIota.TYPE){
             keyEntity = args.getEntity(0, argc)
-            ctx.assertEntityInRange(keyEntity)
+            env.assertEntityInRange(keyEntity)
             if (keyEntity.type.equals(EntityType.VILLAGER)){
                 if (IXplatAbstractions.INSTANCE.isBrainswept(keyEntity as VillagerEntity)){
-                    IdeaInscriptionManager.writeIota(keyEntity.uuid, iotaToWrite, ctx.caster, ctx.world)
+                    IdeaInscriptionManager.writeIota(keyEntity.uuid, iotaToWrite, env.caster, env.world)
                 } else {
                     throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.notbrainswept"))
                 }
             } else if (keyEntity.isPlayer){
                 if (isPlayerEnlightened(keyEntity as ServerPlayerEntity)){
-                    IdeaInscriptionManager.writeIota(keyEntity.uuid, iotaToWrite, ctx.caster, ctx.world)
+                    IdeaInscriptionManager.writeIota(keyEntity.uuid, iotaToWrite, env.caster, env.world)
                 } else {
                     throw MishapBadEntity(keyEntity, Text.translatable("oneironaut.mishap.unenlightenedtarget"))
                 }
@@ -59,14 +59,14 @@ class OpWriteIdea : ConstMediaAction {
             }
         } else if (rawKeyIota.type == Vec3Iota.TYPE){
             keyPos = BlockPos(args.getVec3(0, argc).toVec3i())
-            val worldborder = ctx.world.server.overworld.worldBorder
+            val worldborder = env.world.server.overworld.worldBorder
             if (keyPos.y < -64 || keyPos.y > 320 || !(worldborder.contains(keyPos))){
                 throw MishapBadLocation(args.getVec3(0, argc), "out_of_world")
             }
-            IdeaInscriptionManager.writeIota(keyPos, iotaToWrite, ctx.caster, ctx.world)
+            IdeaInscriptionManager.writeIota(keyPos, iotaToWrite, env.caster, env.world)
         }else if (rawKeyIota.type == SoulprintIota.TYPE){
             val keySoulprint = args.getSoulprint(0, argc).toString() + "soul"
-            IdeaInscriptionManager.writeIota(keySoulprint, iotaToWrite, ctx.caster, ctx.world)
+            IdeaInscriptionManager.writeIota(keySoulprint, iotaToWrite, env.caster, env.world)
         } else {
             throw MishapInvalidIota(rawKeyIota, 1, Text.translatable("oneironaut.mishap.invalidideakey"));
         }

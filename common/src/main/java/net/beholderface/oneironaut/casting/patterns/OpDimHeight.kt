@@ -11,9 +11,9 @@ import java.lang.AssertionError
 class OpDimHeight : ConstMediaAction {
     override val argc = 1
     override val mediaCost = 0L
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val dimString = args.getDimIota(0, argc).dimString
-        val dim = stringToWorld(dimString, ctx.world.server)
+        val dim = stringToWorld(dimString, env.world.server)
         if (dim != null) {
             return listOf(DoubleIota(dim.bottomY.toDouble()), DoubleIota(dim.topY.toDouble() - 1))
         } else {

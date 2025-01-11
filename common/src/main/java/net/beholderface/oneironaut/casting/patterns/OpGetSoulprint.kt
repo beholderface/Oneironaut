@@ -10,24 +10,23 @@ import net.minecraft.text.Text
 import net.minecraft.util.Pair
 import net.beholderface.oneironaut.casting.mishaps.MishapNoStaff
 import net.beholderface.oneironaut.casting.iotatypes.SoulprintIota
-import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 
 class OpGetSoulprint : ConstMediaAction {
     override val argc = 0
     override val mediaCost = MediaConstants.DUST_UNIT / 10
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
-        if (ctx !is StaffCastEnv){
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+        if (env !is StaffCastEnv){
             throw MishapNoStaff(Text.translatable("hexcasting.spell.oneironaut:getsoulprint"))
         }
-        if (ctx.castingEntity != null && ctx.castingEntity is LivingEntity){
+        if (env.castingEntity != null && env.castingEntity is LivingEntity){
             throw MishapBadCaster()
         }
         return listOf(
             SoulprintIota(
                 Pair(
-                    ctx.castingEntity!!.uuid,
-                    ctx.castingEntity!!.name.string
+                    env.castingEntity!!.uuid,
+                    env.castingEntity!!.name.string
                 )
             )
         )

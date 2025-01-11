@@ -24,10 +24,10 @@ import kotlin.math.pow
 
 class OpApplyOvercastDamage : SpellAction {
     override val argc = 1
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): SpellAction.Result {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): SpellAction.Result {
         val holder = args.getEntity(0, argc)
         val target = args.getItemEntityOrItemFrame(0, argc)
-        ctx.assertEntityInRange(holder)
+        env.assertEntityInRange(holder)
         val stack : ItemStack = if (!(target.left().isEmpty)){
             target.left().get().stack
         } else {
@@ -63,7 +63,7 @@ class OpApplyOvercastDamage : SpellAction {
     }
 
     private data class Spell(val stack : ItemStack, val level : Int, val book : Boolean, val existingEnchantments : Map<Enchantment, Int>, val holder : Entity) : RenderedSpell{
-        override fun cast(ctx: CastingEnvironment) {
+        override fun cast(env: CastingEnvironment) {
             val overcastdamage = OneironautMiscRegistry.OVERCAST_DAMAGE_ENCHANT.get()
             val enchantsToKeep = HashMap<Enchantment, Int>()
             existingEnchantments.map {
@@ -89,7 +89,7 @@ class OpApplyOvercastDamage : SpellAction {
                     stack.addEnchantment(it.key, it.value)
                 }
             }
-            IXplatAbstractions.INSTANCE.sendPacketNear(stack.holder?.pos, 128.0, ctx.world, ItemUpdatePacket(stack, holder))
+            IXplatAbstractions.INSTANCE.sendPacketNear(stack.holder?.pos, 128.0, env.world, ItemUpdatePacket(stack, holder))
         }
 
     }

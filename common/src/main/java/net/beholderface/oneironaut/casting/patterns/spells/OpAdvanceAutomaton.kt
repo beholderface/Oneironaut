@@ -17,11 +17,11 @@ import net.beholderface.oneironaut.toVec3i
 
 class OpAdvanceAutomaton : SpellAction {
     override val argc = 2
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): SpellAction.Result {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): SpellAction.Result {
         val box = Box(BlockPos(args.getVec3(0, argc).toVec3i()), BlockPos(args.getVec3(1, argc).toVec3i()))
         val corners = getBoxCorners(box)
         for(c in corners){
-            ctx.assertVecInRange(c)
+            env.assertVecInRange(c)
         }
         val cost = (box.xLength * box.yLength * box.zLength * (MediaConstants.DUST_UNIT * 0.1)).toLong()
         return SpellAction.Result(
@@ -32,8 +32,8 @@ class OpAdvanceAutomaton : SpellAction {
     }
     private data class Spell(val box : Box, val corner : BlockPos?,
                              val args : List<Iota>?, val execute : Boolean) : RenderedSpell {
-        override fun cast(ctx: CastingEnvironment) {
-            advanceAutomaton(ctx, box)
+        override fun cast(env: CastingEnvironment) {
+            advanceAutomaton(env, box)
         }
     }
 }

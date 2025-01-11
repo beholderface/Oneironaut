@@ -13,13 +13,13 @@ import at.petrak.hexcasting.xplat.IXplatAbstractions
 class OpReadSentinel : ConstMediaAction {
     override val argc = 2
     override val mediaCost = MediaConstants.DUST_UNIT / 10
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val origin = args.getVec3(0, argc)
         val target = args.getPlayer(1, argc)
         val sentinel = IXplatAbstractions.INSTANCE.getSentinel(target)
-        ctx.assertVecInRange(origin)
+        env.assertVecInRange(origin)
         if (sentinel != null){
-            if (sentinel.dimension.equals(ctx.world.registryKey)){
+            if (sentinel.dimension.equals(env.world.registryKey)){
                 return listOf(DoubleIota(origin.subtract(sentinel.position).length()))
             }
             return listOf(NullIota())

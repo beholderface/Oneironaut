@@ -8,7 +8,6 @@ import at.petrak.hexcasting.api.casting.getLivingEntityButNotArmorStand
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster
-import at.petrak.hexcasting.api.casting.mishaps.MishapBadLocation
 import at.petrak.hexcasting.api.casting.mishaps.MishapImmuneEntity
 import at.petrak.hexcasting.api.casting.mishaps.MishapLocationInWrongDimension
 import at.petrak.hexcasting.api.misc.MediaConstants
@@ -16,8 +15,6 @@ import at.petrak.hexcasting.api.mod.HexConfig
 import at.petrak.hexcasting.api.mod.HexTags
 import at.petrak.hexcasting.common.blocks.BlockConjured
 import at.petrak.hexcasting.common.lib.HexBlocks
-import at.petrak.hexcasting.xplat.IXplatAbstractions
-import dev.architectury.platform.Platform
 import net.beholderface.oneironaut.*
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.LivingEntity
@@ -33,7 +30,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.TeleportTarget
 import net.beholderface.oneironaut.casting.DepartureEntry
 import net.minecraft.util.math.Vec3i
-import java.util.HashMap
 //import net.oneironaut.registry.OneironautThingRegistry
 import kotlin.math.floor
 
@@ -43,15 +39,15 @@ import kotlin.math.floor
 class OpDimTeleport : SpellAction {
     override val argc = 2
 
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): SpellAction.Result {
-        if (ctx.castingEntity == null){
+    override fun execute(args: List<Iota>, env: CastingEnvironment): SpellAction.Result {
+        if (env.castingEntity == null){
             throw MishapBadCaster()
         }
         val target = args.getLivingEntityButNotArmorStand(0, argc)
-        ctx.assertEntityInRange(target)
-        val origin = ctx.world
+        env.assertEntityInRange(target)
+        val origin = env.world
         val coords = target.pos
-        var world = ctx.world
+        var world = env.world
         var worldKey = world.registryKey
         var noosphere = false
         val destination : DimIota
@@ -76,13 +72,13 @@ class OpDimTeleport : SpellAction {
             throw MishapLocationInWrongDimension(worldKey.value)
         if (!target.canUsePortals() || target.type.isIn(HexTags.Entities.CANNOT_TELEPORT))
             throw MishapImmuneEntity(target)
-        if (target.isPlayer && target != ctx.caster as LivingEntity && !OneironautConfig.server.planeShiftOtherPlayers){
+        if (target.isPlayer && target != env.caster as LivingEntity && !OneironautConfig.server.planeShiftOtherPlayers){
             throw MishapImmuneEntity(target)
         }
 
         var departure = false
-        if (target == ctx.caster){
-            val entry = DepartureEntry.getEntry(ctx, world)
+        if (target == env.caster){
+            val entry = DepartureEntry.getEntry(env, world)
             if (entry != null){
                 if (entry.isWithinCylinder(target.pos)){
                     departure = true
@@ -113,7 +109,7 @@ class OpDimTeleport : SpellAction {
     }
 
     private data class Spell(var target: LivingEntity, val origin: ServerWorld, val destination: ServerWorld, val coords: Vec3d, val noosphere: Boolean) : RenderedSpell {
-        override fun cast(ctx: CastingEnvironment) {
+        override fun cast(env: CastingEnvironment) {
             var x = coords.x
             var y = floor(coords.y)
             var z = coords.z
@@ -125,9 +121,9 @@ class OpDimTeleport : SpellAction {
             if (target is ServerPlayerEntity){
                 val playerTarget = target as ServerPlayerEntity
                 isFlying = playerTarget.abilities.flying
-                if (target == ctx.caster){
-                    DepartureEntry(ctx, origin)
-                    val entry = DepartureEntry.getEntry(ctx, destination)
+                if (target == env.caster){
+                    DepartureEntry(env, origin)
+                    val entry = DepartureEntry.getEntry(env, destination)
                     if (entry != null){
                         if (entry.isWithinCylinder(Vec3d(x, 0.0, z))){
                             //Oneironaut.LOGGER.info("Found an existing departure, teleporting there.")
@@ -163,11 +159,9 @@ class OpDimTeleport : SpellAction {
             var scanPoint = BlockPos(Vec3d(x, y+1, z).toVec3i())
             if (!isFlying){
                 while(!isSolid(destination, scanPoint)){
-                    //ctx.caster.sendMessage(Text.of(destination.getBlockState(scanPoint).block.toString()))
                     scanPoint = BlockPos(Vec3d(x, scanPoint.y.toDouble() - 1, z).toVec3i())
                     //check for void
                     if (scanPoint.y < destination.bottomY || isUnsafe(destination, scanPoint, false)){
-                        //ctx.caster.sendMessage(Text.of("scanpoint: ${scanPoint.y}, bottomY: ${destination.bottomY}, safety: ${isUnsafe(destination, scanPoint)}"))
                         scanPoint = BlockPos(Vec3d(x, y+1, z).toVec3i())
                         break
                     }
@@ -175,7 +169,6 @@ class OpDimTeleport : SpellAction {
             }
             //try to avoid putting your head in solid rock or something
             while(isUnsafe(destination, scanPoint, true) || isSolid(destination, scanPoint)){
-                //ctx.caster.sendMessage(Text.of(destination.getBlockState(scanPoint).block.toString()))
                 scanPoint = BlockPos(Vec3d(x, scanPoint.y.toDouble() + 1, z).toVec3i())
                 //check for ceiling
                 if (destination.getBlockState(scanPoint).block.equals(Blocks.BEDROCK)){
@@ -192,9 +185,9 @@ class OpDimTeleport : SpellAction {
                 }
                 y = (scanPoint.y).toDouble()
             }
-            val colorizer = ctx.pigment
+            val colorizer = env.pigment
             if (origin == destination){
-                ctx.caster!!.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.samedim"));
+                env.caster!!.sendMessage(Text.translatable("hexcasting.spell.oneironaut:dimteleport.samedim"));
             } else {
                 if (target is ServerPlayerEntity){
                     val playerTarget = target as ServerPlayerEntity

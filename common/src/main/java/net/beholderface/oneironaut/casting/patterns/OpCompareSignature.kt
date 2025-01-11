@@ -9,16 +9,15 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapBadOffhandItem
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.utils.getUUID
 import net.minecraft.item.Items
-import net.beholderface.oneironaut.casting.patterns.spells.OpSignItem
 import net.beholderface.oneironaut.getSoulprint
 import net.minecraft.text.Text
 
 class OpCompareSignature : ConstMediaAction {
     override val argc = 1
     override val mediaCost = MediaConstants.DUST_UNIT / 10
-    override fun execute(args: List<Iota>, ctx: CastingEnvironment): List<Iota> {
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val checkedSignature = args.getSoulprint(0, argc)
-        val readItemInfo : HeldItemInfo = ctx.getHeldItemToOperateOn {it.item != Items.AIR} ?: throw MishapBadOffhandItem(null, Text.of("no_item.offhand"))
+        val readItemInfo : HeldItemInfo = env.getHeldItemToOperateOn {it.item != Items.AIR} ?: throw MishapBadOffhandItem(null, Text.of("no_item.offhand"))
         val readItem = readItemInfo.stack
         if (readItem.hasNbt()){
             val nbt = readItem.nbt
