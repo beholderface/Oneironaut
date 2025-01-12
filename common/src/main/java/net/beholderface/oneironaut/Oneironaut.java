@@ -87,7 +87,7 @@ public class Oneironaut {
             DepartureEntry.clearMap();
             ServerPlayerEntity player = noosphere.getRandomAlivePlayer();
             Random rand = noosphere.random;
-            if (player != null && rand.nextInt(128) == 0){
+            if (player != null && rand.nextInt(1024) == 0){
                 double gaussDistance = 16.0;
                 WanderingWisp wisp = new WanderingWisp(noosphere, player.getPos().add(
                         rand.nextGaussian() * gaussDistance, rand.nextGaussian() * gaussDistance, rand.nextGaussian() * gaussDistance));
