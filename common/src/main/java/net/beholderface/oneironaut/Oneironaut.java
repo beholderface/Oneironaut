@@ -1,5 +1,6 @@
 package net.beholderface.oneironaut;
 
+import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.event.CompoundEventResult;
@@ -13,16 +14,22 @@ import net.beholderface.oneironaut.item.BottomlessMediaItem;
 import net.beholderface.oneironaut.recipe.OneironautRecipeSerializer;
 import net.beholderface.oneironaut.recipe.OneironautRecipeTypes;
 import net.beholderface.oneironaut.registry.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.random.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ram.talia.hexal.common.entities.WanderingWisp;
 
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.List;
 
 import static net.beholderface.oneironaut.MiscAPIKt.getItemTagKey;
 import static net.beholderface.oneironaut.MiscAPIKt.stringToWorld;
@@ -34,6 +41,7 @@ import static net.beholderface.oneironaut.MiscAPIKt.stringToWorld;
 public class Oneironaut {
     public static final String MOD_ID = "oneironaut";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    private static final List<Item> randomWispPigments = new ArrayList<>();
     private static ServerWorld noosphere = null;
 
 
@@ -57,7 +65,12 @@ public class Oneironaut {
             IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState(startedserver);
             IdeaInscriptionManager.cleanMap(startedserver, ideaState);
             ideaState.markDirty();
-            //SentinelTracker sentinelState = SentinelTracker.getServerState(startedserver);
+            randomWispPigments.addAll(HexItems.DYE_PIGMENTS.values());
+            randomWispPigments.addAll(HexItems.PRIDE_PIGMENTS.values());
+            randomWispPigments.add(HexItems.DEFAULT_PIGMENT);
+            randomWispPigments.add(HexItems.UUID_PIGMENT);
+            randomWispPigments.add(OneironautItemRegistry.PIGMENT_NOOSPHERE.get());
+            randomWispPigments.add(OneironautItemRegistry.PIGMENT_FLAME.get());
         });
 
         TickEvent.SERVER_PRE.register((server) -> {
@@ -72,6 +85,16 @@ public class Oneironaut {
                 LOGGER.error("Oopsie server-side hoverlift exception " + exception.getMessage());
             }
             DepartureEntry.clearMap();
+            ServerPlayerEntity player = noosphere.getRandomAlivePlayer();
+            Random rand = noosphere.random;
+            if (player != null && rand.nextInt(128) == 0){
+                double gaussDistance = 16.0;
+                WanderingWisp wisp = new WanderingWisp(noosphere, player.getPos().add(
+                        rand.nextGaussian() * gaussDistance, rand.nextGaussian() * gaussDistance, rand.nextGaussian() * gaussDistance));
+                ItemStack stack = randomWispPigments.get(rand.nextInt(randomWispPigments.size())).getDefaultStack();
+                wisp.setPigment(new FrozenPigment(stack, ((Entity)wisp).getUuid()));
+                noosphere.spawnEntity(wisp);
+            }
         });
 
         ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
