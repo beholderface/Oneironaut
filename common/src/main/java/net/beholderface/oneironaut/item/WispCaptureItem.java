@@ -78,8 +78,8 @@ public class WispCaptureItem extends ItemMediaHolder {
                 if (initWisp != null){
                     if (initWisp.owner().equals(user.getUuid())){
                         long wispMedia = initWisp.getMedia();
-                        int roundedMax = (int) (Math.ceil((float) wispMedia / MediaConstants.DUST_UNIT) * MediaConstants.DUST_UNIT);
-                        data.putInt(TAG_MAX_MEDIA, roundedMax);
+                        long roundedMax = (long) (Math.ceil((float) wispMedia / MediaConstants.DUST_UNIT) * MediaConstants.DUST_UNIT);
+                        data.putLong(TAG_MAX_MEDIA, roundedMax);
                         if (this.getMedia(stack) < wispMedia - MediaConstants.SHARD_UNIT){
                             this.setMedia(stack, wispMedia - MediaConstants.SHARD_UNIT);
                         }
@@ -149,7 +149,7 @@ public class WispCaptureItem extends ItemMediaHolder {
         NbtCompound stackNbt = stack.getOrCreateNbt();
         long cost = MediaConstants.SHARD_UNIT;
         if (wisp.getCaster() != user){
-            cost = (int) Math.ceil(wisp.getMedia() * 1.5);
+            cost = (long) Math.ceil(wisp.getMedia() * 1.5);
         }
         if (!world.isClient){
             if ((this.getMedia(stack) >= cost || user.isCreative()) && !wisp.getSeon()){
@@ -293,7 +293,7 @@ public class WispCaptureItem extends ItemMediaHolder {
             String hashString = "???";
             NbtCompound wispData = this.getWispData(stack, null);
             assert wispData != null;
-            int media = wispData.getInt("media");
+            long media = wispData.getLong("media");
             NbtElement hexData = wispData.get("hex");
             assert hexData != null;
             String nbtString = hexData.toString();

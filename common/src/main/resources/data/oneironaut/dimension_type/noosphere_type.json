@@ -15,6 +15,6 @@
   "min_y": -64,
   "monster_spawn_block_light_limit": 0,
   "monster_spawn_light_level": 0,
-  "effects": "minecraft:the_end",
+  "effects": "oneironaut:noosphere",
   "fixed_time": 18000
 }

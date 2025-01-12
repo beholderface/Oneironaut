@@ -15,6 +15,7 @@ import net.beholderface.oneironaut.registry.OneironautItemRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -130,6 +131,7 @@ public class OneironautClient {
                     Oneironaut.LOGGER.info("Could not cache client object.");
                 }
             });
+            DimensionEffectsAccessor.getIdentifierMap().put(Oneironaut.id("noosphere"), new NoosphereDimensionEffects());
         } else {
             Oneironaut.LOGGER.info("oh no, forge, aaaaaaaaaaaa");
         }

@@ -19,7 +19,7 @@ class OpGetSoulprint : ConstMediaAction {
         if (env !is StaffCastEnv){
             throw MishapNoStaff(Text.translatable("hexcasting.spell.oneironaut:getsoulprint"))
         }
-        if (env.castingEntity != null && env.castingEntity is LivingEntity){
+        if (env.castingEntity !is LivingEntity){
             throw MishapBadCaster()
         }
         return listOf(

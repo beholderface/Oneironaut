@@ -22,6 +22,9 @@ public class DimIota extends Iota {
     public DimIota(@NotNull String dim){
         super(OneironautIotaTypeRegistry.DIM, dim);
     }
+    public DimIota(@NotNull ServerWorld world){
+        super(OneironautIotaTypeRegistry.DIM, world.getRegistryKey().getValue().toString());
+    }
 
     /*public NbtElement getKey(){
         var ctag = HexUtils.downcast(this.payload, NbtCompound.TYPE);

@@ -11,11 +11,13 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.world.dimension.DimensionOptions;
 
 public class OneironautMiscRegistry {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Oneironaut.MOD_ID, RegistryKeys.FLUID);
     public static final DeferredRegister<StatusEffect> EFFECTS = DeferredRegister.create(Oneironaut.MOD_ID, RegistryKeys.STATUS_EFFECT);
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(Oneironaut.MOD_ID, RegistryKeys.ENCHANTMENT);
+
 
     //I will not scream at my computer over this
 

@@ -1,5 +1,5 @@
 {
-  "name": "hexcasting.spell.oneironaut:dimteleport",
+  "name": "hexcasting.action.oneironaut:dimteleport",
   "category": "hexcasting:patterns/great_spells",
   "icon": "minecraft:ender_eye",
   "sortnum": 0,

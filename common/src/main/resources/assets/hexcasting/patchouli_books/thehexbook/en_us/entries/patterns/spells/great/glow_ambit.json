@@ -1,5 +1,5 @@
 {
-  "name": "hexcasting.spell.oneironaut:applynotmissing",
+  "name": "hexcasting.action.oneironaut:applynotmissing",
   "category": "hexcasting:patterns/great_spells",
   "icon": "minecraft:beacon",
   "sortnum": 5,

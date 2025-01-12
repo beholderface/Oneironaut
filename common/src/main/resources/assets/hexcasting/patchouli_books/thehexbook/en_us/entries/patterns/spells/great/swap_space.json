@@ -1,5 +1,5 @@
 {
-  "name": "hexcasting.spell.oneironaut:swapspace",
+  "name": "hexcasting.action.oneironaut:swapspace",
   "category": "hexcasting:patterns/great_spells",
   "icon": "minecraft:ender_chest",
   "sortnum": 0,
