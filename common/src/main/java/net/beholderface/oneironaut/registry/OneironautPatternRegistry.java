@@ -14,6 +14,9 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import kotlin.Triple;
 import net.beholderface.oneironaut.Oneironaut;
 import net.beholderface.oneironaut.OneironautConfig;
+import net.beholderface.oneironaut.casting.lichdom.OpIsLich;
+import net.beholderface.oneironaut.casting.lichdom.OpLichify;
+import net.beholderface.oneironaut.casting.lichdom.OpSetPassiveHex;
 import net.beholderface.oneironaut.casting.patterns.*;
 import net.beholderface.oneironaut.casting.patterns.rod.*;
 import net.beholderface.oneironaut.casting.patterns.spells.OpAdvanceAutomaton;
@@ -34,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class OneironautPatternRegistry {
     public static List<Triple<HexPattern, Identifier, Action>> PATTERNS = new ArrayList<>();
     public static List<Triple<HexPattern, Identifier, Action>> PER_WORLD_PATTERNS = new ArrayList<>();
@@ -85,6 +89,10 @@ public class OneironautPatternRegistry {
     public static HexPattern APPLY_NOT_MISSING = registerPerWorld(HexPattern.fromAngles("qdaeqeawaeqeadqqdeed", HexDir.SOUTH_WEST), "applynotmissing", new OpMarkEntity());
     public static HexPattern APPLY_MIND_RENDER = registerPerWorld(HexPattern.fromAngles("qweqadeqadeqadqqqwdaqedaqedaqeqaqdwawdwawdwaqawdwawdwawddwwwwwqdeddw", HexDir.EAST), "applymindrender", new OpApplyOvercastDamage());
     public static HexPattern REVIVE_FLAYED = registerPerWorld(HexPattern.fromAngles("qeqwqqedeeeeeaqwqeqaqedqde", HexDir.NORTH_EAST), "reviveflayed", new OpReviveFlayed());
+    public static HexPattern BECOME_LICH = registerPerWorld(HexPattern.fromAngles("ede", HexDir.NORTH_WEST), "lichify", new OpLichify());
+    public static HexPattern QUERY_LICH = register(HexPattern.fromAngles("edew", HexDir.NORTH_WEST), "getislich", new OpIsLich());
+    public static HexPattern SET_LICH_TICKHEX = register(HexPattern.fromAngles("edeq", HexDir.NORTH_WEST), "setlichtickhex", new OpSetPassiveHex());
+
 
     //cell spells
     //public static List<Triple<String[][], Identifier, ICellSpell>> CELL_PATTERNS = new ArrayList<>();

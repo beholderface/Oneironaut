@@ -10,6 +10,7 @@ import dev.architectury.event.events.common.TickEvent;
 import net.beholderface.oneironaut.block.blockentity.HoverElevatorBlockEntity;
 import net.beholderface.oneironaut.casting.DepartureEntry;
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager;
+import net.beholderface.oneironaut.casting.lichdom.LichdomManager;
 import net.beholderface.oneironaut.item.BottomlessMediaItem;
 import net.beholderface.oneironaut.recipe.OneironautRecipeSerializer;
 import net.beholderface.oneironaut.recipe.OneironautRecipeTypes;
@@ -53,18 +54,16 @@ public class Oneironaut {
         OneironautFeatureRegistry.init();
         OneironautIotaTypeRegistry.init();
         OneironautPatternRegistry.init();
-        //Registry.register(Registry.RECIPE_SERIALIZER, OneironautRecipeSerializer.)
         OneironautRecipeSerializer.registerSerializers(OneironautRecipeTypes.Companion.bind(Registries.RECIPE_SERIALIZER));
         OneironautRecipeTypes.registerTypes(OneironautRecipeTypes.Companion.bind(Registries.RECIPE_TYPE));
 
-        //Registry.register(Registry.CHUNK_GENERATOR, new Identifier(MOD_ID, "noosphere"))
-
-        //LOGGER.info(OneironautAbstractions.getConfigDirectory().toAbsolutePath().normalize().toString());
         LifecycleEvent.SERVER_STARTED.register((startedserver) ->{
             noosphere = stringToWorld("oneironaut:noosphere", startedserver);
             IdeaInscriptionManager ideaState = IdeaInscriptionManager.getServerState(startedserver);
             IdeaInscriptionManager.cleanMap(startedserver, ideaState);
             ideaState.markDirty();
+            LichdomManager lichState = LichdomManager.getServerState(startedserver);
+            lichState.markDirty();
             randomWispPigments.addAll(HexItems.DYE_PIGMENTS.values());
             randomWispPigments.addAll(HexItems.PRIDE_PIGMENTS.values());
             randomWispPigments.add(HexItems.DEFAULT_PIGMENT);
@@ -95,6 +94,7 @@ public class Oneironaut {
                 wisp.setPigment(new FrozenPigment(stack, ((Entity)wisp).getUuid()));
                 noosphere.spawnEntity(wisp);
             }
+            LichdomManager.tick(server);
         });
 
         ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();
