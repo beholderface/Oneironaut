@@ -13,6 +13,7 @@
     "DecorativeWispMixin",
     "EntityRaycastImmunityMixin",
     "EraseSoulprintSignatureMixin",
+    "PlayerCastEnvInvoker",
     "IllegalIotasMixin",
     "ImpulseRedirectFireballMixin",
     "MiscWispMixin",

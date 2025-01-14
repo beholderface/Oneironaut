@@ -10,6 +10,7 @@ import dev.architectury.event.events.common.TickEvent;
 import net.beholderface.oneironaut.block.blockentity.HoverElevatorBlockEntity;
 import net.beholderface.oneironaut.casting.DepartureEntry;
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager;
+import net.beholderface.oneironaut.casting.lichdom.LichMediaExtractComponent;
 import net.beholderface.oneironaut.casting.lichdom.LichdomManager;
 import net.beholderface.oneironaut.item.BottomlessMediaItem;
 import net.beholderface.oneironaut.recipe.OneironautRecipeSerializer;
@@ -70,6 +71,7 @@ public class Oneironaut {
             randomWispPigments.add(HexItems.UUID_PIGMENT);
             randomWispPigments.add(OneironautItemRegistry.PIGMENT_NOOSPHERE.get());
             randomWispPigments.add(OneironautItemRegistry.PIGMENT_FLAME.get());
+            LichMediaExtractComponent.init();
         });
 
         TickEvent.SERVER_PRE.register((server) -> {
@@ -84,11 +86,11 @@ public class Oneironaut {
                 LOGGER.error("Oopsie server-side hoverlift exception " + exception.getMessage());
             }
             DepartureEntry.clearMap();
-            ServerPlayerEntity player = noosphere.getRandomAlivePlayer();
+            ServerPlayerEntity noospherePlayer = noosphere.getRandomAlivePlayer();
             Random rand = noosphere.random;
-            if (player != null && rand.nextInt(1024) == 0){
+            if (noospherePlayer != null && rand.nextInt(1024) == 0){
                 double gaussDistance = 16.0;
-                WanderingWisp wisp = new WanderingWisp(noosphere, player.getPos().add(
+                WanderingWisp wisp = new WanderingWisp(noosphere, noospherePlayer.getPos().add(
                         rand.nextGaussian() * gaussDistance, rand.nextGaussian() * gaussDistance, rand.nextGaussian() * gaussDistance));
                 ItemStack stack = randomWispPigments.get(rand.nextInt(randomWispPigments.size())).getDefaultStack();
                 wisp.setPigment(new FrozenPigment(stack, ((Entity)wisp).getUuid()));

@@ -69,6 +69,7 @@ dependencies {
 
     modImplementation "localModLibs:hexal-fabric-${minecraftVersion}-${hexalVersion}"
     modImplementation "localModLibs:moreiotas-fabric-${minecraftVersion}-${moreiotasVersion}"
+    implementation group: "org.jblas", name: "jblas", version: "1.2.5"
     //modCompileOnly "maven.modrinth:geckolib:${geckolibVersion}"
     /*modCompileOnly "maven.modrinth:hexal:${hexalVersion}"
     */

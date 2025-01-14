@@ -1,10 +1,20 @@
 package net.beholderface.oneironaut.fabric;
 
+import at.petrak.hexcasting.common.items.ItemLens;
+import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.fabric.FabricHexInitializer;
+import at.petrak.hexcasting.fabric.interop.trinkets.TrinketsApiInterop;
 import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.event.events.common.TickEvent;
+import dev.architectury.platform.Platform;
+import dev.emi.trinkets.api.SlotGroup;
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.api.ModInitializer;
 import net.beholderface.oneironaut.Oneironaut;
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
  * This is your loading entrypoint on fabric(-likes), in case you need to initialize
@@ -19,5 +29,22 @@ public class OneironautFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         Oneironaut.init();
+        TickEvent.SERVER_POST.register((server)->{
+            if (Platform.isModLoaded("trinkets")){
+                for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()){
+                    var trinketComponentMaybe = TrinketsApi.getTrinketComponent(player);
+                    if (trinketComponentMaybe.isPresent()){
+                        TrinketComponent component = trinketComponentMaybe.get();
+                        var lenses = component.getEquipped(HexItems.SCRYING_LENS);
+                        for (var lensPair : lenses){
+                            ItemStack stack = lensPair.getRight();
+                            if (stack.getItem() instanceof ItemLens lens){
+                                lens.inventoryTick(stack, player.getWorld(), player, 0, false);
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 }

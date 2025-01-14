@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.getList
 import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster
 import at.petrak.hexcasting.api.misc.MediaConstants
 import net.minecraft.server.network.ServerPlayerEntity
@@ -19,8 +20,11 @@ class OpSetPassiveHex : ConstMediaAction {
         val caster = env.castingEntity as ServerPlayerEntity
         if (LichdomManager.isPlayerLich(caster)){
             val lichData = LichdomManager.getLichData(caster)
-            val hex : List<Iota> = args.getList(0, argc).toList()
-            lichData.passiveHex = hex
+            if (args[0].type == NullIota.TYPE){
+                lichData.passiveHex = null;
+            } else {
+                lichData.passiveHex = args.getList(0, argc).toList()
+            }
         }
         return listOf()
     }

@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.api.utils.NBTHelper;
+import net.beholderface.oneironaut.Oneironaut;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -26,7 +27,7 @@ public class LichData implements ADMediaHolder {
         this.deathHex = deathHex;
         this.passiveHex = passiveHex;
         this.lastRevive = lastRevive;
-        this.internalMedia = storedMedia;
+        this.internalMedia = Math.max(storedMedia, 0);
         this.abilityCooldown = abilityCooldown;
     }
 
@@ -82,6 +83,13 @@ public class LichData implements ADMediaHolder {
         }
     }
 
+    @Override
+    public long insertMedia(long amount, boolean simulate) {
+        Oneironaut.LOGGER.info(amount / ((double) MediaConstants.DUST_UNIT) + " dust inserted into lich reservoir");
+        return ADMediaHolder.super.insertMedia(amount, simulate);
+    }
+
+
     public long getLastRevive() {
         return lastRevive;
     }
@@ -127,7 +135,7 @@ public class LichData implements ADMediaHolder {
 
     @Override
     public void setMedia(long media) {
-        this.internalMedia = media;
+        this.internalMedia = Math.max(media, 0);
     }
 
     @Override

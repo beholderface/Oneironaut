@@ -36,6 +36,7 @@ subprojects {
         annotationProcessor "org.ow2.asm:asm-commons:${project.asmVersion}"
         annotationProcessor "org.ow2.asm:asm-tree:${project.asmVersion}"
         annotationProcessor "org.ow2.asm:asm-util:${project.asmVersion}"
+        implementation group: "org.jblas", name: "jblas", version: "1.2.5"
     }
 
     sourceSets.main.kotlin.srcDirs += 'src/main/java'
