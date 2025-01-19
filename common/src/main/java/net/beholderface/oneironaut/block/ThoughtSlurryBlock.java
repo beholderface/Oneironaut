@@ -16,7 +16,7 @@ public class ThoughtSlurryBlock extends FluidBlock {
     public static final Identifier ID =
             Identifier.of(Oneironaut.MOD_ID, "thought_slurry");
     public static final AbstractBlock.Settings SETTINGS =
-            AbstractBlock.Settings.copy(Blocks.WATER).nonOpaque();
+            AbstractBlock.Settings.copy(Blocks.WATER).nonOpaque().mapColor(MapColor.PURPLE);
     public static final ThoughtSlurryBlock INSTANCE =
             new ThoughtSlurryBlock(ThoughtSlurry.STILL_FLUID, SETTINGS);
 
