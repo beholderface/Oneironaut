@@ -119,7 +119,7 @@ public class OneironautClient {
             Oneironaut.LOGGER.info("Applied cutout layer to " + applyBlockRenderLayers(cutoutBlocks, RenderLayer.getCutout()) + " blocks");
             Oneironaut.LOGGER.info("Applied translucent layer to " + applyBlockRenderLayers(translucentBlocks, RenderLayer.getTranslucent()) + " blocks");
 
-            Oneironaut.LOGGER.info("not Registering client-side hoverlift processor.");
+            Oneironaut.LOGGER.info("Registering client-side hoverlift processor.");
             ClientTickEvent.CLIENT_POST.register((client)->{
                 try {
                     HoverElevatorBlockEntity.processHover(false, client.world != null ? client.world.getTime() : -1L);
