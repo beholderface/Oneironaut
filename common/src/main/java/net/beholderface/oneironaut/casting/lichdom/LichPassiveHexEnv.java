@@ -1,16 +1,15 @@
 package net.beholderface.oneironaut.casting.lichdom;
 
-import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
 import at.petrak.hexcasting.api.casting.eval.env.PlayerBasedCastEnv;
 import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 
-public class PassiveHexEnv extends PlayerBasedCastEnv {
+public class LichPassiveHexEnv extends PlayerBasedCastEnv {
     public final LichData lichData;
-    protected PassiveHexEnv(ServerPlayerEntity caster, LichData lichData) {
-        super(caster, Hand.OFF_HAND);
+    protected LichPassiveHexEnv(ServerPlayerEntity caster, LichData lichData) {
+        super(caster, null);
         this.lichData = lichData;
     }
 
@@ -21,7 +20,7 @@ public class PassiveHexEnv extends PlayerBasedCastEnv {
 
     @Override
     public Hand getCastingHand() {
-        return Hand.OFF_HAND;
+        return this.castingHand;
     }
 
     @Override

@@ -1,12 +1,16 @@
 package net.beholderface.oneironaut.block.blockentity;
 
+import at.petrak.hexcasting.api.casting.circles.BlockEntityAbstractImpetus;
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.api.utils.MediaHelper;
+import at.petrak.hexcasting.common.items.magic.ItemCreativeUnlocker;
 import at.petrak.hexcasting.common.items.pigment.ItemDyePigment;
 import at.petrak.hexcasting.common.lib.HexItems;
 import at.petrak.hexcasting.common.particles.ConjureParticleOptions;
+import com.mojang.datafixers.util.Pair;
 import kotlin.collections.CollectionsKt;
+import net.beholderface.oneironaut.Oneironaut;
 import net.beholderface.oneironaut.block.WispBattery;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
 import net.minecraft.block.BlockState;
@@ -15,6 +19,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -27,6 +35,9 @@ import ram.talia.hexal.api.FunUtilsKt;
 import ram.talia.hexal.common.entities.WanderingWisp;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static net.beholderface.oneironaut.item.BottomlessCastingItem.DUST_AMOUNT;
 
 public class WispBatteryEntity extends BlockEntity implements SidedInventory {
     public static final long CAPACITY = MediaConstants.DUST_UNIT * 6400;
@@ -109,6 +120,20 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
             if (mediamount > 0) {
                 this.media = Math.min(mediamount + media, CAPACITY);
                 this.sync();
+            }
+        }
+    }
+
+    public static void applyScryingLensOverlay(List<Pair<ItemStack, Text>> lines,
+                                        BlockState state, BlockPos pos, PlayerEntity observer, World world, Direction hitFace) {
+        if (world.getBlockEntity(pos) instanceof WispBatteryEntity battery) {
+            if (battery.getMedia() < 0) {
+                lines.add(new Pair<>(new ItemStack(HexItems.AMETHYST_DUST), ItemCreativeUnlocker.infiniteMedia(world)));
+            } else {
+                var dustCount = (float) battery.getMedia() / (float) MediaConstants.DUST_UNIT;
+                var dustCmp = Text.translatable("hexcasting.tooltip.media",
+                        DUST_AMOUNT.format(dustCount));
+                lines.add(new Pair<>(new ItemStack(HexItems.AMETHYST_DUST), dustCmp));
             }
         }
     }
@@ -199,6 +224,16 @@ public class WispBatteryEntity extends BlockEntity implements SidedInventory {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        this.media = nbt.getInt("media");
+        this.media = nbt.getLong("media");
     }
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
+    }
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        return createNbt();
+    }
+
 }

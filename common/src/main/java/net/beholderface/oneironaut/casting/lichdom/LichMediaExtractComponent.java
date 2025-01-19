@@ -12,19 +12,14 @@ import net.beholderface.oneironaut.mixin.PlayerCastEnvInvoker;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+import java.util.UUID;
+
 public class LichMediaExtractComponent implements CastingEnvironmentComponent.ExtractMedia.Pre {
     public final Key<ExtractMedia.Pre> key;
     public final CastingEnvironment environment;
     public LichMediaExtractComponent(CastingEnvironment env){
         this.key = new LichExtractKey();
         this.environment = env;
-    }
-    public static void init(){
-        CastingEnvironment.addCreateEventListener((env, nbt)->{
-            if (env instanceof PlayerBasedCastEnv && !(env instanceof PassiveHexEnv)){
-                env.addExtension(new LichMediaExtractComponent(env));
-            }
-        });
     }
     @Override
     public long onExtractMedia(long cost, boolean simulate) {
@@ -34,6 +29,7 @@ public class LichMediaExtractComponent implements CastingEnvironmentComponent.Ex
                 boolean canDrawFromInv = true;
                 //don't extract from reservoir for things like cyphers and trinkets
                 if (playerEnv instanceof PackagedItemCastEnv packagedEnv){
+                    assert packagedEnv.getCaster() != null;
                     ItemStack casterStack = packagedEnv.getCaster().getStackInHand(packagedEnv.getCastingHand());
                     ADHexHolder casterHexHolder = IXplatAbstractions.INSTANCE.findHexHolder(casterStack);
                     if (casterHexHolder != null){
@@ -61,6 +57,11 @@ public class LichMediaExtractComponent implements CastingEnvironmentComponent.Ex
     }
 
     private static class LichExtractKey implements Key<Pre>{
-        //wtf is this class supposed to contain
+        //wtf is this sort of class supposed to contain
+        //I'm just putting this here in case the contents of the object actually matter
+        private final UUID uuid;
+        public LichExtractKey(){
+            uuid = UUID.randomUUID();
+        }
     }
 }

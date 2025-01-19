@@ -6,10 +6,12 @@ import at.petrak.hexcasting.common.lib.HexItems;
 import dev.architectury.event.CompoundEventResult;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.event.events.common.TickEvent;
 import net.beholderface.oneironaut.block.blockentity.HoverElevatorBlockEntity;
 import net.beholderface.oneironaut.casting.DepartureEntry;
 import net.beholderface.oneironaut.casting.IdeaInscriptionManager;
+import net.beholderface.oneironaut.casting.lichdom.LichData;
 import net.beholderface.oneironaut.casting.lichdom.LichMediaExtractComponent;
 import net.beholderface.oneironaut.casting.lichdom.LichdomManager;
 import net.beholderface.oneironaut.item.BottomlessMediaItem;
@@ -71,7 +73,7 @@ public class Oneironaut {
             randomWispPigments.add(HexItems.UUID_PIGMENT);
             randomWispPigments.add(OneironautItemRegistry.PIGMENT_NOOSPHERE.get());
             randomWispPigments.add(OneironautItemRegistry.PIGMENT_FLAME.get());
-            LichMediaExtractComponent.init();
+            OneironautCastEnvComponents.init();
         });
 
         TickEvent.SERVER_PRE.register((server) -> {
@@ -97,6 +99,13 @@ public class Oneironaut {
                 noosphere.spawnEntity(wisp);
             }
             LichdomManager.tick(server);
+        });
+
+        PlayerEvent.PLAYER_RESPAWN.register((player, leavingEnd)->{
+            if (LichdomManager.isPlayerLich(player) && !leavingEnd){
+                LichData data = LichdomManager.getLichData(player);
+                data.setMedia(data.getMedia() / 2);
+            }
         });
 
         ItemStack fakeStaffStack = HexItems.STAFF_OAK.getDefaultStack();

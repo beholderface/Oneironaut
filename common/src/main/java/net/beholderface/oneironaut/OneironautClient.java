@@ -1,5 +1,6 @@
 package net.beholderface.oneironaut;
 
+import at.petrak.hexcasting.api.client.ScryingLensOverlayRegistry;
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.items.magic.ItemPackagedHex;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
@@ -8,6 +9,7 @@ import dev.architectury.platform.Platform;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import net.beholderface.oneironaut.block.ThoughtSlurry;
 import net.beholderface.oneironaut.block.blockentity.HoverElevatorBlockEntity;
+import net.beholderface.oneironaut.block.blockentity.WispBatteryEntity;
 import net.beholderface.oneironaut.item.ReverberationRod;
 import net.beholderface.oneironaut.item.WispCaptureItem;
 import net.beholderface.oneironaut.registry.OneironautBlockRegistry;
@@ -100,6 +102,9 @@ public class OneironautClient {
                     new Identifier("oneironaut:block/thought_slurry_flowing"),
                     0x8621c2
             ));
+            ScryingLensOverlayRegistry.addDisplayer(OneironautBlockRegistry.WISP_BATTERY.get(),
+                    WispBatteryEntity::applyScryingLensOverlay
+                    );
 
             Block[] cutoutBlocks = {OneironautBlockRegistry.WISP_LANTERN.get(), OneironautBlockRegistry.WISP_LANTERN_TINTED.get(),
                     OneironautBlockRegistry.WISP_BATTERY.get(), OneironautBlockRegistry.WISP_BATTERY_DECORATIVE.get(),

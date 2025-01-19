@@ -1,0 +1,23 @@
+package net.beholderface.oneironaut.registry;
+
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
+import at.petrak.hexcasting.api.casting.eval.env.PlayerBasedCastEnv;
+import net.beholderface.oneironaut.Oneironaut;
+import net.beholderface.oneironaut.casting.NoosphereAmbitExtensionComponent;
+import net.beholderface.oneironaut.casting.lichdom.LichMediaExtractComponent;
+import net.beholderface.oneironaut.casting.lichdom.LichPassiveHexEnv;
+
+public class OneironautCastEnvComponents {
+    public static void init(){
+        CastingEnvironment.addCreateEventListener((env, nbt)->{
+            if (env instanceof PlayerBasedCastEnv){
+                if (!(env instanceof LichPassiveHexEnv)){
+                    env.addExtension(new LichMediaExtractComponent(env));
+                }
+                if (env.getWorld() == Oneironaut.getNoosphere()){
+                    env.addExtension(new NoosphereAmbitExtensionComponent(env));
+                }
+            }
+        });
+    }
+}

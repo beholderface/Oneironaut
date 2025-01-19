@@ -1,23 +1,18 @@
 package net.beholderface.oneironaut.casting.lichdom;
 
-import at.petrak.hexcasting.api.casting.ParticleSpray;
 import at.petrak.hexcasting.api.casting.eval.ResolvedPatternType;
 import at.petrak.hexcasting.api.casting.eval.vm.CastingVM;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import net.beholderface.oneironaut.Oneironaut;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateManager;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class LichdomManager extends PersistentState {
     public LichdomManager(){
@@ -27,8 +22,8 @@ public class LichdomManager extends PersistentState {
     public static LichData getLichData(ServerPlayerEntity player){
         return LICH_DATA_MAP.getOrDefault(player.getUuid(), null);
     }
-    public static boolean isPlayerLich(ServerPlayerEntity player){
-        return LICH_DATA_MAP.containsKey(player.getUuid());
+    public static boolean isPlayerLich(@Nullable ServerPlayerEntity player){
+        return player != null && LICH_DATA_MAP.containsKey(player.getUuid());
     }
 
     public static boolean lichifyPlayer(ServerPlayerEntity player){
@@ -48,15 +43,17 @@ public class LichdomManager extends PersistentState {
     }
 
     public static void tick(MinecraftServer server){
+        List<UUID> uuidsToRemove = new ArrayList<>();
         for (UUID uuid : LICH_DATA_MAP.keySet()){
             //cast the hex
             ServerPlayerEntity player = server.getPlayerManager().getPlayer(uuid);
-            if (player == null || !isPlayerLich(player)){
+            if (!isPlayerLich(player)){
+                uuidsToRemove.add(uuid);
                 continue;
             }
             LichData data = LICH_DATA_MAP.get(uuid);
             if (server.getOverworld().getTime() % 20 == 0 && data.getPassiveHex() != null && !data.getPassiveHex().isEmpty() && !data.isOnCooldown()){
-                PassiveHexEnv env = new PassiveHexEnv(player, data);
+                LichPassiveHexEnv env = new LichPassiveHexEnv(player, data);
                 var harness = CastingVM.empty(env);
                 var info = harness.queueExecuteAndWrapIotas(data.getPassiveHex(), env.getWorld());
                 if (info.getResolutionType() == ResolvedPatternType.ERRORED){
@@ -65,6 +62,11 @@ public class LichdomManager extends PersistentState {
             }
             if (data.isOnCooldown()){
                 data.adjustAbilityCooldown(-1L);
+            }
+        }
+        if (!uuidsToRemove.isEmpty()){
+            for (UUID uuid : uuidsToRemove){
+                LICH_DATA_MAP.remove(uuid);
             }
         }
     }
