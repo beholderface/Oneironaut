@@ -21,7 +21,7 @@ public class NoosphereAmbitExtensionComponent implements CastingEnvironmentCompo
     }
     @Override
     public boolean onIsVecInRange(Vec3d vec, boolean current) {
-        if (environment.getCastingEntity() instanceof ServerPlayerEntity serverPlayer){
+        if (environment.getCastingEntity() instanceof ServerPlayerEntity serverPlayer && !current){
             //make sure the environment can access normal ambit before extending it
             if (((PlayerBasedCastEnv) environment).isVecInRangeEnvironment(serverPlayer.getPos().add(0.0, AMBIT_RADIUS - 0.001, 0.0))){
                 return vec.squaredDistanceTo(serverPlayer.getPos()) <= DOUBLED_AMBIT_RADIUS * DOUBLED_AMBIT_RADIUS + 0.00000000001;
