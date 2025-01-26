@@ -18,7 +18,7 @@ import net.minecraft.world.World
 import net.minecraft.util.JsonHelper
 
 //pretty much all of this is yoinked from hexal
-data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredient, val blockOut : BlockState, val mediaCost : Int) : Recipe<Inventory> {
+data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredient, val blockOut : BlockState, val mediaCost : Long) : Recipe<Inventory> {
     override fun matches(inventory: Inventory, world: World) = false
 
     fun matches(blockIn : BlockState): Boolean = this.blockIn.test(blockIn)
@@ -39,20 +39,20 @@ data class InfusionRecipe(val identifier: Identifier, val blockIn : StateIngredi
         override fun read(recipeID: Identifier, json: JsonObject): InfusionRecipe {
             val blockIn = StateIngredientHelper.deserialize(JsonHelper.getObject(json, "blockIn"))
             val result = StateIngredientHelper.readBlockState(JsonHelper.getObject(json, "resultType"))
-            val cost = JsonHelper.getInt(json, "mediaCost")
+            val cost = JsonHelper.getLong(json, "mediaCost")
             return InfusionRecipe(recipeID, blockIn, result, cost)
         }
 
         override fun write(buf: PacketByteBuf, recipe: InfusionRecipe) {
             recipe.blockIn.write(buf)
             buf.writeVarInt(Block.getRawIdFromState(recipe.blockOut))
-            buf.writeInt(recipe.mediaCost)
+            buf.writeLong(recipe.mediaCost)
         }
 
         override fun read(recipeID: Identifier, buf: PacketByteBuf): InfusionRecipe {
             val blockIn = StateIngredientHelper.read(buf)
             val result = Block.getStateFromRawId(buf.readVarInt())
-            val cost = buf.readInt()
+            val cost = buf.readLong()
             return InfusionRecipe(recipeID, blockIn, result, cost)
         }
     }

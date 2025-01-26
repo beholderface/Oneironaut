@@ -12,6 +12,7 @@ import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.beholderface.oneironaut.item.MemoryFragmentItem
 import net.beholderface.oneironaut.unbrainsweep
 import net.minecraft.entity.mob.MobEntity
+import net.minecraft.entity.passive.AllayEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -23,7 +24,7 @@ class OpReviveFlayed : SpellAction {
         val patient = args.getLivingEntityButNotArmorStand(0, argc)
         env.assertEntityInRange(patient)
         if (patient is MobEntity && IXplatAbstractions.INSTANCE.isBrainswept(patient)){
-            val cost = if (patient is VillagerEntity) {
+            val cost = if (patient is VillagerEntity || patient is AllayEntity) {
                 MediaConstants.CRYSTAL_UNIT * 16
             } else {
                 MediaConstants.SHARD_UNIT * 10

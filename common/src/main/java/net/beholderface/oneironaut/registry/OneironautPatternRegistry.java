@@ -150,9 +150,7 @@ public class OneironautPatternRegistry {
     }
 
     private static HexPattern registerPerWorld(HexPattern pattern, String name, Action action) {
-        Triple<HexPattern, Identifier, Action> triple = new Triple<>(pattern, Oneironaut.id(name), action);
-        PER_WORLD_PATTERNS.add(triple);
-        return pattern;
+        return register(pattern, name, action);
     }
 
     @FunctionalInterface

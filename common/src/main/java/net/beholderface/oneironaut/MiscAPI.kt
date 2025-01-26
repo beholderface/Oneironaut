@@ -87,9 +87,9 @@ fun getItemTagKey(id : Identifier) : TagKey<Item> {
 }
 
 
-fun getInfuseResult(targetState: BlockState, world: World) : Triple<BlockState, Int, String?> {
+fun getInfuseResult(targetState: BlockState, world: World) : Triple<BlockState, Long, String?> {
     //at the moment this when thing is just for the wither rose transmutation, since everything without special behavior is now handled in recipe jsons
-    var conversionResult : Triple<BlockState, Int, String?> = when(targetState.block){
+    var conversionResult : Triple<BlockState, Long, String?> = when(targetState.block){
         Blocks.WITHER_ROSE -> {
             val smallflowers = arrayOf(Blocks.DANDELION, Blocks.POPPY, Blocks.BLUE_ORCHID, Blocks.ALLIUM, Blocks.AZURE_BLUET, Blocks.RED_TULIP, Blocks.ORANGE_TULIP,
                 Blocks.WHITE_TULIP, Blocks.PINK_TULIP, Blocks.CORNFLOWER, Blocks.LILY_OF_THE_VALLEY)
@@ -99,7 +99,7 @@ fun getInfuseResult(targetState: BlockState, world: World) : Triple<BlockState, 
         else -> Triple(Blocks.BARRIER.defaultState, -1, null)
     }
     val debugMessages = false
-    if (conversionResult.second == -1){
+    if (conversionResult.second == -1L){
         Oneironaut.boolLogger(
             "did not find a hard-coded conversion",
             debugMessages

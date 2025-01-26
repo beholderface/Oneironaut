@@ -27,11 +27,11 @@ class OpInfuseMedia : SpellAction {
         }
         return SpellAction.Result(
             Spell(BlockPos(target), result, cost, advancement),
-            cost * MediaConstants.DUST_UNIT,
+            cost,
             listOf(ParticleSpray.cloud(targetv3d, 2.0))
         )
     }
-    private data class Spell(val target: BlockPos, var result: BlockState, val cost: Int, val advancement : String?) : RenderedSpell {
+    private data class Spell(val target: BlockPos, var result: BlockState, val cost: Long, val advancement : String?) : RenderedSpell {
         override fun cast(env: CastingEnvironment) {
             env.world.setBlockState(target, result)
         }
