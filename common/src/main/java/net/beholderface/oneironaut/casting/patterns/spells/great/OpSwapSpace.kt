@@ -63,14 +63,20 @@ class OpSwapSpace : SpellAction {
         if (originCuboidDimensions != destCuboidDimensions){
             throw MishapBadCuboid("mismatch")
         }
-        val boxVolume = (originCuboidDimensions.x * originCuboidDimensions.y * originCuboidDimensions.z).coerceAtLeast(1)
+        val boxVolume = (originCuboidDimensions.x.coerceAtLeast(1)
+                * originCuboidDimensions.y.coerceAtLeast(1)
+                * originCuboidDimensions.z.coerceAtLeast(1))
         //cost is logarithmic until passing 1001 total blocks swapped, at which point it starts increasing linearly.
         //https://www.desmos.com/calculator/ydbg8zhmyp
-        val cost : Double = if (boxVolume <= 1001){
+        val cost : Double = if (boxVolume == 1){
+            5.0
+        } else if (boxVolume in 2..1001){
             BottomlessMediaItem.arbitraryLog(1.036, boxVolume.toDouble())
         } else {
             boxVolume.toDouble() / 5 //yes all these values are magic numbers but I can't be arsed right now
         }
+        Oneironaut.LOGGER.info("box volume: $boxVolume")
+        Oneironaut.LOGGER.info("cost: $cost dust")
         val boxCorners = getBoxCorners(originBox)
         for (corner in boxCorners) {
             env.assertVecInRange(corner)
