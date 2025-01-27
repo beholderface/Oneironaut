@@ -68,10 +68,8 @@ class OpSwapSpace : SpellAction {
                 * originCuboidDimensions.z.coerceAtLeast(1))
         //cost is logarithmic until passing 1001 total blocks swapped, at which point it starts increasing linearly.
         //https://www.desmos.com/calculator/ydbg8zhmyp
-        val cost : Double = if (boxVolume == 1){
-            5.0
-        } else if (boxVolume in 2..1001){
-            BottomlessMediaItem.arbitraryLog(1.036, boxVolume.toDouble())
+        val cost : Double = if (boxVolume <= 1001){
+            BottomlessMediaItem.arbitraryLog(1.036, boxVolume.toDouble()) + 5
         } else {
             boxVolume.toDouble() / 5 //yes all these values are magic numbers but I can't be arsed right now
         }
@@ -98,7 +96,7 @@ class OpSwapSpace : SpellAction {
 
         return SpellAction.Result(
             Spell(originWorld, originBox, destWorld, destBox, originCuboidDimensions, boxVolume),
-            (cost.toLong()) * MediaConstants.DUST_UNIT,
+            (cost * MediaConstants.DUST_UNIT).toLong(),
             listOf(ParticleSpray.cloud(env.mishapSprayPos(), 2.0))
         )
     }
