@@ -13,8 +13,10 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapLocationInWrongDimension
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.mod.HexConfig
 import at.petrak.hexcasting.api.mod.HexTags
+import at.petrak.hexcasting.api.player.FlightAbility
 import at.petrak.hexcasting.common.blocks.BlockConjured
 import at.petrak.hexcasting.common.lib.HexBlocks
+import at.petrak.hexcasting.xplat.IXplatAbstractions
 import net.beholderface.oneironaut.*
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.entity.LivingEntity
@@ -29,6 +31,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.TeleportTarget
 import net.beholderface.oneironaut.casting.DepartureEntry
 import net.minecraft.util.math.Vec3i
+import ram.talia.hexal.api.div
 //import net.oneironaut.registry.OneironautThingRegistry
 import kotlin.math.floor
 
@@ -105,9 +108,11 @@ class OpDimTeleport : SpellAction {
             x *= compressionFactor
             z *= compressionFactor
             var isFlying = false
+            var flightSpell : FlightAbility? = null
             if (target is ServerPlayerEntity){
                 val playerTarget = target as ServerPlayerEntity
                 isFlying = playerTarget.abilities.flying
+                flightSpell = IXplatAbstractions.INSTANCE.getFlight(playerTarget)
                 if (target == env.caster){
                     DepartureEntry(env, origin)
                     val entry = DepartureEntry.getEntry(env, destination)
@@ -179,6 +184,11 @@ class OpDimTeleport : SpellAction {
                 if (target is ServerPlayerEntity){
                     val playerTarget = target as ServerPlayerEntity
                     playerTarget.teleport(destination, x, y, z, target.yaw, target.pitch)
+                    if (flightSpell != null){
+                        val compressedOrigin = Vec3d(flightSpell.origin.x * compressionFactor, flightSpell.origin.y, flightSpell.origin.z * compressionFactor)
+                        val newFlight = FlightAbility(flightSpell.timeLeft, destination.registryKey, compressedOrigin, flightSpell.radius)
+                        IXplatAbstractions.INSTANCE.setFlight(playerTarget, newFlight)
+                    }
                     playerTarget.abilities.flying = isFlying
                     playerTarget.sendAbilitiesUpdate()
 

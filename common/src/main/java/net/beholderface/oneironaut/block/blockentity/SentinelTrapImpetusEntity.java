@@ -126,10 +126,10 @@ public class SentinelTrapImpetusEntity extends BlockEntityAbstractImpetus {
                 cachedDisplayStack = head;
             }
             lines.add(new Pair<>(cachedDisplayStack,
-                    Text.translatable("hexcasting.tooltip.lens.impetus.storedplayer", name.getName())));
+                    Text.translatable("hexcasting.tooltip.lens.impetus.redstone.bound", name.getName())));
         } else {
             lines.add(new Pair<>(new ItemStack(Items.BARRIER),
-                    Text.translatable("hexcasting.tooltip.lens.impetus.storedplayer.none")));
+                    Text.translatable("hexcasting.tooltip.lens.impetus.redstone.bound.none")));
         }
     }
     @Override

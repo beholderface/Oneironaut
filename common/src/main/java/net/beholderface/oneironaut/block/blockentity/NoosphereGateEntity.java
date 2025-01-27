@@ -39,7 +39,7 @@ public class NoosphereGateEntity extends BlockEntity {
             PlayerEntity possiblePassenger = world.getClosestPlayer(doublePos.x, doublePos.y, doublePos.z, 2.0, false);
             if (possiblePassenger != null){
                 MinecraftServer server = possiblePassenger.getServer();
-                ServerPlayerEntity player = playerUUIDtoServerPlayer(possiblePassenger.getUuid(), server);
+                ServerPlayerEntity player = (ServerPlayerEntity) possiblePassenger;
                 //Vec3d passengerMidpoint = new Vec3d(possiblePassenger.getX(), possiblePassenger.getY() + (possiblePassenger.getHeight() / 2), possiblePassenger.getZ());
                 if (player.getBoundingBox().intersects(new Box(pos))){
                     //possiblePassenger.sendMessage(Text.of("teleporting"));
@@ -83,6 +83,7 @@ public class NoosphereGateEntity extends BlockEntity {
                                 //Oneironaut.LOGGER.info("Spawnpoint was null, using world spawn");
                             }
                             player.teleport(homeDim, spawnpoint.getX() + 0.5, spawnpoint.getY(), spawnpoint.getZ() + 0.5, player.getYaw(), player.getPitch());
+                            player.sendAbilitiesUpdate();
                         } else {
                             //iterate to find the ground
                             double altitude = 321;
@@ -129,6 +130,7 @@ public class NoosphereGateEntity extends BlockEntity {
                             }*/
                             //Oneironaut.LOGGER.info("Teleporting to " + new BlockPos(destPos).toString());
                             player.teleport(noosphere, destPos.x, destPos.y, destPos.z, player.getYaw(), player.getPitch());
+                            player.sendAbilitiesUpdate();
                             if (altitude >= 321){
                                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 1200));
                             }
